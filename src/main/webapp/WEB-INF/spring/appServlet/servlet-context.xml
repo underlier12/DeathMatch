@@ -25,16 +25,18 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="com.deathmatch.genious" />
+	<context:component-scan base-package="com.deathmatch.genious.controller"/>
 	
 	<!-- ============= GH ============== -->
+	
 	<!-- 로그인 Interceptor 처리 -->
 	
-	<bean id ="loginInterceptor" class ="com.deathmatch.interceptor.LoginInterceptor"/>
+	<beans:bean id ="loginInterceptor" class ="com.deathmatch.genious.interceptor.LoginInterceptor"/>
 	<interceptors>
 		<interceptor>
 			<mapping path="/user/loginPost"/>
 			<mapping path="/user/kakaoLogin"/>
-			<beans: bean ref="loginInterceptor"/>
+			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 	</interceptors>
 		

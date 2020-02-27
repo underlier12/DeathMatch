@@ -1,5 +1,7 @@
 package com.deathmatch.genious.util;
 
+import com.github.scribejava.core.builder.api.DefaultApi20;
+
 public class NaverLoginAPI extends DefaultApi20 {
 
 	protected NaverLoginAPI() {

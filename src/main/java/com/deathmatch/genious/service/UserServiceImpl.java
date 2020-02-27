@@ -6,6 +6,8 @@ import com.deathmatch.genious.dao.UserDAO;
 import com.deathmatch.genious.domain.LoginDTO;
 import com.deathmatch.genious.domain.UserDTO;
 
+import lombok.extern.log4j.Log4j;
+
 @Log4j
 @Service
 public class UserServiceImpl implements UserService {

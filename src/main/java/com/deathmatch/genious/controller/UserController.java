@@ -1,14 +1,30 @@
-package com.deathmatch.genious;
+package com.deathmatch.genious.controller;
+
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.deathmatch.genious.domain.LoginDTO;
+import com.deathmatch.genious.domain.UserDTO;
+import com.deathmatch.genious.service.UserService;
+import com.deathmatch.genious.util.KakaoConnectionUtil;
+import com.deathmatch.genious.util.NaverLoginBO;
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.google.protobuf.TextFormat.ParseException;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Controller
 public class UserController {
 	
@@ -76,7 +92,7 @@ public class UserController {
     }
     
     @RequestMapping(value ="/naverLogin", method ={RequestMethod.GET,RequestMethod.POST})
-    public String naverLogin(Model model, @RequestParam String code,@RequestParam String state,HttpSession session) throws IOException, ParseException {
+    public String naverLogin(Model model, @RequestParam String code,@RequestParam String state,HttpSession session) throws IOException, ParseException, org.json.simple.parser.ParseException {
         OAuth2AccessToken oauthToken;
         oauthToken = naverLoginService.getAccessToken(session, code, state);
         UserDTO naverUser = new UserDTO();

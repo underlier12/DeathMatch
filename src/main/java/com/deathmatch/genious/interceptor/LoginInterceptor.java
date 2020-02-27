@@ -1,13 +1,14 @@
 package com.deathmatch.genious.interceptor;
 
-import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import com.deathmatch.genious.domain.UserDTO;
+import lombok.extern.log4j.Log4j;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import com.deathmatch.genious.domain.UserDTO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Log4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
