@@ -6,6 +6,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.deathmatch.genious.domain.GameDTO;
+import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.service.GameRoomService;
 import com.deathmatch.genious.service.UnionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
