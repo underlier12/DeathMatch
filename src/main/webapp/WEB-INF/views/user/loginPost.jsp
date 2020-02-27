@@ -12,7 +12,7 @@
 </head>
 <body>
     <script type ="text/javascript">
-        self.location = "/user/gameHome";
+        self.location = "/gameHome";
     </script>
 </body>
 </html>

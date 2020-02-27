@@ -24,7 +24,6 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.deathmatch.genious" />
 	<context:component-scan base-package="com.deathmatch.genious.controller"/>
 	
 	<!-- ============= GH ============== -->

@@ -5,8 +5,10 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +23,12 @@ import com.deathmatch.genious.service.UserService;
 import com.deathmatch.genious.util.KakaoConnectionUtil;
 import com.deathmatch.genious.util.NaverLoginBO;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import com.google.protobuf.TextFormat.ParseException;
 import lombok.extern.log4j.Log4j;
+
 
 @Log4j
 @Controller
+@RequestMapping("/user")
 public class UserController {
 	
 	private final KakaoConnectionUtil kakaoLoginService;
@@ -49,7 +52,7 @@ public class UserController {
         String naverAuthUrl = naverLoginService.getAuthorizationUrl(session);
         log.info("naver :" +naverAuthUrl);
         model.addAttribute("url",naverAuthUrl);
-        return "user/loginHome";
+        return "/user/loginHome";
     }
     
     @GetMapping("/logout")
@@ -60,7 +63,7 @@ public class UserController {
             session.removeAttribute("login");
             session.invalidate();
         }
-        return "index";
+        return "/user/loginHome";
     }
     
     @GetMapping("/login")
@@ -88,6 +91,7 @@ public class UserController {
         // 유저 정보가 없으면 새로운 vo, 있으면 기존의 정보를 불러온다.
         userService.kakaoLogin(userDTO);
         model.addAttribute("userDTO", userDTO);
+       /* return "gameHome";*/
         return "gameHome";
     }
     
@@ -123,6 +127,7 @@ public class UserController {
         //4.파싱 닉네임 세션으로 저장
        /* session.setAttribute("sessionId",nickname);
         model.addAttribute("result", apiResult);*/
+		/* return "gameHome"; */
         return "gameHome";
     }
     
@@ -137,10 +142,5 @@ public class UserController {
         return "gameHome";
     }
 
-    @GetMapping("/gameHome")
-    public String GameHome(){
-        return "gameHome";
-    }    
-	
 	
 }

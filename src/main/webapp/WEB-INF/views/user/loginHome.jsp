@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<form action="/user/loginPost" method="post" id="loginProc">
+<form action="/genious/user/loginPost" method="post" id="loginProc">
     <div class="row loginForm-row" style="margin-top: 150px;">
         <div class="col-md-4 col-md-offset-4">
             <input type="email" class="form-control" name="userEmail" placeholder="아이디">
@@ -45,7 +45,7 @@
         </div>
         <div class="col-md-5 col-md-offset-4" style="margin-bottom: 50px;">
             <div>
-                <a href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://localhost:8003/user/kakaoLogin&response_type=code">
+                <a href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://localhost:8003/genious/user/kakaoLogin&response_type=code">
                     <img src="/images/btn_kakao_login.gif">
                 </a>
             </div>
@@ -58,7 +58,7 @@
     </div>
 </form>
 
-<form action ="/user/logout" method ="get">
+<form action ="/genious/user/logout" method ="get">
     <div>
         <c:if test ="${!empty login}">
             <button type="submit" id="loginBtn" class="btn btn-default btn-block login-btn">로그아웃</button>

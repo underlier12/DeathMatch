@@ -11,7 +11,7 @@
 <body>
     <div class ="col-md-5 col-md-offset-5" style ="margin-top : 250px;">
         <p>Welcome to Death Match</p>
-        <input type="button" value="GameStart" onclick = "location.href='/user/loginHome'"/>
+        <input type="button" value="GameStart" onclick = "location.href='user/loginHome'"/>
     </div>
 </body>
 </html>

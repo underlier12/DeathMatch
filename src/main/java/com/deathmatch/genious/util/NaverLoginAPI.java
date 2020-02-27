@@ -1,7 +1,11 @@
 package com.deathmatch.genious.util;
 
+import org.springframework.stereotype.Component;
 import com.github.scribejava.core.builder.api.DefaultApi20;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
+@Component
 public class NaverLoginAPI extends DefaultApi20 {
 
 	protected NaverLoginAPI() {
