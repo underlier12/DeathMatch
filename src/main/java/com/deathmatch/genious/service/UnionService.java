@@ -1,6 +1,7 @@
 package com.deathmatch.genious.service;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -23,10 +24,12 @@ public class UnionService {
 	public void handleActions(WebSocketSession session, GameDTO gameDTO, GameRoom gameRoom) {
 		
 		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
 		
 		if (gameDTO.getType().equals(GameDTO.MessageType.JOIN)) {
 			// JOIN
 			sessions.add(session);
+			readyUser.put(session.getId(), Boolean.FALSE);
 			gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
 			sendMessageAll(sessions, gameDTO);
 			
@@ -36,22 +39,26 @@ public class UnionService {
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.READY)) {
     		// READY
+    		readyUser.put(session.getId(), Boolean.TRUE);
     		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
-    		unionService.readyCheck(sessions, gameDTO);
+    		sendMessageAll(sessions, gameDTO);
+    		
+    		if(readyCheck(readyUser)) {
+    			gameDTO.setMessage("참여자들이 준비를 마쳤습니다. \n곧 게임을 시작합니다");
+    			sendMessageAll(sessions, gameDTO);
+    		}
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.SCORE)) {
     		// SCORE
-    		countScore(gameDTO, unionService);
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.UNI)) {
     		// UNI
-    		uniCheck(gameDTO, unionService);
-//    		unionService.uniCheck(session, gameDTO);
+    		gameDTO.setMessage(gameDTO.getSender() + "님이 '결'을 외치셨습니다.");
+    		sendMessageAll(sessions, gameDTO);
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.ON)) {
     		// ON
-    		gameDTO.setMessage(gameDTO.getSender() + "님이 '결'을 외치셨습니다.");
-    		unionService.onCheck(session, gameDTO);
+    		sendMessageAll(sessions, gameDTO);
     		
     	} else {
     		// OUT
@@ -76,12 +83,20 @@ public class UnionService {
 		
 	}
 	
-	public <T> void readyCheck(Set<WebSocketSession> sessions, T message) {
-		// TODO
-		System.out.println("=========== Enter UnionService =========");
-		System.out.println("=========== readyCheck(Set) =========");
-    	System.out.println();
-    	
+	public boolean readyCheck(Map<String, Boolean> readyUser) {
+		boolean isReady = false;
+		int countReady = 0;
+		
+		for (Boolean ready : readyUser.values()) {
+			if (ready) {
+				countReady++;
+			}
+		}
+		
+    	if (countReady > 1) {
+    		isReady = true;
+    	}
+    	return isReady;
 	}
 	
 	public <T> void uniCheck(WebSocketSession session, T message) {

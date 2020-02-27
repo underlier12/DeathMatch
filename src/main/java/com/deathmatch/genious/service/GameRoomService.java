@@ -38,7 +38,8 @@ public class GameRoomService {
 		
 		
 		System.out.println("=========== Enter GameRoomService =========");
-		System.out.println("chatRooms : " + gameRooms);
+		System.out.println("gameRooms : " + gameRooms);
+		System.out.println();
 		
 		return gameRoom;
 	}

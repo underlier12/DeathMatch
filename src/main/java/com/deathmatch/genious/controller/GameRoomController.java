@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.service.GameRoomService;
@@ -35,7 +36,6 @@ public class GameRoomController {
     	
     	System.out.println("=========== Enter ChatController =========");
     	System.out.println("=========== createRoom(String)-POST =========");
-    	System.out.println();
     	
     	GameRoom newRoom = gameRoomService.createRoom(name);
     	
@@ -57,13 +57,14 @@ public class GameRoomController {
     
     @GetMapping("/rooms/{roomId}")
     public String room(@PathVariable String roomId, Model model) {
-    	GameRoom room = gameRoomService.findRoomById(roomId);
-    	model.addAttribute("room", room);
-    	model.addAttribute("member", "member");
-    	
     	System.out.println("=========== Enter ChatController =========");
-    	System.out.println("=========== room(String, Model) =========");
     	System.out.println();
+    	
+    	GameRoom room = gameRoomService.findRoomById(roomId);
+    	String member = "member"; //session.getId();
+    	
+    	model.addAttribute("room", room);
+    	model.addAttribute("member", member);
     	
     	return "room";
     }

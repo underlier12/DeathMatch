@@ -24,19 +24,19 @@
 
 <table border="1">
     <tr> <!-- align = "center"> -->
-		<td><button class="select" name="1"><img src="/test/resources/MGB.jpg"></button></td>
-		<td><button class="select" name="2"><img src="/test/resources/SOW.jpg"></button></td>
-		<td><button class="select" name="3"><img src="/test/resources/AGB.jpg"></button></td>
+		<td><button class="select" name="1"><img src="/genious/resources/images/MGB.jpg"></button></td>
+		<td><button class="select" name="2"><img src="/genious/resources/images/SOW.jpg"></button></td>
+		<td><button class="select" name="3"><img src="/genious/resources/images/AGB.jpg"></button></td>
     </tr>
     <tr>
-		<td><button class="select" name="4"><img src="/test/resources/MGG.jpg"></button></td>
-		<td><button class="select" name="5"><img src="/test/resources/SGG.jpg"></button></td>
-		<td><button class="select" name="6"><img src="/test/resources/AOB.jpg"></button></td>
+		<td><button class="select" name="4"><img src="/genious/resources/images/MGG.jpg"></button></td>
+		<td><button class="select" name="5"><img src="/genious/resources/images/SGG.jpg"></button></td>
+		<td><button class="select" name="6"><img src="/genious/resources/images/AOB.jpg"></button></td>
     </tr>
     <tr>
-		<td><button class="select" name="7"><img src="/test/resources/APG.jpg"></button></td>
-		<td><button class="select" name="8"><img src="/test/resources/APB.jpg"></button></td>
-		<td><button class="select" name="9"><img src="/test/resources/SPB.jpg"></button></td>
+		<td><button class="select" name="7"><img src="/genious/resources/images/APG.jpg"></button></td>
+		<td><button class="select" name="8"><img src="/genious/resources/images/APB.jpg"></button></td>
+		<td><button class="select" name="9"><img src="/genious/resources/images/SPB.jpg"></button></td>
     </tr>
 </table>
 
@@ -88,7 +88,7 @@ Score <input class="score1"> : <input class="score2">
             chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
             
             if(content.type == 'UNION'){
-            	answerList.append('<li>' + content.message + '</li>')            	
+            	answerList.append('<li>' + content.message + '</li>');
             }
         };
         
@@ -111,20 +111,20 @@ Score <input class="score1"> : <input class="score2">
         });
         
         uniBtn.click(function(){
-        	var message = selectedInput.val();
         	sock.send(JSON.stringify(
-        			{type: 'UNI', roomId: roomId, sender: member, message: message}));
-        	selectedInput.val('');        			
+        			{type: 'UNI', roomId: roomId, sender: member}));
         });
         
         onBtn.click(function(){
+        	var message = selectedInput.val();
         	sock.send(JSON.stringify(
-        			{type: 'ON', roomId: roomId, sender: member}))
+        			{type: 'ON', roomId: roomId, sender: member, message: message}));
+        	selectedInput.val('');
         });
         
         readyBtn.click(function(){
         	sock.send(JSON.stringify(
-        			{type: 'READY', roomId: roomId, sender: member}))
+        			{type: 'READY', roomId: roomId, sender: member}));
         });
         
     });
