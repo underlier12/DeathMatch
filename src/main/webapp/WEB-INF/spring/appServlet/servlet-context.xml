@@ -14,6 +14,9 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/css/**" location="/resources/css" />
+	<resources mapping="/js/**" location="/resources/js" />
+	<resources mapping="/images/**" location="/resources/images" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -24,6 +27,16 @@
 	<context:component-scan base-package="com.deathmatch.genious" />
 	
 	<!-- ============= GH ============== -->
+	<!-- 로그인 Interceptor 처리 -->
+	
+	<bean id ="loginInterceptor" class ="com.deathmatch.interceptor.LoginInterceptor"/>
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/loginPost"/>
+			<mapping path="/user/kakaoLogin"/>
+			<beans: bean ref="loginInterceptor"/>
+		</interceptor>
+	</interceptors>
 		
 	<!-- =============================== -->
 	
