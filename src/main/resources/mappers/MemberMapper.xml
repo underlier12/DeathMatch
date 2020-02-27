@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.deathmatch.geniouse.mapper.MemberMapper">
+
+    <insert id ="insertMember">
+        insert into tbl_user(userEmail,pw,name,phone)
+        values
+        (#{userEmail},#{pw},#{name},#{phone});
+    </insert>
+
+    <insert id= "insertKakaoMember">
+        insert into tbl_user (userEmail,name)
+        values
+        (#{userEmail},#{name});
+    </insert>
+
+    <select id = "searchMember" resultType="UserDTO">
+        select userEmail from tbl_user
+        where userEmail = #{userEmail};
+    </select>
+
+    <select id = "login" resultType ="UserDTO">
+        select userEmail,name,score
+        from tbl_user
+        where userEmail = #{userEmail} and pw = #{pw};
+    </select>
+
+    <select id ="selectMember" resultType="UserDTO">
+        select userEmail,name,score
+        from tbl_user
+        where userEmail = #{userEmail};
+    </select>
+
+</mapper>
