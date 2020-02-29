@@ -15,5 +15,6 @@ public class HomeController {
 	public String gameHome() {
 		return "gameHome";
 	}
+	
 
 }
