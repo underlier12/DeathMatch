@@ -9,15 +9,26 @@
         values
         (#{userEmail},#{pw},#{name},#{phone});
     </insert>
-
-    <insert id= "insertKakaoMember">
-        insert into tbl_user (userEmail,name)
+    
+    <insert id ="insertSnsMember">
+    insert into tbl_user (userEmail,name)
         values
         (#{userEmail},#{name});
     </insert>
+    
+    <select id ="countUser" resultType="int">
+    	select count(*) from tbl_user
+    	where userEmail = #{userEmail};
+    </select>
 
-    <select id = "searchMember" resultType="UserDTO">
+    <select id = "searchUserEmail" resultType="UserDTO">
         select userEmail from tbl_user
+        where userEmail = #{userEmail};
+    </select>
+    
+    <select id ="selectMember" resultType="UserDTO">
+        select userEmail,name,score
+        from tbl_user
         where userEmail = #{userEmail};
     </select>
 
@@ -25,12 +36,6 @@
         select userEmail,name,score
         from tbl_user
         where userEmail = #{userEmail} and pw = #{pw};
-    </select>
-
-    <select id ="selectMember" resultType="UserDTO">
-        select userEmail,name,score
-        from tbl_user
-        where userEmail = #{userEmail};
     </select>
 
 </mapper>

@@ -35,6 +35,7 @@
 		<interceptor>
 			<mapping path="/user/loginPost"/>
 			<mapping path="/user/kakaoLogin"/>
+			<mapping path="/user/naverLogin"/>
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 	</interceptors>

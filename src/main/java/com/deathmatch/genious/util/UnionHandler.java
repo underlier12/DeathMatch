@@ -18,13 +18,15 @@ import lombok.RequiredArgsConstructor;
 public class UnionHandler extends TextWebSocketHandler{
 
 	private final ObjectMapper objectMapper = new ObjectMapper();
-    private final GameRoomService gameRoomService; // = new ChatService();
+    private final GameRoomService gameRoomService;
     private final UnionService unionService;
     
     // 연결 시작
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("session ID : " + session.getId());
+		
+    	System.out.println("======= UnionHandler =======");
+    	System.out.println("session ID : " + session.getId());
 		System.out.println("Session : " + session);
 		
         super.afterConnectionEstablished(session);
@@ -37,14 +39,9 @@ public class UnionHandler extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
 		
-		System.out.println("=========== Enter EchoHandler =========");
-    	System.out.println("=========== handleTextMessage(WebSocketSession, TextMessage) =========");
-    	System.out.println();
-		
     	GameDTO gameDTO = objectMapper.readValue(message.getPayload(), GameDTO.class);
-    	GameRoom room = gameRoomService.findRoomById(gameDTO.getRoomId());
-
-    	room.handleActions(session, gameDTO, gameRoomService, unionService); 		
+    	GameRoom gameRoom = gameRoomService.findRoomById(gameDTO.getRoomId());
     	
+    	unionService.handleActions(session, gameDTO, gameRoom);
 	}
 }

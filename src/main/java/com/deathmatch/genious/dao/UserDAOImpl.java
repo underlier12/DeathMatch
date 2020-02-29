@@ -53,7 +53,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void insertKakaoMember(UserDTO userDTO) {
-		sqlSession.insert(namespace + ".insertKakaoMember", userDTO);
+		sqlSession.insert(namespace + ".insertSnsMember", userDTO);
 	}
 
 	@Override
@@ -62,8 +62,18 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public UserDTO searchMember(UserDTO userDTO) {
-		return sqlSession.selectOne(namespace + ".searchMember", userDTO);
+	public void insertNaverMember(UserDTO userDTO) {
+		sqlSession.insert(namespace +".insertSnsMember",userDTO);
+	}
+
+	@Override
+	public UserDTO selectNaverMember(UserDTO userDTO) {
+		return sqlSession.selectOne(namespace + ".selectMember",userDTO);
+	}
+
+	@Override
+	public int countMember(UserDTO userDTO) {
+		return sqlSession.selectOne(namespace + ".countUser", userDTO);
 	}
 
 }

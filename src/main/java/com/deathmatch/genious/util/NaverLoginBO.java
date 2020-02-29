@@ -3,15 +3,21 @@ package com.deathmatch.genious.util;
 import java.io.IOException;
 import java.util.UUID;
 import javax.servlet.http.HttpSession;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import com.deathmatch.genious.domain.UserDTO;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
 import com.github.scribejava.core.model.OAuthRequest;
 import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @Component
 public class NaverLoginBO {
 
@@ -25,7 +31,6 @@ public class NaverLoginBO {
 	private final static String CLIENT_SECRET = "hFMx7MxsY_";
 	private final static String REDIRECT_URI = "http://localhost:8003/genious/user/naverLogin";
 	private final static String SESSION_STATE = "oauth_state";
-	/* 프로필 조회 API URL */
 	private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
 
 	/* 네이버 아이디로 인증 URL 생성 Method */
@@ -79,5 +84,29 @@ public class NaverLoginBO {
 		Response response = request.send();
 		return response.getBody();
 	}
-
+	
+	/* Parsing 처리하기*/
+	public UserDTO getUserInfo(String apiResult) throws ParseException {
+	
+		//2. String형식인 apiResult를 json형태로 바꿈
+        JSONParser parser = new JSONParser();
+        Object obj = parser.parse(apiResult);
+        JSONObject jsonObj = (JSONObject) obj;
+        
+        //3. 데이터 파싱
+        JSONObject response_obj = (JSONObject) jsonObj.get("response");
+        String nickname = (String)response_obj.get("nickname");
+        String email = (String)response_obj.get("email");
+        
+        UserDTO naverUser = new UserDTO();
+        log.info("nickName : " + nickname);
+        log.info("email : " + email);
+        naverUser.setUserEmail(email);
+        naverUser.setName(nickname);
+        
+        log.info(naverUser.toString());
+        
+        return naverUser;
+	}
+	
 }
