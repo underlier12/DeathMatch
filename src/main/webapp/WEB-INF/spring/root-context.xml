@@ -17,17 +17,21 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
-	<!-- ============= GH ============== -->
-
-	<!-- java 파일의 annotation을 인식 -->
-	<context:annotation-config />
-
+	<!-- ============= COMMON ============== -->
+	
 	<!-- java class를 spring bean으로 등록 -->
 	<context:component-scan base-package="com.deathmatch.genious.dao" />
 	<context:component-scan base-package="com.deathmatch.genious.service" />
 	<context:component-scan base-package="com.deathmatch.genious.util" />
 	<context:component-scan base-package="com.deathmatch.genious.interceptor" />
 	<context:component-scan base-package="com.deathmatch.genious.config" />
+	
+	<!-- =================================== -->
+	
+	<!-- ============= GH ============== -->
+
+	<!-- java 파일의 annotation을 인식 -->
+	<context:annotation-config />
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />

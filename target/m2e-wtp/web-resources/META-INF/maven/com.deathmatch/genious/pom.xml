@@ -115,7 +115,19 @@
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
 			<scope>test</scope>
-		</dependency>      
+		</dependency>
+		
+		<!-- ============= COMMON ============== -->
+		
+		<!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
+		
+		<!-- =================================== -->
 		
 		<!-- ============= GH ============== -->
 		<!-- Gson -->
@@ -144,14 +156,6 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>2.7.4</version>
-        </dependency>
-
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.8</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- spring test -->
@@ -244,14 +248,6 @@
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-messaging</artifactId>
 		    <version>${org.springframework-version}</version>
-		</dependency>
-		
-		<!-- lombok -->
-		<dependency>
-		    <groupId>org.projectlombok</groupId>
-		    <artifactId>lombok</artifactId>
-		    <version>1.18.12</version>
-		    <scope>provided</scope>
 		</dependency>
 		
 		<!-- jackson-dataformat-xml for ObjectMapper -->
