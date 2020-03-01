@@ -31,7 +31,7 @@ public class UnionSettingService {
 	
 	private List<UnionCardDTO> allCardList;
 	private final ObjectMapper objectMapper = new ObjectMapper();
-	private final Map<String, UnionCardDTO> problemMap = new LinkedHashMap<>();
+//	private final Map<String, UnionCardDTO> problemMap = new LinkedHashMap<>();
 //	private final Set<UnionAnswerDTO> answerSet = new HashSet<>();
 
 	@PostConstruct
@@ -86,6 +86,7 @@ public class UnionSettingService {
 	}
 	
 	public Map<String, UnionCardDTO> makeUnionProblem() {
+		Map<String, UnionCardDTO> problemMap = new LinkedHashMap<>();
 		int selectCardNumber = 9;
 		List<UnionCardDTO> randomCardList = allCardList;
 		
