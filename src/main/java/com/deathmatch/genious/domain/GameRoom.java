@@ -9,13 +9,17 @@ import org.springframework.web.socket.WebSocketSession;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class GameRoom {
     private String roomId;
     private String name;
     private Map<String, Boolean> readyUser = new LinkedHashMap<String, Boolean>();
     private Set<WebSocketSession> sessions = new HashSet<>();
+    private Map<String, UnionCardDTO> problemMap = new LinkedHashMap<>();
+	private Set<UnionAnswerDTO> answerSet = new HashSet<>();
 
     @Builder
     public GameRoom(String roomId, String name) {

@@ -10,6 +10,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.deathmatch.genious.domain.GameDTO;
 import com.deathmatch.genious.domain.GameRoom;
+import com.deathmatch.genious.domain.UnionProblemDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,7 +20,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UnionService {
 
-	private ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper = new ObjectMapper();
+//	private final UnionDealerService unionDealerService;
+	private final UnionSettingService unionSettingService;
 
 	public void handleActions(WebSocketSession session, GameDTO gameDTO, GameRoom gameRoom) {
 		
@@ -36,6 +39,8 @@ public class UnionService {
 		} else if (gameDTO.getType().equals(GameDTO.MessageType.TALK)) {
     		// TALK
 			sendMessageAll(sessions, gameDTO);
+			
+//			testJSON(sessions, gameDTO);
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.READY)) {
     		// READY
@@ -44,8 +49,12 @@ public class UnionService {
     		sendMessageAll(sessions, gameDTO);
     		
     		if(readyCheck(readyUser)) {
+    			gameDTO.setSender("Dealer");
     			gameDTO.setMessage("참여자들이 준비를 마쳤습니다. \n곧 게임을 시작합니다");
     			sendMessageAll(sessions, gameDTO);
+    			
+    			UnionProblemDTO unionProblemDTO = unionSettingService.problemSetting(gameRoom);
+    			sendMessageAll(sessions, unionProblemDTO);
     		}
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.SCORE)) {
@@ -66,6 +75,34 @@ public class UnionService {
     	}
 	}
 	
+//	private void testJSON(Set<WebSocketSession> sessions, GameDTO gameDTO) {
+//		
+//		JSONObject jsonObject = new JSONObject();
+//		jsonObject.put("type", "TALK");
+//		jsonObject.put("roomId", gameDTO.getRoomId());
+//		jsonObject.put("sender", "Setting");
+//		jsonObject.put("message", "TestSetting");
+//		
+//		System.out.println("=========== Enter UnionService =========");
+//		System.out.println("jsonObject : " + jsonObject);
+//		
+//		String jsonString = jsonObject.toJSONString();
+//		
+//		System.out.println("jsonString : " + jsonString);
+//		
+//		try {
+//			GameDTO gameDTOTest = objectMapper.readValue(jsonString, GameDTO.class);
+//			sendMessageAll(sessions, gameDTOTest);
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//	}
+
 	public <T> void sendMessageAll(Set<WebSocketSession> sessions, T message){
 		sessions.parallelStream().forEach(session -> sendMessage(session, message));
 

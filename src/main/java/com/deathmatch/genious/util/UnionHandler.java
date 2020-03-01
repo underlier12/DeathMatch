@@ -39,6 +39,12 @@ public class UnionHandler extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
 		
+    	System.out.println("======= UnionHandler =======");
+		System.out.println("message : " + message);
+		System.out.println("message.getPayload() : " + message.getPayload());
+		System.out.println("mg Class : " + message.getPayload().getClass());
+		System.out.println();
+		
     	GameDTO gameDTO = objectMapper.readValue(message.getPayload(), GameDTO.class);
     	GameRoom gameRoom = gameRoomService.findRoomById(gameDTO.getRoomId());
     	

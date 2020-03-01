@@ -85,11 +85,19 @@ Score <input class="score1"> : <input class="score2">
 	 	// onmessage : message를 받았을 때의 callback
         sock.onmessage = function (event) {
             var content = JSON.parse(event.data);
-            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
             
-            if(content.type == 'UNION'){
+	 		if(content.type == 'PROBLEM'){
+	 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
+	 					+ content.card1 + content.card2 + content.card3
+	 					+ content.card4 + content.card5 + content.card6
+	 					+ content.card7 + content.card8 + content.card9 + '\n')
+	 		}else{
+	            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
+	 		}
+            
+            /* if(content.type == 'UNION'){
             	answerList.append('<li>' + content.message + '</li>');
-            }
+            } */
         };
         
      	// onclose
