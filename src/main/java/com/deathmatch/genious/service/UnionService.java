@@ -55,6 +55,9 @@ public class UnionService {
     			
     			UnionProblemDTO unionProblemDTO = unionSettingService.problemSetting(gameRoom);
     			sendMessageAll(sessions, unionProblemDTO);
+    			
+    			System.out.println("gameRoom.getProblemMap : " + gameRoom.getProblemMap());
+    			System.out.println("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
     		}
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.SCORE)) {

@@ -23,20 +23,20 @@
 </ul>
 
 <table border="1">
-    <tr> <!-- align = "center"> -->
-		<td><button class="select" name="1"><img src="/genious/resources/images/MGB.jpg"></button></td>
-		<td><button class="select" name="2"><img src="/genious/resources/images/SOW.jpg"></button></td>
-		<td><button class="select" name="3"><img src="/genious/resources/images/AGB.jpg"></button></td>
+    <tr>
+		<td><button class="select" name="1">1<img id="card1" src=""></button></td>
+		<td><button class="select" name="2">2<img id="card2" src=""></button></td>
+		<td><button class="select" name="3">3<img id="card3" src=""></button></td>
     </tr>
     <tr>
-		<td><button class="select" name="4"><img src="/genious/resources/images/MGG.jpg"></button></td>
-		<td><button class="select" name="5"><img src="/genious/resources/images/SGG.jpg"></button></td>
-		<td><button class="select" name="6"><img src="/genious/resources/images/AOB.jpg"></button></td>
+		<td><button class="select" name="4">4<img id="card4" src=""></button></td>
+		<td><button class="select" name="5">5<img id="card5" src=""></button></td>
+		<td><button class="select" name="6">6<img id="card6" src=""></button></td>
     </tr>
     <tr>
-		<td><button class="select" name="7"><img src="/genious/resources/images/APG.jpg"></button></td>
-		<td><button class="select" name="8"><img src="/genious/resources/images/APB.jpg"></button></td>
-		<td><button class="select" name="9"><img src="/genious/resources/images/SPB.jpg"></button></td>
+		<td><button class="select" name="7">7<img id="card7" src=""></button></td>
+		<td><button class="select" name="8">8<img id="card8" src=""></button></td>
+		<td><button class="select" name="9">9<img id="card9" src=""></button></td>
     </tr>
 </table>
 
@@ -90,7 +90,29 @@ Score <input class="score1"> : <input class="score2">
 	 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
 	 					+ content.card1 + content.card2 + content.card3
 	 					+ content.card4 + content.card5 + content.card6
-	 					+ content.card7 + content.card8 + content.card9 + '\n')
+	 					+ content.card7 + content.card8 + content.card9 + '\n');
+	 			
+	 			var cardList = 
+	 				[content.card1, content.card2, content.card3,
+	 				content.card4, content.card5, content.card6,
+	 				content.card7, content.card8, content.card9];
+	 			
+	 			var defaultUrl = "/genious/resources/images/";
+	 			var defaultExtension = ".jpg";
+	 			
+	 			$("#card1").attr("src", defaultUrl + content.card1 + defaultExtension);
+	 			$("#card2").attr("src", defaultUrl + content.card2 + defaultExtension);
+	 			$("#card3").attr("src", defaultUrl + content.card3 + defaultExtension);
+	 			$("#card4").attr("src", defaultUrl + content.card4 + defaultExtension);
+	 			$("#card5").attr("src", defaultUrl + content.card5 + defaultExtension);
+	 			$("#card6").attr("src", defaultUrl + content.card6 + defaultExtension);
+	 			$("#card7").attr("src", defaultUrl + content.card7 + defaultExtension);
+	 			$("#card8").attr("src", defaultUrl + content.card8 + defaultExtension);
+	 			$("#card9").attr("src", defaultUrl + content.card9 + defaultExtension);
+
+	 			
+	 			/* cardList.forEach(updateProblemBoard); */
+	 			
 	 		}else{
 	            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
 	 		}
@@ -99,6 +121,10 @@ Score <input class="score1"> : <input class="score2">
             	answerList.append('<li>' + content.message + '</li>');
             } */
         };
+        
+        /* function updateProblemBoard(item){
+
+        } */
         
      	// onclose
      	sock.onclose = function(event){
