@@ -10,6 +10,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.deathmatch.genious.domain.GameDTO;
 import com.deathmatch.genious.domain.GameRoom;
+import com.deathmatch.genious.domain.UnionAnswerDTO;
 import com.deathmatch.genious.domain.UnionProblemDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,11 +54,13 @@ public class UnionService {
     			gameDTO.setMessage("참여자들이 준비를 마쳤습니다. \n곧 게임을 시작합니다");
     			sendMessageAll(sessions, gameDTO);
     			
-    			UnionProblemDTO unionProblemDTO = unionSettingService.problemSetting(gameRoom);
+    			UnionProblemDTO unionProblemDTO = unionSettingService.setUnionProblem(gameRoom);
     			sendMessageAll(sessions, unionProblemDTO);
     			
-    			System.out.println("gameRoom.getProblemMap : " + gameRoom.getProblemMap());
     			System.out.println("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
+    			
+    			Set<UnionAnswerDTO> answerSet = unionSettingService.setUnionAnswer(gameRoom);
+//    			System.out.println("answerSet : " + answerSet);
     		}
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.SCORE)) {
