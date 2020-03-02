@@ -16,6 +16,12 @@
         (#{userEmail},#{name});
     </insert>
     
+    <select id ="modifyUser" resultType ="UserDTO">
+    	update tbl_user
+    	where userEmail = #{userEmail}
+    	set pw = ${pw};
+    </select>
+    
     <select id ="countUser" resultType="int">
     	select count(*) from tbl_user
     	where userEmail = #{userEmail};
