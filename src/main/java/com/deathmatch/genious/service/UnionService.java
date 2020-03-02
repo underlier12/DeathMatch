@@ -11,6 +11,7 @@ import org.springframework.web.socket.WebSocketSession;
 import com.deathmatch.genious.domain.GameDTO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionAnswerDTO;
+import com.deathmatch.genious.domain.UnionDealerDTO;
 import com.deathmatch.genious.domain.UnionProblemDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class UnionService {
 
 	private final ObjectMapper objectMapper = new ObjectMapper();
-//	private final UnionDealerService unionDealerService;
+	private final UnionDealerService unionDealerService;
 	private final UnionSettingService unionSettingService;
 
 	public void handleActions(WebSocketSession session, GameDTO gameDTO, GameRoom gameRoom) {
@@ -49,17 +50,20 @@ public class UnionService {
     		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
     		sendMessageAll(sessions, gameDTO);
     		
-    		if(readyCheck(readyUser)) {
-    			gameDTO.setSender("Dealer");
-    			gameDTO.setMessage("참여자들이 준비를 마쳤습니다. \n곧 게임을 시작합니다");
-    			sendMessageAll(sessions, gameDTO);
+    		if(unionDealerService.readyCheck(readyUser)) {
+//    			gameDTO.setSender("Dealer");
+//    			gameDTO.setMessage("참여자들이 준비를 마쳤습니다. \n곧 게임을 시작합니다");
+//    			sendMessageAll(sessions, gameDTO);
     			
-    			UnionProblemDTO unionProblemDTO = unionSettingService.setUnionProblem(gameRoom);
+    			UnionDealerDTO unionProblemDTO = unionDealerService.standby(gameRoom);
     			sendMessageAll(sessions, unionProblemDTO);
+    			
+    			UnionProblemDTO unionProblemDTO2 = unionSettingService.setUnionProblem(gameRoom);
+    			sendMessageAll(sessions, unionProblemDTO2);
     			
     			System.out.println("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
     			
-    			Set<UnionAnswerDTO> answerSet = unionSettingService.setUnionAnswer(gameRoom);
+    			unionSettingService.setUnionAnswer(gameRoom);
 //    			System.out.println("answerSet : " + answerSet);
     		}
     		
@@ -70,6 +74,9 @@ public class UnionService {
     		// UNI
     		gameDTO.setMessage(gameDTO.getSender() + "님이 '결'을 외치셨습니다.");
     		sendMessageAll(sessions, gameDTO);
+    		
+    		UnionDealerDTO unionDealerDTO = unionDealerService.uniCheck(gameRoom);
+    		sendMessageAll(sessions, unionDealerDTO);
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.ON)) {
     		// ON
@@ -124,67 +131,6 @@ public class UnionService {
 			e.printStackTrace();
 		}
 		
-	}
-	
-	public boolean readyCheck(Map<String, Boolean> readyUser) {
-		boolean isReady = false;
-		int countReady = 0;
-		
-		for (Boolean ready : readyUser.values()) {
-			if (ready) {
-				countReady++;
-			}
-		}
-		
-    	if (countReady > 1) {
-    		isReady = true;
-    	}
-    	return isReady;
-	}
-	
-	public <T> void uniCheck(WebSocketSession session, T message) {
-		// TODO
-		System.out.println("=========== Enter UnionService =========");
-		System.out.println("=========== uniCheck(WebSocketSession) =========");
-    	System.out.println();
-		
-    	try {
-			session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public <T> void onCheck(WebSocketSession session, T message) {
-		// TODO
-		System.out.println("=========== Enter UnionService =========");
-		System.out.println("=========== onCheck(WebSocketSession) =========");
-    	System.out.println();
-    	
-    	try {
-			session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public <T> void countScore(WebSocketSession session, T message) {
-		// TODO
-		System.out.println("=========== Enter UnionService =========");
-		System.out.println("=========== countScore(Set) =========");
-    	System.out.println();
-    	
-    	try {
-			session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 }

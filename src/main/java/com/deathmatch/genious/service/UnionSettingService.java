@@ -96,9 +96,9 @@ public class UnionSettingService {
 		List<UnionCardDTO> randomCardList = allCardList;
 		
 		System.out.println("=========== Enter UnionSettingService =========");
-		System.out.println("기본 카드 배열 : " + allCardList);
+//		System.out.println("기본 카드 배열 : " + allCardList);
 		Collections.shuffle(randomCardList);
-		System.out.println("랜덤 카드 배열 : " + randomCardList);
+//		System.out.println("랜덤 카드 배열 : " + randomCardList);
 		System.out.println();
 		
 		for(int i = 0; i < selectCardNumber; i++) {
@@ -224,7 +224,7 @@ public class UnionSettingService {
 		return answerSet;
 	}
 	
-	public Set<UnionAnswerDTO> setUnionAnswer(GameRoom gameRoom){
+	public void setUnionAnswer(GameRoom gameRoom){
 		
 		Map<String, UnionCardDTO> problemMap = gameRoom.getProblemMap();
 		Set<String> problemKeySet = problemMap.keySet();
@@ -238,8 +238,12 @@ public class UnionSettingService {
 		
 		answerCandidateSet = unionCombination.makeCombination(problemCardList);
 		answerSet = makeUnionAnswer(problemMap, answerCandidateSet);
+		gameRoom.setAnswerSet(answerSet);
 		
-		return answerSet;
+		System.out.println("=========== Enter UnionService =========");
+		System.out.println("answerSet : " + gameRoom.getAnswerSet());
+		System.out.println();
+		
 	}
 	
 

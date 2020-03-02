@@ -12,6 +12,9 @@
 </head>
 <body>
 <h1>${room.name}(${room.roomId})</h1>
+
+<h3 id="round"></h3>
+
 <div id='chatStatus'></div>
 <div class="content" data-room-id="${room.roomId}" data-member="${member}">
     <textarea name="chatMsg" rows="5" cols="40" readonly></textarea><p>
@@ -46,7 +49,9 @@
 <button class="on">합</button>
 <button class="ready">Ready</button> <br>
 
-Score <input class="score1"> : <input class="score2">
+<h3> Score </h3>
+<input value="a"> : <input value="b"><br>
+<input id="a" class="score1" value=0> : <input id="b" class="score2" value=0>
 
 <script>
     $(function () {
@@ -113,6 +118,23 @@ Score <input class="score1"> : <input class="score2">
 	 			
 	 			/* cardList.forEach(updateProblemBoard); */
 	 			
+	 		}else if(content.type == 'UNI'){
+	 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
+	 			
+	 			var score = parseInt(content.score);
+	 			var existingScore = parseInt($('.score1').val());
+	 			
+	 			console.log("score " + score);
+	 			console.log("existingScore " + existingScore);
+	 			console.log("type score " + typeof(score));
+	 			console.log("type existingScore " + typeof(existingScore));
+	 			
+	 			$('.score1').val(existingScore + score);
+	 			
+	 		}else if(content.type == 'READY'){
+	 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+	 			/* $('.score1').val(0);
+	 			$('.score2').val(0); */
 	 		}else{
 	            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
 	 		}
