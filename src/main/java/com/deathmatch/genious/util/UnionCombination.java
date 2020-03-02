@@ -24,14 +24,18 @@ public class UnionCombination {
 	
 	public Set<UnionAnswerDTO> makeCombination(List<UnionCardDTO> problemCardList){
 				
+		Set<UnionAnswerDTO> transferAnswerCandidateSet = new HashSet<>();
 		doCombination(problemCardList, TOTAL, SUB, index);
 		
+		transferAnswerCandidateSet = answerCandidateSet;
+		answerCandidateSet = new HashSet<>();
+		
 		System.out.println("=========Enter UnionCombination========");
-//		System.out.println("answerCandidateSet : " + answerCandidateSet);
 		System.out.println("answerCandidateSet.size() : " + answerCandidateSet.size());
+		System.out.println("tAnswerCandidateSet.size() : " + transferAnswerCandidateSet.size());
 		System.out.println();
 		
-		return answerCandidateSet;
+		return transferAnswerCandidateSet;
 	}
 	
 	public void doCombination(List<UnionCardDTO> problemCardList
