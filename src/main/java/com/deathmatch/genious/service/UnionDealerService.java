@@ -83,6 +83,10 @@ public class UnionDealerService {
 		int score;
 		UnionDealerDTO unionDealerDTO = null;
 		
+		System.out.println("answerSet : " + gameRoom.getAnswerSet());
+		System.out.println("submitedAnswerSet : " + gameRoom.getSubmitedAnswerSet());
+		System.out.println();
+		
 		if(gameRoom.getAnswerSet().size() == gameRoom.getSubmitedAnswerSet().size()) {
 			message = "정답 +3";
 			score = 3;
@@ -149,7 +153,7 @@ public class UnionDealerService {
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
 		
-		if(scoring(unionAnswerDTO)) {
+		if(scoring(unionAnswerDTO, gameRoom)) {
 			
 			jsonMap.put("message", message + " 정답 +1점");
 			jsonMap.put("score", "1");
@@ -178,47 +182,28 @@ public class UnionDealerService {
 		return unionDealerDTO;
 	}
 	
-	public boolean scoring(UnionAnswerDTO unionAnswerDTO) {
+	public boolean scoring(UnionAnswerDTO unionAnswerDTO, GameRoom gameRoom) {
 		
 		boolean correct = false;
-		int satisfiedCondition = 0;
 		
-		UnionCardDTO card1 = unionAnswerDTO.getCard1();
-		UnionCardDTO card2 = unionAnswerDTO.getCard2();
-		UnionCardDTO card3 = unionAnswerDTO.getCard3();
-		
-		System.out.println("cards : " + card1 + card2 + card3);
-		
-		Set<ShapeType> shapeList = new HashSet<>();
-		Set<ColorType> colorList = new HashSet<>();
-		Set<BackType> backList = new HashSet<>();
+		for(UnionAnswerDTO answer : gameRoom.getAnswerSet()) {
+			
+			Set<UnionCardDTO> submitedAnswer = new HashSet<>();
+			submitedAnswer.add(unionAnswerDTO.getCard1());
+			submitedAnswer.add(unionAnswerDTO.getCard2());
+			submitedAnswer.add(unionAnswerDTO.getCard3());
+			submitedAnswer.add(answer.getCard1());
+			submitedAnswer.add(answer.getCard2());
+			submitedAnswer.add(answer.getCard3());
+			
+			System.out.println("submitedAnswer : " + submitedAnswer);
+			
+			if(submitedAnswer.size() == 3) {
+				correct = true;
+				gameRoom.getSubmitedAnswerSet().add(unionAnswerDTO);
+				break;
+			}
 
-		shapeList.add(card1.getShape());
-		shapeList.add(card2.getShape());
-		shapeList.add(card3.getShape());
-		
-		colorList.add(card1.getColor());
-		colorList.add(card2.getColor());
-		colorList.add(card3.getColor());
-		
-		backList.add(card1.getBackground());
-		backList.add(card2.getBackground());
-		backList.add(card3.getBackground());
-				
-		if(shapeList.size() == 1 || shapeList.size() == 3) {
-			satisfiedCondition++;
-		}
-		
-		if(colorList.size() == 1 || colorList.size() == 3) {
-			satisfiedCondition++;
-		}
-		
-		if(backList.size() == 1 || backList.size() == 3) {
-			satisfiedCondition++;
-		}
-		
-		if(satisfiedCondition == 3) {
-			correct = true;
 		}
 		
 		return correct;

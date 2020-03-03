@@ -1,5 +1,7 @@
 package com.deathmatch.genious.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,15 +58,16 @@ public class GameRoomController {
     }
     
     @GetMapping("/rooms/{roomId}")
-    public String room(@PathVariable String roomId, Model model) {
+    public String room(@PathVariable String roomId, Model model, HttpSession httpSession) {
     	System.out.println("=========== Enter ChatController =========");
     	System.out.println();
     	
     	GameRoom room = gameRoomService.findRoomById(roomId);
-    	String member = "member"; //session.getId();
+//    	String member = "member"; //session.getId();
     	
     	model.addAttribute("room", room);
-    	model.addAttribute("member", member);
+    	model.addAttribute("member", httpSession.getId());
+    	model.addAttribute("httpSession", httpSession);
     	
     	return "room";
     }
