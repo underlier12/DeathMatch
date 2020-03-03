@@ -84,10 +84,10 @@ public class UnionDealerService {
 		UnionDealerDTO unionDealerDTO = null;
 		
 		if(gameRoom.getAnswerSet().size() == gameRoom.getSubmitedAnswerSet().size()) {
-			message = "정답";
+			message = "정답 +3";
 			score = 3;
 		} else {
-			message = "틀렸습니다";
+			message = "틀렸습니다 -1점";
 			score = -1;
 		}
 		
@@ -128,7 +128,7 @@ public class UnionDealerService {
 		
 		for(String cardIndex : messageArray) {
 			int intCardIndex = Integer.parseInt(cardIndex);
-			UnionCardDTO card = problemList.get(intCardIndex);
+			UnionCardDTO card = problemList.get(intCardIndex-1);
 			submitedList.add(card);
 		}
 		
