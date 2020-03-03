@@ -224,7 +224,4 @@ public class UnionDealerService {
 		return correct;
 	}
 
-	public <T> void countScore(WebSocketSession session, T message) {
-		
-	}
 }
