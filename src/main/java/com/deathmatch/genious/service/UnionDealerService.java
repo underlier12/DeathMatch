@@ -196,7 +196,7 @@ public class UnionDealerService {
 			submitedAnswer.add(answer.getCard2());
 			submitedAnswer.add(answer.getCard3());
 			
-			System.out.println("submitedAnswer : " + submitedAnswer);
+//			System.out.println("submitedAnswer : " + submitedAnswer);
 			
 			if(submitedAnswer.size() == 3) {
 				correct = true;

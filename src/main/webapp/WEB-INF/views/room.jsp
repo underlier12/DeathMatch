@@ -50,8 +50,8 @@
 <button class="ready">Ready</button> <br>
 
 <h3> Score </h3>
-<input value="a"> : <input value="b"><br>
-<input id="a" class="score1"> : <input id="b" class="score2">
+<input id="playerA"> : <input id="playerB"><br>
+<input class="scoreA"> : <input class="scoreB">
 
 <!-- <script src="/resources/js/room.js"></script> -->
 <script src="<c:url value="/resources/js/room.js" />"></script>
