@@ -2,6 +2,7 @@ package com.deathmatch.genious.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class UnionAnswerDTO {

@@ -51,7 +51,7 @@
 
 <h3> Score </h3>
 <input value="a"> : <input value="b"><br>
-<input id="a" class="score1" value=0> : <input id="b" class="score2" value=0>
+<input id="a" class="score1"> : <input id="b" class="score2">
 
 <script>
     $(function () {
@@ -124,6 +124,7 @@
 	 			var score = parseInt(content.score);
 	 			var existingScore = parseInt($('.score1').val());
 	 			
+	 			console.log("sender : " + content.sender);
 	 			console.log("score " + score);
 	 			console.log("existingScore " + existingScore);
 	 			console.log("type score " + typeof(score));
@@ -133,8 +134,14 @@
 	 			
 	 		}else if(content.type == 'READY'){
 	 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
-	 			/* $('.score1').val(0);
-	 			$('.score2').val(0); */
+	 			$('.score1').val(0);
+	 			$('.score2').val(0);
+	 		}else if(content.type == 'ON'){
+	 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+	 			var score = parseInt(content.score);
+	 			var existingScore = parseInt($('.score1').val());
+	 			
+	 			$('.score1').val(existingScore + score);
 	 		}else{
 	            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
 	 		}

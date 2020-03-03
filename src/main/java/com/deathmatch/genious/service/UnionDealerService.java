@@ -1,8 +1,12 @@
 package com.deathmatch.genious.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -10,7 +14,12 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.deathmatch.genious.domain.GameDTO;
 import com.deathmatch.genious.domain.GameRoom;
+import com.deathmatch.genious.domain.UnionAnswerDTO;
+import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionDealerDTO;
+import com.deathmatch.genious.domain.UnionCardDTO.BackType;
+import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
+import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -108,10 +117,113 @@ public class UnionDealerService {
 		return unionDealerDTO;
 	}
 	
-	public <T> void onCheck(WebSocketSession session, T message) {
+	public UnionDealerDTO onCheck(GameRoom gameRoom, GameDTO gameDTO) {
 		
+		List<UnionCardDTO> problemList = new ArrayList<>(gameRoom.getProblemMap().values());
+		List<UnionCardDTO> submitedList = new ArrayList<>();
+		UnionAnswerDTO unionAnswerDTO = null;
+		UnionDealerDTO unionDealerDTO = null;
+		String message = gameDTO.getMessage();
+		String[] messageArray = message.split("");
+		
+		for(String cardIndex : messageArray) {
+			int intCardIndex = Integer.parseInt(cardIndex);
+			UnionCardDTO card = problemList.get(intCardIndex);
+			submitedList.add(card);
+		}
+		
+		System.out.println("submitedList : " + submitedList.get(0).getName()
+				+ " " + submitedList.get(1).getName()
+				+ " " + submitedList.get(2).getName());
+		
+		unionAnswerDTO = UnionAnswerDTO.builder()
+				.card1(submitedList.get(0))
+				.card2(submitedList.get(1))
+				.card3(submitedList.get(2))
+				.build();
+		
+		JSONObject jsonObject = new JSONObject();
+		Map<String, String> jsonMap = new HashMap<String, String>();
+		
+		jsonMap.put("type", "ON");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Dealer");
+		
+		if(scoring(unionAnswerDTO)) {
+			
+			jsonMap.put("message", message + " 정답 +1점");
+			jsonMap.put("score", "1");
+			
+		} else {
+			
+			jsonMap.put("message", message + " 틀렸습니다 -1점");
+			jsonMap.put("score", "-1");
+			
+		}
+		
+		jsonObject = new JSONObject(jsonMap);
+		String jsonString = jsonObject.toJSONString();
+		System.out.println("jsonString : " + jsonString);
+		
+		try {
+			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return unionDealerDTO;
 	}
 	
+	public boolean scoring(UnionAnswerDTO unionAnswerDTO) {
+		
+		boolean correct = false;
+		int satisfiedCondition = 0;
+		
+		UnionCardDTO card1 = unionAnswerDTO.getCard1();
+		UnionCardDTO card2 = unionAnswerDTO.getCard2();
+		UnionCardDTO card3 = unionAnswerDTO.getCard3();
+		
+		System.out.println("cards : " + card1 + card2 + card3);
+		
+		Set<ShapeType> shapeList = new HashSet<>();
+		Set<ColorType> colorList = new HashSet<>();
+		Set<BackType> backList = new HashSet<>();
+
+		shapeList.add(card1.getShape());
+		shapeList.add(card2.getShape());
+		shapeList.add(card3.getShape());
+		
+		colorList.add(card1.getColor());
+		colorList.add(card2.getColor());
+		colorList.add(card3.getColor());
+		
+		backList.add(card1.getBackground());
+		backList.add(card2.getBackground());
+		backList.add(card3.getBackground());
+				
+		if(shapeList.size() == 1 || shapeList.size() == 3) {
+			satisfiedCondition++;
+		}
+		
+		if(colorList.size() == 1 || colorList.size() == 3) {
+			satisfiedCondition++;
+		}
+		
+		if(backList.size() == 1 || backList.size() == 3) {
+			satisfiedCondition++;
+		}
+		
+		if(satisfiedCondition == 3) {
+			correct = true;
+		}
+		
+		return correct;
+	}
+
 	public <T> void countScore(WebSocketSession session, T message) {
 		
 	}
