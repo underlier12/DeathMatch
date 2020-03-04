@@ -1,0 +1,25 @@
+a{
+	color: black;
+}
+
+.footer-list {
+    text-align: center;
+    margin-top :100px;
+}
+
+.footer-list li {
+    font-size: 10px;
+    list-style: none;
+    display: inline;
+    margin-right: 25px;
+}
+
+.com-info p {
+    text-align: center;
+    font-size: 12px;
+}
+
+.com-info p span {
+    font-size: 8px;
+    color: gray;
+}

@@ -1,14 +1,20 @@
+/**
+ *  loginForm .js
+ *  
+ */
+	
+	$(document).ready(function() {
 		var loginForm = $("#loginProc");
 		
 		$("#loginBtn").click(function(e) {
-			/*if ($('input[name="userEmail"]').val() == ""|| $('input[name="userEmail"]').val() == null) {
+			if ($('input[name="userEmail"]').val() == ""|| $('input[name="userEmail"]').val() == null) {
 					alert("ID를 입력해주세요");
 					return false;
 			}
 			if ($('input[name="pw"]').val() == "" || $('input[name="pw"]').val() == null) {
 					alert("PW를 입력해주세요");
 					return false;
-			}*/
+			}
 			loginForm.submit();
 		});
 		
@@ -64,7 +70,9 @@
 			
 		});
 		
+		
 		function registerMember(userInfo){
+			
 			$.ajax({
 				type : 'post',
 				url : '/genious/user/join',
@@ -75,7 +83,6 @@
 				}
 			})
 		}
-
-	
+	});
 	
 	

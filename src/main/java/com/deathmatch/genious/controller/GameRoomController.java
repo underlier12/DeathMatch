@@ -2,65 +2,64 @@ package com.deathmatch.genious.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.socket.WebSocketSession;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.service.GameRoomService;
-
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/game")
+@RequestMapping("/gameHome")
 public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
 	 
     @GetMapping
-    public String createRoom() {
-    	
-    	System.out.println("=========== Enter ChatController =========");
-    	System.out.println("=========== createRoom(String)-GET =========");
+    public String createRoom(Model model) { 
+    	log.info("=========== Enter ChatController =========");
+    	log.info("=========== createRoom(String)-GET =========");
     	System.out.println();
+    	model.addAttribute("rooms", gameRoomService.findAllRooms());
     	
-    	return "room-create";
+    	return "gameHome";
     }
     
     @PostMapping
-    public String createRoom(@RequestParam String name) {
+    public @ResponseBody ResponseEntity<String> createRoom(@RequestBody String name) {
     	
-    	System.out.println("=========== Enter ChatController =========");
-    	System.out.println("=========== createRoom(String)-POST =========");
+    	ResponseEntity<String> entity = null;
+		HttpHeaders headers = new HttpHeaders();
+		try {
+			log.info("=========== Enter ChatController =========");
+			log.info("=========== createRoom(String)-POST =========");
+			GameRoom newRoom = gameRoomService.createRoom(name);
+			//headers.add("location", "/gameHome");
+			log.info("new Room :" + newRoom);
+			entity = new ResponseEntity<String>(headers,HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
     	
-    	GameRoom newRoom = gameRoomService.createRoom(name);
-    	
-    	System.out.println("newRoom : " + newRoom);
-    	
-        return "redirect:/game/rooms";
     }
-    
-    @GetMapping("/rooms")
-    public String findAllRooms(Model model) {
-    	model.addAttribute("rooms", gameRoomService.findAllRooms());
-    	
-    	System.out.println("=========== Enter ChatController =========");
-    	System.out.println("=========== findAllRooms(Model) =========");
-    	System.out.println();
-    	
-        return "room-list";
-    }
-    
-    @GetMapping("/rooms/{roomId}")
+      
+    @GetMapping("/{roomId}")
     public String room(@PathVariable String roomId, Model model, HttpSession httpSession) {
-    	System.out.println("=========== Enter ChatController =========");
-    	System.out.println();
+    	log.info("==================Enter ChatController =====================");
     	
     	GameRoom room = gameRoomService.findRoomById(roomId);
 //    	String member = "member"; //session.getId();

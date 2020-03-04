@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/includes/header.jsp" %>
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	var message = "${msg}";
 	if (message != "") {
 		alert(message);
 	}
-</script> -->
-
+</script>
+<script type ="text/javascript" src ="/genious/js/loginHome.js"></script>
 <body>
 	<%@ include file="/WEB-INF/views/includes/joinModal.jsp" %>
 	
@@ -41,7 +41,8 @@
 		</div>
 	</form>
 
-	<div class="col-md-4 col-md-offset-4" style="text-align: center; margin-bottom: 40px;">
+	<div class="col-md-4 col-md-offset-4"
+		style="text-align: center; margin-bottom: 40px;">
 		<span>
 			<button type ="button" class="btn btn-default" id="regiBtn">회원가입</button>
 			<button type ="button" class="btn btn-default">아이디 찾기</button>
@@ -57,12 +58,11 @@
 				</a>
 			</div>
 			<div id="naver_id_login" style="margin-bottom: 50px;">
-				<a href="${url}">
-				<img src="/resources/images/btn_naver_login.gif"></a>
+				<a href="${url}"><img src="/images/btn_naver_login.gif"></a>
 			</div>
 		</div>
 	</c:if>
-	
+
 	<form action="/genious/user/logout" method="get">
 		<div class="col-md-3 col-md-offset-4">
 			<c:if test="${!empty login}">
@@ -73,7 +73,6 @@
 	</form>
 	
 	<%@ include file="/WEB-INF/views/includes/footer.jsp" %>
-	<!-- <script type ="text/javascript" src ="/genious/js/loginHome.js"></script> -->
-	<script src="<c:url value="/resources/js/loginHome.js" />"></script>
+	
 </body>
 

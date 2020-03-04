@@ -14,6 +14,11 @@ import java.io.IOException;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	
 	private static final String LOGIN = "login";
+	
+	/* 
+	 * postHandle = Session에 컨트롤러에서 저장한 user를 저장하고 /로 리다이렉트한다.
+	 * preHandle = 기존의 로그인 정보가 있을 경우 초기화하는 역할
+	 */
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
@@ -26,9 +31,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if(userDTO != null){
             log.info("Login Success!");
             session.setAttribute("login",userDTO);
-            UserDTO currentDTO = (UserDTO)session.getAttribute("login");
-            String currentUser = currentDTO.getUserEmail();
-            log.info("currentUser: "+ currentUser);
+			/*
+			 * UserDTO currentDTO = (UserDTO)session.getAttribute("login"); String
+			 * currentUser = currentDTO.getUserEmail();
+			 */
+			/* log.info("currentUser: "+ currentUser); */
             response.sendRedirect("/genious/gameHome");
         }
     }
@@ -38,7 +45,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession();
         log.info("preHandle");
         if(session.getAttribute("login")!=null){
-            session.invalidate();
+            session.removeAttribute("login");
             log.info("LOGOUT");
         }
         return true;
