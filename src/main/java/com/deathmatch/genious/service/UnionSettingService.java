@@ -21,6 +21,7 @@ import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
+import com.deathmatch.genious.domain.UnionDealerDTO;
 import com.deathmatch.genious.util.UnionCombination;
 import com.deathmatch.genious.domain.UnionProblemDTO;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -86,8 +87,41 @@ public class UnionSettingService {
 		System.out.println("allCardList : " + allCardList);
 	}
 
-	public int decideRound(int round) {
-		return round+1;
+	public UnionDealerDTO decideRound(GameRoom gameRoom) {
+		
+		int currentRound = gameRoom.getRound();
+		int nextRound = 0;
+		UnionDealerDTO unionDealerDTO = null;
+		
+		if(currentRound == 0) nextRound = 1;
+		else nextRound = currentRound + 1;
+		
+		JSONObject jsonObject = new JSONObject();
+		Map<String, String> jsonMap = new HashMap<String, String>();
+		
+		jsonMap.put("type", "ROUND");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Setting");
+		jsonMap.put("round", Integer.toString(nextRound));
+		
+		jsonObject = new JSONObject(jsonMap);
+		String jsonString = jsonObject.toJSONString();
+		
+		System.out.println("jsonString : " + jsonString);
+		
+		unionDealerDTO = new UnionDealerDTO();
+		
+		try {
+			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return unionDealerDTO;
 	}
 	
 	public Map<String, UnionCardDTO> makeUnionProblem() {
