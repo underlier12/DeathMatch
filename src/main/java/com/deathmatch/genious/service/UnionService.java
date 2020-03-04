@@ -65,6 +65,9 @@ public class UnionService {
     			
     			unionSettingService.setUnionAnswer(gameRoom);
 //    			System.out.println("answerSet : " + answerSet);
+    			
+    			UnionDealerDTO unionDealerDTO = unionSettingService.decideRound(gameRoom);
+    			sendMessageAll(sessions, unionDealerDTO);
     		}
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.SCORE)) {

@@ -24,6 +24,8 @@ $(function () {
     var playerBInput = $('#playerB');
     var scoreAInput = $('.scoreA');
     var scoreBInput = $('.scoreB');
+    
+    var roundP = $('#round');
 
  	// handshake
     var sock = new SockJS("http://"+root+"/ws/chat");
@@ -131,6 +133,12 @@ $(function () {
  	        	playerBInput.val(content.sender);
  	        }
  	        
+ 		}else if(content.type == 'ROUND'){
+ 			
+            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
+//            console.log(content.round);
+            roundP.text(content.round + ' ROUND');
+ 			
  		}else{
             chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
  		}

@@ -103,6 +103,7 @@ public class UnionSettingService {
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
 		jsonMap.put("round", Integer.toString(nextRound));
+		jsonMap.put("message", "이번에는 " + Integer.toString(nextRound) + " ROUND 입니다");
 		
 		jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();

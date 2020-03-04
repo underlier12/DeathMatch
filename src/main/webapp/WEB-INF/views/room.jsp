@@ -13,7 +13,7 @@
 <body>
 <h1>${room.name}(${room.roomId})</h1>
 
-<h3 id="round"></h3>
+<p id="round"></p>
 
 <div id='chatStatus'></div>
 <div class="content" data-room-id="${room.roomId}" data-member="${member}">
