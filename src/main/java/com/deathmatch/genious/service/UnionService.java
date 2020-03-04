@@ -84,7 +84,7 @@ public class UnionService {
 //    		gameDTO.setMessage(gameDTO.getSender() + "님이 '결'을 외치셨습니다.");
 //    		sendMessageAll(sessions, gameDTO);
     		
-    		UnionDealerDTO unionDealerDTO = unionDealerService.uniCheck(gameRoom);
+    		UnionDealerDTO unionDealerDTO = unionDealerService.uniCheck(gameRoom, gameDTO);
     		sendMessageAll(sessions, unionDealerDTO);
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.ON)) {

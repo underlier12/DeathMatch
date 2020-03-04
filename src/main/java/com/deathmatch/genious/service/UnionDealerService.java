@@ -77,7 +77,7 @@ public class UnionDealerService {
 		return unionDealerDTO;
 	}
 	
-	public UnionDealerDTO uniCheck(GameRoom gameRoom) {
+	public UnionDealerDTO uniCheck(GameRoom gameRoom, GameDTO gameDTO) {
 		
 		String message;
 		int score;
@@ -103,6 +103,7 @@ public class UnionDealerService {
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("message", message);
 		jsonMap.put("score", Integer.toString(score));
+		jsonMap.put("user1", gameDTO.getSender());
 		
 		jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();
@@ -152,6 +153,7 @@ public class UnionDealerService {
 		jsonMap.put("type", "ON");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
+		jsonMap.put("user1", gameDTO.getSender());
 		
 		if(scoring(unionAnswerDTO, gameRoom)) {
 			

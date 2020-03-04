@@ -81,7 +81,7 @@ $(function () {
  			
  			var score = parseInt(content.score);
  			
- 			if(content.sender == playerAInput.val()){
+ 			if(content.user1 == playerAInput.val()){
 // 	 			console.log("scoreAInput.val()" + scoreAInput.val());
  				var existingScore = parseInt(scoreAInput.val()); 
  				scoreAInput.val(existingScore + score);
@@ -120,7 +120,7 @@ $(function () {
  			console.log("playerAInput.val()" + playerAInput.val());
  			console.log("playerBInput.val()" + playerBInput.val());
 
- 			if(content.sender == playerAInput.val()){
+ 			if(content.user1 == playerAInput.val()){
 // 	 			console.log("scoreAInput.val()" + scoreAInput.val());
  				var existingScore = parseInt(scoreAInput.val()); 
  				scoreAInput.val(existingScore + score);
