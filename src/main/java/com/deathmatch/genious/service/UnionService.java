@@ -46,7 +46,7 @@ public class UnionService {
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.READY)) {
     		// READY
-    		readyUser.put(session.getId(), Boolean.TRUE);
+    		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
     		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
     		sendMessageAll(sessions, gameDTO);
     		
@@ -68,6 +68,10 @@ public class UnionService {
     			
     			UnionDealerDTO unionDealerDTO = unionSettingService.decideRound(gameRoom);
     			sendMessageAll(sessions, unionDealerDTO);
+    			
+    			UnionDealerDTO unionDealerDTO2 = unionSettingService.setPlayers(gameRoom);
+    			sendMessageAll(sessions, unionDealerDTO2);
+    			
     		}
     		
     	} else if (gameDTO.getType().equals(GameDTO.MessageType.SCORE)) {

@@ -280,6 +280,35 @@ public class UnionSettingService {
 		System.out.println();
 		
 	}
+
+	public UnionDealerDTO setPlayers(GameRoom gameRoom) {
+		
+		UnionDealerDTO unionDealerDTO = new UnionDealerDTO();
+		
+		JSONObject jsonObject = new JSONObject();
+		Map<String, String> jsonMap = new HashMap<String, String>();
+		
+		jsonMap.put("type", "SETUSER");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Setting");
+		
+		jsonObject = new JSONObject(jsonMap);
+		String jsonString = jsonObject.toJSONString();
+		
+		System.out.println("jsonString : " + jsonString);
+		
+		try {
+			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return unionDealerDTO;
+	}
 	
 
 	
