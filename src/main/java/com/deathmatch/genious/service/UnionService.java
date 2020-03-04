@@ -34,7 +34,7 @@ public class UnionService {
 		if (gameDTO.getType().equals(GameDTO.MessageType.JOIN)) {
 			// JOIN
 			sessions.add(session);
-			readyUser.put(session.getId(), Boolean.FALSE);
+//			readyUser.put(gameDTO.getSender(), Boolean.FALSE);
 			gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
 			sendMessageAll(sessions, gameDTO);
 			
@@ -49,6 +49,8 @@ public class UnionService {
     		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
     		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
     		sendMessageAll(sessions, gameDTO);
+    		
+    		System.out.println("readyUser : " + readyUser);
     		
     		if(unionDealerService.readyCheck(readyUser)) {
 //    			gameDTO.setSender("Dealer");
@@ -93,7 +95,7 @@ public class UnionService {
     		
     	} else {
     		// OUT
-    		
+    		System.out.println("OUT");
     	}
 	}
 	

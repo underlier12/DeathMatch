@@ -98,9 +98,20 @@ $(function () {
 // 			console.log("type existingScore " + typeof(existingScore));
  			 			
  		}else if(content.type == 'READY'){
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 			$('.scoreA').val(0);
- 			$('.scoreB').val(0);
+ 			
+ 			if(content.message){
+ 				chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 			}
+ 			
+ 			if(content.user1){
+ 				
+ 				playerAInput.val(content.user1);
+ 				playerBInput.val(content.user2);
+ 				
+ 				$('.scoreA').val(0);
+ 				$('.scoreB').val(0);
+ 			}
+ 			
  		}else if(content.type == 'ON'){
  			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  			var score = parseInt(content.score);
@@ -127,11 +138,11 @@ $(function () {
  	    	
  			chatMsgArea.eq(0).prepend(content.message + '\n');
  			
- 	        if(!playerAInput.val()){
- 	        	playerAInput.val(content.sender);
- 	        }else{
- 	        	playerBInput.val(content.sender);
- 	        }
+// 	        if(!playerAInput.val()){
+// 	        	playerAInput.val(content.sender);
+// 	        }else{
+// 	        	playerBInput.val(content.sender);
+// 	        }
  	        
  		}else if(content.type == 'ROUND'){
  			

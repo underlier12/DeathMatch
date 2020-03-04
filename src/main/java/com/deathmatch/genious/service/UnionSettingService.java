@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -284,13 +285,29 @@ public class UnionSettingService {
 	public UnionDealerDTO setPlayers(GameRoom gameRoom) {
 		
 		UnionDealerDTO unionDealerDTO = new UnionDealerDTO();
+//		Set<String> playerSet = gameRoom.getReadyUser().keySet();
+		Object[] players = gameRoom.getReadyUser().keySet().toArray();
+//		List<String> playerList = new ArrayList<String>();
+		
+//		System.out.println("players : " + players);
+		System.out.println("players index : " + (String)players[0] 
+				+ " " + (String)players[1]);
+		
+//		Iterator<String> iterator = playerSet.iterator();
+//		
+//		while(iterator.hasNext()) {
+//			playerList.add(iterator.next());
+//		}
+//		System.out.println("playerList : " + playerList);
 		
 		JSONObject jsonObject = new JSONObject();
 		Map<String, String> jsonMap = new HashMap<String, String>();
 		
-		jsonMap.put("type", "SETUSER");
+		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
+		jsonMap.put("user1", (String)players[0]);
+		jsonMap.put("user2", (String)players[1]);
 		
 		jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();
