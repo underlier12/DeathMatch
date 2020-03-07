@@ -30,11 +30,6 @@ public class UnionCombination {
 		transferAnswerCandidateSet = answerCandidateSet;
 		answerCandidateSet = new HashSet<>();
 		
-		System.out.println("=========Enter UnionCombination========");
-		System.out.println("answerCandidateSet.size() : " + answerCandidateSet.size());
-		System.out.println("tAnswerCandidateSet.size() : " + transferAnswerCandidateSet.size());
-		System.out.println();
-		
 		return transferAnswerCandidateSet;
 	}
 	

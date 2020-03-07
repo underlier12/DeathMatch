@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.service.GameRoomService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -27,12 +29,8 @@ public class GameRoomController {
 	private final GameRoomService gameRoomService;
 	 
     @GetMapping
-    public String createRoom(Model model) { 
-    	log.info("=========== Enter ChatController =========");
-    	log.info("=========== createRoom(String)-GET =========");
-    	System.out.println();
-    	model.addAttribute("rooms", gameRoomService.findAllRooms());
-    	
+    public String createRoom(Model model) {
+    	model.addAttribute("rooms", gameRoomService.findAllRooms());    	
     	return "gameHome";
     }
     
@@ -42,27 +40,19 @@ public class GameRoomController {
     	ResponseEntity<String> entity = null;
 		HttpHeaders headers = new HttpHeaders();
 		try {
-			log.info("=========== Enter ChatController =========");
-			log.info("=========== createRoom(String)-POST =========");
 			GameRoom newRoom = gameRoomService.createRoom(name);
-			//headers.add("location", "/gameHome");
-			log.info("new Room :" + newRoom);
+			log.info("newRoom : " + newRoom);
 			entity = new ResponseEntity<String>(headers,HttpStatus.OK);
 		}catch(Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
-		
 		return entity;
-    	
     }
       
     @GetMapping("/{roomId}")
-    public String room(@PathVariable String roomId, Model model, HttpSession httpSession) {
-    	log.info("==================Enter ChatController =====================");
-    	
+    public String room(@PathVariable String roomId, Model model, HttpSession httpSession) {    	
     	GameRoom room = gameRoomService.findRoomById(roomId);
-//    	String member = "member"; //session.getId();
     	
     	model.addAttribute("room", room);
     	model.addAttribute("member", httpSession.getId());

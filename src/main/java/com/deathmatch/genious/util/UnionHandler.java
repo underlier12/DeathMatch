@@ -12,7 +12,9 @@ import com.deathmatch.genious.service.UnionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @RequiredArgsConstructor
 @Component
 public class UnionHandler extends TextWebSocketHandler{
@@ -21,33 +23,22 @@ public class UnionHandler extends TextWebSocketHandler{
     private final GameRoomService gameRoomService;
     private final UnionService unionService;
     
-    // 연결 시작
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		
-    	System.out.println("======= UnionHandler =======");
-    	System.out.println("session ID : " + session.getId());
-		System.out.println("Session : " + session);
+    	log.info("session ID : " + session.getId());
+    	log.info("Session : " + session + "\n");
 		
         super.afterConnectionEstablished(session);
-        System.out.println("세션 연결");
-        System.out.println("============================");
-        
     }
     
-	// 메세지 전달
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
 		
-    	System.out.println("======= UnionHandler =======");
-		System.out.println("message : " + message);
-		System.out.println("message.getPayload() : " + message.getPayload());
-		System.out.println("mg Class : " + message.getPayload().getClass());
-		System.out.println();
+		log.info("message.getPayload() : " + message.getPayload() + "\n");
 		
     	GameDTO gameDTO = objectMapper.readValue(message.getPayload(), GameDTO.class);
     	GameRoom gameRoom = gameRoomService.findRoomById(gameDTO.getRoomId());
-    	
     	unionService.handleActions(session, gameDTO, gameRoom);
 	}
 }

@@ -10,22 +10,20 @@ import java.util.Set;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.WebSocketSession;
 
 import com.deathmatch.genious.domain.GameDTO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionAnswerDTO;
 import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionDealerDTO;
-import com.deathmatch.genious.domain.UnionCardDTO.BackType;
-import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
-import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @RequiredArgsConstructor
 @Service
 public class UnionDealerService {
@@ -62,7 +60,7 @@ public class UnionDealerService {
 		
 		jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();
-		System.out.println("jsonString : " + jsonString);
+		log.info("jsonString : " + jsonString);
 
 		try {
 			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
@@ -82,10 +80,6 @@ public class UnionDealerService {
 		String message;
 		int score;
 		UnionDealerDTO unionDealerDTO = null;
-		
-		System.out.println("answerSet : " + gameRoom.getAnswerSet());
-		System.out.println("submitedAnswerSet : " + gameRoom.getSubmitedAnswerSet());
-		System.out.println();
 		
 		if(gameRoom.getAnswerSet().size() == gameRoom.getSubmitedAnswerSet().size()) {
 			message = "정답 +3";
@@ -107,7 +101,7 @@ public class UnionDealerService {
 		
 		jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();
-		System.out.println("jsonString : " + jsonString);
+		log.info("jsonString : " + jsonString);
 
 		try {
 			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
@@ -137,7 +131,7 @@ public class UnionDealerService {
 			submitedList.add(card);
 		}
 		
-		System.out.println("submitedList : " + submitedList.get(0).getName()
+		log.info("submitedList : " + submitedList.get(0).getName()
 				+ " " + submitedList.get(1).getName()
 				+ " " + submitedList.get(2).getName());
 		
@@ -169,7 +163,7 @@ public class UnionDealerService {
 		
 		jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();
-		System.out.println("jsonString : " + jsonString);
+		log.info("jsonString : " + jsonString);
 		
 		try {
 			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
@@ -198,8 +192,6 @@ public class UnionDealerService {
 			submitedAnswer.add(answer.getCard2());
 			submitedAnswer.add(answer.getCard3());
 			
-//			System.out.println("submitedAnswer : " + submitedAnswer);
-			
 			if(submitedAnswer.size() == 3) {
 				correct = true;
 				gameRoom.getSubmitedAnswerSet().add(unionAnswerDTO);
@@ -207,7 +199,6 @@ public class UnionDealerService {
 			}
 
 		}
-		
 		return correct;
 	}
 

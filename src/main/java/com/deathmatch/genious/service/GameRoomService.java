@@ -23,7 +23,6 @@ public class GameRoomService {
 	}
 	
 	public GameRoom findRoomById(String roomId) {
-    	
 		return gameRooms.get(roomId);
 	}
 	
@@ -35,11 +34,6 @@ public class GameRoomService {
 				.name(name)
 				.build();
 		gameRooms.put(randomId, gameRoom);
-		
-		
-		System.out.println("=========== Enter GameRoomService =========");
-		System.out.println("gameRooms : " + gameRooms);
-		System.out.println();
 		
 		return gameRoom;
 	}

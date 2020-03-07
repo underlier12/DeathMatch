@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,14 +22,16 @@ import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
 import com.deathmatch.genious.domain.UnionDealerDTO;
-import com.deathmatch.genious.util.UnionCombination;
 import com.deathmatch.genious.domain.UnionProblemDTO;
+import com.deathmatch.genious.util.UnionCombination;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @RequiredArgsConstructor
 @Service
 public class UnionSettingService {
@@ -38,8 +39,6 @@ public class UnionSettingService {
 	private List<UnionCardDTO> allCardList;
 	private final UnionCombination unionCombination;
 	private final ObjectMapper objectMapper = new ObjectMapper();
-//	private final Map<String, UnionCardDTO> problemMap = new LinkedHashMap<>();
-//	private final Set<UnionAnswerDTO> answerSet = new HashSet<>();
 
 	@PostConstruct
 	public void init() {
@@ -49,8 +48,6 @@ public class UnionSettingService {
 	
 	private void enumerateAllCards() {
 		
-		System.out.println("=========== Enter UnionSettingService =========");
-
 		ShapeType[] shapeValues = UnionCardDTO.ShapeType.values();
 		ColorType[] colorValues = UnionCardDTO.ColorType.values();
 		BackType[] backValues = UnionCardDTO.BackType.values();
@@ -78,14 +75,12 @@ public class UnionSettingService {
 							.resourceAddress(resourceAddress)
 							.build();
 					
-//					System.out.println("name : " + name);
-//					System.out.println("resource : " + resourceAddress);
 					allCardList.add(unionCard);
 				}
 			}
 		}
 		
-		System.out.println("allCardList : " + allCardList);
+		log.info("allCardList : " + allCardList);
 	}
 
 	public UnionDealerDTO decideRound(GameRoom gameRoom) {
@@ -109,7 +104,7 @@ public class UnionSettingService {
 		jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();
 		
-		System.out.println("jsonString : " + jsonString);
+		log.info("jsonString : " + jsonString + "\n");
 		
 		unionDealerDTO = new UnionDealerDTO();
 		
@@ -131,18 +126,13 @@ public class UnionSettingService {
 		int selectCardNumber = 9;
 		List<UnionCardDTO> randomCardList = allCardList;
 		
-		System.out.println("=========== Enter UnionSettingService =========");
-//		System.out.println("기본 카드 배열 : " + allCardList);
 		Collections.shuffle(randomCardList);
-//		System.out.println("랜덤 카드 배열 : " + randomCardList);
-		System.out.println();
 		
 		for(int i = 0; i < selectCardNumber; i++) {
 			problemMap.put(randomCardList.get(i).getName(), randomCardList.get(i));
 		}
 		
 		return problemMap;
-		
 	}
 	
 	public UnionProblemDTO setUnionProblem(GameRoom gameRoom) {
@@ -150,9 +140,8 @@ public class UnionSettingService {
 		Map<String, UnionCardDTO> problemMap = makeUnionProblem();
 		gameRoom.setProblemMap(problemMap);
 		
-		System.out.println("=========== Enter UnionService =========");
-		System.out.println("problemMap : " + problemMap);
-		System.out.println("problemMap.keySet() : " + problemMap.keySet());
+		log.info("problemMap : " + problemMap);
+		log.info("problemMap.keySet() : " + problemMap.keySet());
 		
 		JSONObject jsonObject = new JSONObject();
 		Map<String, String> jsonMap = new HashMap<String, String>();
@@ -176,7 +165,7 @@ public class UnionSettingService {
 		
 		String jsonString = jsonObject.toJSONString();
 		
-		System.out.println("jsonString : " + jsonString);
+		log.info("jsonString : " + jsonString);
 		
 		UnionProblemDTO unionProblemDTO = new UnionProblemDTO();
 		
@@ -190,7 +179,7 @@ public class UnionSettingService {
 			e.printStackTrace();
 		}
 		
-		System.out.println("unionProblemDTO : " + unionProblemDTO);
+		log.info("unionProblemDTO : " + unionProblemDTO + "\n");
 		
 		return unionProblemDTO;
 	}
@@ -250,12 +239,12 @@ public class UnionSettingService {
 		
 		for(UnionAnswerDTO answer : answerSet) {
 			
-			System.out.println("answer : " + answer.getCard1().getName()
+			log.info("answer : " + answer.getCard1().getName()
 					+ " " + answer.getCard2().getName() 
 					+ " " + answer.getCard3().getName());
 				
 		}
-		System.out.println("answerSet.size() : " + answerSet.size());
+		log.info("answerSet.size() : " + answerSet.size() + "\n");
 		
 		return answerSet;
 	}
@@ -276,29 +265,13 @@ public class UnionSettingService {
 		answerSet = makeUnionAnswer(problemMap, answerCandidateSet);
 		gameRoom.setAnswerSet(answerSet);
 		
-		System.out.println("=========== Enter UnionService =========");
-		System.out.println("answerSet : " + gameRoom.getAnswerSet());
-		System.out.println();
-		
+		log.info("answerSet : " + gameRoom.getAnswerSet() + "\n");
 	}
 
 	public UnionDealerDTO setPlayers(GameRoom gameRoom) {
 		
 		UnionDealerDTO unionDealerDTO = new UnionDealerDTO();
-//		Set<String> playerSet = gameRoom.getReadyUser().keySet();
 		Object[] players = gameRoom.getReadyUser().keySet().toArray();
-//		List<String> playerList = new ArrayList<String>();
-		
-//		System.out.println("players : " + players);
-		System.out.println("players index : " + (String)players[0] 
-				+ " " + (String)players[1]);
-		
-//		Iterator<String> iterator = playerSet.iterator();
-//		
-//		while(iterator.hasNext()) {
-//			playerList.add(iterator.next());
-//		}
-//		System.out.println("playerList : " + playerList);
 		
 		JSONObject jsonObject = new JSONObject();
 		Map<String, String> jsonMap = new HashMap<String, String>();
@@ -312,7 +285,7 @@ public class UnionSettingService {
 		jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();
 		
-		System.out.println("jsonString : " + jsonString);
+		log.info("jsonString : " + jsonString + "\n");
 		
 		try {
 			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
