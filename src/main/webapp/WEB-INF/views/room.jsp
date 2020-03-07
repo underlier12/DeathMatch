@@ -53,7 +53,6 @@
 <input id="playerA"> : <input id="playerB"><br>
 <input class="scoreA"> : <input class="scoreB">
 
-<!-- <script src="/resources/js/room.js"></script> -->
 <script src="<c:url value="/resources/js/room.js" />"></script>
 </body>
 </html>

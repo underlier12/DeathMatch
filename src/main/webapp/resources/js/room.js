@@ -27,14 +27,9 @@ $(function () {
     
     var roundP = $('#round');
 
- 	// handshake
     var sock = new SockJS("http://"+root+"/ws/chat");
-//    var sock = new SockJS("/ws/chat");
     
-    // onopen : connection이 맺어졌을 때의 callback
     sock.onopen = function () {
-        // send : connection으로 message를 전달
-        // connection이 맺어진 후 가입(JOIN) 메시지를 전달
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
         chatStatus.text('Info: connection opened.');
         
@@ -42,7 +37,6 @@ $(function () {
         
     }
     
- 	// onmessage : message를 받았을 때의 callback
     sock.onmessage = function (event) {
         var content = JSON.parse(event.data);
         
@@ -69,9 +63,6 @@ $(function () {
  			$("#card7").attr("src", defaultUrl + content.card7 + defaultExtension);
  			$("#card8").attr("src", defaultUrl + content.card8 + defaultExtension);
  			$("#card9").attr("src", defaultUrl + content.card9 + defaultExtension);
-
- 			
- 			/* cardList.forEach(updateProblemBoard); */
  			
  		}else if(content.type == 'UNI'){
  			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
@@ -82,21 +73,13 @@ $(function () {
  			var score = parseInt(content.score);
  			
  			if(content.user1 == playerAInput.val()){
-// 	 			console.log("scoreAInput.val()" + scoreAInput.val());
  				var existingScore = parseInt(scoreAInput.val()); 
  				scoreAInput.val(existingScore + score);
  			}else{
-// 				console.log("scoreBInput.val()" + scoreBInput.val());
  				var existingScore = parseInt(scoreBInput.val()); 
  				scoreBInput.val(existingScore + score);
  			}
  			
-// 			console.log("sender : " + content.sender);
-// 			console.log("score " + score);
-// 			console.log("existingScore " + existingScore);
-// 			console.log("type score " + typeof(score));
-// 			console.log("type existingScore " + typeof(existingScore));
- 			 			
  		}else if(content.type == 'READY'){
  			
  			if(content.message){
@@ -121,11 +104,9 @@ $(function () {
  			console.log("playerBInput.val()" + playerBInput.val());
 
  			if(content.user1 == playerAInput.val()){
-// 	 			console.log("scoreAInput.val()" + scoreAInput.val());
  				var existingScore = parseInt(scoreAInput.val()); 
  				scoreAInput.val(existingScore + score);
  			}else{
-// 				console.log("scoreBInput.val()" + scoreBInput.val());
  				var existingScore = parseInt(scoreBInput.val()); 
  				scoreBInput.val(existingScore + score);
  			}
@@ -137,33 +118,17 @@ $(function () {
  		}else if(content.type == 'JOIN'){
  	    	
  			chatMsgArea.eq(0).prepend(content.message + '\n');
- 			
-// 	        if(!playerAInput.val()){
-// 	        	playerAInput.val(content.sender);
-// 	        }else{
-// 	        	playerBInput.val(content.sender);
-// 	        }
  	        
  		}else if(content.type == 'ROUND'){
  			
             chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
-//            console.log(content.round);
             roundP.text(content.round + ' ROUND');
  			
  		}else{
             chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
  		}
-        
-        /* if(content.type == 'UNION'){
-        	answerList.append('<li>' + content.message + '</li>');
-        } */
     };
     
-    /* function updateProblemBoard(item){
-
-    } */
-    
- 	// onclose
  	sock.onclose = function(event){
  		chatStatus.text('Info: connection closed.');
  	}
