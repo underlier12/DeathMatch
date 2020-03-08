@@ -22,7 +22,7 @@ import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
 import com.deathmatch.genious.domain.UnionDealerDTO;
-import com.deathmatch.genious.domain.UnionProblemDTO;
+import com.deathmatch.genious.domain.UnionSettingDTO;
 import com.deathmatch.genious.util.UnionCombination;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -135,7 +135,7 @@ public class UnionSettingService {
 		return problemMap;
 	}
 	
-	public UnionProblemDTO setUnionProblem(GameRoom gameRoom) {
+	public UnionSettingDTO setUnionProblem(GameRoom gameRoom) {
 		
 		Map<String, UnionCardDTO> problemMap = makeUnionProblem();
 		gameRoom.setProblemMap(problemMap);
@@ -167,10 +167,10 @@ public class UnionSettingService {
 		
 		log.info("jsonString : " + jsonString);
 		
-		UnionProblemDTO unionProblemDTO = new UnionProblemDTO();
+		UnionSettingDTO unionProblemDTO = new UnionSettingDTO();
 		
 		try {
-			unionProblemDTO = objectMapper.readValue(jsonString, UnionProblemDTO.class);
+			unionProblemDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

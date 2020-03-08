@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UnionProblemDTO {
+public class UnionSettingDTO {
 
 	public enum MessageType {
         PROBLEM

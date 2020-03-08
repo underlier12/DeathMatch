@@ -11,7 +11,7 @@ import org.springframework.web.socket.WebSocketSession;
 import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionDealerDTO;
-import com.deathmatch.genious.domain.UnionProblemDTO;
+import com.deathmatch.genious.domain.UnionSettingDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -98,7 +98,7 @@ public class UnionService {
 		UnionDealerDTO unionProblemDTO = unionDealerService.standby(gameRoom);
 		sendMessageAll(gameRoom.getSessions(), unionProblemDTO);
 		
-		UnionProblemDTO unionProblemDTO2 = unionSettingService.setUnionProblem(gameRoom);
+		UnionSettingDTO unionProblemDTO2 = unionSettingService.setUnionProblem(gameRoom);
 		sendMessageAll(gameRoom.getSessions(), unionProblemDTO2);
 		
 		log.info("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
