@@ -38,7 +38,7 @@ public class UnionSettingService {
 	
 	private List<UnionCardDTO> allCardList;
 	private final UnionCombination unionCombination;
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper;// = new ObjectMapper();
 
 	@PostConstruct
 	public void init() {

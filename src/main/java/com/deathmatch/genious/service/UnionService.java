@@ -23,7 +23,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionService {
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper;// = new ObjectMapper();
 	private final UnionDealerService unionDealerService;
 	private final UnionSettingService unionSettingService;
 

@@ -28,7 +28,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionDealerService {
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper;// = new ObjectMapper();
 
 	public boolean readyCheck(Map<String, Boolean> readyUser) {
 		boolean isReady = false;
