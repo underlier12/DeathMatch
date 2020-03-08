@@ -1,6 +1,7 @@
 package com.deathmatch.genious.util;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -41,4 +42,15 @@ public class UnionHandler extends TextWebSocketHandler{
     	GameRoom gameRoom = gameRoomService.findRoomById(gameDTO.getRoomId());
     	unionService.handleActions(session, gameDTO, gameRoom);
 	}
+	
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception{
+		super.afterConnectionClosed(session, status);
+	}
+	
+	@Override
+    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+		log.info("handleTransportError occured!");
+	}
+	
 }
