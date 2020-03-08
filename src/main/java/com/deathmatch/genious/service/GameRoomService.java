@@ -18,6 +18,10 @@ public class GameRoomService {
 
 	private Map<String, GameRoom> gameRooms = new LinkedHashMap<>();
 	
+	public List<String> findAllId(){
+		return new LinkedList<>(gameRooms.keySet());
+	}
+	
 	public List<GameRoom> findAllRooms(){
 		return new LinkedList<>(gameRooms.values());
 	}
