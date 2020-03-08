@@ -29,59 +29,89 @@ public class UnionService {
 
 	public void handleActions(WebSocketSession session, GameDTO gameDTO, GameRoom gameRoom) {
 		
-		Set<WebSocketSession> sessions = gameRoom.getSessions();
-		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
-		
-		if (gameDTO.getType().equals(GameDTO.MessageType.JOIN)) {
-			sessions.add(session);
-			gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
-			sendMessageAll(sessions, gameDTO);
+		switch (gameDTO.getType()) {
+		case JOIN:
+			joinAction(session, gameDTO, gameRoom);
+			break;
 			
-		} else if (gameDTO.getType().equals(GameDTO.MessageType.TALK)) {
-			sendMessageAll(sessions, gameDTO);
-			    		
-    	} else if (gameDTO.getType().equals(GameDTO.MessageType.READY)) {
-    		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
-    		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
-    		sendMessageAll(sessions, gameDTO);
-    		
-    		log.info("readyUser : " + readyUser + "\n");
-    		
-    		if(unionDealerService.readyCheck(readyUser)) {
-    			
-    			UnionDealerDTO unionProblemDTO = unionDealerService.standby(gameRoom);
-    			sendMessageAll(sessions, unionProblemDTO);
-    			
-    			UnionProblemDTO unionProblemDTO2 = unionSettingService.setUnionProblem(gameRoom);
-    			sendMessageAll(sessions, unionProblemDTO2);
-    			
-    			log.info("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
-    			
-    			unionSettingService.setUnionAnswer(gameRoom);
-    			
-    			UnionDealerDTO unionDealerDTO = unionSettingService.decideRound(gameRoom);
-    			sendMessageAll(sessions, unionDealerDTO);
-    			
-    			UnionDealerDTO unionDealerDTO2 = unionSettingService.setPlayers(gameRoom);
-    			sendMessageAll(sessions, unionDealerDTO2);
-    			
-    		}
-    		
-    	} else if (gameDTO.getType().equals(GameDTO.MessageType.SCORE)) {
-    		
-    	} else if (gameDTO.getType().equals(GameDTO.MessageType.UNI)) {
-    		
-    		UnionDealerDTO unionDealerDTO = unionDealerService.uniCheck(gameRoom, gameDTO);
-    		sendMessageAll(sessions, unionDealerDTO);
-    		
-    	} else if (gameDTO.getType().equals(GameDTO.MessageType.ON)) {
-    		UnionDealerDTO unionDealerDTO = unionDealerService.onCheck(gameRoom, gameDTO);
-    		sendMessageAll(sessions, unionDealerDTO);
-    		
-    	} else {
-    		log.info("OUT\n");
-    	}
+		case READY:
+			readyAction(gameDTO, gameRoom);
+			break;
+			
+		case UNI:
+			uniAction(gameDTO, gameRoom);
+			break;
+			
+		case ON:
+			onAction(gameDTO, gameRoom);
+			break;
+			
+		case OUT:
+			outAction(gameDTO, gameRoom);
+			break;
+
+		default:
+			break;
+		}
 	}
+
+
+	private void joinAction(WebSocketSession session, GameDTO gameDTO, GameRoom gameRoom) {
+		gameRoom.getSessions().add(session);
+		gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
+		sendMessageAll(gameRoom.getSessions(), gameDTO);
+	}
+
+
+	private void readyAction(GameDTO gameDTO, GameRoom gameRoom) {
+		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
+
+		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
+		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
+		sendMessageAll(gameRoom.getSessions(), gameDTO);
+		
+		log.info("readyUser : " + readyUser + "\n");
+		
+		if(unionDealerService.readyCheck(readyUser)) {
+			allReady(gameDTO, gameRoom);
+		}
+	}
+
+	private void uniAction(GameDTO gameDTO, GameRoom gameRoom) {
+		UnionDealerDTO unionDealerDTO = unionDealerService.uniCheck(gameRoom, gameDTO);
+		sendMessageAll(gameRoom.getSessions(), unionDealerDTO);
+	}
+
+
+	private void onAction(GameDTO gameDTO, GameRoom gameRoom) {
+		UnionDealerDTO unionDealerDTO = unionDealerService.onCheck(gameRoom, gameDTO);
+		sendMessageAll(gameRoom.getSessions(), unionDealerDTO);
+	}
+
+
+	private void outAction(GameDTO gameDTO, GameRoom gameRoom) {
+		log.info("OUT\n");		
+	}
+	
+
+	private void allReady(GameDTO gameDTO, GameRoom gameRoom) {
+		UnionDealerDTO unionProblemDTO = unionDealerService.standby(gameRoom);
+		sendMessageAll(gameRoom.getSessions(), unionProblemDTO);
+		
+		UnionProblemDTO unionProblemDTO2 = unionSettingService.setUnionProblem(gameRoom);
+		sendMessageAll(gameRoom.getSessions(), unionProblemDTO2);
+		
+		log.info("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
+		
+		unionSettingService.setUnionAnswer(gameRoom);
+		
+		UnionDealerDTO unionDealerDTO = unionSettingService.decideRound(gameRoom);
+		sendMessageAll(gameRoom.getSessions(), unionDealerDTO);
+		
+		UnionDealerDTO unionDealerDTO2 = unionSettingService.setPlayers(gameRoom);
+		sendMessageAll(gameRoom.getSessions(), unionDealerDTO2);
+	}
+
 
 	public <T> void sendMessageAll(Set<WebSocketSession> sessions, T message){
 		sessions.parallelStream().forEach(session -> sendMessage(session, message));
