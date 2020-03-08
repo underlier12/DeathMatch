@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class GameDTO {
+public class UnionGameDTO {
     public enum MessageType {
         JOIN, TALK, READY, SCORE, UNI, ON, OUT
     }

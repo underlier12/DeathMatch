@@ -11,7 +11,7 @@ import java.util.Set;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
-import com.deathmatch.genious.domain.GameDTO;
+import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionAnswerDTO;
 import com.deathmatch.genious.domain.UnionCardDTO;
@@ -75,7 +75,7 @@ public class UnionDealerService {
 		return unionDealerDTO;
 	}
 	
-	public UnionDealerDTO uniCheck(GameRoom gameRoom, GameDTO gameDTO) {
+	public UnionDealerDTO uniCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		
 		String message;
 		int score;
@@ -116,7 +116,7 @@ public class UnionDealerService {
 		return unionDealerDTO;
 	}
 	
-	public UnionDealerDTO onCheck(GameRoom gameRoom, GameDTO gameDTO) {
+	public UnionDealerDTO onCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		
 		List<UnionCardDTO> problemList = new ArrayList<>(gameRoom.getProblemMap().values());
 		List<UnionCardDTO> submitedList = new ArrayList<>();

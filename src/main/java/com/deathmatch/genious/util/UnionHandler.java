@@ -6,7 +6,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.deathmatch.genious.domain.GameDTO;
+import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.service.GameRoomService;
 import com.deathmatch.genious.service.UnionService;
@@ -38,7 +38,7 @@ public class UnionHandler extends TextWebSocketHandler{
 		
 		log.info("message.getPayload() : " + message.getPayload() + "\n");
 		
-    	GameDTO gameDTO = objectMapper.readValue(message.getPayload(), GameDTO.class);
+    	UnionGameDTO gameDTO = objectMapper.readValue(message.getPayload(), UnionGameDTO.class);
     	GameRoom gameRoom = gameRoomService.findRoomById(gameDTO.getRoomId());
     	unionService.handleActions(session, gameDTO, gameRoom);
 	}

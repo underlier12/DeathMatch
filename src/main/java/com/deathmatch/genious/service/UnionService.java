@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import com.deathmatch.genious.domain.GameDTO;
+import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionDealerDTO;
 import com.deathmatch.genious.domain.UnionProblemDTO;
@@ -27,7 +27,7 @@ public class UnionService {
 	private final UnionDealerService unionDealerService;
 	private final UnionSettingService unionSettingService;
 
-	public void handleActions(WebSocketSession session, GameDTO gameDTO, GameRoom gameRoom) {
+	public void handleActions(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
 		switch (gameDTO.getType()) {
 		case JOIN:
@@ -56,14 +56,14 @@ public class UnionService {
 	}
 
 
-	private void joinAction(WebSocketSession session, GameDTO gameDTO, GameRoom gameRoom) {
+	private void joinAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		gameRoom.getSessions().add(session);
 		gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
 		sendMessageAll(gameRoom.getSessions(), gameDTO);
 	}
 
 
-	private void readyAction(GameDTO gameDTO, GameRoom gameRoom) {
+	private void readyAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
 
 		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
@@ -77,24 +77,24 @@ public class UnionService {
 		}
 	}
 
-	private void uniAction(GameDTO gameDTO, GameRoom gameRoom) {
+	private void uniAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		UnionDealerDTO unionDealerDTO = unionDealerService.uniCheck(gameRoom, gameDTO);
 		sendMessageAll(gameRoom.getSessions(), unionDealerDTO);
 	}
 
 
-	private void onAction(GameDTO gameDTO, GameRoom gameRoom) {
+	private void onAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		UnionDealerDTO unionDealerDTO = unionDealerService.onCheck(gameRoom, gameDTO);
 		sendMessageAll(gameRoom.getSessions(), unionDealerDTO);
 	}
 
 
-	private void outAction(GameDTO gameDTO, GameRoom gameRoom) {
+	private void outAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		log.info("OUT\n");		
 	}
 	
 
-	private void allReady(GameDTO gameDTO, GameRoom gameRoom) {
+	private void allReady(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		UnionDealerDTO unionProblemDTO = unionDealerService.standby(gameRoom);
 		sendMessageAll(gameRoom.getSessions(), unionProblemDTO);
 		
