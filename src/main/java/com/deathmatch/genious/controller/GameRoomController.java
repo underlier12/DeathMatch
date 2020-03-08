@@ -29,7 +29,7 @@ public class GameRoomController {
 	private final GameRoomService gameRoomService;
 	 
     @GetMapping
-    public String createRoom(Model model) {
+    public String allRooms(Model model) {
     	model.addAttribute("rooms", gameRoomService.findAllRooms());    	
     	return "gameHome";
     }

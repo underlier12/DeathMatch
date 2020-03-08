@@ -38,4 +38,7 @@ public class GameRoomService {
 		return gameRoom;
 	}
 	
+	public void destroyRoom(String roomId) {
+		gameRooms.remove(roomId);
+	}
 }
