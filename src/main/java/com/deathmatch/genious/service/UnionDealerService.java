@@ -73,7 +73,7 @@ public class UnionDealerService {
 	
 	public UnionDealerDTO onCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		
-		List<UnionCardDTO> problemList = new ArrayList<>(gameRoom.getProblemMap().values());
+		List<UnionCardDTO> problemList = gameRoom.getProblemList();
 		List<UnionCardDTO> submitedList = new ArrayList<>();
 		UnionAnswerDTO unionAnswerDTO = null;
 		UnionDealerDTO unionDealerDTO = null;

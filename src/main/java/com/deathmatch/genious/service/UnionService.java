@@ -101,7 +101,7 @@ public class UnionService {
 		unionSettingDTO = unionSettingService.setUnionProblem(gameRoom);
 		sendMessageAll(gameRoom.getSessions(), unionSettingDTO);
 		
-		log.info("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
+//		log.info("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
 		
 		unionSettingService.setUnionAnswer(gameRoom);
 		

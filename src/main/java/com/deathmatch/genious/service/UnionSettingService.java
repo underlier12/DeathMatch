@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -189,36 +188,43 @@ public class UnionSettingService {
 		return unionSettingDTO;
 	}
 	
-	public Map<String, UnionCardDTO> makeUnionProblem() {
-		Map<String, UnionCardDTO> problemMap = new LinkedHashMap<>();
-		int selectCardNumber = 9;
+	public List<UnionCardDTO> makeUnionProblem() {
+		int totalNumber = 9;
+		List<UnionCardDTO> problemList = new ArrayList<>();
 		List<UnionCardDTO> randomCardList = allCardList;
 		
 		Collections.shuffle(randomCardList);
 		
-		for(int i = 0; i < selectCardNumber; i++) {
-			problemMap.put(randomCardList.get(i).getName(), randomCardList.get(i));
+		for(int i = 0; i < totalNumber; i++) {
+			problemList.add(randomCardList.get(i));
 		}
 		
-		return problemMap;
+		return problemList;
 	}
 	
 	public UnionSettingDTO setUnionProblem(GameRoom gameRoom) {
 		
-		Map<String, UnionCardDTO> problemMap = makeUnionProblem();
-		gameRoom.setProblemMap(problemMap);
+//		Map<String, UnionCardDTO> problemMap = makeUnionProblem();
+//		gameRoom.setProblemMap(problemMap);
+		List<UnionCardDTO> problemList = makeUnionProblem();
+		List<String> problemCardNames = new ArrayList<>();
+		gameRoom.setProblemList(problemList);
 		
-		log.info("problemMap : " + problemMap);
-		log.info("problemMap.keySet() : " + problemMap.keySet());
+		log.info("problemList.toString : " + problemList.toString());
+//		log.info("problemMap.keySet() : " + problemMap.keySet());
 		
 		JSONObject jsonObject = new JSONObject();
 		Map<String, Object> jsonMap = new HashMap<>();
-		List<String> problemKeyList = new ArrayList<String>(problemMap.keySet());
+//		List<String> problemKeyList = new ArrayList<String>(problemMap.keySet());
+		
+		for(UnionCardDTO card : problemList) {
+			problemCardNames.add(card.getName());
+		}
 		
 		jsonMap.put("type", "PROBLEM");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
-		jsonMap.put("cards", problemKeyList);
+		jsonMap.put("cards", problemCardNames);
 		
 //		jsonMap.put("card1", problemKeyList.get(0));
 //		jsonMap.put("card2", problemKeyList.get(1));
@@ -253,8 +259,7 @@ public class UnionSettingService {
 		return unionProblemDTO;
 	}
 	
-	public Set<UnionAnswerDTO> makeUnionAnswer(Map<String, UnionCardDTO> problemMap
-			, Set<UnionAnswerDTO> answerCandidateSet) {
+	public Set<UnionAnswerDTO> makeUnionAnswer(Set<UnionAnswerDTO> answerCandidateSet) {
 				
 		Set<UnionAnswerDTO> answerSet = new HashSet<>();
 		
@@ -320,18 +325,19 @@ public class UnionSettingService {
 	
 	public void setUnionAnswer(GameRoom gameRoom){
 		
-		Map<String, UnionCardDTO> problemMap = gameRoom.getProblemMap();
-		Set<String> problemKeySet = problemMap.keySet();
-		List<UnionCardDTO> problemCardList = new ArrayList<UnionCardDTO>();
+//		Map<String, UnionCardDTO> problemMap = gameRoom.getProblemMap();
+//		Set<String> problemKeySet = problemMap.keySet();
+		List<UnionCardDTO> problemList = gameRoom.getProblemList();
+		
 		Set<UnionAnswerDTO> answerCandidateSet = new HashSet<>();
 		Set<UnionAnswerDTO> answerSet = new HashSet<>();
 		
-		for(String pks : problemKeySet) {
-			problemCardList.add(problemMap.get(pks));
-		}
+//		for(String pks : problemKeySet) {
+//			problemCardList.add(problemMap.get(pks));
+//		}
 		
-		answerCandidateSet = unionCombination.makeCombination(problemCardList);
-		answerSet = makeUnionAnswer(problemMap, answerCandidateSet);
+		answerCandidateSet = unionCombination.makeCombination(problemList);
+		answerSet = makeUnionAnswer(answerCandidateSet);
 		gameRoom.setAnswerSet(answerSet);
 		
 		log.info("answerSet : " + gameRoom.getAnswerSet() + "\n");

@@ -1,7 +1,9 @@
 package com.deathmatch.genious.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +22,8 @@ public class GameRoom {
     private int round = 0;
     private Map<String, Boolean> readyUser = new LinkedHashMap<String, Boolean>();
     private Set<WebSocketSession> sessions = new HashSet<>();
-    private Map<String, UnionCardDTO> problemMap = new LinkedHashMap<>();
+//    private Map<String, UnionCardDTO> problemMap = new LinkedHashMap<>();
+    private List<UnionCardDTO> problemList = new ArrayList<>();
 	private Set<UnionAnswerDTO> answerSet = new HashSet<>();
 	private Set<UnionAnswerDTO> submitedAnswerSet = new HashSet<>();
 
