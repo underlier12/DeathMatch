@@ -72,7 +72,7 @@ public class UnionService {
 		
 		log.info("readyUser : " + readyUser + "\n");
 		
-		if(unionDealerService.readyCheck(readyUser)) {
+		if(unionSettingService.readyCheck(readyUser)) {
 			allReady(gameDTO, gameRoom);
 		}
 	}
@@ -95,21 +95,21 @@ public class UnionService {
 	
 
 	private void allReady(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		UnionDealerDTO unionProblemDTO = unionDealerService.standby(gameRoom);
-		sendMessageAll(gameRoom.getSessions(), unionProblemDTO);
+		UnionSettingDTO unionSettingDTO = unionSettingService.standby(gameRoom);
+		sendMessageAll(gameRoom.getSessions(), unionSettingDTO);
 		
-		UnionSettingDTO unionProblemDTO2 = unionSettingService.setUnionProblem(gameRoom);
-		sendMessageAll(gameRoom.getSessions(), unionProblemDTO2);
+		unionSettingDTO = unionSettingService.setUnionProblem(gameRoom);
+		sendMessageAll(gameRoom.getSessions(), unionSettingDTO);
 		
 		log.info("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
 		
 		unionSettingService.setUnionAnswer(gameRoom);
 		
-		UnionDealerDTO unionDealerDTO = unionSettingService.decideRound(gameRoom);
-		sendMessageAll(gameRoom.getSessions(), unionDealerDTO);
+		unionSettingDTO = unionSettingService.decideRound(gameRoom);
+		sendMessageAll(gameRoom.getSessions(), unionSettingDTO);
 		
-		UnionDealerDTO unionDealerDTO2 = unionSettingService.setPlayers(gameRoom);
-		sendMessageAll(gameRoom.getSessions(), unionDealerDTO2);
+		unionSettingDTO = unionSettingService.setPlayers(gameRoom);
+		sendMessageAll(gameRoom.getSessions(), unionSettingDTO);
 	}
 
 

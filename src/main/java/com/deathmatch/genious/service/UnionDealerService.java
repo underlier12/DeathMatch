@@ -29,51 +29,6 @@ import lombok.extern.log4j.Log4j;
 public class UnionDealerService {
 
 	private final ObjectMapper objectMapper;// = new ObjectMapper();
-
-	public boolean readyCheck(Map<String, Boolean> readyUser) {
-		boolean isReady = false;
-		int countReady = 0;
-		
-		for (Boolean ready : readyUser.values()) {
-			if (ready) {
-				countReady++;
-			}
-		}
-		
-    	if (countReady > 1) {
-    		isReady = true;
-    	}
-    	return isReady;
-	}
-	
-	public UnionDealerDTO standby(GameRoom gameRoom) {
-		
-		UnionDealerDTO unionDealerDTO = null;
-		JSONObject jsonObject;
-		Map<String, String> jsonMap = new HashMap<String, String>();
-
-		jsonMap.put("type", "READY");
-		jsonMap.put("roomId", gameRoom.getRoomId());
-		jsonMap.put("sender", "Dealer");
-		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
-		jsonMap.put("score", "0");
-		
-		jsonObject = new JSONObject(jsonMap);
-		String jsonString = jsonObject.toJSONString();
-		log.info("jsonString : " + jsonString);
-
-		try {
-			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return unionDealerDTO;
-	}
 	
 	public UnionDealerDTO uniCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		

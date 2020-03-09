@@ -8,11 +8,16 @@ import lombok.Setter;
 public class UnionSettingDTO {
 
 	public enum MessageType {
-        PROBLEM
+        READY, ROUND, PROBLEM
     }
     private MessageType type; 
     private String roomId; 
     private String sender; 
+    private String message;
+    private String user1;
+    private String user2;
+    private int round;
+    private int score;
     
     private String[] cards;
 //    private String card2;
