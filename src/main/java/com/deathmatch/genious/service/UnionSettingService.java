@@ -144,22 +144,23 @@ public class UnionSettingService {
 		log.info("problemMap.keySet() : " + problemMap.keySet());
 		
 		JSONObject jsonObject = new JSONObject();
-		Map<String, String> jsonMap = new HashMap<String, String>();
+		Map<String, Object> jsonMap = new HashMap<>();
 		List<String> problemKeyList = new ArrayList<String>(problemMap.keySet());
 		
 		jsonMap.put("type", "PROBLEM");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
+		jsonMap.put("cards", problemKeyList);
 		
-		jsonMap.put("card1", problemKeyList.get(0));
-		jsonMap.put("card2", problemKeyList.get(1));
-		jsonMap.put("card3", problemKeyList.get(2));
-		jsonMap.put("card4", problemKeyList.get(3));
-		jsonMap.put("card5", problemKeyList.get(4));
-		jsonMap.put("card6", problemKeyList.get(5));
-		jsonMap.put("card7", problemKeyList.get(6));
-		jsonMap.put("card8", problemKeyList.get(7));
-		jsonMap.put("card9", problemKeyList.get(8));
+//		jsonMap.put("card1", problemKeyList.get(0));
+//		jsonMap.put("card2", problemKeyList.get(1));
+//		jsonMap.put("card3", problemKeyList.get(2));
+//		jsonMap.put("card4", problemKeyList.get(3));
+//		jsonMap.put("card5", problemKeyList.get(4));
+//		jsonMap.put("card6", problemKeyList.get(5));
+//		jsonMap.put("card7", problemKeyList.get(6));
+//		jsonMap.put("card8", problemKeyList.get(7));
+//		jsonMap.put("card9", problemKeyList.get(8));
 		
 		jsonObject = new JSONObject(jsonMap);
 		

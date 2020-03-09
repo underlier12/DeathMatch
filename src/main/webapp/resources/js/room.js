@@ -42,27 +42,37 @@ $(function () {
         
  		if(content.type == 'PROBLEM'){
  			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
- 					+ content.card1 + content.card2 + content.card3
- 					+ content.card4 + content.card5 + content.card6
- 					+ content.card7 + content.card8 + content.card9 + '\n');
- 			
- 			var cardList = 
- 				[content.card1, content.card2, content.card3,
- 				content.card4, content.card5, content.card6,
- 				content.card7, content.card8, content.card9];
+ 					+ content.cards + '\n');
+ 					
+// 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
+// 					+ content.card1 + content.card2 + content.card3
+// 					+ content.card4 + content.card5 + content.card6
+// 					+ content.card7 + content.card8 + content.card9 + '\n');
+// 			
+// 			var cardList = 
+// 				[content.card1, content.card2, content.card3,
+// 				content.card4, content.card5, content.card6,
+// 				content.card7, content.card8, content.card9];
  			
  			var defaultUrl = "/genious/resources/images/";
  			var defaultExtension = ".jpg";
  			
- 			$("#card1").attr("src", defaultUrl + content.card1 + defaultExtension);
- 			$("#card2").attr("src", defaultUrl + content.card2 + defaultExtension);
- 			$("#card3").attr("src", defaultUrl + content.card3 + defaultExtension);
- 			$("#card4").attr("src", defaultUrl + content.card4 + defaultExtension);
- 			$("#card5").attr("src", defaultUrl + content.card5 + defaultExtension);
- 			$("#card6").attr("src", defaultUrl + content.card6 + defaultExtension);
- 			$("#card7").attr("src", defaultUrl + content.card7 + defaultExtension);
- 			$("#card8").attr("src", defaultUrl + content.card8 + defaultExtension);
- 			$("#card9").attr("src", defaultUrl + content.card9 + defaultExtension);
+// 			console.log(".card : " + $(".card"));
+ 			
+ 			for(var i=0; i < content.cards.length; i++){
+ 				console.log(content.cards[i]);
+ 				$(".card:eq("+i+")").attr("src", defaultUrl + content.cards[i] + defaultExtension);
+ 			}
+ 			
+// 			$("#card1").attr("src", defaultUrl + content.card1 + defaultExtension);
+// 			$("#card2").attr("src", defaultUrl + content.card2 + defaultExtension);
+// 			$("#card3").attr("src", defaultUrl + content.card3 + defaultExtension);
+// 			$("#card4").attr("src", defaultUrl + content.card4 + defaultExtension);
+// 			$("#card5").attr("src", defaultUrl + content.card5 + defaultExtension);
+// 			$("#card6").attr("src", defaultUrl + content.card6 + defaultExtension);
+// 			$("#card7").attr("src", defaultUrl + content.card7 + defaultExtension);
+// 			$("#card8").attr("src", defaultUrl + content.card8 + defaultExtension);
+// 			$("#card9").attr("src", defaultUrl + content.card9 + defaultExtension);
  			
  		}else if(content.type == 'UNI'){
  			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
