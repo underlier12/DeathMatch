@@ -2,6 +2,7 @@ package com.deathmatch.genious.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,7 +16,6 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.deathmatch.genious.domain.GameRoom;
-import com.deathmatch.genious.domain.UnionAnswerDTO;
 import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
@@ -189,13 +189,12 @@ public class UnionSettingService {
 	}
 	
 	public List<UnionCardDTO> makeUnionProblem() {
-		int totalNumber = 9;
 		List<UnionCardDTO> problemList = new ArrayList<>();
 		List<UnionCardDTO> randomCardList = allCardList;
 		
 		Collections.shuffle(randomCardList);
 		
-		for(int i = 0; i < totalNumber; i++) {
+		for(int i = 0; i < 9; i++) {
 			problemList.add(randomCardList.get(i));
 		}
 		
@@ -259,64 +258,92 @@ public class UnionSettingService {
 		return unionProblemDTO;
 	}
 	
-	public Set<UnionAnswerDTO> makeUnionAnswer(Set<UnionAnswerDTO> answerCandidateSet) {
+	public Set<String> makeUnionAnswer(List<UnionCardDTO> problemList,
+			Set<UnionCardDTO[]>  answerCandidateSet) {
 				
-		Set<UnionAnswerDTO> answerSet = new HashSet<>();
-		
-		for(UnionAnswerDTO answerCandidate : answerCandidateSet) {
+		Set<String> answerSet = new HashSet<>();
+		for(UnionCardDTO[] answerCandidate : answerCandidateSet) {
 			
-			UnionCardDTO card1 = answerCandidate.getCard1();
-			UnionCardDTO card2 = answerCandidate.getCard2();
-			UnionCardDTO card3 = answerCandidate.getCard3();
-			
+			int satisfiedCondition = 0;
+
 			Set<ShapeType> shapeList = new HashSet<>();
 			Set<ColorType> colorList = new HashSet<>();
 			Set<BackType> backList = new HashSet<>();
-
-			shapeList.add(card1.getShape());
-			shapeList.add(card2.getShape());
-			shapeList.add(card3.getShape());
 			
-			colorList.add(card1.getColor());
-			colorList.add(card2.getColor());
-			colorList.add(card3.getColor());
-			
-			backList.add(card1.getBackground());
-			backList.add(card2.getBackground());
-			backList.add(card3.getBackground());
-			
-			int satisfiedCondition = 0;
-			
-			if(shapeList.size() == 1 || shapeList.size() == 3) {
-				satisfiedCondition++;
-			} else {
-				continue;
+			for(int i = 0; i < 3; i++) {
+				shapeList.add(answerCandidate[i].getShape());
+				colorList.add(answerCandidate[i].getColor());
+				backList.add(answerCandidate[i].getBackground());
 			}
 			
-			if(colorList.size() == 1 || colorList.size() == 3) {
-				satisfiedCondition++;
-			} else {
-				continue;
-			}
-			
-			if(backList.size() == 1 || backList.size() == 3) {
-				satisfiedCondition++;
-			} else {
-				continue;
-			}
+			if(shapeList.size() == 1 || shapeList.size() == 3) satisfiedCondition++;
+			if(colorList.size() == 1 || colorList.size() == 3) satisfiedCondition++;
+			if(backList.size() == 1 || backList.size() == 3) satisfiedCondition++;
 			
 			if(satisfiedCondition == 3) {
-				answerSet.add(answerCandidate);
+				
+				int[] indices = new int[3];
+				
+				for(int i = 0; i < 3; i++) {
+					indices[i] = problemList.indexOf(answerCandidate[i]) + 1;
+				}
+				
+				Arrays.sort(indices);
+				log.info(indices);
+				
+				String answer = Arrays.toString(indices).replaceAll("[^0-9]","");
+				answerSet.add(answer);
+
 			}
-			
+						
+//			UnionCardDTO card1 = answerCandidate.getCard1();
+//			UnionCardDTO card2 = answerCandidate.getCard2();
+//			UnionCardDTO card3 = answerCandidate.getCard3();
+//			
+//			Set<ShapeType> shapeList = new HashSet<>();
+//			Set<ColorType> colorList = new HashSet<>();
+//			Set<BackType> backList = new HashSet<>();
+//
+//			shapeList.add(card1.getShape());
+//			shapeList.add(card2.getShape());
+//			shapeList.add(card3.getShape());
+//			
+//			colorList.add(card1.getColor());
+//			colorList.add(card2.getColor());
+//			colorList.add(card3.getColor());
+//			
+//			backList.add(card1.getBackground());
+//			backList.add(card2.getBackground());
+//			backList.add(card3.getBackground());
+//			
+//			int satisfiedCondition = 0;
+//			
+//			if(shapeList.size() == 1 || shapeList.size() == 3) {
+//				satisfiedCondition++;
+//			} else {
+//				continue;
+//			}
+//			
+//			if(colorList.size() == 1 || colorList.size() == 3) {
+//				satisfiedCondition++;
+//			} else {
+//				continue;
+//			}
+//			
+//			if(backList.size() == 1 || backList.size() == 3) {
+//				satisfiedCondition++;
+//			} else {
+//				continue;
+//			}
+//			
+//			if(satisfiedCondition == 3) {
+//				answerSet.add(answerCandidate);
+//			}
+//			
 		}
 		
-		for(UnionAnswerDTO answer : answerSet) {
-			
-			log.info("answer : " + answer.getCard1().getName()
-					+ " " + answer.getCard2().getName() 
-					+ " " + answer.getCard3().getName());
-				
+		for(String answer : answerSet) {
+			log.info("answer : " + answer);
 		}
 		log.info("answerSet.size() : " + answerSet.size() + "\n");
 		
@@ -329,15 +356,15 @@ public class UnionSettingService {
 //		Set<String> problemKeySet = problemMap.keySet();
 		List<UnionCardDTO> problemList = gameRoom.getProblemList();
 		
-		Set<UnionAnswerDTO> answerCandidateSet = new HashSet<>();
-		Set<UnionAnswerDTO> answerSet = new HashSet<>();
+		Set<UnionCardDTO[]> answerCandidateSet = new HashSet<>();
+		Set<String> answerSet = new HashSet<>();
 		
 //		for(String pks : problemKeySet) {
 //			problemCardList.add(problemMap.get(pks));
 //		}
 		
 		answerCandidateSet = unionCombination.makeCombination(problemList);
-		answerSet = makeUnionAnswer(answerCandidateSet);
+		answerSet = makeUnionAnswer(problemList, answerCandidateSet);
 		gameRoom.setAnswerSet(answerSet);
 		
 		log.info("answerSet : " + gameRoom.getAnswerSet() + "\n");

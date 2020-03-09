@@ -1,21 +1,15 @@
 package com.deathmatch.genious.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
-import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.GameRoom;
-import com.deathmatch.genious.domain.UnionAnswerDTO;
-import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionDealerDTO;
+import com.deathmatch.genious.domain.UnionGameDTO;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,28 +67,28 @@ public class UnionDealerService {
 	
 	public UnionDealerDTO onCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		
-		List<UnionCardDTO> problemList = gameRoom.getProblemList();
-		List<UnionCardDTO> submitedList = new ArrayList<>();
-		UnionAnswerDTO unionAnswerDTO = null;
+//		List<UnionCardDTO> problemList = gameRoom.getProblemList();
+//		List<UnionCardDTO> submitedList = new ArrayList<>();
+//		UnionAnswerDTO unionAnswerDTO = null;
 		UnionDealerDTO unionDealerDTO = null;
 		String message = gameDTO.getMessage();
-		String[] messageArray = message.split("");
+//		String[] messageArray = message.split("");
 		
-		for(String cardIndex : messageArray) {
-			int intCardIndex = Integer.parseInt(cardIndex);
-			UnionCardDTO card = problemList.get(intCardIndex-1);
-			submitedList.add(card);
-		}
-		
-		log.info("submitedList : " + submitedList.get(0).getName()
-				+ " " + submitedList.get(1).getName()
-				+ " " + submitedList.get(2).getName());
-		
-		unionAnswerDTO = UnionAnswerDTO.builder()
-				.card1(submitedList.get(0))
-				.card2(submitedList.get(1))
-				.card3(submitedList.get(2))
-				.build();
+//		for(String cardIndex : messageArray) {
+//			int intCardIndex = Integer.parseInt(cardIndex);
+//			UnionCardDTO card = problemList.get(intCardIndex-1);
+//			submitedList.add(card);
+//		}
+//		
+//		log.info("submitedList : " + submitedList.get(0).getName()
+//				+ " " + submitedList.get(1).getName()
+//				+ " " + submitedList.get(2).getName());
+//		
+//		unionAnswerDTO = UnionAnswerDTO.builder()
+//				.card1(submitedList.get(0))
+//				.card2(submitedList.get(1))
+//				.card3(submitedList.get(2))
+//				.build();
 		
 		JSONObject jsonObject = new JSONObject();
 		Map<String, String> jsonMap = new HashMap<String, String>();
@@ -104,7 +98,7 @@ public class UnionDealerService {
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("user1", gameDTO.getSender());
 		
-		if(scoring(unionAnswerDTO, gameRoom)) {
+		if(scoring(gameDTO, gameRoom)) {
 			
 			jsonMap.put("message", message + " 정답 +1점");
 			jsonMap.put("score", "1");
@@ -133,28 +127,29 @@ public class UnionDealerService {
 		return unionDealerDTO;
 	}
 	
-	public boolean scoring(UnionAnswerDTO unionAnswerDTO, GameRoom gameRoom) {
+	public boolean scoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
-		boolean correct = false;
+//		boolean correct = false;
+//		
+//		for(UnionAnswerDTO answer : gameRoom.getAnswerSet()) {
+//			
+//			Set<UnionCardDTO> submitedAnswer = new HashSet<>();
+//			submitedAnswer.add(unionAnswerDTO.getCard1());
+//			submitedAnswer.add(unionAnswerDTO.getCard2());
+//			submitedAnswer.add(unionAnswerDTO.getCard3());
+//			submitedAnswer.add(answer.getCard1());
+//			submitedAnswer.add(answer.getCard2());
+//			submitedAnswer.add(answer.getCard3());
+//			
+//			if(submitedAnswer.size() == 3) {
+//				correct = true;
+//				gameRoom.getSubmitedAnswerSet().add(unionAnswerDTO);
+//				break;
+//			}
+//
+//		}
 		
-		for(UnionAnswerDTO answer : gameRoom.getAnswerSet()) {
-			
-			Set<UnionCardDTO> submitedAnswer = new HashSet<>();
-			submitedAnswer.add(unionAnswerDTO.getCard1());
-			submitedAnswer.add(unionAnswerDTO.getCard2());
-			submitedAnswer.add(unionAnswerDTO.getCard3());
-			submitedAnswer.add(answer.getCard1());
-			submitedAnswer.add(answer.getCard2());
-			submitedAnswer.add(answer.getCard3());
-			
-			if(submitedAnswer.size() == 3) {
-				correct = true;
-				gameRoom.getSubmitedAnswerSet().add(unionAnswerDTO);
-				break;
-			}
-
-		}
-		return correct;
+		return gameRoom.getAnswerSet().contains(gameDTO.getMessage());
 	}
 
 }

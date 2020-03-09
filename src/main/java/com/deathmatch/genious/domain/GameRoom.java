@@ -24,8 +24,10 @@ public class GameRoom {
     private Set<WebSocketSession> sessions = new HashSet<>();
 //    private Map<String, UnionCardDTO> problemMap = new LinkedHashMap<>();
     private List<UnionCardDTO> problemList = new ArrayList<>();
-	private Set<UnionAnswerDTO> answerSet = new HashSet<>();
-	private Set<UnionAnswerDTO> submitedAnswerSet = new HashSet<>();
+//	private Set<UnionAnswerDTO> answerSet = new HashSet<>();
+//	private Set<UnionAnswerDTO> submitedAnswerSet = new HashSet<>();
+    private Set<String> answerSet = new HashSet<>();
+    private Set<String> submitedAnswerSet = new HashSet<>();
 
     @Builder
     public GameRoom(String roomId, String name) {
