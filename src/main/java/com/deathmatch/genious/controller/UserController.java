@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.deathmatch.genious.domain.LoginDTO;
 import com.deathmatch.genious.domain.UserDTO;
 import com.deathmatch.genious.service.UserService;
@@ -42,33 +40,70 @@ public class UserController {
 		this.userService = userService;
 		this.naverLoginService = naverLoginService;
 	}
-	
-	//회원 정보 조회
-	private UserDTO getUser(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		UserDTO user = (UserDTO)session.getAttribute("login");
-		log.info("session User :" + user);
-		return user;
-	}
 
 	@GetMapping("/loginHome")
-	public String loginHome(HttpSession session, Model model,HttpServletRequest request) {
-		try {
-			Object currentUser = session.getAttribute("login");
-			log.info("currentUser : " + currentUser);
-			String naverAuthUrl = naverLoginService.getAuthorizationUrl(session);
-			log.info("naver :" + naverAuthUrl);
-			model.addAttribute("url", naverAuthUrl);
-			
-			UserDTO user = getUser(request);
-			log.info("user" +user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+	public String loginHome(HttpSession session, Model model, HttpServletRequest request) {
+		String naverAuthUrl = naverLoginService.getAuthorizationUrl(session);
+		log.info("naver :" + naverAuthUrl);
+		model.addAttribute("url", naverAuthUrl);
 		return "/user/loginHome";
 	}
+	
+	@GetMapping("/login")
+	public void loginGet(@ModelAttribute("loginDTO") LoginDTO loginDTO) {
 
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		Object currentUser = session.getAttribute("login");
+		if (currentUser != null) {
+			session.removeAttribute("login");
+			session.invalidate();
+		}
+		return "redirect:/";
+	}
+
+	@PostMapping("/loginPost")
+	public String loginPost(LoginDTO loginDTO, HttpSession session, Model model) {
+		UserDTO LocalUserDTO = userService.login(loginDTO);
+		if (LocalUserDTO == null) {
+			log.info("Login User is Empty");
+			model.addAttribute("msg", "등록되지 않은 회원입니다");
+			return "/user/loginHome";
+		}else {
+			log.info("Local User :" + LocalUserDTO.toString());
+			model.addAttribute("userDTO",LocalUserDTO); 
+			return "gameHome";
+		}
+	}
+
+	@GetMapping("/kakaoLogin")
+	public String kakaoLogin(@RequestParam("code") String code, Model model, HttpSession session) {
+		String accessToken = kakaoLoginService.getAccessToken(code);
+		UserDTO kakaoUser = kakaoLoginService.getUserInfo(accessToken);
+		log.info("login Info: " + kakaoUser.toString());
+
+		// 유저 정보가 없으면 새로운 vo, 있으면 기존의 정보를 불러온다.
+		userService.kakaoLogin(kakaoUser);
+		model.addAttribute("userDTO", kakaoUser);
+
+		return "gameHome";
+	}
+
+	@RequestMapping(value = "/naverLogin", method = { RequestMethod.GET, RequestMethod.POST })
+	public String naverLogin(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+
+		OAuth2AccessToken oauthToken = naverLoginService.getAccessToken(session, code, state);
+		String apiResult = naverLoginService.getUserProfile(oauthToken);
+		UserDTO naverUser = naverLoginService.getUserInfo(apiResult);
+		userService.naverLogin(naverUser);
+		log.info("NaverUser :" + naverUser.toString());
+		model.addAttribute("userDTO", naverUser);
+
+		return "gameHome";
+	}
+	
 	@GetMapping("/naverGetToken")
 	public void naverGetToken(HttpSession session, Model model) {
 		String naverAuthUrl = naverLoginService.getAuthorizationUrl(session);
@@ -76,90 +111,17 @@ public class UserController {
 		model.addAttribute("url", naverAuthUrl);
 	}
 
-	@GetMapping("/logout")
-	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		Object currentUser = session.getAttribute("login");
-		if (currentUser != null) {
-			UserDTO userDTO = (UserDTO) currentUser;
-			session.removeAttribute("login");
-			session.invalidate();
-		}
-		return "redirect:/";
-	}
-
-	@GetMapping("/login")
-	public void loginGet(@ModelAttribute("loginDTO") LoginDTO loginDTO) {
-
-	}
-
-	@PostMapping("/loginPost")
-	public String loginPost(LoginDTO loginDTO, HttpSession session, Model model) {
-		UserDTO userDTO = userService.login(loginDTO);
-		if (userDTO == null) {
-			log.info("Login User is Empty");
-			model.addAttribute("msg", "등록되지 않은 회원입니다");
-			return "/user/loginHome";
-		} else {
-			UserDTO user = (UserDTO)session.getAttribute("login");
-			model.addAttribute("userDTO", user);
-			log.info(userDTO.toString());
-			return "gameHome";
-		}
-	}
-
-	@GetMapping("/kakaoLogin")
-	public String kakaoLogin(@RequestParam("code") String code, Model model, HttpSession session, HttpServletRequest req) {
-		String accessToken = kakaoLoginService.getAccessToken(code);
-		UserDTO kakaoUser = kakaoLoginService.getUserInfo(accessToken);
-		log.info("AccessToken: " + accessToken);
-		log.info("login Info: " + kakaoUser.toString());
-
-		// 유저 정보가 없으면 새로운 vo, 있으면 기존의 정보를 불러온다.
-		userService.kakaoLogin(kakaoUser);
-		model.addAttribute("userDTO", kakaoUser);
-		UserDTO userDTO = (UserDTO)session.getAttribute("login");
-		log.info("세션 : " +userDTO);
-		
-		return "gameHome";
-	}
-
-	@RequestMapping(value = "/naverLogin", method = { RequestMethod.GET, RequestMethod.POST })
-	public String naverLogin(Model model, @RequestParam String code, @RequestParam String state, HttpSession session,HttpServletRequest request)
-			throws IOException, ParseException {
-
-		OAuth2AccessToken oauthToken = naverLoginService.getAccessToken(session, code, state);
-		String apiResult = naverLoginService.getUserProfile(oauthToken);
-		UserDTO naverUser = naverLoginService.getUserInfo(apiResult);
-		userService.naverLogin(naverUser);
-		log.info(naverUser.toString());
-		/*
-		 * HttpSession session2 = request.getSession(); UserDTO user =
-		 * (UserDTO)session2.getAttribute("login");
-		 */
-		/* log.info("user :" + user); */
-
-		model.addAttribute("userDTO", naverUser);
-		/* model.addAttribute("user",user); */
-		/* model.addAttribute("result", apiResult); */
-
-		return "gameHome";
-	}
-
 	@PostMapping("/join")
 	public @ResponseBody ResponseEntity<String> joinMember(@RequestBody UserDTO userDTO) {
 		ResponseEntity<String> entity = null;
 		try {
 			userService.insertMember(userDTO);
-			entity = new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
-		}catch(Exception e) {
+			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		} catch (Exception e) {
 			e.printStackTrace();
-			entity = new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return entity;
 	}
-	
-	
-	
-	
 
 }

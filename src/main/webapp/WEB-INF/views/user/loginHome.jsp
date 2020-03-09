@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/includes/header.jsp" %>
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 	var message = "${msg}";
 	if (message != "") {
 		alert(message);
 	}
-</script> -->
+</script>
+<script src ="/genious/js/loginHome.js"></script>
 
 <body>
 	<%@ include file="/WEB-INF/views/includes/joinModal.jsp" %>
@@ -19,11 +20,11 @@
 	<form action="/genious/user/loginPost" method="post" id="loginProc">
 		<div class="row loginForm-row" style="margin-top: 150px;">
 			<div class="col-md-4 col-md-offset-4">
-				<input type="email" class="form-control" name="userEmail"
+				<input type="email" class="form-control" name="userEmail" id ="email"
 					placeholder="아이디">
 			</div>
 			<div class="col-md-4 col-md-offset-4">
-				<input type="password" class="form-control" name="pw"
+				<input type="password" class="form-control" name="pw" id ="password"
 					placeholder="비밀번호">
 			</div>
 			<div class="col-md-4 col-md-offset-4">
@@ -58,7 +59,7 @@
 			</div>
 			<div id="naver_id_login" style="margin-bottom: 50px;">
 				<a href="${url}">
-				<img src="/resources/images/btn_naver_login.gif"></a>
+				<img src="/images/btn_naver_login.gif"></a>
 			</div>
 		</div>
 	</c:if>
@@ -73,7 +74,20 @@
 	</form>
 	
 	<%@ include file="/WEB-INF/views/includes/footer.jsp" %>
-	<!-- <script type ="text/javascript" src ="/genious/js/loginHome.js"></script> -->
-	<script src="<c:url value="/resources/js/loginHome.js" />"></script>
+	
 </body>
+<script type ="text/javascript">
+
+$("#loginBtn").click(function(e) {
+	if ($("#email").val() == ""|| $("#email").val() == null) {
+			alert("ID를 입력해주세요");
+			return false;
+	}
+	if ($("#password").val() == "" || $("#password").val() == null) {
+			alert("PW를 입력해주세요");
+			return false;
+	}
+	loginForm.submit();
+});
+</script>
 

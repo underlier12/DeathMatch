@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.service.GameRoomService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -29,14 +27,14 @@ public class GameRoomController {
 	private final GameRoomService gameRoomService;
 	 
     @GetMapping
+
     public String allRooms(Model model) {
-    	model.addAttribute("rooms", gameRoomService.findAllRooms());    	
+    	model.addAttribute("rooms", gameRoomService.findAllRooms());
     	return "gameHome";
-    }
-    
+    }   	
+	
     @PostMapping
     public @ResponseBody ResponseEntity<String> createRoom(@RequestBody String name) {
-    	
     	ResponseEntity<String> entity = null;
 		HttpHeaders headers = new HttpHeaders();
 		try {

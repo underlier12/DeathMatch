@@ -1,16 +1,5 @@
+$(function(){	
 		var loginForm = $("#loginProc");
-		
-		$("#loginBtn").click(function(e) {
-			/*if ($('input[name="userEmail"]').val() == ""|| $('input[name="userEmail"]').val() == null) {
-					alert("ID를 입력해주세요");
-					return false;
-			}
-			if ($('input[name="pw"]').val() == "" || $('input[name="pw"]').val() == null) {
-					alert("PW를 입력해주세요");
-					return false;
-			}*/
-			loginForm.submit();
-		});
 		
 		
 		$("#regiBtn").click(function(e){
@@ -74,7 +63,9 @@
 					console.log(result)
 				}
 			})
+
 		}
+});
 
 	
 	
