@@ -30,6 +30,9 @@ public class UnionDealerService {
 		int score;
 		UnionDealerDTO unionDealerDTO = null;
 		
+		log.info("answerSet : " + gameRoom.getAnswerSet());
+		log.info("submitedAnswerSet : " + gameRoom.getSubmitedAnswerSet());
+		
 		if(gameRoom.getAnswerSet().size() == gameRoom.getSubmitedAnswerSet().size()) {
 			message = "정답 +3";
 			score = 3;
@@ -100,6 +103,7 @@ public class UnionDealerService {
 		
 		if(scoring(gameDTO, gameRoom)) {
 			
+			gameRoom.getSubmitedAnswerSet().add(gameDTO.getMessage());
 			jsonMap.put("message", message + " 정답 +1점");
 			jsonMap.put("score", "1");
 			
