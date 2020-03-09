@@ -162,7 +162,20 @@ $(function () {
     });
     
     onBtn.click(function(){
-    	var message = selectedInput.val();
+    	
+    	var answerString = selectedInput.val();
+    	var answerArray = answerString.split("");
+    	
+    	console.log("answerArray : " + answerArray);
+
+    	var sortedAnswerArray = answerArray.sort();
+    	
+    	console.log("sortedAnswerArray : " + sortedAnswerArray);
+    	
+    	var message = sortedAnswerArray.join('');
+    	
+    	console.log("message : " + message);
+    	
     	sock.send(JSON.stringify(
     			{type: 'ON', roomId: roomId, sender: member, message: message}));
     	selectedInput.val('');

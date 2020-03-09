@@ -11,7 +11,9 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 </head>
 <body>
-<h1>${room.name}(${room.roomId})</h1>
+<h1>${room.name}</h1>
+
+<h4>${room.roomId}</h4>
 
 <p id="round"></p>
 
@@ -27,19 +29,19 @@
 
 <table border="1">
     <tr>
-		<td><button class="select" name="1">1<img id="card1" class="card" src=""></button></td>
-		<td><button class="select" name="2">2<img id="card2" class="card" src=""></button></td>
-		<td><button class="select" name="3">3<img id="card3" class="card" src=""></button></td>
+		<td><button class="select" name="1">1<img id="card1" class="card"></button></td>
+		<td><button class="select" name="2">2<img id="card2" class="card"></button></td>
+		<td><button class="select" name="3">3<img id="card3" class="card"></button></td>
     </tr>
     <tr>
-		<td><button class="select" name="4">4<img id="card4" class="card" src=""></button></td>
-		<td><button class="select" name="5">5<img id="card5" class="card" src=""></button></td>
-		<td><button class="select" name="6">6<img id="card6" class="card" src=""></button></td>
+		<td><button class="select" name="4">4<img id="card4" class="card"></button></td>
+		<td><button class="select" name="5">5<img id="card5" class="card"></button></td>
+		<td><button class="select" name="6">6<img id="card6" class="card"></button></td>
     </tr>
     <tr>
-		<td><button class="select" name="7">7<img id="card7" class="card" src=""></button></td>
-		<td><button class="select" name="8">8<img id="card8" class="card" src=""></button></td>
-		<td><button class="select" name="9">9<img id="card9" class="card" src=""></button></td>
+		<td><button class="select" name="7">7<img id="card7" class="card"></button></td>
+		<td><button class="select" name="8">8<img id="card8" class="card"></button></td>
+		<td><button class="select" name="9">9<img id="card9" class="card"></button></td>
     </tr>
 </table>
 
