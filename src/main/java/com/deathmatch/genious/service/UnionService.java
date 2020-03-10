@@ -105,8 +105,8 @@ public class UnionService {
 		
 		unionSettingService.setUnionAnswer(gameRoom);
 		
-		unionSettingDTO = unionSettingService.decideRound(gameRoom);
-		sendMessageAll(gameRoom.getSessions(), unionSettingDTO);
+		UnionDealerDTO unionDealerDTO = unionDealerService.decideRound(gameRoom);
+		sendMessageAll(gameRoom.getSessions(), unionDealerDTO);
 		
 		unionSettingDTO = unionSettingService.setPlayers(gameRoom);
 		sendMessageAll(gameRoom.getSessions(), unionSettingDTO);

@@ -17,7 +17,7 @@ public class UnionSettingDTO {
     private String user1;
     private String user2;
     private int round;
-    private int score;
+//    private int score;
     
     private String[] cards;
 //    private String card2;

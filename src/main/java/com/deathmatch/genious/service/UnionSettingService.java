@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionCardDTO;
+import com.deathmatch.genious.domain.UnionDealerDTO;
 import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
@@ -34,10 +35,17 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionSettingService {
 	
-	private List<UnionCardDTO> allCardList;
 	private final UnionCombination unionCombination;
 	private final ObjectMapper objectMapper;// = new ObjectMapper();
 
+	private List<UnionCardDTO> allCardList;
+	private Map<String, Object> jsonMap;
+	private UnionSettingDTO unionSettingDTO;
+	private JSONObject jsonObject;
+	
+	private String jsonString;
+//	private String message;
+	
 	@PostConstruct
 	public void init() {
 		allCardList = new ArrayList<>();
@@ -80,7 +88,28 @@ public class UnionSettingService {
 		
 		log.info("allCardList : " + allCardList);
 	}
+	
+	public void preprocessing() {
+		jsonMap = new HashMap<>();
+	}
+	
+	public void postprocessing() {
+		jsonObject = new JSONObject(jsonMap);
+		jsonString = jsonObject.toJSONString();
+		log.info("jsonString : " + jsonString);
 
+		try {
+			unionSettingDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public boolean readyCheck(Map<String, Boolean> readyUser) {
 		boolean isReady = false;
 		int countReady = 0;
@@ -99,69 +128,43 @@ public class UnionSettingService {
 	
 	public UnionSettingDTO standby(GameRoom gameRoom) {
 		
-		Map<String, String> jsonMap = new HashMap<String, String>();
+//		Map<String, String> jsonMap = new HashMap<String, String>();
 
+		preprocessing();
+		
 		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
-		jsonMap.put("sender", "Dealer");
+		jsonMap.put("sender", "Setting");
 		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
-		jsonMap.put("score", "0");
+//		jsonMap.put("score", "0");
 		
-		UnionSettingDTO unionSettingDTO = null;
-		JSONObject jsonObject = new JSONObject(jsonMap);
-		String jsonString = jsonObject.toJSONString();
-		log.info("jsonString : " + jsonString);
-
-		try {
-			unionSettingDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		UnionSettingDTO unionSettingDTO = null;
+//		JSONObject jsonObject = new JSONObject(jsonMap);
+//		String jsonString = jsonObject.toJSONString();
+//		log.info("jsonString : " + jsonString);
+//
+//		try {
+//			unionSettingDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		postprocessing();
 		
 		return unionSettingDTO;
 	}
 	
-	public UnionSettingDTO decideRound(GameRoom gameRoom) {
-		
-		int currentRound = gameRoom.getRound();
-		int nextRound = currentRound + 1;
-				
-		Map<String, String> jsonMap = new HashMap<String, String>();
-		
-		jsonMap.put("type", "ROUND");
-		jsonMap.put("roomId", gameRoom.getRoomId());
-		jsonMap.put("sender", "Setting");
-		jsonMap.put("round", Integer.toString(nextRound));
-		jsonMap.put("message", "이번에는 " + Integer.toString(nextRound) + " ROUND 입니다");
-		
-		JSONObject jsonObject = new JSONObject(jsonMap);
-		String jsonString = jsonObject.toJSONString();
-		
-		log.info("jsonString : " + jsonString + "\n");
-		
-		UnionSettingDTO unionSettingDTO = null;
-		
-		try {
-			unionSettingDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return unionSettingDTO;
-	}
+	
 	
 	public UnionSettingDTO setPlayers(GameRoom gameRoom) {
 		
+		preprocessing();
+		
 		Object[] players = gameRoom.getReadyUser().keySet().toArray();
-		Map<String, String> jsonMap = new HashMap<String, String>();
+//		Map<String, String> jsonMap = new HashMap<String, String>();
 		
 		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
@@ -169,21 +172,22 @@ public class UnionSettingService {
 		jsonMap.put("user1", (String)players[0]);
 		jsonMap.put("user2", (String)players[1]);
 		
-		JSONObject jsonObject = new JSONObject(jsonMap);
-		String jsonString = jsonObject.toJSONString();
-		UnionSettingDTO unionSettingDTO = null;
-		
-		log.info("jsonString : " + jsonString + "\n");
-		
-		try {
-			unionSettingDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		JSONObject jsonObject = new JSONObject(jsonMap);
+//		String jsonString = jsonObject.toJSONString();
+//		UnionSettingDTO unionSettingDTO = null;
+//		
+//		log.info("jsonString : " + jsonString + "\n");
+//		
+//		try {
+//			unionSettingDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		postprocessing();
 		
 		return unionSettingDTO;
 	}
@@ -203,6 +207,8 @@ public class UnionSettingService {
 	
 	public UnionSettingDTO setUnionProblem(GameRoom gameRoom) {
 		
+		preprocessing();
+		
 //		Map<String, UnionCardDTO> problemMap = makeUnionProblem();
 //		gameRoom.setProblemMap(problemMap);
 		List<UnionCardDTO> problemList = makeUnionProblem();
@@ -212,8 +218,8 @@ public class UnionSettingService {
 		log.info("problemList.toString : " + problemList.toString());
 //		log.info("problemMap.keySet() : " + problemMap.keySet());
 		
-		JSONObject jsonObject = new JSONObject();
-		Map<String, Object> jsonMap = new HashMap<>();
+//		JSONObject jsonObject = new JSONObject();
+//		Map<String, Object> jsonMap = new HashMap<>();
 //		List<String> problemKeyList = new ArrayList<String>(problemMap.keySet());
 		
 		for(UnionCardDTO card : problemList) {
@@ -235,27 +241,29 @@ public class UnionSettingService {
 //		jsonMap.put("card8", problemKeyList.get(7));
 //		jsonMap.put("card9", problemKeyList.get(8));
 		
-		jsonObject = new JSONObject(jsonMap);
+//		jsonObject = new JSONObject(jsonMap);
+//		
+//		String jsonString = jsonObject.toJSONString();
+//		
+//		log.info("jsonString : " + jsonString);
+//		
+//		UnionSettingDTO unionProblemDTO = new UnionSettingDTO();
+//		
+//		try {
+//			unionProblemDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
+//		} catch (JsonParseException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
-		String jsonString = jsonObject.toJSONString();
+		postprocessing();
 		
-		log.info("jsonString : " + jsonString);
+		log.info("unionProblemDTO : " + unionSettingDTO + "\n");
 		
-		UnionSettingDTO unionProblemDTO = new UnionSettingDTO();
-		
-		try {
-			unionProblemDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		log.info("unionProblemDTO : " + unionProblemDTO + "\n");
-		
-		return unionProblemDTO;
+		return unionSettingDTO;
 	}
 	
 	public Set<String> makeUnionAnswer(List<UnionCardDTO> problemList,

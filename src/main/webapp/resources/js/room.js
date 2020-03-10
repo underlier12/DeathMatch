@@ -131,6 +131,7 @@ $(function () {
  	        
  		}else if(content.type == 'ROUND'){
  			
+ 			console.log("round : " + content.round);
             chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
             roundP.text(content.round + ' ROUND');
  			
