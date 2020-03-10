@@ -15,8 +15,7 @@ public class UnionDealerDTO {
     private String sender;
     private String message;
     private String user1;
-//    private String user2;
     private int countDown;
     private int score;
-//    private int round;
+    private int round;
 }

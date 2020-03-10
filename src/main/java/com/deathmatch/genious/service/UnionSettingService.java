@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionCardDTO;
-import com.deathmatch.genious.domain.UnionDealerDTO;
 import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;

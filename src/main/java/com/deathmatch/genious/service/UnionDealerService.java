@@ -50,7 +50,7 @@ public class UnionDealerService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 	
 	public UnionDealerDTO decideRound(GameRoom gameRoom) {
