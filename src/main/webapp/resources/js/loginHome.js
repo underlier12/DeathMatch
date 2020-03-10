@@ -21,6 +21,7 @@ $(function(){
 					phone : phone
 			};
 			
+			
 			if(!userEmail){
 				alert("이메일을 입력해 주세요");
 				$('#userEmail').focus();
@@ -62,18 +63,7 @@ $(function(){
 					console.log(result)
 				}
 			})
-		}
-		
-		function checkUserEmail(userEmail){
-			$.ajax({
-				type : 'post',
-				url : '/genious/user/checkEmail',
-				data : JSON.stringify(userEmail),
-				contentType : 'application/json; charset=utf-8',
-				success : function(result){
-					console.log(result)
-				}
-			})
+
 		}
 });
 

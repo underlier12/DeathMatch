@@ -28,6 +28,4 @@ public interface UserDAO {
     public UserDTO selectNaverMember(UserDTO userDTO);
     // 유저수 확인하기
     public int countMember(UserDTO userDTO);
-    // 이메일 중복여부
-    public UserDTO checkEmail(UserDTO userDTO);
 }

@@ -27,25 +27,10 @@ public class GameRoom {
 	private Set<UnionAnswerDTO> answerSet = new HashSet<>();
 	private Set<UnionAnswerDTO> submitedAnswerSet = new HashSet<>();
 
-
     @Builder
     public GameRoom(String roomId, String name) {
         this.roomId = roomId;
         this.name = name;
     }
-    
-    // Guenho 작성
-    
-    private String player1;
-	private String player2;
-	
-    @Builder
-    public GameRoom(String roomId,String name,String player1,String player2) {
-    	this.roomId = roomId;
-    	this.name = name;
-    	this.player1 = player1;
-    	this.player2 = player2;
-    }
-   
 
 }
