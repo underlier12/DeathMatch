@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO searchMember(UserDTO userDTO) {
-		return null;
+		return userDAO.checkEmail(userDTO);
 	}
 
 }
