@@ -20,7 +20,6 @@ public class UnionCombination {
 	int index = 0;
 	
 	List<UnionCardDTO> answerSubCandidateList = new LinkedList<>();
-//	UnionCardDTO[] answerSubCandidateArray = new UnionCardDTO[3];
 	Set<UnionCardDTO[]> answerCandidateSet = new HashSet<>();
 	
 	public Set<UnionCardDTO[]> makeCombination(List<UnionCardDTO> problemList){
@@ -38,11 +37,6 @@ public class UnionCombination {
 			, int TOTAL, int SUB, int index){
 		
 		if(SUB == 0) {
-//			UnionAnswerDTO unionAnswerDTO = UnionAnswerDTO.builder()
-//					.card1(answerSubCandidateList.get(0))
-//					.card2(answerSubCandidateList.get(1))
-//					.card3(answerSubCandidateList.get(2))
-//					.build();
 			UnionCardDTO[] answerSubCandidateArray = new UnionCardDTO[3];
 			
 			for(int i=0; i < 3; i++) {

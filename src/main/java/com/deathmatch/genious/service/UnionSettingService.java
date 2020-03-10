@@ -36,7 +36,7 @@ import lombok.extern.log4j.Log4j;
 public class UnionSettingService {
 	
 	private final UnionCombination unionCombination;
-	private final ObjectMapper objectMapper;// = new ObjectMapper();
+	private final ObjectMapper objectMapper;
 
 	private List<UnionCardDTO> allCardList;
 	private Map<String, Object> jsonMap;
@@ -44,7 +44,6 @@ public class UnionSettingService {
 	private JSONObject jsonObject;
 	
 	private String jsonString;
-//	private String message;
 	
 	@PostConstruct
 	public void init() {
@@ -128,30 +127,13 @@ public class UnionSettingService {
 	
 	public UnionSettingDTO standby(GameRoom gameRoom) {
 		
-//		Map<String, String> jsonMap = new HashMap<String, String>();
-
 		preprocessing();
 		
 		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
 		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
-//		jsonMap.put("score", "0");
 		
-//		UnionSettingDTO unionSettingDTO = null;
-//		JSONObject jsonObject = new JSONObject(jsonMap);
-//		String jsonString = jsonObject.toJSONString();
-//		log.info("jsonString : " + jsonString);
-//
-//		try {
-//			unionSettingDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
-//		} catch (JsonParseException e) {
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		postprocessing();
 		
 		return unionSettingDTO;
@@ -164,7 +146,6 @@ public class UnionSettingService {
 		preprocessing();
 		
 		Object[] players = gameRoom.getReadyUser().keySet().toArray();
-//		Map<String, String> jsonMap = new HashMap<String, String>();
 		
 		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
@@ -172,21 +153,6 @@ public class UnionSettingService {
 		jsonMap.put("user1", (String)players[0]);
 		jsonMap.put("user2", (String)players[1]);
 		
-//		JSONObject jsonObject = new JSONObject(jsonMap);
-//		String jsonString = jsonObject.toJSONString();
-//		UnionSettingDTO unionSettingDTO = null;
-//		
-//		log.info("jsonString : " + jsonString + "\n");
-//		
-//		try {
-//			unionSettingDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
-//		} catch (JsonParseException e) {
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		postprocessing();
 		
 		return unionSettingDTO;
@@ -209,19 +175,12 @@ public class UnionSettingService {
 		
 		preprocessing();
 		
-//		Map<String, UnionCardDTO> problemMap = makeUnionProblem();
-//		gameRoom.setProblemMap(problemMap);
 		List<UnionCardDTO> problemList = makeUnionProblem();
 		List<String> problemCardNames = new ArrayList<>();
 		gameRoom.setProblemList(problemList);
 		
 		log.info("problemList.toString : " + problemList.toString());
-//		log.info("problemMap.keySet() : " + problemMap.keySet());
-		
-//		JSONObject jsonObject = new JSONObject();
-//		Map<String, Object> jsonMap = new HashMap<>();
-//		List<String> problemKeyList = new ArrayList<String>(problemMap.keySet());
-		
+
 		for(UnionCardDTO card : problemList) {
 			problemCardNames.add(card.getName());
 		}
@@ -230,34 +189,6 @@ public class UnionSettingService {
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
 		jsonMap.put("cards", problemCardNames);
-		
-//		jsonMap.put("card1", problemKeyList.get(0));
-//		jsonMap.put("card2", problemKeyList.get(1));
-//		jsonMap.put("card3", problemKeyList.get(2));
-//		jsonMap.put("card4", problemKeyList.get(3));
-//		jsonMap.put("card5", problemKeyList.get(4));
-//		jsonMap.put("card6", problemKeyList.get(5));
-//		jsonMap.put("card7", problemKeyList.get(6));
-//		jsonMap.put("card8", problemKeyList.get(7));
-//		jsonMap.put("card9", problemKeyList.get(8));
-		
-//		jsonObject = new JSONObject(jsonMap);
-//		
-//		String jsonString = jsonObject.toJSONString();
-//		
-//		log.info("jsonString : " + jsonString);
-//		
-//		UnionSettingDTO unionProblemDTO = new UnionSettingDTO();
-//		
-//		try {
-//			unionProblemDTO = objectMapper.readValue(jsonString, UnionSettingDTO.class);
-//		} catch (JsonParseException e) {
-//			e.printStackTrace();
-//		} catch (JsonMappingException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 		
 		postprocessing();
 		
@@ -303,51 +234,7 @@ public class UnionSettingService {
 				answerSet.add(answer);
 
 			}
-						
-//			UnionCardDTO card1 = answerCandidate.getCard1();
-//			UnionCardDTO card2 = answerCandidate.getCard2();
-//			UnionCardDTO card3 = answerCandidate.getCard3();
-//			
-//			Set<ShapeType> shapeList = new HashSet<>();
-//			Set<ColorType> colorList = new HashSet<>();
-//			Set<BackType> backList = new HashSet<>();
-//
-//			shapeList.add(card1.getShape());
-//			shapeList.add(card2.getShape());
-//			shapeList.add(card3.getShape());
-//			
-//			colorList.add(card1.getColor());
-//			colorList.add(card2.getColor());
-//			colorList.add(card3.getColor());
-//			
-//			backList.add(card1.getBackground());
-//			backList.add(card2.getBackground());
-//			backList.add(card3.getBackground());
-//			
-//			int satisfiedCondition = 0;
-//			
-//			if(shapeList.size() == 1 || shapeList.size() == 3) {
-//				satisfiedCondition++;
-//			} else {
-//				continue;
-//			}
-//			
-//			if(colorList.size() == 1 || colorList.size() == 3) {
-//				satisfiedCondition++;
-//			} else {
-//				continue;
-//			}
-//			
-//			if(backList.size() == 1 || backList.size() == 3) {
-//				satisfiedCondition++;
-//			} else {
-//				continue;
-//			}
-//			
-//			if(satisfiedCondition == 3) {
-//				answerSet.add(answerCandidate);
-//			}
-//			
+			
 		}
 		
 		for(String answer : answerSet) {
@@ -360,16 +247,10 @@ public class UnionSettingService {
 	
 	public void setUnionAnswer(GameRoom gameRoom){
 		
-//		Map<String, UnionCardDTO> problemMap = gameRoom.getProblemMap();
-//		Set<String> problemKeySet = problemMap.keySet();
 		List<UnionCardDTO> problemList = gameRoom.getProblemList();
 		
 		Set<UnionCardDTO[]> answerCandidateSet = new HashSet<>();
 		Set<String> answerSet = new HashSet<>();
-		
-//		for(String pks : problemKeySet) {
-//			problemCardList.add(problemMap.get(pks));
-//		}
 		
 		answerCandidateSet = unionCombination.makeCombination(problemList);
 		answerSet = makeUnionAnswer(problemList, answerCandidateSet);

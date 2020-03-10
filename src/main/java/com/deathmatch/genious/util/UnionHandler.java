@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j;
 @Component
 public class UnionHandler extends TextWebSocketHandler{
 
-	private final ObjectMapper objectMapper;// = new ObjectMapper();
+	private final ObjectMapper objectMapper;
     private final GameRoomService gameRoomService;
     private final UnionService unionService;
     

@@ -23,7 +23,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionService {
 
-	private final ObjectMapper objectMapper;// = new ObjectMapper();
+	private final ObjectMapper objectMapper;
 	private final UnionDealerService unionDealerService;
 	private final UnionSettingService unionSettingService;
 
@@ -100,9 +100,7 @@ public class UnionService {
 		
 		unionSettingDTO = unionSettingService.setUnionProblem(gameRoom);
 		sendMessageAll(gameRoom.getSessions(), unionSettingDTO);
-		
-//		log.info("gameRoom.getP.keySet() : " + gameRoom.getProblemMap().keySet());
-		
+				
 		unionSettingService.setUnionAnswer(gameRoom);
 		
 		UnionDealerDTO unionDealerDTO = unionDealerService.decideRound(gameRoom);
