@@ -26,7 +26,6 @@ public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
 	 
-    @GetMapping
 
     public String allRooms(Model model) {
     	model.addAttribute("rooms", gameRoomService.findAllRooms());

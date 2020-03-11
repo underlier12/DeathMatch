@@ -76,4 +76,10 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne(namespace + ".countUser", userDTO);
 	}
 
+	@Override
+	public UserDTO checkUserEmail(UserDTO userDTO) {
+		return sqlSession.selectOne(namespace + ".countUser",userDTO);
+	}
+	
+
 }

@@ -28,4 +28,6 @@ public interface UserDAO {
     public UserDTO selectNaverMember(UserDTO userDTO);
     // 유저수 확인하기
     public int countMember(UserDTO userDTO);
+    // 유저 이메일 체크하기
+    public UserDTO checkUserEmail(UserDTO userDTO);
 }

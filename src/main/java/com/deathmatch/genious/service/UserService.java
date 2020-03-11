@@ -27,6 +27,6 @@ public interface UserService {
     // 네이버 회원 조회
     public UserDTO selectNaverMember(UserDTO userDTO);
     // 아이디 조회
-    public UserDTO searchMember(UserDTO userDTO);
+    public int checkUserEmail(UserDTO userDTO);
 
 }
