@@ -25,20 +25,17 @@ public class HandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 		ServletServerHttpRequest ssreq = (ServletServerHttpRequest) request;
 		HttpServletRequest req = ssreq.getServletRequest();
 		
-		String id = (String)req.getSession().getAttribute("id");
-//		attributes.put("userId", id);
-		log.info("session id : " + id);
-		
-		log.info("URI : " + request.getURI());
-		
 		String id2 = req.getSession().getId();
 		log.info("session id2 : " + id2);
+				
+		if(req.getSession().getAttribute("login") != null) {
+			UserDTO userDTO = (UserDTO) req.getSession().getAttribute("login");
+			String userEmail = userDTO.getUserEmail();
+			log.info("userDTO.getEmail : " + userEmail);
+			
+			attributes.put("userEmail", userEmail);			
+		}
 		
-		UserDTO userDTO = (UserDTO) req.getSession().getAttribute("login");
-		String userEmail = userDTO.getUserEmail();
-		log.info("userDTO.getEmail : " + userEmail);
-		
-		attributes.put("userEmail", userEmail);
 		
 		return super.beforeHandshake(request, response, wsHandler, attributes);
 	}

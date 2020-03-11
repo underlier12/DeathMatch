@@ -33,10 +33,13 @@ public class UnionService {
 	public void handleActions(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
 		Map<String, Object> map = session.getAttributes();
-    	String userEmail = (String) map.get("userEmail");
-    	
-    	log.info("userEmail : " + userEmail);
-    	gameDTO.setSender(userEmail);
+		
+		if(map.get("userEmail") != null) {
+			String userEmail = (String) map.get("userEmail");
+			
+			log.info("userEmail : " + userEmail);
+			gameDTO.setSender(userEmail);
+		}
 		
 		switch (gameDTO.getType()) {
 		case JOIN:
@@ -66,12 +69,10 @@ public class UnionService {
 		send(gameRoom);
 	}
 
-
 	private void joinAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		gameRoom.getSessions().add(session);
 		queue.offer(unionSettingService.join(gameDTO, gameRoom));
 	}
-
 
 	private void readyAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
@@ -89,18 +90,15 @@ public class UnionService {
 		queue.offer(unionDealerService.uniCheck(gameRoom, gameDTO));
 	}
 
-
 	private void onAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
 		queue.offer(unionDealerService.onCheck(gameRoom, gameDTO));
 	}
 
-
 	private void outAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		gameRoom.getSessions().remove(session);
 		log.info("session : " + gameRoom.getSessions());
 	}
-	
 
 	private void allReady(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(unionSettingService.standby(gameRoom));
@@ -109,7 +107,6 @@ public class UnionService {
 		unionSettingService.setUnionAnswer(gameRoom);
 		
 		queue.offer(unionDealerService.decideRound(gameRoom));
-//		queue.offer(unionSettingService.setPlayers(gameRoom));
 	}
 
 	public void send(GameRoom gameRoom) {
