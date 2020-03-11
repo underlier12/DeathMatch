@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionCardDTO;
+import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
@@ -106,6 +107,22 @@ public class UnionSettingService {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public UnionGameDTO join(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		
+		gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
+		gameDTO.setSender("Setting");
+		
+		return gameDTO;
+	}
+	
+	public UnionGameDTO ready(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		
+		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
+		gameDTO.setSender("Setting");
+		
+		return gameDTO;
 	}
 	
 	public boolean readyCheck(Map<String, Boolean> readyUser) {

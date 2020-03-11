@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -31,6 +32,12 @@ public class UnionService {
 	
 	public void handleActions(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
+		Map<String, Object> map = session.getAttributes();
+    	String userEmail = (String) map.get("userEmail");
+    	
+    	log.info("userEmail : " + userEmail);
+    	gameDTO.setSender(userEmail);
+		
 		switch (gameDTO.getType()) {
 		case JOIN:
 			joinAction(session, gameDTO, gameRoom);
@@ -49,7 +56,8 @@ public class UnionService {
 			break;
 			
 		case OUT:
-			outAction(gameDTO, gameRoom);
+			log.info("OUT ACTION");
+			outAction(session, gameDTO, gameRoom);
 			break;
 
 		default:
@@ -61,19 +69,15 @@ public class UnionService {
 
 	private void joinAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		gameRoom.getSessions().add(session);
-		gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
-		queue.offer(gameDTO);
+		queue.offer(unionSettingService.join(gameDTO, gameRoom));
 	}
 
 
 	private void readyAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
-
 		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
-		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
-		queue.offer(gameDTO);
 		
-		log.info("readyUser : " + readyUser);
+		queue.offer(unionSettingService.ready(gameDTO, gameRoom));
 		
 		if(unionSettingService.readyCheck(readyUser)) {
 			allReady(gameDTO, gameRoom);
@@ -81,17 +85,20 @@ public class UnionService {
 	}
 
 	private void uniAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		queue.offer(gameDTO);
 		queue.offer(unionDealerService.uniCheck(gameRoom, gameDTO));
 	}
 
 
 	private void onAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		queue.offer(gameDTO);
 		queue.offer(unionDealerService.onCheck(gameRoom, gameDTO));
 	}
 
 
-	private void outAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		log.info("OUT\n");		
+	private void outAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		gameRoom.getSessions().remove(session);
+		log.info("session : " + gameRoom.getSessions());
 	}
 	
 
@@ -125,6 +132,11 @@ public class UnionService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+	}
+
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+		// TODO Auto-generated method stub
 		
 	}
 	

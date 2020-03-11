@@ -1,5 +1,7 @@
 package com.deathmatch.genious.util;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -29,8 +31,11 @@ public class UnionHandler extends TextWebSocketHandler{
 		
     	log.info("session ID : " + session.getId());
     	log.info("Session : " + session + "\n");
-		
-        super.afterConnectionEstablished(session);
+    	
+    	Map<String, Object> map = session.getAttributes();
+    	String userEmail = (String) map.get("userEmail");
+    	
+    	log.info("userEmail : " + userEmail);
     }
     
 	@Override
@@ -45,7 +50,8 @@ public class UnionHandler extends TextWebSocketHandler{
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception{
-		super.afterConnectionClosed(session, status);
+		log.info("afterConnectionClosed");
+		unionService.afterConnectionClosed(session, status);
 	}
 	
 	@Override

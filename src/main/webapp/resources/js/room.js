@@ -32,9 +32,6 @@ $(function () {
     sock.onopen = function () {
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
         chatStatus.text('Info: connection opened.');
-        
-        console.log(playerAInput.val());
-        
     }
     
     sock.onmessage = function (event) {
@@ -119,6 +116,8 @@ $(function () {
     };
     
  	sock.onclose = function(event){
+ 		console.log("sock.onclose");
+        sock.send(JSON.stringify({type: 'OUT', roomId: roomId, sender: member}));
  		chatStatus.text('Info: connection closed.');
  	}
 	
@@ -137,26 +136,19 @@ $(function () {
     
     uniBtn.click(function(){
     	sock.send(JSON.stringify(
-    			{type: 'UNI', roomId: roomId, sender: member}));
+    			{type: 'UNI', roomId: roomId, sender: member, message: "결!"}));
     });
     
     onBtn.click(function(){
     	
     	var answerString = selectedInput.val();
     	var answerArray = answerString.split("");
-    	
-    	console.log("answerArray : " + answerArray);
-
     	var sortedAnswerArray = answerArray.sort();
-    	
-    	console.log("sortedAnswerArray : " + sortedAnswerArray);
-    	
     	var message = sortedAnswerArray.join('');
-    	
-    	console.log("message : " + message);
     	
     	sock.send(JSON.stringify(
     			{type: 'ON', roomId: roomId, sender: member, message: message}));
+    	
     	selectedInput.val('');
     });
     
