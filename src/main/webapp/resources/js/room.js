@@ -1,4 +1,7 @@
 $(function () {
+	
+	// variables
+	
 	var chatStatus = $('#chatStatus');
 	var chatMsgArea = $('textarea[name="chatMsg"]');
     var messageInput = $('input[name="message"]');
@@ -29,97 +32,143 @@ $(function () {
 
     var sock = new SockJS("http://"+root+"/ws/chat");
     
+    
+    // websocket actions
+    
     sock.onopen = function () {
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
         chatStatus.text('Info: connection opened.');
     }
     
-    sock.onmessage = function (event) {
-        var content = JSON.parse(event.data);
-        
- 		if(content.type == 'PROBLEM'){
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
- 					+ content.cards + '\n');
- 
- 			var defaultUrl = "/genious/resources/images/";
- 			var defaultExtension = ".jpg";
- 			
- 			for(var i=0; i < content.cards.length; i++){
- 				console.log(content.cards[i]);
- 				$(".card:eq("+i+")").attr("src", defaultUrl + content.cards[i] + defaultExtension);
- 			}
- 			
- 		}else if(content.type == 'UNI'){
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
- 			
- 			console.log("content.sender : " + content.sender);
- 			console.log("playerAInput.val()" + playerAInput.val());
- 			
- 			var score = parseInt(content.score);
- 			
- 			if(content.user1 == playerAInput.val()){
- 				var existingScore = parseInt(scoreAInput.val()); 
- 				scoreAInput.val(existingScore + score);
- 			}else{
- 				var existingScore = parseInt(scoreBInput.val()); 
- 				scoreBInput.val(existingScore + score);
- 			}
- 			
- 		}else if(content.type == 'READY'){
- 			
- 			if(content.message){
- 				chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 			}
- 			
- 			if(content.user1){
- 				
- 				playerAInput.val(content.user1);
- 				playerBInput.val(content.user2);
- 				
- 				$('.scoreA').val(0);
- 				$('.scoreB').val(0);
- 			}
- 			
- 		}else if(content.type == 'ON'){
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 			var score = parseInt(content.score);
- 			
- 			console.log("content.sender : " + content.sender);
- 			console.log("playerAInput.val()" + playerAInput.val());
- 			console.log("playerBInput.val()" + playerBInput.val());
-
- 			if(content.user1 == playerAInput.val()){
- 				var existingScore = parseInt(scoreAInput.val()); 
- 				scoreAInput.val(existingScore + score);
- 			}else{
- 				var existingScore = parseInt(scoreBInput.val()); 
- 				scoreBInput.val(existingScore + score);
- 			}
- 			
- 			if(score > 0){
- 	        	answerList.append('<li>' + content.message.substring(0, 3) + '</li>');
- 			}
- 			
- 		}else if(content.type == 'JOIN'){
- 	    	
- 			chatMsgArea.eq(0).prepend(content.message + '\n');
- 	        
- 		}else if(content.type == 'ROUND'){
- 			
- 			console.log("round : " + content.round);
-            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
-            roundP.text(content.round + ' ROUND');
- 			
- 		}else{
-            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
- 		}
-    };
+    sock.onmessage = function (event){
+    	var content = JSON.parse(event.data);
+    	
+    	console.log("content.sender : " + content.sender);
+    	
+    	switch(content.sender){
+    	case "Setting":
+    	case "Dealer":
+    		fromServer(content);
+    		break;
+    	default:
+    		fromUser(content);
+    	}
+    }
     
  	sock.onclose = function(event){
  		console.log("sock.onclose");
-        sock.send(JSON.stringify({type: 'OUT', roomId: roomId, sender: member}));
  		chatStatus.text('Info: connection closed.');
  	}
+
+ 	// websocket functions
+ 	
+ 	function fromServer(content){
+ 		switch(content.type){
+ 		case "JOIN":
+ 			notifyJoin(content);
+ 			break;
+ 		case "READY":
+ 			notifyReady(content);
+ 			break;
+ 		case "ROUND":
+ 			notifyRound(content);
+ 			break;
+ 		case "PROBLEM":
+ 			notifyProblem(content);
+ 			break;
+ 		case "UNI":
+ 			notifyUni(content);
+ 			break;
+ 		case "ON":
+ 			notifyOn(content);
+ 			break;
+ 		default:
+ 			console.log("fromServer default");
+ 		}
+ 	}
+ 	
+ 	function fromUser(content){
+ 		switch(content.type){
+ 		case "UNI":
+ 			submitUni(content);
+ 			break;
+ 		case "ON":
+ 			submitOn(content);
+ 			break;
+ 		default:
+ 			console.log("fromUser default");
+ 		}
+ 	}
+ 	
+ 	function notifyJoin(content){
+		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 	}
+ 	
+ 	function notifyReady(content){
+		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+		
+		if(content.user1){
+			playerAInput.val(content.user1);
+			playerBInput.val(content.user2);
+			
+			$('.scoreA').val(0);
+			$('.scoreB').val(0);
+		}
+ 	}
+
+ 	function notifyRound(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
+        roundP.text(content.round + ' ROUND');
+ 	}
+ 	
+ 	function notifyProblem(content){
+		var defaultPath = "/genious/resources/images/";
+		var defaultExtension = ".jpg";
+		
+		for(var i=0; i < content.cards.length; i++){
+			$(".card:eq("+i+")").attr("src", defaultPath + content.cards[i] + defaultExtension);
+		}
+ 	}
+ 	
+ 	function notifyUni(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
+			
+		addUp(content);
+ 	}
+ 	
+ 	function notifyOn(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
+ 		addUp(content);
+		
+		if(parseInt(content.score) > 0){
+        	answerList.append('<li>' + content.message.substring(0, 3) + '</li>');
+		}
+ 	}
+ 	
+ 	function addUp(content){
+ 		var existingScore;
+		var score = parseInt(content.score);
+ 		
+ 		if(content.user1 == playerAInput.val()){
+			existingScore = parseInt(scoreAInput.val()); 
+			scoreAInput.val(existingScore + score);
+		}else{
+			existingScore = parseInt(scoreBInput.val()); 
+			scoreBInput.val(existingScore + score);
+		}
+ 	}
+ 	
+ 	function submitUni(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 	}
+ 	
+ 	function submitOn(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 	}
+ 	
+ 	
+ 	// button actions
 	
     sendBtn.click(function () {
         var message = messageInput.val();

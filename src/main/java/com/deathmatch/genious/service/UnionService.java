@@ -109,7 +109,7 @@ public class UnionService {
 		unionSettingService.setUnionAnswer(gameRoom);
 		
 		queue.offer(unionDealerService.decideRound(gameRoom));
-		queue.offer(unionSettingService.setPlayers(gameRoom));
+//		queue.offer(unionSettingService.setPlayers(gameRoom));
 	}
 
 	public void send(GameRoom gameRoom) {

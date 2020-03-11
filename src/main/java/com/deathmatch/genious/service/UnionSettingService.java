@@ -144,28 +144,12 @@ public class UnionSettingService {
 	public UnionSettingDTO standby(GameRoom gameRoom) {
 		
 		preprocessing();
-		
-		jsonMap.put("type", "READY");
-		jsonMap.put("roomId", gameRoom.getRoomId());
-		jsonMap.put("sender", "Setting");
-		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
-		
-		postprocessing();
-		
-		return unionSettingDTO;
-	}
-	
-	
-	
-	public UnionSettingDTO setPlayers(GameRoom gameRoom) {
-		
-		preprocessing();
-		
 		Object[] players = gameRoom.getReadyUser().keySet().toArray();
 		
 		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
+		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
 		jsonMap.put("user1", (String)players[0]);
 		jsonMap.put("user2", (String)players[1]);
 		
