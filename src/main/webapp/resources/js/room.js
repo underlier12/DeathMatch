@@ -82,6 +82,9 @@ $(function () {
  		case "ON":
  			notifyOn(content);
  			break;
+ 		case "END":
+ 			notifyEnd(content);
+ 			break;
  		default:
  			console.log("fromServer default");
  		}
@@ -146,6 +149,19 @@ $(function () {
 		}
  	}
  	
+ 	function notifyEnd(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
+ 		switch(content.message.substring(0, 4)){
+		case "데스매치":
+ 			announceWinner(content);
+ 			break;
+ 		default:
+ 			resetAnswerList();
+ 			break;
+ 		}
+ 	}
+ 	
  	function addUp(content){
  		var existingScore;
 		var score = parseInt(content.score);
@@ -157,6 +173,23 @@ $(function () {
 			existingScore = parseInt(scoreBInput.val()); 
 			scoreBInput.val(existingScore + score);
 		}
+ 	}
+ 	
+ 	function announceWinner(content){
+ 		if(scoreAInput.val() > scoreBInput.val()){
+ 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
+ 					+ '승자는 ' + playerAInput.val() + '입니다. 축하합니다.\n');
+ 		} else if(scoreAInput.val() < scoreBInput.val()){
+ 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
+ 					+ '승자는 ' + playerBInput.val() + '입니다. 축하합니다.\n');
+ 		} else{
+ 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
+ 					+ '결과는 무승부입니다.\n');
+ 		}
+ 	}
+ 	
+ 	function resetAnswerList(){
+ 		answerList.empty();
  	}
  	
  	function submitUni(content){

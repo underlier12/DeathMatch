@@ -87,26 +87,58 @@ public class UnionService {
 
 	private void uniAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
-		queue.offer(unionDealerService.uniCheck(gameRoom, gameDTO));
+		
+		switch (unionDealerService.uniCheck(gameRoom)) {
+		case "CORRECT":
+			endRound(gameDTO, gameRoom);
+			isGameOver(gameDTO, gameRoom);
+			break;
+
+		case "INCORRECT":
+			maintainRound(gameDTO, gameRoom);
+			break;
+		}
+		
 	}
 
 	private void onAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
 		queue.offer(unionDealerService.onCheck(gameRoom, gameDTO));
 	}
-
+	
 	private void outAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		gameRoom.getSessions().remove(session);
 		log.info("session : " + gameRoom.getSessions());
 	}
-
+	
+	
 	private void allReady(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(unionSettingService.standby(gameRoom));
 		queue.offer(unionSettingService.setUnionProblem(gameRoom));
-				
+		
 		unionSettingService.setUnionAnswer(gameRoom);
 		
 		queue.offer(unionDealerService.decideRound(gameRoom));
+	}
+
+	private void endRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		queue.offer(unionDealerService.correctUni(gameRoom, gameDTO));
+		queue.offer(unionDealerService.closeRound(gameRoom));
+	}
+	
+	private void isGameOver(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		
+		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
+			queue.offer(unionDealerService.endGame(gameRoom, gameDTO));
+		} else {
+			queue.offer(unionSettingService.setUnionProblem(gameRoom));
+			unionSettingService.setUnionAnswer(gameRoom);
+			queue.offer(unionDealerService.decideRound(gameRoom));
+		}
+	}
+	
+	private void maintainRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		queue.offer(unionDealerService.incorrectUni(gameRoom, gameDTO));
 	}
 
 	public void send(GameRoom gameRoom) {
@@ -117,7 +149,6 @@ public class UnionService {
 
 	public <T> void sendMessageAll(Set<WebSocketSession> sessions, T message){
 		sessions.parallelStream().forEach(session -> sendMessage(session, message));
-
 	}
 	
 	public <T> void sendMessage(WebSocketSession session, T message) {

@@ -179,6 +179,10 @@ public class UnionSettingService {
 		List<String> problemCardNames = new ArrayList<>();
 		gameRoom.setProblemList(problemList);
 		
+		log.info("getSubmited : " + gameRoom.getSubmitedAnswerSet());
+		gameRoom.setSubmitedAnswerSet(new HashSet<>());
+		log.info("getSubmited : " + gameRoom.getSubmitedAnswerSet());
+		
 		log.info("problemList.toString : " + problemList.toString());
 
 		for(UnionCardDTO card : problemList) {
