@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionCardDTO;
+import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
@@ -108,6 +109,22 @@ public class UnionSettingService {
 		
 	}
 	
+	public UnionGameDTO join(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		
+		gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
+		gameDTO.setSender("Setting");
+		
+		return gameDTO;
+	}
+	
+	public UnionGameDTO ready(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		
+		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
+		gameDTO.setSender("Setting");
+		
+		return gameDTO;
+	}
+	
 	public boolean readyCheck(Map<String, Boolean> readyUser) {
 		boolean isReady = false;
 		int countReady = 0;
@@ -127,28 +144,12 @@ public class UnionSettingService {
 	public UnionSettingDTO standby(GameRoom gameRoom) {
 		
 		preprocessing();
-		
-		jsonMap.put("type", "READY");
-		jsonMap.put("roomId", gameRoom.getRoomId());
-		jsonMap.put("sender", "Setting");
-		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
-		
-		postprocessing();
-		
-		return unionSettingDTO;
-	}
-	
-	
-	
-	public UnionSettingDTO setPlayers(GameRoom gameRoom) {
-		
-		preprocessing();
-		
 		Object[] players = gameRoom.getReadyUser().keySet().toArray();
 		
 		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
+		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
 		jsonMap.put("user1", (String)players[0]);
 		jsonMap.put("user2", (String)players[1]);
 		
@@ -177,6 +178,10 @@ public class UnionSettingService {
 		List<UnionCardDTO> problemList = makeUnionProblem();
 		List<String> problemCardNames = new ArrayList<>();
 		gameRoom.setProblemList(problemList);
+		
+		log.info("getSubmited : " + gameRoom.getSubmitedAnswerSet());
+		gameRoom.setSubmitedAnswerSet(new HashSet<>());
+		log.info("getSubmited : " + gameRoom.getSubmitedAnswerSet());
 		
 		log.info("problemList.toString : " + problemList.toString());
 

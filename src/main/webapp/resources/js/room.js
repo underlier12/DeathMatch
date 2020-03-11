@@ -1,4 +1,7 @@
 $(function () {
+	
+	// variables
+	
 	var chatStatus = $('#chatStatus');
 	var chatMsgArea = $('textarea[name="chatMsg"]');
     var messageInput = $('input[name="message"]');
@@ -29,120 +32,176 @@ $(function () {
 
     var sock = new SockJS("http://"+root+"/ws/chat");
     
+    
+    // websocket actions
+    
     sock.onopen = function () {
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
         chatStatus.text('Info: connection opened.');
-        
-        console.log(playerAInput.val());
-        
     }
     
-    sock.onmessage = function (event) {
-        var content = JSON.parse(event.data);
-        
- 		if(content.type == 'PROBLEM'){
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
- 					+ content.cards + '\n');
- 					
-// 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
-// 					+ content.card1 + content.card2 + content.card3
-// 					+ content.card4 + content.card5 + content.card6
-// 					+ content.card7 + content.card8 + content.card9 + '\n');
-// 			
-// 			var cardList = 
-// 				[content.card1, content.card2, content.card3,
-// 				content.card4, content.card5, content.card6,
-// 				content.card7, content.card8, content.card9];
- 			
- 			var defaultUrl = "/genious/resources/images/";
- 			var defaultExtension = ".jpg";
- 			
-// 			console.log(".card : " + $(".card"));
- 			
- 			for(var i=0; i < content.cards.length; i++){
- 				console.log(content.cards[i]);
- 				$(".card:eq("+i+")").attr("src", defaultUrl + content.cards[i] + defaultExtension);
- 			}
- 			
-// 			$("#card1").attr("src", defaultUrl + content.card1 + defaultExtension);
-// 			$("#card2").attr("src", defaultUrl + content.card2 + defaultExtension);
-// 			$("#card3").attr("src", defaultUrl + content.card3 + defaultExtension);
-// 			$("#card4").attr("src", defaultUrl + content.card4 + defaultExtension);
-// 			$("#card5").attr("src", defaultUrl + content.card5 + defaultExtension);
-// 			$("#card6").attr("src", defaultUrl + content.card6 + defaultExtension);
-// 			$("#card7").attr("src", defaultUrl + content.card7 + defaultExtension);
-// 			$("#card8").attr("src", defaultUrl + content.card8 + defaultExtension);
-// 			$("#card9").attr("src", defaultUrl + content.card9 + defaultExtension);
- 			
- 		}else if(content.type == 'UNI'){
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
- 			
- 			console.log("content.sender : " + content.sender);
- 			console.log("playerAInput.val()" + playerAInput.val());
- 			
- 			var score = parseInt(content.score);
- 			
- 			if(content.user1 == playerAInput.val()){
- 				var existingScore = parseInt(scoreAInput.val()); 
- 				scoreAInput.val(existingScore + score);
- 			}else{
- 				var existingScore = parseInt(scoreBInput.val()); 
- 				scoreBInput.val(existingScore + score);
- 			}
- 			
- 		}else if(content.type == 'READY'){
- 			
- 			if(content.message){
- 				chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 			}
- 			
- 			if(content.user1){
- 				
- 				playerAInput.val(content.user1);
- 				playerBInput.val(content.user2);
- 				
- 				$('.scoreA').val(0);
- 				$('.scoreB').val(0);
- 			}
- 			
- 		}else if(content.type == 'ON'){
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 			var score = parseInt(content.score);
- 			
- 			console.log("content.sender : " + content.sender);
- 			console.log("playerAInput.val()" + playerAInput.val());
- 			console.log("playerBInput.val()" + playerBInput.val());
-
- 			if(content.user1 == playerAInput.val()){
- 				var existingScore = parseInt(scoreAInput.val()); 
- 				scoreAInput.val(existingScore + score);
- 			}else{
- 				var existingScore = parseInt(scoreBInput.val()); 
- 				scoreBInput.val(existingScore + score);
- 			}
- 			
- 			if(score > 0){
- 	        	answerList.append('<li>' + content.message.substring(0, 3) + '</li>');
- 			}
- 			
- 		}else if(content.type == 'JOIN'){
- 	    	
- 			chatMsgArea.eq(0).prepend(content.message + '\n');
- 	        
- 		}else if(content.type == 'ROUND'){
- 			
- 			console.log("round : " + content.round);
-            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
-            roundP.text(content.round + ' ROUND');
- 			
- 		}else{
-            chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
- 		}
-    };
+    sock.onmessage = function (event){
+    	var content = JSON.parse(event.data);
+    	
+    	console.log("content.sender : " + content.sender);
+    	
+    	switch(content.sender){
+    	case "Setting":
+    	case "Dealer":
+    		fromServer(content);
+    		break;
+    	default:
+    		fromUser(content);
+    	}
+    }
     
  	sock.onclose = function(event){
+ 		console.log("sock.onclose");
  		chatStatus.text('Info: connection closed.');
  	}
+
+ 	// websocket functions
+ 	
+ 	function fromServer(content){
+ 		switch(content.type){
+ 		case "JOIN":
+ 			notifyJoin(content);
+ 			break;
+ 		case "READY":
+ 			notifyReady(content);
+ 			break;
+ 		case "ROUND":
+ 			notifyRound(content);
+ 			break;
+ 		case "PROBLEM":
+ 			notifyProblem(content);
+ 			break;
+ 		case "UNI":
+ 			notifyUni(content);
+ 			break;
+ 		case "ON":
+ 			notifyOn(content);
+ 			break;
+ 		case "END":
+ 			notifyEnd(content);
+ 			break;
+ 		default:
+ 			console.log("fromServer default");
+ 		}
+ 	}
+ 	
+ 	function fromUser(content){
+ 		switch(content.type){
+ 		case "UNI":
+ 			submitUni(content);
+ 			break;
+ 		case "ON":
+ 			submitOn(content);
+ 			break;
+ 		default:
+ 			console.log("fromUser default");
+ 		}
+ 	}
+ 	
+ 	function notifyJoin(content){
+		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 	}
+ 	
+ 	function notifyReady(content){
+		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+		
+		if(content.user1){
+			playerAInput.val(content.user1);
+			playerBInput.val(content.user2);
+			
+			$('.scoreA').val(0);
+			$('.scoreB').val(0);
+		}
+ 	}
+
+ 	function notifyRound(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
+        roundP.text(content.round + ' ROUND');
+ 	}
+ 	
+ 	function notifyProblem(content){
+		var defaultPath = "/genious/resources/images/";
+		var defaultExtension = ".jpg";
+		
+		for(var i=0; i < content.cards.length; i++){
+			$(".card:eq("+i+")").attr("src", defaultPath + content.cards[i] + defaultExtension);
+		}
+ 	}
+ 	
+ 	function notifyUni(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
+			
+		addUp(content);
+ 	}
+ 	
+ 	function notifyOn(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
+ 		addUp(content);
+		
+		if(parseInt(content.score) > 0){
+        	answerList.append('<li>' + content.message.substring(0, 3) + '</li>');
+		}
+ 	}
+ 	
+ 	function notifyEnd(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
+ 		switch(content.message.substring(0, 4)){
+		case "데스매치":
+ 			announceWinner(content);
+ 			break;
+ 		default:
+ 			resetAnswerList();
+ 			break;
+ 		}
+ 	}
+ 	
+ 	function addUp(content){
+ 		var existingScore;
+		var score = parseInt(content.score);
+ 		
+ 		if(content.user1 == playerAInput.val()){
+			existingScore = parseInt(scoreAInput.val()); 
+			scoreAInput.val(existingScore + score);
+		}else{
+			existingScore = parseInt(scoreBInput.val()); 
+			scoreBInput.val(existingScore + score);
+		}
+ 	}
+ 	
+ 	function announceWinner(content){
+ 		if(scoreAInput.val() > scoreBInput.val()){
+ 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
+ 					+ '승자는 ' + playerAInput.val() + '입니다. 축하합니다.\n');
+ 		} else if(scoreAInput.val() < scoreBInput.val()){
+ 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
+ 					+ '승자는 ' + playerBInput.val() + '입니다. 축하합니다.\n');
+ 		} else{
+ 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
+ 					+ '결과는 무승부입니다.\n');
+ 		}
+ 	}
+ 	
+ 	function resetAnswerList(){
+ 		answerList.empty();
+ 	}
+ 	
+ 	function submitUni(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 	}
+ 	
+ 	function submitOn(content){
+ 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 	}
+ 	
+ 	
+ 	// button actions
 	
     sendBtn.click(function () {
         var message = messageInput.val();
@@ -159,26 +218,19 @@ $(function () {
     
     uniBtn.click(function(){
     	sock.send(JSON.stringify(
-    			{type: 'UNI', roomId: roomId, sender: member}));
+    			{type: 'UNI', roomId: roomId, sender: member, message: "결!"}));
     });
     
     onBtn.click(function(){
     	
     	var answerString = selectedInput.val();
     	var answerArray = answerString.split("");
-    	
-    	console.log("answerArray : " + answerArray);
-
     	var sortedAnswerArray = answerArray.sort();
-    	
-    	console.log("sortedAnswerArray : " + sortedAnswerArray);
-    	
     	var message = sortedAnswerArray.join('');
-    	
-    	console.log("message : " + message);
     	
     	sock.send(JSON.stringify(
     			{type: 'ON', roomId: roomId, sender: member, message: message}));
+    	
     	selectedInput.val('');
     });
     
