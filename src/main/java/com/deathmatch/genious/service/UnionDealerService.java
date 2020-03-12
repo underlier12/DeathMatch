@@ -1,21 +1,16 @@
 package com.deathmatch.genious.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.UUID;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
-import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.GameRoom;
-import com.deathmatch.genious.domain.UnionAnswerDTO;
-import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionDealerDTO;
+import com.deathmatch.genious.domain.UnionGameDTO;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,133 +23,171 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionDealerService {
 
-	private final ObjectMapper objectMapper;// = new ObjectMapper();
+	private final ObjectMapper objectMapper;
 	
-	public UnionDealerDTO uniCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
+	private UnionDealerDTO unionDealerDTO;
+	private Map<String, Object> jsonMap;
+	private JSONObject jsonObject;
+	
+	private String jsonString;
+	private String message;
+	private int score;
+	
+	public void preprocessing() {
+		jsonMap = new HashMap<>();
+	}
+	
+	public void postprocessing() {
+		jsonObject = new JSONObject(jsonMap);
+		jsonString = jsonObject.toJSONString();
+		log.info("jsonString : " + jsonString);
+
+		try {
+			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public UnionDealerDTO decideRound(GameRoom gameRoom) {
 		
-		String message;
-		int score;
-		UnionDealerDTO unionDealerDTO = null;
+		preprocessing();
 		
+		int nextRound = gameRoom.getRound() + 1;
+		
+		gameRoom.setRound(nextRound);
+		gameRoom.setGameId(makeGameId());
+		log.info("gameId : " + gameRoom.getGameId());
+						
+		jsonMap.put("type", "ROUND");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Dealer");
+		jsonMap.put("round", Integer.toString(nextRound));
+		jsonMap.put("message", Integer.toString(nextRound) + " ROUND 그림 공개합니다.");
+		
+		postprocessing();
+		
+		return unionDealerDTO;
+	}
+	
+	public UnionDealerDTO closeRound(GameRoom gameRoom) {
+		preprocessing();
+						
+		int currentRound = gameRoom.getRound();
+		
+		jsonMap.put("type", "END");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Dealer");
+		jsonMap.put("message", Integer.toString(currentRound) + " ROUND가 종료되었습니다.");
+		
+		postprocessing();
+		
+		return unionDealerDTO;
+	}
+	
+	public String makeGameId() {
+		return UUID.randomUUID().toString();
+	}
+
+	public String uniCheck(GameRoom gameRoom) {		
+		String isCorrect = null;
 		if(gameRoom.getAnswerSet().size() == gameRoom.getSubmitedAnswerSet().size()) {
-			message = "정답 +3";
-			score = 3;
+			isCorrect = "CORRECT";
 		} else {
-			message = "틀렸습니다 -1점";
+			isCorrect = "INCORRECT";
+		}
+		return isCorrect;
+	}
+	
+	public UnionDealerDTO correctUni(GameRoom gameRoom, UnionGameDTO gameDTO) {
+		
+		preprocessing();
+		
+		jsonMap.put("type", "UNI");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Dealer");
+		jsonMap.put("message", "정답 +3");
+		jsonMap.put("score", 3);
+		jsonMap.put("user1", gameDTO.getSender());
+		
+		log.info("jsonMap : " + jsonMap);
+		
+		postprocessing();
+				
+		return unionDealerDTO;
+	}
+	
+	public UnionDealerDTO incorrectUni(GameRoom gameRoom, UnionGameDTO gameDTO) {
+		
+		preprocessing();
+		
+		jsonMap.put("type", "UNI");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Dealer");
+		jsonMap.put("message", "틀렸습니다 -1점");
+		jsonMap.put("score", -1);
+		jsonMap.put("user1", gameDTO.getSender());
+		
+		log.info("jsonMap : " + jsonMap);
+		
+		postprocessing();
+				
+		return unionDealerDTO;
+	}
+	
+	public UnionDealerDTO onCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
+		
+		preprocessing();
+		
+		message = gameDTO.getMessage();
+		
+		if(scoring(gameDTO, gameRoom)) {
+			
+			gameRoom.getSubmitedAnswerSet().add(message);
+			message = message + " 정답 +1점";
+			score = 1;
+			
+		} else {
+			
+			message = message + " 틀렸습니다 -1점";
 			score = -1;
+			
 		}
 		
-		JSONObject jsonObject;
-		Map<String, String> jsonMap = new HashMap<String, String>();
-
-		jsonMap.put("type", "UNI");
+		jsonMap.put("type", "ON");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("message", message);
 		jsonMap.put("score", Integer.toString(score));
 		jsonMap.put("user1", gameDTO.getSender());
 		
-		jsonObject = new JSONObject(jsonMap);
-		String jsonString = jsonObject.toJSONString();
-		log.info("jsonString : " + jsonString);
-
-		try {
-			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		postprocessing();
 		
 		return unionDealerDTO;
 	}
 	
-	public UnionDealerDTO onCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
+	public boolean scoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		return gameRoom.getAnswerSet().contains(gameDTO.getMessage());
+	}
+
+	public Object endGame(GameRoom gameRoom, UnionGameDTO gameDTO) {
+		preprocessing();
 		
-		List<UnionCardDTO> problemList = gameRoom.getProblemList();
-		List<UnionCardDTO> submitedList = new ArrayList<>();
-		UnionAnswerDTO unionAnswerDTO = null;
-		UnionDealerDTO unionDealerDTO = null;
-		String message = gameDTO.getMessage();
-		String[] messageArray = message.split("");
-		
-		for(String cardIndex : messageArray) {
-			int intCardIndex = Integer.parseInt(cardIndex);
-			UnionCardDTO card = problemList.get(intCardIndex-1);
-			submitedList.add(card);
-		}
-		
-		log.info("submitedList : " + submitedList.get(0).getName()
-				+ " " + submitedList.get(1).getName()
-				+ " " + submitedList.get(2).getName());
-		
-		unionAnswerDTO = UnionAnswerDTO.builder()
-				.card1(submitedList.get(0))
-				.card2(submitedList.get(1))
-				.card3(submitedList.get(2))
-				.build();
-		
-		JSONObject jsonObject = new JSONObject();
-		Map<String, String> jsonMap = new HashMap<String, String>();
-		
-		jsonMap.put("type", "ON");
+		jsonMap.put("type", "END");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
-		jsonMap.put("user1", gameDTO.getSender());
+		jsonMap.put("message", "데스매치 결합이 종료되었습니다.");
 		
-		if(scoring(unionAnswerDTO, gameRoom)) {
-			
-			jsonMap.put("message", message + " 정답 +1점");
-			jsonMap.put("score", "1");
-			
-		} else {
-			
-			jsonMap.put("message", message + " 틀렸습니다 -1점");
-			jsonMap.put("score", "-1");
-			
-		}
+		log.info("jsonMap : " + jsonMap);
 		
-		jsonObject = new JSONObject(jsonMap);
-		String jsonString = jsonObject.toJSONString();
-		log.info("jsonString : " + jsonString);
-		
-		try {
-			unionDealerDTO = objectMapper.readValue(jsonString, UnionDealerDTO.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		postprocessing();
+				
 		return unionDealerDTO;
-	}
-	
-	public boolean scoring(UnionAnswerDTO unionAnswerDTO, GameRoom gameRoom) {
-		
-		boolean correct = false;
-		
-		for(UnionAnswerDTO answer : gameRoom.getAnswerSet()) {
-			
-			Set<UnionCardDTO> submitedAnswer = new HashSet<>();
-			submitedAnswer.add(unionAnswerDTO.getCard1());
-			submitedAnswer.add(unionAnswerDTO.getCard2());
-			submitedAnswer.add(unionAnswerDTO.getCard3());
-			submitedAnswer.add(answer.getCard1());
-			submitedAnswer.add(answer.getCard2());
-			submitedAnswer.add(answer.getCard3());
-			
-			if(submitedAnswer.size() == 3) {
-				correct = true;
-				gameRoom.getSubmitedAnswerSet().add(unionAnswerDTO);
-				break;
-			}
-
-		}
-		return correct;
 	}
 
 }

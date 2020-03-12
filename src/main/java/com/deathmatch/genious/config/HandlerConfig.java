@@ -5,6 +5,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+import com.deathmatch.genious.interceptor.HandshakeInterceptor;
 import com.deathmatch.genious.util.UnionHandler;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,10 @@ public class HandlerConfig implements WebSocketConfigurer{
 	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(unionHandler, "/ws/chat").setAllowedOrigins("*").withSockJS();
+		registry.addHandler(unionHandler, "/ws/chat")
+			.setAllowedOrigins("*")
+			.addInterceptors(new HandshakeInterceptor())
+			.withSockJS();
 	}
 
 }

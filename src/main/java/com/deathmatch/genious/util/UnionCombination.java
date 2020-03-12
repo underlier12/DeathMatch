@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import com.deathmatch.genious.domain.UnionAnswerDTO;
 import com.deathmatch.genious.domain.UnionCardDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -16,16 +15,17 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class UnionCombination {
 	
-	private final int TOTAL = 9;
 	private final int SUB = 3;
+	private final int TOTAL = 9;
 	int index = 0;
-	List<UnionCardDTO> answerSubCandidateList = new LinkedList<>();
-	Set<UnionAnswerDTO> answerCandidateSet = new HashSet<>();
 	
-	public Set<UnionAnswerDTO> makeCombination(List<UnionCardDTO> problemCardList){
+	List<UnionCardDTO> answerSubCandidateList = new LinkedList<>();
+	Set<UnionCardDTO[]> answerCandidateSet = new HashSet<>();
+	
+	public Set<UnionCardDTO[]> makeCombination(List<UnionCardDTO> problemList){
 				
-		Set<UnionAnswerDTO> transferAnswerCandidateSet = new HashSet<>();
-		doCombination(problemCardList, TOTAL, SUB, index);
+		Set<UnionCardDTO[]> transferAnswerCandidateSet = new HashSet<>();
+		doCombination(problemList, TOTAL, SUB, index);
 		
 		transferAnswerCandidateSet = answerCandidateSet;
 		answerCandidateSet = new HashSet<>();
@@ -37,12 +37,12 @@ public class UnionCombination {
 			, int TOTAL, int SUB, int index){
 		
 		if(SUB == 0) {
-			UnionAnswerDTO unionAnswerDTO = UnionAnswerDTO.builder()
-					.card1(answerSubCandidateList.get(0))
-					.card2(answerSubCandidateList.get(1))
-					.card3(answerSubCandidateList.get(2))
-					.build();
-			answerCandidateSet.add(unionAnswerDTO);
+			UnionCardDTO[] answerSubCandidateArray = new UnionCardDTO[3];
+			
+			for(int i=0; i < 3; i++) {
+				answerSubCandidateArray[i] = answerSubCandidateList.get(i);
+			}
+			answerCandidateSet.add(answerSubCandidateArray);
 			return;
 		}
 		
