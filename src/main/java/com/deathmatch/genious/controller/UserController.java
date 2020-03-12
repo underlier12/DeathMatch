@@ -115,8 +115,9 @@ public class UserController {
 		model.addAttribute("url", naverAuthUrl);
 	}
 
+	@ResponseBody
 	@PostMapping("/join")
-	public @ResponseBody ResponseEntity<String> joinMember(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<String> joinMember(@RequestBody UserDTO userDTO) {
 		ResponseEntity<String> entity = null;
 		try {
 			userService.insertMember(userDTO);
@@ -128,8 +129,9 @@ public class UserController {
 		return entity;
 	}
 	
+	@ResponseBody
 	@PostMapping("/checkEmail")
-	public @ResponseBody int checkMember(@RequestBody UserDTO userDTO ){
+	public int checkMember(@RequestBody UserDTO userDTO ){
 		int cnt = 0;
 		cnt = userService.checkUserEmail(userDTO);
 		log.info("result :" + cnt);
