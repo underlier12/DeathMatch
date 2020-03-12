@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.deathmatch.genious.dao.UnionSettingDAO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionGameDTO;
@@ -36,6 +37,7 @@ import lombok.extern.log4j.Log4j;
 public class UnionSettingService {
 	
 	private final UnionCombination unionCombination;
+	private final UnionSettingDAO unionSettingDAO;
 	private final ObjectMapper objectMapper;
 
 	private List<UnionCardDTO> allCardList;
@@ -53,37 +55,37 @@ public class UnionSettingService {
 	
 	private void enumerateAllCards() {
 		
-		ShapeType[] shapeValues = UnionCardDTO.ShapeType.values();
-		ColorType[] colorValues = UnionCardDTO.ColorType.values();
-		BackType[] backValues = UnionCardDTO.BackType.values();
-		
-		for(ShapeType shape : shapeValues) {
-			for(ColorType color : colorValues) {
-				for(BackType back : backValues) {
-					
-					char shapeFirstChar = shape.toString().charAt(0); 
-					char colorFirstChar = color.toString().charAt(0);
-					char backFirstChar = back.toString().charAt(0);
-					
-					String name = String.valueOf(shapeFirstChar)
-							+ String.valueOf(colorFirstChar)
-							+ String.valueOf(backFirstChar);
-					
-					String resourceAddress = "genious/resources/images/"
-							+ name + ".jpg";
-					
-					UnionCardDTO unionCard = UnionCardDTO.builder()
-							.name(name)
-							.shape(shape)
-							.color(color)
-							.background(back)
-							.resourceAddress(resourceAddress)
-							.build();
-					
-					allCardList.add(unionCard);
-				}
-			}
-		}
+//		ShapeType[] shapeValues = UnionCardDTO.ShapeType.values();
+//		ColorType[] colorValues = UnionCardDTO.ColorType.values();
+//		BackType[] backValues = UnionCardDTO.BackType.values();
+//		
+//		for(ShapeType shape : shapeValues) {
+//			for(ColorType color : colorValues) {
+//				for(BackType back : backValues) {
+//					
+//					char shapeFirstChar = shape.toString().charAt(0); 
+//					char colorFirstChar = color.toString().charAt(0);
+//					char backFirstChar = back.toString().charAt(0);
+//					
+//					String name = String.valueOf(shapeFirstChar)
+//							+ String.valueOf(colorFirstChar)
+//							+ String.valueOf(backFirstChar);
+//					
+//					String resourceAddress = "genious/resources/images/"
+//							+ name + ".jpg";
+//					
+//					UnionCardDTO unionCard = UnionCardDTO.builder()
+//							.name(name)
+//							.shape(shape)
+//							.color(color)
+//							.background(back)
+//							.resourceAddress(resourceAddress)
+//							.build();
+//					
+//					allCardList.add(unionCard);
+//				}
+//			}
+//		}
 		
 		log.info("allCardList : " + allCardList);
 	}
@@ -160,6 +162,9 @@ public class UnionSettingService {
 	
 	public List<UnionCardDTO> makeUnionProblem() {
 		List<UnionCardDTO> problemList = new ArrayList<>();
+		
+		allCardList = unionSettingDAO.selectAllCard();
+		
 		List<UnionCardDTO> randomCardList = allCardList;
 		
 		Collections.shuffle(randomCardList);
