@@ -1,6 +1,9 @@
 package com.deathmatch.genious.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,7 @@ import com.deathmatch.genious.service.UserService;
 import com.deathmatch.genious.util.KakaoConnectionUtil;
 import com.deathmatch.genious.util.NaverLoginBO;
 import com.github.scribejava.core.model.OAuth2AccessToken;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -41,7 +44,6 @@ public class UserController {
 		this.userService = userService;
 		this.naverLoginService = naverLoginService;
 	}
-	
 
 	@GetMapping("/loginHome")
 	public String loginHome(HttpSession session, Model model, HttpServletRequest request) {
@@ -113,8 +115,9 @@ public class UserController {
 		model.addAttribute("url", naverAuthUrl);
 	}
 
+	@ResponseBody
 	@PostMapping("/join")
-	public @ResponseBody ResponseEntity<String> joinMember(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<String> joinMember(@RequestBody UserDTO userDTO) {
 		ResponseEntity<String> entity = null;
 		try {
 			userService.insertMember(userDTO);
@@ -124,6 +127,16 @@ public class UserController {
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		return entity;
+	}
+	
+	@ResponseBody
+	@PostMapping("/checkEmail")
+	public int checkMember(@RequestBody UserDTO userDTO ){
+		int cnt = 0;
+		log.info(userDTO);
+		cnt = userService.checkUserEmail(userDTO);
+		log.info("result :" + cnt);
+		return cnt;
 	}
 
 }

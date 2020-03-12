@@ -44,7 +44,7 @@
 
 	<div class="col-md-4 col-md-offset-4" style="text-align: center; margin-bottom: 40px;">
 		<span>
-			<button type ="button" class="btn btn-default" id="regiBtn">회원가입</button>
+			<button type ="button" class="btn btn-default" id ="regiBtn" >회원가입</button>
 			<button type ="button" class="btn btn-default">아이디 찾기</button>
 			<button type ="button" class="btn btn-default">비밀 번호 찾기</button>
 		</span>
@@ -78,16 +78,23 @@
 </body>
 <script type ="text/javascript">
 
-$("#loginBtn").click(function(e) {
-	if ($("#email").val() == ""|| $("#email").val() == null) {
-			alert("ID를 입력해주세요");
-			return false;
-	}
-	if ($("#password").val() == "" || $("#password").val() == null) {
-			alert("PW를 입력해주세요");
-			return false;
-	}
-	loginForm.submit();
-});
+	$("#loginBtn").click(function(e) {
+		if ($("#email").val() == ""|| $("#email").val() == null) {
+				alert("ID를 입력해주세요");
+				return false;
+		}
+		if ($("#password").val() == "" || $("#password").val() == null) {
+				alert("PW를 입력해주세요");
+				return false;
+		}
+		loginForm.submit();
+	});
+	
+	//셀렉트 박스에서 이메일 선택시 email2에 자동 기입
+    function changeEmail() {
+        var select_email = $("#select_email").val();
+        $("#userEmail2").val(select_email);
+    }
+
 </script>
 
