@@ -133,6 +133,7 @@ public class UserController {
 	@PostMapping("/checkEmail")
 	public int checkMember(@RequestBody UserDTO userDTO ){
 		int cnt = 0;
+		log.info(userDTO);
 		cnt = userService.checkUserEmail(userDTO);
 		log.info("result :" + cnt);
 		return cnt;

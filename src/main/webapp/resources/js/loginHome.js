@@ -10,10 +10,12 @@ $(function(){
 		$("#checkEmail").click(function(e){
 			var email1 = $('#userEmail1').val();
 			var email2 = $('#userEmail2').val();
-			var userEmail = email1 + '@' +email2;
+			var userCheckEmail = email1 + '@' +email2;
+			console.log(userCheckEmail);
 			var userEmailInfo ={
-					userEmail : userEmail
+					userEmail : userCheckEmail
 			};
+			console.log(userEmailInfo);
 			checkUserEmail(userEmailInfo);
 		})
 		
@@ -49,7 +51,7 @@ $(function(){
 					userEmail : userEmail,
 					pw : userPw,
 					name : userName,
-					phone : phone
+					phone : phoneText
 			};
 				
 			if(!userEmail){
@@ -80,10 +82,11 @@ $(function(){
 				alert("올바른 닉네임 형식이 아닙니다");
 				$('#name').focus();
 				return false;
-			}else if(phone.indexOf(check)!= -1){
+			}
+			/*else if(phone.indexOf(check)!= -1){
 				alert("핸드폰 번호에 -는 들어갈수 없습니다")
 				return false;
-			}
+			}*/
 			
 			var joinCheck = confirm('가입하시겠습니까?');
 			
@@ -106,7 +109,6 @@ $(function(){
 					console.log(result)
 				}
 			})
-
 		}
 		
         function checkUserEmail(userEmailInfo){
@@ -117,6 +119,7 @@ $(function(){
                 dataType:"json",
                 contentType : 'application/json; charset=utf-8',
                 success : function(data){
+                	alert(data);
                     if(data){
                     	alert("이미 있는 이메일 입니다");
                     	return false;
@@ -162,6 +165,5 @@ $(function(){
      
 });
 
-	
 	
 	
