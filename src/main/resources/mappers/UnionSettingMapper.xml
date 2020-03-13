@@ -8,6 +8,12 @@
         select *
         from tbl_union_card;
     </select>
+    
+    <insert id ="insertProblem">
+        insert into tbl_union_problem(gameId,roomId,round,card1,card2,card3,card4,card5,card6,card7,card8,card9)
+        values (#{gameId},#{roomId},#{round},#{card1},#{card2},#{card3},#{card4},#{card5},#{card6},#{card7},#{card8},#{card9});
+    </insert>
+    
 
 
     <insert id ="insertMember">

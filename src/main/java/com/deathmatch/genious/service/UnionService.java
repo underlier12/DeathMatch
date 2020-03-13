@@ -113,12 +113,11 @@ public class UnionService {
 	
 	
 	private void allReady(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		queue.offer(unionDealerService.decideRound(gameRoom));
 		queue.offer(unionSettingService.standby(gameRoom));
 		queue.offer(unionSettingService.setUnionProblem(gameRoom));
 		
 		unionSettingService.setUnionAnswer(gameRoom);
-		
-		queue.offer(unionDealerService.decideRound(gameRoom));
 	}
 
 	private void endRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -131,9 +130,9 @@ public class UnionService {
 		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
 			queue.offer(unionDealerService.endGame(gameRoom, gameDTO));
 		} else {
+			queue.offer(unionDealerService.decideRound(gameRoom));
 			queue.offer(unionSettingService.setUnionProblem(gameRoom));
 			unionSettingService.setUnionAnswer(gameRoom);
-			queue.offer(unionDealerService.decideRound(gameRoom));
 		}
 	}
 	

@@ -108,7 +108,6 @@ public class UnionSettingService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public UnionGameDTO join(UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -193,6 +192,8 @@ public class UnionSettingService {
 		for(UnionCardDTO card : problemList) {
 			problemCardNames.add(card.getName());
 		}
+		
+		unionSettingDAO.insertProblem(gameRoom, problemCardNames);
 		
 		jsonMap.put("type", "PROBLEM");
 		jsonMap.put("roomId", gameRoom.getRoomId());
