@@ -6,7 +6,7 @@
 		alert(message);
 	}
 </script>
-<script src ="/genious/js/loginHome.js"></script>
+<script src ="/genious/js/loginHome.js?ver=1"></script>
 
 <body>
 	<%@ include file="/WEB-INF/views/includes/joinModal.jsp" %>
