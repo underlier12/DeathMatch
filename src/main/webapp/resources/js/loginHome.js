@@ -37,21 +37,30 @@ $(function(){
 		
 		$("#join").click(function(e){
 			
+			//이메일
 			var email1 = $('#userEmail1').val();
 			var email2 = $('#userEmail2').val();
-			
 			var userEmail = email1 + '@' +email2;
-			
+			//패스워드
 			var userPw = $('#pw').val();
+			//이름
 			var userName = $('#userName').val();
-			var phoneText = $('#phone').val();
-			var check = "-";
+			//전화번호
+			var phone1 = $('#phone1').val();
+			var phone2 = $('#phone2').val();
+			var phone3 = $('#phone3').val();
+			var phone = phone1 + '-' + phone2 + '-' + phone3;
+			
+			// 휴대전화가 비어있을 경우 phone = ""
+            if(!phone2 && !phone3) {
+                phone = "";
+            }
 			
 			var userInfo = {
 					userEmail : userEmail,
 					pw : userPw,
 					name : userName,
-					phone : phoneText
+					phone : phone
 			};
 				
 			if(!userEmail){
@@ -66,8 +75,8 @@ $(function(){
 				alert("이름을 입력해주세요");
 				$('#name').focus();
 				return false;
-			}else if(!phone){
-				alert("핸드폰 번호를 입력해주세요");
+			}else if((phone2||phone3) && !(phone2&&phone3)){
+				alert("핸드폰 번호를 확인해주세요");
 				$('#phone').focus();
 				return false;
 			}else if(idflag == 0){
@@ -83,10 +92,6 @@ $(function(){
 				$('#name').focus();
 				return false;
 			}
-			/*else if(phone.indexOf(check)!= -1){
-				alert("핸드폰 번호에 -는 들어갈수 없습니다")
-				return false;
-			}*/
 			
 			var joinCheck = confirm('가입하시겠습니까?');
 			
@@ -119,7 +124,6 @@ $(function(){
                 dataType:"json",
                 contentType : 'application/json; charset=utf-8',
                 success : function(data){
-                	alert(data);
                     if(data){
                     	alert("이미 있는 이메일 입니다");
                     	return false;
