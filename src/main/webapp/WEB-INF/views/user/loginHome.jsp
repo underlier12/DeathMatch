@@ -6,7 +6,7 @@
 		alert(message);
 	}
 </script>
-<script src ="/genious/js/loginHome.js"></script>
+<script src ="/genious/js/loginHome.js?ver=1"></script>
 
 <body>
 	<%@ include file="/WEB-INF/views/includes/joinModal.jsp" %>
@@ -77,6 +77,7 @@
 	
 </body>
 <script type ="text/javascript">
+
 
 	$("#loginBtn").click(function(e) {
 		if ($("#email").val() == ""|| $("#email").val() == null) {

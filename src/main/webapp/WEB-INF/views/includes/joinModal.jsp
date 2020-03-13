@@ -66,10 +66,14 @@
 					</div>
 
 					<!-- 휴대전화 -->
+					<label for="phone">휴대전화</label> 
 					<div class="form-group">
-						<label for="phone">휴대전화 ('-' 없이 번호만 입력해주세요)</label> <input
-							type="text" class="form-control" id="phone" name="phone"
-							placeholder="Phone Number" required>
+						<input type="text"  style="width: 150px; display:inline-block;" class="form-control" id="phone1" name="phone1"
+							maxlength="3" />-
+						<input type="text"  style="width: 200px; display:inline-block;" class="form-control" id="phone2" name="phone2"
+							maxlength="4" />-
+						<input type="text"  style="width: 200px; display:inline-block;" class="form-control" id="phone3" name="phone3"
+							maxlength="4" />
 						<div class="check_font" id="phone_check"></div>
 					</div>
 				</div>

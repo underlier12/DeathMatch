@@ -4,11 +4,20 @@
 
 	<%@ include file="/WEB-INF/views/includes/header.jsp"%>
 	
-	<div class="col-md-10 col-md-offset-2">
+	<%@ include file="/WEB-INF/views/includes/sidebar.jsp"%>
+	<div class="col-md-8 col-md-offset-2" style ="margin-left:32%">
 		<h1>Room List</h1>
 	</div>
+	
+	
+	<div class="col-md-8 col-md-offset-2" style ="margin-left:32%; display:inline-block:">
+		<button type="button" class="btn btn-default" id="btnCreate" style="display:inline-block:">
+		방만들기</button>
+		<button type="button" class="btn btn-default" id="btnCreate" style="display:inline-block:">
+		튜토리얼</button>
+	</div>
 
-	<div class="col-md-10 col-md-offset-2">
+	<div class="container" style ="margin-left:32%">
 		<table class ="table">
 			<colgroup>
 				<col width="20%">
@@ -26,18 +35,10 @@
 			</c:forEach>
 		</table>
 	</div>
-	
-	
-
-	<div class="col-md-10 col-md-offset-2">
-		<button type="button" class="btn btn-default" id="btnCreate">
-		방만들기(모달)</button>
-	</div>
-
 
 
 	<%@ include file="/WEB-INF/views/includes/roomModal.jsp"%>
-	<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
+	<%-- <%@ include file="/WEB-INF/views/includes/footer.jsp"%> --%>
 </body>
 
 <script type="text/javascript">
