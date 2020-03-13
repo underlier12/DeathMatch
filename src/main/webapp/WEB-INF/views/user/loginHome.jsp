@@ -78,6 +78,7 @@
 </body>
 <script type ="text/javascript">
 
+
 	$("#loginBtn").click(function(e) {
 		if ($("#email").val() == ""|| $("#email").val() == null) {
 				alert("ID를 입력해주세요");
