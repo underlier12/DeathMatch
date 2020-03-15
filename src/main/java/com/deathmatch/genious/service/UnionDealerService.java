@@ -121,6 +121,7 @@ public class UnionDealerService {
 		preprocessing();
 		
 		jsonMap.put("type", "UNI");
+		jsonMap.put("answer", gameDTO.getMessage());
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("message", "정답 +3");
@@ -130,6 +131,8 @@ public class UnionDealerService {
 		log.info("jsonMap : " + jsonMap);
 		
 		postprocessing();
+		
+		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO, gameRoom);
 				
 		return unionDealerDTO;
 	}
@@ -139,6 +142,7 @@ public class UnionDealerService {
 		preprocessing();
 		
 		jsonMap.put("type", "UNI");
+		jsonMap.put("answer", gameDTO.getMessage());
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("message", "틀렸습니다 -1점");
@@ -148,6 +152,8 @@ public class UnionDealerService {
 		log.info("jsonMap : " + jsonMap);
 		
 		postprocessing();
+		
+		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO, gameRoom);
 				
 		return unionDealerDTO;
 	}
