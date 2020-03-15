@@ -159,27 +159,28 @@ public class UnionSettingService {
 		return unionSettingDTO;
 	}
 	
-	public List<UnionCardDTO> makeUnionProblem() {
-		List<UnionCardDTO> problemList = new ArrayList<>();
-		
-		allCardList = unionSettingDAO.selectAllCard();
-		
-		List<UnionCardDTO> randomCardList = allCardList;
-		
-		Collections.shuffle(randomCardList);
-		
-		for(int i = 0; i < 9; i++) {
-			problemList.add(randomCardList.get(i));
-		}
-		
-		return problemList;
-	}
+//	public List<UnionCardDTO> makeUnionProblem() {
+//		List<UnionCardDTO> problemList = new ArrayList<>();
+//		
+//		allCardList = unionSettingDAO.selectAllCard();
+//		
+//		List<UnionCardDTO> randomCardList = allCardList;
+//		
+//		Collections.shuffle(randomCardList);
+//		
+//		for(int i = 0; i < 9; i++) {
+//			problemList.add(randomCardList.get(i));
+//		}
+//		
+//		return problemList;
+//	}
 	
 	public UnionSettingDTO setUnionProblem(GameRoom gameRoom) {
 		
 		preprocessing();
 		
-		List<UnionCardDTO> problemList = makeUnionProblem();
+//		List<UnionCardDTO> problemList = makeUnionProblem();
+		List<UnionCardDTO> problemList = unionSettingDAO.makeUnionProblem();
 		List<String> problemCardNames = new ArrayList<>();
 		gameRoom.setProblemList(problemList);
 		
@@ -193,7 +194,7 @@ public class UnionSettingService {
 			problemCardNames.add(card.getName());
 		}
 		
-		unionSettingDAO.insertProblem(gameRoom, problemCardNames);
+//		unionSettingDAO.insertProblem(gameRoom, problemCardNames);
 		
 		jsonMap.put("type", "PROBLEM");
 		jsonMap.put("roomId", gameRoom.getRoomId());

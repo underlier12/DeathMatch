@@ -57,9 +57,14 @@ public class UnionSettingDAOImpl implements UnionSettingDAO {
 		}
 	}
 	
+//	@Override
+//	public List<UnionCardDTO> selectAllCard() {
+//		return sqlSession.selectList(namespace + ".selectAllCard");
+//	}
+	
 	@Override
-	public List<UnionCardDTO> selectAllCard() {
-		return sqlSession.selectList(namespace + ".selectAllCard");
+	public List<UnionCardDTO> makeUnionProblem() {
+		return sqlSession.selectList(namespace + ".makeProblem");
 	}
 
 	@Override

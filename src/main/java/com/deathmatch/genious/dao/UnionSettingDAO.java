@@ -8,7 +8,10 @@ import com.deathmatch.genious.domain.UnionCardDTO;
 public interface UnionSettingDAO {
 
 	// select all union card
-	public List<UnionCardDTO> selectAllCard();
+//	public List<UnionCardDTO> selectAllCard();
+	
+	// make union problem
+	public List<UnionCardDTO> makeUnionProblem();
 	
 	// select union problem
 	public List<UnionCardDTO> selectUnionProblem(GameRoom gameRoom);

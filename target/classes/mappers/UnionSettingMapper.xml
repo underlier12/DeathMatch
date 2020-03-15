@@ -4,9 +4,22 @@
 
 <mapper namespace="com.deathmatch.genious.mapper.UnionSettingMapper">
 
-	<select id ="selectAllCard" resultType="UnionCardDTO">
+	<!-- <select id ="selectAllCard" resultType="UnionCardDTO">
         select *
         from tbl_union_card;
+    </select> -->
+    
+    <select id="makeProblem" resultType="UnionCardDTO">
+    	select *
+    	from tbl_union_card
+    	order by rand()
+    	limit 9;
+    </select>
+    
+    <select id ="selectProblem" resultType="UnionProblemDTO">
+        select *
+        from tbl_union_card;
+        where gameId = #{gameId}
     </select>
     
     <insert id ="insertProblem">
