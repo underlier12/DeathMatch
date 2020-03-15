@@ -31,46 +31,9 @@
         values (#{gameId},#{round},#{idx},#{card});
     </insert>
     
-
-
-    <insert id ="insertMember">
-        insert into tbl_user(userEmail,pw,name,phone)
-        values
-        (#{userEmail},#{pw},#{name},#{phone});
+    <insert id="insertAnswer">
+    	insert into tbl_union_answer
+    	values (#{gameId},#{round},#{answer});
     </insert>
     
-    <insert id ="insertSnsMember">
-    insert into tbl_user (userEmail,name)
-        values
-        (#{userEmail},#{name});
-    </insert>
-    
-    <select id ="modifyUser" resultType ="UserDTO">
-    	update tbl_user
-    	where userEmail = #{userEmail}
-    	set pw = ${pw};
-    </select>
-    
-    <select id ="countUser" resultType="int">
-    	select count(*) from tbl_user
-    	where userEmail = #{userEmail};
-    </select>
-
-    <select id = "searchUserEmail" resultType="UserDTO">
-        select userEmail from tbl_user
-        where userEmail = #{userEmail};
-    </select>
-    
-    <select id ="selectMember" resultType="UserDTO">
-        select userEmail,name,score
-        from tbl_user
-        where userEmail = #{userEmail};
-    </select>
-
-    <select id = "login" resultType ="UserDTO">
-        select userEmail,name,score
-        from tbl_user
-        where userEmail = #{userEmail} and pw = #{pw};
-    </select>
-
 </mapper>

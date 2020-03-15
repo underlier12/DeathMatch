@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import com.deathmatch.genious.domain.GameRoom;
+import com.deathmatch.genious.domain.UnionAnswerDTO;
 import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionProblemDTO;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -30,6 +32,7 @@ public class UnionSettingDAOImpl implements UnionSettingDAO {
 	
 	private Map<String, Object> jsonMap;
 	private UnionProblemDTO unionProblemDTO;
+	private UnionAnswerDTO unionAnswerDTO;
 	private JSONObject jsonObject;
 	private String jsonString;
 	
@@ -42,19 +45,31 @@ public class UnionSettingDAOImpl implements UnionSettingDAO {
 		jsonMap = new HashMap<>();
 	}
 	
-	public void postprocessing() {
+	public void postprocessing(Boolean problem) {
 		jsonObject = new JSONObject(jsonMap);
 		jsonString = jsonObject.toJSONString();
 		log.info("jsonString : " + jsonString);
 
-		try {
-			unionProblemDTO = objectMapper.readValue(jsonString, UnionProblemDTO.class);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(problem) {
+			try {
+				unionProblemDTO = objectMapper.readValue(jsonString, UnionProblemDTO.class);
+			} catch (JsonParseException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
+		} else {
+			try {
+				unionAnswerDTO = objectMapper.readValue(jsonString, UnionAnswerDTO.class);
+			} catch (JsonParseException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -79,7 +94,7 @@ public class UnionSettingDAOImpl implements UnionSettingDAO {
 			jsonMap.put("round", gameRoom.getRound());
 			jsonMap.put("idx", i);
 			
-			postprocessing();
+			postprocessing(true);
 			UnionCardDTO problemEach = sqlSession.selectOne(namespace + ".selectProblemEach", unionProblemDTO);
 			problemList.add(problemEach);
 		}
@@ -100,14 +115,26 @@ public class UnionSettingDAOImpl implements UnionSettingDAO {
 //			jsonMap.put("card" + Integer.toString(i+1), problem.get(i));
 //		}
 		
-		postprocessing();
+		postprocessing(true);
 		
 		sqlSession.insert(namespace + ".insertProblem", unionProblemDTO);
 	}
 
 	@Override
-	public void inserAnswer(GameRoom gameRoom, String answer) {
-		// TODO Auto-generated method stub
+	public void insertAnswer(GameRoom gameRoom, Set<String> answerSet) {
+		
+		for(String answer : answerSet) {
+			
+			preprocessing();
+			
+			jsonMap.put("gameId", gameRoom.getGameId());
+			jsonMap.put("round", gameRoom.getRound());
+			jsonMap.put("answer", answer);
+			
+			postprocessing(false);
+			
+			sqlSession.insert(namespace + ".insertAnswer", unionAnswerDTO);
+		}
 
 	}
 

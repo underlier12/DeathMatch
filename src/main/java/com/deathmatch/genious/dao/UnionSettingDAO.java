@@ -1,6 +1,7 @@
 package com.deathmatch.genious.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionCardDTO;
@@ -20,5 +21,5 @@ public interface UnionSettingDAO {
 	public void insertProblem(GameRoom gameRoom, int idx, String cardName);
 	
 	// insert union answer
-	public void inserAnswer(GameRoom gameRoom, String answer);
+	public void insertAnswer(GameRoom gameRoom, Set<String> answerSet);
 }

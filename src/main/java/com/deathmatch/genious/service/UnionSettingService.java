@@ -40,21 +40,20 @@ public class UnionSettingService {
 	private final UnionSettingDAO unionSettingDAO;
 	private final ObjectMapper objectMapper;
 
-	private List<UnionCardDTO> allCardList;
+//	private List<UnionCardDTO> allCardList;
 	private Map<String, Object> jsonMap;
 	private UnionSettingDTO unionSettingDTO;
 	private JSONObject jsonObject;
-	
 	private String jsonString;
 	
-	@PostConstruct
-	public void init() {
-		allCardList = new ArrayList<>();
-		enumerateAllCards();
-	}
+//	@PostConstruct
+//	public void init() {
+//		allCardList = new ArrayList<>();
+//		enumerateAllCards();
+//	}
 	
-	private void enumerateAllCards() {
-		
+//	private void enumerateAllCards() {
+//		
 //		ShapeType[] shapeValues = UnionCardDTO.ShapeType.values();
 //		ColorType[] colorValues = UnionCardDTO.ColorType.values();
 //		BackType[] backValues = UnionCardDTO.BackType.values();
@@ -86,9 +85,9 @@ public class UnionSettingService {
 //				}
 //			}
 //		}
-		
-		log.info("allCardList : " + allCardList);
-	}
+//		
+//		log.info("allCardList : " + allCardList);
+//	}
 	
 	public void preprocessing() {
 		jsonMap = new HashMap<>();
@@ -244,7 +243,6 @@ public class UnionSettingService {
 				}
 				
 				Arrays.sort(indices);
-				log.info(indices);
 				
 				String answer = Arrays.toString(indices).replaceAll("[^0-9]","");
 				answerSet.add(answer);
@@ -252,11 +250,6 @@ public class UnionSettingService {
 			}
 			
 		}
-		
-		for(String answer : answerSet) {
-			log.info("answer : " + answer);
-		}
-		log.info("answerSet.size() : " + answerSet.size() + "\n");
 		
 		return answerSet;
 	}
@@ -272,6 +265,8 @@ public class UnionSettingService {
 		answerCandidateSet = unionCombination.makeCombination(problemList);
 		answerSet = makeUnionAnswer(problemList, answerCandidateSet);
 		gameRoom.setAnswerSet(answerSet);
+		
+		unionSettingDAO.insertAnswer(gameRoom, answerSet);
 		
 		log.info("answerSet : " + gameRoom.getAnswerSet() + "\n");
 	}	
