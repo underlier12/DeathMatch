@@ -23,7 +23,7 @@
     
     
     <insert id="insertSubmittedAnswer">
-    	insert into tbl_union_submitted_answer
+    	insert into tbl_union_submitted_answer(gameId,round,userId,score,answer)
     	values (#{gameId},#{round},#{user1},#{score},#{answer});
     </insert>
     

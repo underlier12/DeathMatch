@@ -143,9 +143,11 @@ $(function () {
  		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
  		addUp(content);
+ 		
+ 		console.log(content.answer);
 		
 		if(parseInt(content.score) > 0){
-        	answerList.append('<li>' + content.message.substring(0, 3) + '</li>');
+        	answerList.append('<li>' + content.answer + '</li>');
 		}
  	}
  	

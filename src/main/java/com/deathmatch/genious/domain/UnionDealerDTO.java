@@ -12,6 +12,7 @@ public class UnionDealerDTO {
     }
     private MessageType type;
     private String roomId;
+    private String gameId;
     private String sender;
     private String message;
     private String user1;

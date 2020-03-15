@@ -172,10 +172,12 @@ public class UnionDealerService {
 		jsonMap.put("type", "ON");
 		jsonMap.put("answer", gameDTO.getMessage());
 		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("gameId", gameRoom.getGameId());
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("message", message);
-		jsonMap.put("score", Integer.toString(score));
+		jsonMap.put("score", score);
 		jsonMap.put("user1", gameDTO.getSender());
+		jsonMap.put("round", gameRoom.getRound());
 		
 		postprocessing();
 		
@@ -192,12 +194,13 @@ public class UnionDealerService {
 		int score = 0;
 		
 		Boolean isAnswer = unionDealerDAO.checkAnswer(gameDTO, gameRoom);
-		Boolean isSubmittedAnswer = unionDealerDAO.checkCorrectSubmittedAnswer(gameDTO, gameRoom);
+//		Boolean isSubmittedAnswer = unionDealerDAO.checkCorrectSubmittedAnswer(gameDTO, gameRoom);
 		
 		log.info("isA : " + isAnswer);
-		log.info("isSA : " + isSubmittedAnswer);
+//		log.info("isSA : " + isSubmittedAnswer);
 		
-		if(isAnswer && !isSubmittedAnswer) {
+//		if(isAnswer && !isSubmittedAnswer) {
+		if(isAnswer) {
 			score = 1;
 		} else {
 			score = -1;
