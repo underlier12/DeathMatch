@@ -123,9 +123,11 @@ public class UnionDealerService {
 		jsonMap.put("type", "UNI");
 		jsonMap.put("answer", gameDTO.getMessage());
 		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("gameId", gameRoom.getGameId());
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("message", "정답 +3");
 		jsonMap.put("score", 3);
+		jsonMap.put("round", gameRoom.getRound());
 		jsonMap.put("user1", gameDTO.getSender());
 		
 		log.info("jsonMap : " + jsonMap);
@@ -144,9 +146,11 @@ public class UnionDealerService {
 		jsonMap.put("type", "UNI");
 		jsonMap.put("answer", gameDTO.getMessage());
 		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("gameId", gameRoom.getGameId());
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("message", "틀렸습니다 -1점");
 		jsonMap.put("score", -1);
+		jsonMap.put("round", gameRoom.getRound());
 		jsonMap.put("user1", gameDTO.getSender());
 		
 		log.info("jsonMap : " + jsonMap);
