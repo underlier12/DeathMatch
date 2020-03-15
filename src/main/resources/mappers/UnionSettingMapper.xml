@@ -23,8 +23,8 @@
     </select>
     
     <insert id ="insertProblem">
-        insert into tbl_union_problem(gameId,roomId,round,card1,card2,card3,card4,card5,card6,card7,card8,card9)
-        values (#{gameId},#{roomId},#{round},#{card1},#{card2},#{card3},#{card4},#{card5},#{card6},#{card7},#{card8},#{card9});
+        insert into tbl_union_problem(gameId,round,idx,card)
+        values (#{gameId},#{round},#{idx},#{card});
     </insert>
     
 

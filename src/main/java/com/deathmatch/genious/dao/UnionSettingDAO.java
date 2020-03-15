@@ -17,7 +17,7 @@ public interface UnionSettingDAO {
 	public List<UnionCardDTO> selectUnionProblem(GameRoom gameRoom);
 	
 	// insert union problem
-	public void insertProblem(GameRoom gameRoom, List<String> problem);
+	public void insertProblem(GameRoom gameRoom, int idx, String cardName);
 	
 	// insert union answer
 	public void inserAnswer(GameRoom gameRoom, String answer);

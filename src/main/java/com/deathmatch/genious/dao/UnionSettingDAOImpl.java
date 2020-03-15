@@ -74,16 +74,17 @@ public class UnionSettingDAOImpl implements UnionSettingDAO {
 	}
 
 	@Override
-	public void insertProblem(GameRoom gameRoom, List<String> problem) {
+	public void insertProblem(GameRoom gameRoom, int idx, String cardName) {
 		preprocessing();
 		
 		jsonMap.put("gameId", gameRoom.getGameId());
-		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("round", gameRoom.getRound());
-		
-		for(int i = 0; i < 9; i++) {
-			jsonMap.put("card" + Integer.toString(i+1), problem.get(i));
-		}
+		jsonMap.put("idx", idx);
+		jsonMap.put("card", cardName);
+
+//		for(int i = 0; i < 9; i++) {
+//			jsonMap.put("card" + Integer.toString(i+1), problem.get(i));
+//		}
 		
 		postprocessing();
 		

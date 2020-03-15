@@ -190,11 +190,16 @@ public class UnionSettingService {
 		
 		log.info("problemList.toString : " + problemList.toString());
 
-		for(UnionCardDTO card : problemList) {
-			problemCardNames.add(card.getName());
+//		for(UnionCardDTO card : problemList) {
+//			problemCardNames.add(card.getName());
+//		}
+		
+		for(int i = 0; i < problemList.size(); i++) {
+			String cardName = problemList.get(i).getName();
+			problemCardNames.add(cardName);
+			unionSettingDAO.insertProblem(gameRoom, i, cardName);			
 		}
 		
-//		unionSettingDAO.insertProblem(gameRoom, problemCardNames);
 		
 		jsonMap.put("type", "PROBLEM");
 		jsonMap.put("roomId", gameRoom.getRoomId());
