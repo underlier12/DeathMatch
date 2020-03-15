@@ -97,15 +97,24 @@ public class UnionDealerService {
 		return UUID.randomUUID().toString();
 	}
 
-	public String uniCheck(GameRoom gameRoom) {		
+	public String uniCheck(UnionGameDTO gameDTO, GameRoom gameRoom) {		
 		String isCorrect = null;
-		if(gameRoom.getAnswerSet().size() == gameRoom.getSubmitedAnswerSet().size()) {
+		
+		int answerSize = unionDealerDAO.countAnswer(gameDTO, gameRoom);
+		int submittedSize = unionDealerDAO.countCorrectSubmittedAnswer(gameDTO, gameRoom);
+		
+//		if(gameRoom.getAnswerSet().size() == gameRoom.getSubmitedAnswerSet().size()) {
+		if(answerSize == submittedSize) {
 			isCorrect = "CORRECT";
 		} else {
 			isCorrect = "INCORRECT";
 		}
 		return isCorrect;
 	}
+	
+//	public int uniScoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
+//		
+//	}
 	
 	public UnionDealerDTO correctUni(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		

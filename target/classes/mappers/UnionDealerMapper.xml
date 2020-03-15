@@ -20,30 +20,21 @@
     	) as isExist;
     </select>
     
+    <select id="countAnswer" resultType="int">
+    	select count(*)
+    	from tbl_union_answer
+    	where gameId = #{gameId} and round = #{round};
+    </select>
     
+    <select id="countCorrectSubmittedAnswer" resultType="int">
+    	select count(*)
+    	from tbl_union_submitted_answer
+    	where gameId = #{gameId} and round = #{round} and score > 0;
+    </select>
     
     <insert id="insertSubmittedAnswer">
     	insert into tbl_union_submitted_answer(gameId,round,userId,score,answer)
     	values (#{gameId},#{round},#{user1},#{score},#{answer});
     </insert>
-    
-    
-    
-    <select id ="selectProblemEach" resultType="UnionCardDTO">
-        select *
-        from tbl_union_card
-        where name = (
-        	select card
-        	from tbl_union_problem
-        	where gameId = #{gameId} and round = #{round} and idx = #{idx}
-        );
-    </select>
-    
-    <insert id ="insertProblem">
-        insert into tbl_union_problem(gameId,round,idx,card)
-        values (#{gameId},#{round},#{idx},#{card});
-    </insert>
-    
-    
     
 </mapper>

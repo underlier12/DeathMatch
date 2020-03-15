@@ -62,15 +62,17 @@ public class UnionDealerDAOImpl implements UnionDealerDAO {
 	}
 
 	@Override
-	public int countAnswer(GameRoom gameRoom) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int countAnswer(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		gameDTO.setGameId(gameRoom.getGameId());
+		gameDTO.setRound(gameRoom.getRound());
+		return sqlSession.selectOne(namespace + ".countAnswer", gameDTO);
 	}
 
 	@Override
-	public int countCorrectSubmittedAnswer(GameRoom gameRoom) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int countCorrectSubmittedAnswer(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		gameDTO.setGameId(gameRoom.getGameId());
+		gameDTO.setRound(gameRoom.getRound());
+		return sqlSession.selectOne(namespace + ".countCorrectSubmittedAnswer", gameDTO);
 	}
 
 	@Override

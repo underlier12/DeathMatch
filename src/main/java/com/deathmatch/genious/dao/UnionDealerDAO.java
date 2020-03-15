@@ -13,10 +13,10 @@ public interface UnionDealerDAO {
 	public Boolean checkCorrectSubmittedAnswer(UnionGameDTO gameDTO, GameRoom gameRoom);
 	
 	// count answers
-	public int countAnswer(GameRoom gameRoom);
+	public int countAnswer(UnionGameDTO gameDTO, GameRoom gameRoom);
 	
 	// count correct submitted answers
-	public int countCorrectSubmittedAnswer(GameRoom gameRoom);
+	public int countCorrectSubmittedAnswer(UnionGameDTO gameDTO, GameRoom gameRoom);
 	
 	// insert submitted answer
 	public void insertSubmittedAnswer(UnionDealerDTO unionDealerDTO, GameRoom gameRoom);

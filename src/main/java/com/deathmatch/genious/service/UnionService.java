@@ -88,7 +88,7 @@ public class UnionService {
 	private void uniAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
 		
-		switch (unionDealerService.uniCheck(gameRoom)) {
+		switch (unionDealerService.uniCheck(gameDTO, gameRoom)) {
 		case "CORRECT":
 			endRound(gameDTO, gameRoom);
 			isGameOver(gameDTO, gameRoom);
