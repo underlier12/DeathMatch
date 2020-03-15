@@ -1,18 +1,23 @@
 package com.deathmatch.genious.dao;
 
-import java.util.Set;
-
 import com.deathmatch.genious.domain.GameRoom;
+import com.deathmatch.genious.domain.UnionDealerDTO;
 import com.deathmatch.genious.domain.UnionGameDTO;
 
 public interface UnionDealerDAO {
 
-	// select all answer
-	public Set<String> selectAllAnswer(GameRoom gameRoom);
+	// check whether in answers or not
+	public Boolean checkAnswer(UnionGameDTO gameDTO, GameRoom gameRoom);
 	
-	// select all correct submitted answer
-	public Set<String> selecAllCorrectSubmittedAnswer(GameRoom gameRoom);
+	// check whether in correct submitted answers or not
+	public Boolean checkCorrectSubmittedAnswer(UnionGameDTO gameDTO, GameRoom gameRoom);
+	
+	// count answers
+	public int countAnswer(GameRoom gameRoom);
+	
+	// count correct submitted answers
+	public int countCorrectSubmittedAnswer(GameRoom gameRoom);
 	
 	// insert submitted answer
-	public void insertSubmittedAnswer(UnionGameDTO gameDTO, GameRoom gameRoom);
+	public void insertSubmittedAnswer(UnionDealerDTO unionDealerDTO, GameRoom gameRoom);
 }

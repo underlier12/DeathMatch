@@ -8,6 +8,8 @@ import java.util.UUID;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.deathmatch.genious.dao.UnionDealerDAO;
+import com.deathmatch.genious.dao.UnionSettingDAO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionDealerDTO;
 import com.deathmatch.genious.domain.UnionGameDTO;
@@ -23,6 +25,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionDealerService {
 
+	private final UnionDealerDAO unionDealerDAO;
 	private final ObjectMapper objectMapper;
 	
 	private UnionDealerDTO unionDealerDTO;
@@ -144,22 +147,30 @@ public class UnionDealerService {
 		
 		preprocessing();
 		
-		message = gameDTO.getMessage();
+//		message = gameDTO.getMessage();
+//		
+//		if(scoring(gameDTO, gameRoom)) {
+//			
+//			gameRoom.getSubmitedAnswerSet().add(message);
+//			message = message + " 정답 +1점";
+//			score = 1;
+//			
+//		} else {
+//			
+//			message = message + " 틀렸습니다 -1점";
+//			score = -1;
+//			
+//		}
+		score = onScoring(gameDTO, gameRoom);
 		
-		if(scoring(gameDTO, gameRoom)) {
-			
-			gameRoom.getSubmitedAnswerSet().add(message);
-			message = message + " 정답 +1점";
-			score = 1;
-			
+		if(score > 0) {
+			message = "정답 +1점";
 		} else {
-			
-			message = message + " 틀렸습니다 -1점";
-			score = -1;
-			
+			message = "틀렸습니다 -1점";
 		}
 		
 		jsonMap.put("type", "ON");
+		jsonMap.put("answer", gameDTO.getMessage());
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("message", message);
@@ -168,11 +179,31 @@ public class UnionDealerService {
 		
 		postprocessing();
 		
+		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO, gameRoom);
+		
 		return unionDealerDTO;
 	}
 	
-	public boolean scoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		return gameRoom.getAnswerSet().contains(gameDTO.getMessage());
+//	public boolean scoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
+//		return gameRoom.getAnswerSet().contains(gameDTO.getMessage());
+//	}
+	
+	public int onScoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		int score = 0;
+		
+		Boolean isAnswer = unionDealerDAO.checkAnswer(gameDTO, gameRoom);
+		Boolean isSubmittedAnswer = unionDealerDAO.checkCorrectSubmittedAnswer(gameDTO, gameRoom);
+		
+		log.info("isA : " + isAnswer);
+		log.info("isSA : " + isSubmittedAnswer);
+		
+		if(isAnswer && !isSubmittedAnswer) {
+			score = 1;
+		} else {
+			score = -1;
+		}
+		
+		return score;
 	}
 
 	public Object endGame(GameRoom gameRoom, UnionGameDTO gameDTO) {
