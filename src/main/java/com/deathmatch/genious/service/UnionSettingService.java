@@ -263,7 +263,8 @@ public class UnionSettingService {
 	
 	public void setUnionAnswer(GameRoom gameRoom){
 		
-		List<UnionCardDTO> problemList = gameRoom.getProblemList();
+//		List<UnionCardDTO> problemList = gameRoom.getProblemList();
+		List<UnionCardDTO> problemList = unionSettingDAO.selectUnionProblem(gameRoom);
 		
 		Set<UnionCardDTO[]> answerCandidateSet = new HashSet<>();
 		Set<String> answerSet = new HashSet<>();

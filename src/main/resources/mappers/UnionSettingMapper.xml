@@ -16,10 +16,14 @@
     	limit 9;
     </select>
     
-    <select id ="selectProblem" resultType="UnionProblemDTO">
+    <select id ="selectProblemEach" resultType="UnionCardDTO">
         select *
-        from tbl_union_card;
-        where gameId = #{gameId}
+        from tbl_union_card
+        where name = (
+        	select card
+        	from tbl_union_problem
+        	where gameId = #{gameId} and round = #{round} and idx = #{idx}
+        );
     </select>
     
     <insert id ="insertProblem">

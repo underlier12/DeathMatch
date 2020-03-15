@@ -1,6 +1,7 @@
 package com.deathmatch.genious.dao;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +70,21 @@ public class UnionSettingDAOImpl implements UnionSettingDAO {
 
 	@Override
 	public List<UnionCardDTO> selectUnionProblem(GameRoom gameRoom) {
-		// TODO Auto-generated method stub
-		return null;
+		List<UnionCardDTO> problemList = new ArrayList<>();
+		
+		for(int i = 0; i < 9; i++) {
+			preprocessing();
+			
+			jsonMap.put("gameId", gameRoom.getGameId());
+			jsonMap.put("round", gameRoom.getRound());
+			jsonMap.put("idx", i);
+			
+			postprocessing();
+			UnionCardDTO problemEach = sqlSession.selectOne(namespace + ".selectProblemEach", unionProblemDTO);
+			problemList.add(problemEach);
+		}
+		
+		return problemList;
 	}
 
 	@Override
