@@ -19,5 +19,5 @@ public interface UnionDealerDAO {
 	public int countCorrectSubmittedAnswer(UnionGameDTO gameDTO, GameRoom gameRoom);
 	
 	// insert submitted answer
-	public void insertSubmittedAnswer(UnionDealerDTO unionDealerDTO, GameRoom gameRoom);
+	public void insertSubmittedAnswer(UnionDealerDTO unionDealerDTO);
 }

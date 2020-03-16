@@ -76,7 +76,7 @@ public class UnionDealerDAOImpl implements UnionDealerDAO {
 	}
 
 	@Override
-	public void insertSubmittedAnswer(UnionDealerDTO unionDealerDTO, GameRoom gameRoom) {
+	public void insertSubmittedAnswer(UnionDealerDTO unionDealerDTO) {
 		sqlSession.insert(namespace + ".insertSubmittedAnswer", unionDealerDTO);
 	}
 

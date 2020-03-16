@@ -70,7 +70,7 @@ public class UnionDealerService {
 		jsonMap.put("type", "ROUND");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
-		jsonMap.put("round", Integer.toString(nextRound));
+		jsonMap.put("round", nextRound);
 		jsonMap.put("message", Integer.toString(nextRound) + " ROUND 그림 공개합니다.");
 		
 		postprocessing();
@@ -116,8 +116,7 @@ public class UnionDealerService {
 //		
 //	}
 	
-	public UnionDealerDTO correctUni(GameRoom gameRoom, UnionGameDTO gameDTO) {
-		
+	public UnionDealerDTO uniResult(GameRoom gameRoom, UnionGameDTO gameDTO, Boolean isCorrect) {
 		preprocessing();
 		
 		jsonMap.put("type", "UNI");
@@ -125,42 +124,71 @@ public class UnionDealerService {
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("gameId", gameRoom.getGameId());
 		jsonMap.put("sender", "Dealer");
-		jsonMap.put("message", "정답 +3");
-		jsonMap.put("score", 3);
 		jsonMap.put("round", gameRoom.getRound());
 		jsonMap.put("user1", gameDTO.getSender());
+		
+		if(isCorrect) {
+			jsonMap.put("message", "정답 +3");
+			jsonMap.put("score", 3);
+		} else {
+			jsonMap.put("message", "틀렸습니다 -1점");
+			jsonMap.put("score", -1);
+		}
 		
 		log.info("jsonMap : " + jsonMap);
 		
 		postprocessing();
 		
-		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO, gameRoom);
+		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO);
 				
 		return unionDealerDTO;
 	}
 	
-	public UnionDealerDTO incorrectUni(GameRoom gameRoom, UnionGameDTO gameDTO) {
-		
-		preprocessing();
-		
-		jsonMap.put("type", "UNI");
-		jsonMap.put("answer", gameDTO.getMessage());
-		jsonMap.put("roomId", gameRoom.getRoomId());
-		jsonMap.put("gameId", gameRoom.getGameId());
-		jsonMap.put("sender", "Dealer");
-		jsonMap.put("message", "틀렸습니다 -1점");
-		jsonMap.put("score", -1);
-		jsonMap.put("round", gameRoom.getRound());
-		jsonMap.put("user1", gameDTO.getSender());
-		
-		log.info("jsonMap : " + jsonMap);
-		
-		postprocessing();
-		
-		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO, gameRoom);
-				
-		return unionDealerDTO;
-	}
+//	public UnionDealerDTO correctUni(GameRoom gameRoom, UnionGameDTO gameDTO) {
+//		
+//		preprocessing();
+//		
+//		jsonMap.put("type", "UNI");
+//		jsonMap.put("answer", gameDTO.getMessage());
+//		jsonMap.put("roomId", gameRoom.getRoomId());
+//		jsonMap.put("gameId", gameRoom.getGameId());
+//		jsonMap.put("sender", "Dealer");
+//		jsonMap.put("message", "정답 +3");
+//		jsonMap.put("score", 3);
+//		jsonMap.put("round", gameRoom.getRound());
+//		jsonMap.put("user1", gameDTO.getSender());
+//		
+//		log.info("jsonMap : " + jsonMap);
+//		
+//		postprocessing();
+//		
+//		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO);
+//				
+//		return unionDealerDTO;
+//	}
+//	
+//	public UnionDealerDTO incorrectUni(GameRoom gameRoom, UnionGameDTO gameDTO) {
+//		
+//		preprocessing();
+//		
+//		jsonMap.put("type", "UNI");
+//		jsonMap.put("answer", gameDTO.getMessage());
+//		jsonMap.put("roomId", gameRoom.getRoomId());
+//		jsonMap.put("gameId", gameRoom.getGameId());
+//		jsonMap.put("sender", "Dealer");
+//		jsonMap.put("message", "틀렸습니다 -1점");
+//		jsonMap.put("score", -1);
+//		jsonMap.put("round", gameRoom.getRound());
+//		jsonMap.put("user1", gameDTO.getSender());
+//		
+//		log.info("jsonMap : " + jsonMap);
+//		
+//		postprocessing();
+//		
+//		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO);
+//				
+//		return unionDealerDTO;
+//	}
 	
 	public UnionDealerDTO onCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		
@@ -200,7 +228,7 @@ public class UnionDealerService {
 		
 		postprocessing();
 		
-		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO, gameRoom);
+		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO);
 		
 		return unionDealerDTO;
 	}
