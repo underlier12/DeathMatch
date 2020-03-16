@@ -61,7 +61,7 @@ public class UnionService {
 	}
 
 	private void joinAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
-		gameRoom.getSessions().add(session);
+		unionSettingService.welcome(session, gameDTO, gameRoom);
 		queue.offer(unionSettingService.join(gameDTO, gameRoom));
 	}
 
@@ -151,8 +151,7 @@ public class UnionService {
 	}
 
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-		// TODO Auto-generated method stub
-		
+		unionSettingService.bye(session, status);
 	}
 	
 }

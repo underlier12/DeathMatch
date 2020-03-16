@@ -11,6 +11,8 @@ import java.util.Set;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.deathmatch.genious.dao.UnionSettingDAO;
 import com.deathmatch.genious.domain.GameRoom;
@@ -33,6 +35,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionSettingService {
 	
+	private final GameRoomService gameRoomService;
 	private final UnionCombination unionCombination;
 	private final UnionSettingDAO unionSettingDAO;
 	private final ObjectMapper objectMapper;
@@ -60,6 +63,28 @@ public class UnionSettingService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void welcome(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		log.info("welcome");
+		
+		gameRoom.addSession(session);
+		Map<String, Object> map = session.getAttributes();
+		
+		map.put("userEmail", gameDTO.getSender());
+		map.put("roomId", gameRoom.getRoomId());
+		map.put("status", decideStatus(gameRoom));
+		map.put("ready", false);
+		map.put("score", 0);
+	}
+	
+	public String decideStatus(GameRoom gameRoom) {
+		String status = null;
+		if(gameRoom.getSessions().size() == 1) status = "HOST";
+		else if(gameRoom.getSessions().size() == 2) status = "OPPENENT";
+		else status = "GUEST";
+		
+		return status;
 	}
 	
 	public UnionGameDTO join(UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -173,11 +198,8 @@ public class UnionSettingService {
 				
 				String answer = Arrays.toString(indices).replaceAll("[^0-9]","");
 				answerSet.add(answer);
-
 			}
-			
 		}
-		
 		return answerSet;
 	}
 	
@@ -193,4 +215,15 @@ public class UnionSettingService {
 		
 		unionSettingDAO.insertAnswer(gameRoom, answerSet);
 	}	
+	
+	public void bye(WebSocketSession session, CloseStatus status) {
+		Map<String, Object> map = session.getAttributes();
+		
+		String roomId = (String) map.get("roomId");
+		GameRoom gameRoom = gameRoomService.findRoomById(roomId);
+		gameRoom.removeSession(session);
+		
+		log.info("bye");
+		log.info(gameRoom.getSessions());
+	}
 }

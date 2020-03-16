@@ -28,5 +28,13 @@ public class GameRoom {
         this.roomId = roomId;
         this.name = name;
     }
+    
+    public void addSession(WebSocketSession session) {
+    	sessions.add(session);
+    }
+    
+    public void removeSession(WebSocketSession session) {
+    	sessions.remove(session);
+    }
 
 }
