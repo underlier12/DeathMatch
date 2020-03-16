@@ -32,15 +32,6 @@ public class UnionService {
 	
 	public void handleActions(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
-		Map<String, Object> map = session.getAttributes();
-		
-		if(map.get("userEmail") != null) {
-			String userEmail = (String) map.get("userEmail");
-			
-			log.info("userEmail : " + userEmail);
-			gameDTO.setSender(userEmail);
-		}
-		
 		switch (gameDTO.getType()) {
 		case JOIN:
 			joinAction(session, gameDTO, gameRoom);

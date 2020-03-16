@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.deathmatch.genious.domain.GameRoom;
+import com.deathmatch.genious.domain.UserDTO;
 import com.deathmatch.genious.service.GameRoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -49,9 +50,10 @@ public class GameRoomController {
     @GetMapping("/{roomId}")
     public String room(@PathVariable String roomId, Model model, HttpSession httpSession) {    	
     	GameRoom room = gameRoomService.findRoomById(roomId);
+    	UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
     	
     	model.addAttribute("room", room);
-    	model.addAttribute("member", httpSession.getId());
+    	model.addAttribute("member", currentDTO.getUserEmail());
     	model.addAttribute("httpSession", httpSession);
     	
     	return "room";
