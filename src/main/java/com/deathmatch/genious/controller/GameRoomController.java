@@ -1,7 +1,6 @@
 package com.deathmatch.genious.controller;
 
 import javax.servlet.http.HttpSession;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +25,7 @@ public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
 	 
-    @GetMapping
-
+	@GetMapping
     public String allRooms(Model model) {
     	model.addAttribute("rooms", gameRoomService.findAllRooms());
     	return "gameHome";

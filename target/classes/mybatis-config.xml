@@ -13,6 +13,8 @@
     <!-- domain에 대해서 별칭을 지정해 준다 -->
     <typeAliases>
         <typeAlias alias="UserDTO" type = "com.deathmatch.genious.domain.UserDTO"/>
+        <typeAlias alias="UnionCardDTO" type="com.deathmatch.genious.domain.UnionCardDTO"/>
+        <typeAlias alias="UnionProblemDTO" type="com.deathmatch.genious.domain.UnionProblemDTO"/>
     </typeAliases>
 
 </configuration>

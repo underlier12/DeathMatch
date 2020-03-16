@@ -24,6 +24,8 @@ public class UnionCardDTO {
 	private BackType background;
 	private String resourceAddress;
 	
+	public UnionCardDTO() {	}
+	
 	@Builder
 	public UnionCardDTO(String name, ShapeType shape, 
 			ColorType color, BackType background, String resourceAddress) {

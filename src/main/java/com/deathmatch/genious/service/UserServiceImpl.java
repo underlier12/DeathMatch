@@ -102,8 +102,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO searchMember(UserDTO userDTO) {
-		return null;
+	public int checkUserEmail(UserDTO userDTO) {
+		int userCnt = userDAO.countMember(userDTO);
+		log.info(userCnt);
+		int result = 0;
+		if(userCnt>0) {
+			result = 1;
+		}else {
+			result =0;
+		}
+		return result;
 	}
 
 }

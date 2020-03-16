@@ -81,14 +81,15 @@ public class UnionService {
 		queue.offer(unionSettingService.ready(gameDTO, gameRoom));
 		
 		if(unionSettingService.readyCheck(readyUser)) {
-			allReady(gameDTO, gameRoom);
+			queue.offer(unionSettingService.standby(gameRoom));
+			startRound(gameDTO, gameRoom);
 		}
 	}
 
 	private void uniAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
 		
-		switch (unionDealerService.uniCheck(gameRoom)) {
+		switch (unionDealerService.uniCheck(gameDTO, gameRoom)) {
 		case "CORRECT":
 			endRound(gameDTO, gameRoom);
 			isGameOver(gameDTO, gameRoom);
@@ -103,7 +104,7 @@ public class UnionService {
 
 	private void onAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
-		queue.offer(unionDealerService.onCheck(gameRoom, gameDTO));
+		queue.offer(unionDealerService.onResult(gameRoom, gameDTO));
 	}
 	
 	private void outAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -112,17 +113,14 @@ public class UnionService {
 	}
 	
 	
-	private void allReady(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		queue.offer(unionSettingService.standby(gameRoom));
-		queue.offer(unionSettingService.setUnionProblem(gameRoom));
-		
-		unionSettingService.setUnionAnswer(gameRoom);
-		
+	private void startRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(unionDealerService.decideRound(gameRoom));
+		queue.offer(unionSettingService.setUnionProblem(gameRoom));
+		unionSettingService.setUnionAnswer(gameRoom);
 	}
 
 	private void endRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		queue.offer(unionDealerService.correctUni(gameRoom, gameDTO));
+		queue.offer(unionDealerService.uniResult(gameRoom, gameDTO, true));
 		queue.offer(unionDealerService.closeRound(gameRoom));
 	}
 	
@@ -131,14 +129,12 @@ public class UnionService {
 		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
 			queue.offer(unionDealerService.endGame(gameRoom, gameDTO));
 		} else {
-			queue.offer(unionSettingService.setUnionProblem(gameRoom));
-			unionSettingService.setUnionAnswer(gameRoom);
-			queue.offer(unionDealerService.decideRound(gameRoom));
+			startRound(gameDTO, gameRoom);
 		}
 	}
 	
 	private void maintainRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		queue.offer(unionDealerService.incorrectUni(gameRoom, gameDTO));
+		queue.offer(unionDealerService.uniResult(gameRoom, gameDTO, false));
 	}
 
 	public void send(GameRoom gameRoom) {
