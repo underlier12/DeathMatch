@@ -30,10 +30,7 @@ public class UnionDealerService {
 	private UnionDealerDTO unionDealerDTO;
 	private Map<String, Object> jsonMap;
 	private JSONObject jsonObject;
-	
 	private String jsonString;
-	private String message;
-	private int score;
 	
 	public void preprocessing() {
 		jsonMap = new HashMap<>();
@@ -138,49 +135,63 @@ public class UnionDealerService {
 		return unionDealerDTO;
 	}
 	
-	public UnionDealerDTO onCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
+	public String onCheck(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		String onInfo;
+		
+		Boolean isAnswer = unionDealerDAO.checkAnswer(gameDTO, gameRoom);
+		Boolean isCorrectSubmittedAnswer = unionDealerDAO.checkCorrectSubmittedAnswer(gameDTO, gameRoom);
+		
+		log.info("isA : " + isAnswer);
+		log.info("isSA : " + isCorrectSubmittedAnswer);
+		
+		if(isAnswer && !isCorrectSubmittedAnswer) {
+			onInfo = "CORRECT";
+		} else if(isCorrectSubmittedAnswer){
+			onInfo = "ALREADY-SUBMIT";
+		} else {
+			onInfo = "INCORRECT";
+		}
+		
+		return onInfo;
+	}
+	
+	public UnionDealerDTO onResult(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		
 		preprocessing();
-		
-		score = onScoring(gameDTO, gameRoom);
-		
-		if(score > 0) {
-			message = "정답 +1점";
-		} else {
-			message = "틀렸습니다 -1점";
-		}
 		
 		jsonMap.put("type", "ON");
 		jsonMap.put("answer", gameDTO.getMessage());
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("gameId", gameRoom.getGameId());
 		jsonMap.put("sender", "Dealer");
-		jsonMap.put("message", message);
-		jsonMap.put("score", score);
 		jsonMap.put("user1", gameDTO.getSender());
 		jsonMap.put("round", gameRoom.getRound());
 		
-		postprocessing();
+		String onInfo = onCheck(gameDTO, gameRoom);
 		
+		switch (onInfo) {
+		case "CORRECT":
+			jsonMap.put("message", "정답 +1점");
+			jsonMap.put("score", 1);
+			break;
+
+		case "ALREADY-SUBMIT":
+			jsonMap.put("message", "이미 제출된 답입니다 -1점");
+			jsonMap.put("score", -1);
+			break;
+		
+		case "INCORRECT":
+			jsonMap.put("message", "틀렸습니다 -1점");
+			jsonMap.put("score", -1);
+			break;
+			
+		default:
+			break;
+		}
+		postprocessing();
 		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO);
 		
 		return unionDealerDTO;
-	}
-	
-	public int onScoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		int score = 0;
-		
-		Boolean isAnswer = unionDealerDAO.checkAnswer(gameDTO, gameRoom);
-		
-		log.info("isA : " + isAnswer);
-		
-		if(isAnswer) {
-			score = 1;
-		} else {
-			score = -1;
-		}
-		
-		return score;
 	}
 
 	public Object endGame(GameRoom gameRoom, UnionGameDTO gameDTO) {

@@ -104,7 +104,7 @@ public class UnionService {
 
 	private void onAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
-		queue.offer(unionDealerService.onCheck(gameRoom, gameDTO));
+		queue.offer(unionDealerService.onResult(gameRoom, gameDTO));
 	}
 	
 	private void outAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {

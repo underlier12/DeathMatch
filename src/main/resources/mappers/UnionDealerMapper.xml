@@ -12,7 +12,7 @@
     	) as isExist;
     </select>
     
-    <select id="checkCorrectSubmittedAnswer">
+    <select id="checkCorrectSubmittedAnswer" resultType="int">
     	select exists (
     		select *
     		from tbl_union_submitted_answer
