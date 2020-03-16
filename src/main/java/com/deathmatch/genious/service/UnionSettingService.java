@@ -117,11 +117,6 @@ public class UnionSettingService {
 		
 		List<UnionCardDTO> problemList = unionSettingDAO.makeUnionProblem();
 		List<String> problemCardNames = new ArrayList<>();
-		gameRoom.setProblemList(problemList);
-		
-		log.info("getSubmited : " + gameRoom.getSubmitedAnswerSet());
-		gameRoom.setSubmitedAnswerSet(new HashSet<>());
-		log.info("getSubmited : " + gameRoom.getSubmitedAnswerSet());
 		
 		log.info("problemList.toString : " + problemList.toString());
 		
@@ -195,10 +190,7 @@ public class UnionSettingService {
 		
 		answerCandidateSet = unionCombination.makeCombination(problemList);
 		answerSet = makeUnionAnswer(problemList, answerCandidateSet);
-		gameRoom.setAnswerSet(answerSet);
 		
 		unionSettingDAO.insertAnswer(gameRoom, answerSet);
-		
-		log.info("answerSet : " + gameRoom.getAnswerSet() + "\n");
 	}	
 }
