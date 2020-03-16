@@ -2,7 +2,6 @@ package com.deathmatch.genious.service;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -38,7 +37,7 @@ public class UnionService {
 			break;
 			
 		case READY:
-			readyAction(gameDTO, gameRoom);
+			readyAction(session, gameDTO, gameRoom);
 			break;
 			
 		case UNI:
@@ -65,13 +64,13 @@ public class UnionService {
 		queue.offer(unionSettingService.join(gameDTO, gameRoom));
 	}
 
-	private void readyAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
-		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
+	private void readyAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+//		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
+//		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
 		
-		queue.offer(unionSettingService.ready(gameDTO, gameRoom));
+		queue.offer(unionSettingService.ready(session, gameDTO, gameRoom));
 		
-		if(unionSettingService.readyCheck(readyUser)) {
+		if(unionSettingService.readyCheck(gameRoom)) {
 			queue.offer(unionSettingService.standby(gameRoom));
 			startRound(gameDTO, gameRoom);
 		}

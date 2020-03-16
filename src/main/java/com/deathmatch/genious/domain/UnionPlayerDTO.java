@@ -10,6 +10,6 @@ public class UnionPlayerDTO {
 	private String userEmail;
 	private String roomId;
 	private String status;
-	private boolean ready;
+	private Boolean ready;
 	private int score;
 }

@@ -87,7 +87,7 @@ public class UnionSettingService {
 	public String decideStatus(GameRoom gameRoom) {
 		String status = null;
 		if(gameRoom.getSessions().size() == 1) status = "HOST";
-		else if(gameRoom.getSessions().size() == 2) status = "OPPENENT";
+		else if(gameRoom.getSessions().size() == 2) status = "OPPONENT";
 		else status = "GUEST";
 		
 		return status;
@@ -101,7 +101,11 @@ public class UnionSettingService {
 		return gameDTO;
 	}
 	
-	public UnionGameDTO ready(UnionGameDTO gameDTO, GameRoom gameRoom) {
+	public UnionGameDTO ready(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		
+		Map<String, Object> map = session.getAttributes();
+		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+		unionPlayerDTO.setReady(true);
 		
 		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
 		gameDTO.setSender("Setting");
@@ -109,19 +113,26 @@ public class UnionSettingService {
 		return gameDTO;
 	}
 	
-	public boolean readyCheck(Map<String, Boolean> readyUser) {
+	public boolean readyCheck(GameRoom gameRoom) {
 		boolean isReady = false;
 		int countReady = 0;
 		
-		for (Boolean ready : readyUser.values()) {
-			if (ready) {
-				countReady++;
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			switch (unionPlayerDTO.getStatus()) {
+			case "HOST":
+			case "OPPONENT":
+				if(unionPlayerDTO.getReady().equals(true)) countReady++;
+				break;
+			default:
+				break;
 			}
 		}
+		if(countReady > 1) isReady = true;
 		
-    	if (countReady > 1) {
-    		isReady = true;
-    	}
     	return isReady;
 	}
 	
