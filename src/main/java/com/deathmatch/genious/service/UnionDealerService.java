@@ -9,7 +9,6 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.deathmatch.genious.dao.UnionDealerDAO;
-import com.deathmatch.genious.dao.UnionSettingDAO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionDealerDTO;
 import com.deathmatch.genious.domain.UnionGameDTO;
@@ -103,7 +102,6 @@ public class UnionDealerService {
 		int answerSize = unionDealerDAO.countAnswer(gameDTO, gameRoom);
 		int submittedSize = unionDealerDAO.countCorrectSubmittedAnswer(gameDTO, gameRoom);
 		
-//		if(gameRoom.getAnswerSet().size() == gameRoom.getSubmitedAnswerSet().size()) {
 		if(answerSize == submittedSize) {
 			isCorrect = "CORRECT";
 		} else {
@@ -111,10 +109,6 @@ public class UnionDealerService {
 		}
 		return isCorrect;
 	}
-	
-//	public int uniScoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		
-//	}
 	
 	public UnionDealerDTO uniResult(GameRoom gameRoom, UnionGameDTO gameDTO, Boolean isCorrect) {
 		preprocessing();
@@ -144,70 +138,10 @@ public class UnionDealerService {
 		return unionDealerDTO;
 	}
 	
-//	public UnionDealerDTO correctUni(GameRoom gameRoom, UnionGameDTO gameDTO) {
-//		
-//		preprocessing();
-//		
-//		jsonMap.put("type", "UNI");
-//		jsonMap.put("answer", gameDTO.getMessage());
-//		jsonMap.put("roomId", gameRoom.getRoomId());
-//		jsonMap.put("gameId", gameRoom.getGameId());
-//		jsonMap.put("sender", "Dealer");
-//		jsonMap.put("message", "정답 +3");
-//		jsonMap.put("score", 3);
-//		jsonMap.put("round", gameRoom.getRound());
-//		jsonMap.put("user1", gameDTO.getSender());
-//		
-//		log.info("jsonMap : " + jsonMap);
-//		
-//		postprocessing();
-//		
-//		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO);
-//				
-//		return unionDealerDTO;
-//	}
-//	
-//	public UnionDealerDTO incorrectUni(GameRoom gameRoom, UnionGameDTO gameDTO) {
-//		
-//		preprocessing();
-//		
-//		jsonMap.put("type", "UNI");
-//		jsonMap.put("answer", gameDTO.getMessage());
-//		jsonMap.put("roomId", gameRoom.getRoomId());
-//		jsonMap.put("gameId", gameRoom.getGameId());
-//		jsonMap.put("sender", "Dealer");
-//		jsonMap.put("message", "틀렸습니다 -1점");
-//		jsonMap.put("score", -1);
-//		jsonMap.put("round", gameRoom.getRound());
-//		jsonMap.put("user1", gameDTO.getSender());
-//		
-//		log.info("jsonMap : " + jsonMap);
-//		
-//		postprocessing();
-//		
-//		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO);
-//				
-//		return unionDealerDTO;
-//	}
-	
 	public UnionDealerDTO onCheck(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		
 		preprocessing();
 		
-//		message = gameDTO.getMessage();
-//		
-//		if(scoring(gameDTO, gameRoom)) {
-//			
-//			gameRoom.getSubmitedAnswerSet().add(message);
-//			message = message + " 정답 +1점";
-//			score = 1;
-//			
-//		} else {
-//			
-//			message = message + " 틀렸습니다 -1점";
-//			score = -1;
-//			
-//		}
 		score = onScoring(gameDTO, gameRoom);
 		
 		if(score > 0) {
@@ -233,20 +167,13 @@ public class UnionDealerService {
 		return unionDealerDTO;
 	}
 	
-//	public boolean scoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		return gameRoom.getAnswerSet().contains(gameDTO.getMessage());
-//	}
-	
 	public int onScoring(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		int score = 0;
 		
 		Boolean isAnswer = unionDealerDAO.checkAnswer(gameDTO, gameRoom);
-//		Boolean isSubmittedAnswer = unionDealerDAO.checkCorrectSubmittedAnswer(gameDTO, gameRoom);
 		
 		log.info("isA : " + isAnswer);
-//		log.info("isSA : " + isSubmittedAnswer);
 		
-//		if(isAnswer && !isSubmittedAnswer) {
 		if(isAnswer) {
 			score = 1;
 		} else {

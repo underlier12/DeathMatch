@@ -73,11 +73,6 @@ public class UnionSettingDAOImpl implements UnionSettingDAO {
 		}
 	}
 	
-//	@Override
-//	public List<UnionCardDTO> selectAllCard() {
-//		return sqlSession.selectList(namespace + ".selectAllCard");
-//	}
-	
 	@Override
 	public List<UnionCardDTO> makeUnionProblem() {
 		return sqlSession.selectList(namespace + ".makeProblem");
@@ -111,10 +106,6 @@ public class UnionSettingDAOImpl implements UnionSettingDAO {
 		jsonMap.put("idx", idx);
 		jsonMap.put("card", cardName);
 
-//		for(int i = 0; i < 9; i++) {
-//			jsonMap.put("card" + Integer.toString(i+1), problem.get(i));
-//		}
-		
 		postprocessing(true);
 		
 		sqlSession.insert(namespace + ".insertProblem", unionProblemDTO);
