@@ -54,12 +54,12 @@
 		<div class="col-md-4 col-md-offset-4" style="margin-bottom: 50px;">
 			<div>
 				<a href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://localhost:8003/genious/user/kakaoLogin&response_type=code">
-					<img src="/images/btn_kakao_login.gif">
+					<img src="${pageContext.request.contextPath}/images/btn_kakao_login.gif">
 				</a>
 			</div>
 			<div id="naver_id_login" style="margin-bottom: 50px;">
 				<a href="${url}">
-				<img src="/images/btn_naver_login.gif"></a>
+				<img src="${pageContext.request.contextPath}/images/btn_naver_login.gif"></a>
 			</div>
 		</div>
 	</c:if>

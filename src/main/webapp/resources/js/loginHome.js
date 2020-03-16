@@ -124,7 +124,8 @@ $(function(){
                 dataType:"json",
                 contentType : 'application/json; charset=utf-8',
                 success : function(data){
-                    if(data){
+                	console.log(data);
+                    if(data == 1){
                     	alert("이미 있는 이메일 입니다");
                     	return false;
                     }else {
