@@ -21,6 +21,7 @@ import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
 import com.deathmatch.genious.domain.UnionGameDTO;
+import com.deathmatch.genious.domain.UnionPlayerDTO;
 import com.deathmatch.genious.domain.UnionSettingDTO;
 import com.deathmatch.genious.util.UnionCombination;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -69,13 +70,18 @@ public class UnionSettingService {
 		log.info("welcome");
 		
 		gameRoom.addSession(session);
+		
+		UnionPlayerDTO unionPlayerDTO = new UnionPlayerDTO();
+		
+		unionPlayerDTO.setUserEmail(gameDTO.getSender());
+		unionPlayerDTO.setRoomId(gameRoom.getRoomId());
+		unionPlayerDTO.setStatus(decideStatus(gameRoom));
+		unionPlayerDTO.setReady(false);
+		unionPlayerDTO.setScore(0);
+		
 		Map<String, Object> map = session.getAttributes();
 		
-		map.put("userEmail", gameDTO.getSender());
-		map.put("roomId", gameRoom.getRoomId());
-		map.put("status", decideStatus(gameRoom));
-		map.put("ready", false);
-		map.put("score", 0);
+		map.put("player", unionPlayerDTO);
 	}
 	
 	public String decideStatus(GameRoom gameRoom) {
@@ -218,9 +224,9 @@ public class UnionSettingService {
 	
 	public void bye(WebSocketSession session, CloseStatus status) {
 		Map<String, Object> map = session.getAttributes();
-		
-		String roomId = (String) map.get("roomId");
-		GameRoom gameRoom = gameRoomService.findRoomById(roomId);
+		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+				
+		GameRoom gameRoom = gameRoomService.findRoomById(unionPlayerDTO.getRoomId());
 		gameRoom.removeSession(session);
 		
 		log.info("bye");
