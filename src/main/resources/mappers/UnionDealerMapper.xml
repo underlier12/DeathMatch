@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.deathmatch.genious.mapper.UnionDealerMapper">
+    
+    <select id="checkAnswer" resultType="int">
+    	select exists (
+    		select *
+    		from tbl_union_answer
+    		where gameId = #{gameId} and round = #{round} and answer = #{message}
+    	) as isExist;
+    </select>
+    
+    <select id="checkCorrectSubmittedAnswer" resultType="int">
+    	select exists (
+    		select *
+    		from tbl_union_submitted_answer
+    		where gameId = #{gameId} and round = #{round} and answer = #{message} and score > 0
+    	) as isExist;
+    </select>
+    
+    <select id="countAnswer" resultType="int">
+    	select count(*)
+    	from tbl_union_answer
+    	where gameId = #{gameId} and round = #{round};
+    </select>
+    
+    <select id="countCorrectSubmittedAnswer" resultType="int">
+    	select count(*)
+    	from tbl_union_submitted_answer
+    	where gameId = #{gameId} and round = #{round} and score > 0;
+    </select>
+    
+    <insert id="insertSubmittedAnswer">
+    	insert into tbl_union_submitted_answer(gameId,round,userId,score,answer)
+    	values (#{gameId},#{round},#{user1},#{score},#{answer});
+    </insert>
+    
+</mapper>

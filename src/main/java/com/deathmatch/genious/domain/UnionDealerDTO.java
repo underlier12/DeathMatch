@@ -12,9 +12,11 @@ public class UnionDealerDTO {
     }
     private MessageType type;
     private String roomId;
+    private String gameId;
     private String sender;
     private String message;
     private String user1;
+    private String answer;
     private int countDown;
     private int score;
     private int round;
