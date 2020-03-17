@@ -5,9 +5,9 @@
 <mapper namespace="com.deathmatch.geniouse.mapper.MemberMapper">
 
     <insert id ="insertMember">
-        insert into tbl_user(userEmail,pw,name,phone)
+        insert into tbl_user(userEmail,userId,pw,name,phone)
         values
-        (#{userEmail},#{pw},#{name},#{phone});
+        (#{userEmail},#{userId},#{pw},#{name},#{phone});
     </insert>
     
     <insert id ="insertSnsMember">

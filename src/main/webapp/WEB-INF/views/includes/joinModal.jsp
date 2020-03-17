@@ -49,6 +49,9 @@
 					</span>
 					</div>
 					
+					<!-- 아이디 -->
+					<input type ="hidden" name ="userId"/>
+					
 					<!-- 비밀번호 -->
 					<div class="form-group">
 						<label for="pw">비밀번호</label> <input type="password"

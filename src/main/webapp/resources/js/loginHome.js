@@ -1,4 +1,4 @@
-$(function(){	
+$(function(){
 	
 		var loginForm = $("#loginProc");
 		var idflag = 0;

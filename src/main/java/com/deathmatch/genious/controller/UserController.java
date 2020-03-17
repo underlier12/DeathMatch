@@ -117,6 +117,11 @@ public class UserController {
 	public ResponseEntity<String> joinMember(@RequestBody UserDTO userDTO) {
 		ResponseEntity<String> entity = null;
 		try {
+			String userEmail = userDTO.getUserEmail();
+			String userId = userEmail.substring(0,userEmail.indexOf('@'));
+			log.info("userEmail:" + userEmail);
+			log.info("ID:" + userId);
+			userDTO.setUserId(userId);
 			userService.insertMember(userDTO);
 			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		} catch (Exception e) {
