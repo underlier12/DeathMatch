@@ -6,7 +6,6 @@
 		alert(message);
 	}
 </script>
-<script src ="/genious/js/loginHome.js?ver=1"></script>
 
 <body>
 	<%@ include file="/WEB-INF/views/includes/joinModal.jsp" %>
@@ -74,12 +73,12 @@
 	</form>
 	
 	<%@ include file="/WEB-INF/views/includes/footer.jsp" %>
-	
+	<script src ="/genious/js/loginHome.js?ver=1"></script>
 </body>
 <script type ="text/javascript">
 
-
-	$("#loginBtn").click(function(e) {
+	// 로그인, 아이디 입력 유효성 검사
+	 $("#loginBtn").click(function(e) {
 		if ($("#email").val() == ""|| $("#email").val() == null) {
 				alert("ID를 입력해주세요");
 				return false;
@@ -90,7 +89,6 @@
 		}
 		loginForm.submit();
 	});
-	
 	//셀렉트 박스에서 이메일 선택시 email2에 자동 기입
     function changeEmail() {
         var select_email = $("#select_email").val();

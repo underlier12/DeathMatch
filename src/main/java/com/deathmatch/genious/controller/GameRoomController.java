@@ -29,8 +29,7 @@ public class GameRoomController {
     public String allRooms(Model model) {
     	model.addAttribute("rooms", gameRoomService.findAllRooms());
     	return "gameHome";
-    }   	
-	
+    } 
 
 	@ResponseBody
     @PostMapping
