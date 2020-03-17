@@ -3,6 +3,7 @@ package com.deathmatch.genious.service;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.json.simple.JSONObject;
@@ -215,19 +216,60 @@ public class UnionDealerService {
 		unionPlayerDTO.setScore(currentScore + score);
 	}
 
-	public Object endGame(GameRoom gameRoom, UnionGameDTO gameDTO) {
+	public UnionDealerDTO endGame(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		preprocessing();
+		
+		String winner = announceWinner(gameRoom);
 		
 		jsonMap.put("type", "END");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("message", "데스매치 결합이 종료되었습니다.");
+		jsonMap.put("user1", winner);
 		
 		log.info("jsonMap : " + jsonMap);
 		
 		postprocessing();
 				
 		return unionDealerDTO;
+	}
+	
+	public String announceWinner(GameRoom gameRoom) {
+		String winner;
+		
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		String[] userArray = new String[2];
+		int[] scoreArray = new int[2];
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			
+			switch (unionPlayerDTO.getStatus()) {
+			case "HOST":
+				userArray[0] = unionPlayerDTO.getUserEmail();
+				scoreArray[0] = unionPlayerDTO.getScore();
+				break;
+
+			case "OPPONENT":
+				userArray[1] = unionPlayerDTO.getUserEmail();
+				scoreArray[1] = unionPlayerDTO.getScore();
+				break;
+				
+			default:
+				break;
+			}
+			
+		}
+		
+		if(scoreArray[0] > scoreArray[1]) {
+			winner = userArray[0];
+		} else if(scoreArray[0] < scoreArray[1]) {
+			winner = userArray[1];
+		} else {
+			winner = "무승부";
+		}
+		return winner;
 	}
 
 }
