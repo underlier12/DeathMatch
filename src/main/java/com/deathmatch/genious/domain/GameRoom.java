@@ -18,7 +18,6 @@ public class GameRoom {
     private String gameId;
     private int totalRound = 3;
     private int round = 0;
-//    private Map<String, Boolean> readyUser = new LinkedHashMap<String, Boolean>();
     private Set<WebSocketSession> sessions = new HashSet<>();
     
     @Builder

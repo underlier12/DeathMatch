@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -136,10 +137,18 @@ public class UnionSettingService {
     	return isReady;
 	}
 	
+	public void startGame(GameRoom gameRoom) {
+		gameRoom.setGameId(makeGameId());
+	}
+	
+
+	public String makeGameId() {
+		return UUID.randomUUID().toString();
+	}
+	
 	public UnionSettingDTO standby(GameRoom gameRoom) {
 		
 		preprocessing();
-//		Object[] players = gameRoom.getReadyUser().keySet().toArray();
 		
 		List<String> players = new ArrayList<>();
 		Set<WebSocketSession> sessions = gameRoom.getSessions();

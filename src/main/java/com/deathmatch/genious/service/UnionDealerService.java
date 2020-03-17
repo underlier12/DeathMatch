@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -63,7 +62,6 @@ public class UnionDealerService {
 		int nextRound = gameRoom.getRound() + 1;
 		
 		gameRoom.setRound(nextRound);
-		gameRoom.setGameId(makeGameId());
 		log.info("gameId : " + gameRoom.getGameId());
 						
 		jsonMap.put("type", "ROUND");
@@ -90,10 +88,6 @@ public class UnionDealerService {
 		postprocessing();
 		
 		return unionDealerDTO;
-	}
-	
-	public String makeGameId() {
-		return UUID.randomUUID().toString();
 	}
 
 	public String uniCheck(UnionGameDTO gameDTO, GameRoom gameRoom) {		

@@ -16,9 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 
-//@Log4j
 @RequiredArgsConstructor
 @Service
 public class UnionService {
@@ -47,11 +45,6 @@ public class UnionService {
 		case ON:
 			onAction(session, gameDTO, gameRoom);
 			break;
-//			
-//		case OUT:
-//			log.info("OUT ACTION");
-//			outAction(session, gameDTO, gameRoom);
-//			break;
 
 		default:
 			break;
@@ -65,12 +58,10 @@ public class UnionService {
 	}
 
 	private void readyAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
-//		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
-		
 		queue.offer(unionSettingService.ready(session, gameDTO, gameRoom));
 		
 		if(unionSettingService.readyCheck(gameRoom)) {
+			unionSettingService.startGame(gameRoom);
 			queue.offer(unionSettingService.standby(gameRoom));
 			startRound(gameDTO, gameRoom);
 		}
@@ -96,12 +87,6 @@ public class UnionService {
 		queue.offer(gameDTO);
 		queue.offer(unionDealerService.onResult(session, gameRoom, gameDTO));
 	}
-//	
-//	private void outAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		gameRoom.getSessions().remove(session);
-//		log.info("session : " + gameRoom.getSessions());
-//	}
-//	
 	
 	private void startRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(unionDealerService.decideRound(gameRoom));
