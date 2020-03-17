@@ -11,9 +11,9 @@
     </insert>
     
     <insert id ="insertSnsMember">
-    insert into tbl_user (userEmail,name)
+    insert into tbl_user (userEmail,userId,name)
         values
-        (#{userEmail},#{name});
+        (#{userEmail},#{userId},#{name});
     </insert>
     
     <select id ="modifyUser" resultType ="UserDTO">
@@ -33,13 +33,13 @@
     </select>
     
     <select id ="selectMember" resultType="UserDTO">
-        select userEmail,name,score
+        select userEmail,userId,name,score,phone
         from tbl_user
         where userEmail = #{userEmail};
     </select>
 
     <select id = "login" resultType ="UserDTO">
-        select userEmail,name,score
+        select userEmail,userId,name,score
         from tbl_user
         where userEmail = #{userEmail} and pw = #{pw};
     </select>

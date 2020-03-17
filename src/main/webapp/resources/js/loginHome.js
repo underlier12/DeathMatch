@@ -7,6 +7,21 @@ $(function(){
 			$("#registerModal").modal();
 		});
 		
+		$("#findPw").click(function(e){
+			$("#findModal").modal();
+		});
+		
+		$("#findPwEmail").click(function(e){
+			var email1 = $('#findPwEmail1').val();
+			var email2 = $('#findPwEmail2').val();
+			var userCheckEmail = email1 + '@' +email2;
+			console.log(userCheckEmail);
+			var userEmailInfo ={
+					userEmail : userCheckEmail
+			};
+			checkFindPwEmail(userEmailInfo);
+		})
+		
 		$("#checkEmail").click(function(e){
 			var email1 = $('#userEmail1').val();
 			var email2 = $('#userEmail2').val();
@@ -130,6 +145,27 @@ $(function(){
                     	return false;
                     }else {
                     	alert("사용 가능한 아이디 입니다");
+                    	idflag = 1;
+                    	return true;
+                    }
+                }
+            })
+        }
+        
+        function checkFindPwEmail(userEmailInfo){
+            $.ajax({
+                type : 'post',
+                url : '/genious/user/checkEmail',
+                data : JSON.stringify(userEmailInfo),
+                dataType:"json",
+                contentType : 'application/json; charset=utf-8',
+                success : function(data){
+                	console.log(data);
+                    if(data == 1){
+                    	alert("존재하는 이메일 입니다! PW 확인시 이메일로 보내드리겠습니다");
+                    	return false;
+                    }else {
+                    	alert("존재하지 않는 이메일 입니다.");
                     	idflag = 1;
                     	return true;
                     }

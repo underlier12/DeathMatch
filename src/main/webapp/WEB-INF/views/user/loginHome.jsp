@@ -9,6 +9,7 @@
 
 <body>
 	<%@ include file="/WEB-INF/views/includes/joinModal.jsp" %>
+	<%@ include file="/WEB-INF/views/includes/findModal.jsp" %>
 	
 	<div style="margin-top: 80px">
 		<div class="col-md-10 col-md-offset-1" style="text-align: center">
@@ -45,7 +46,7 @@
 		<span>
 			<button type ="button" class="btn btn-default" id ="regiBtn" >회원가입</button>
 			<button type ="button" class="btn btn-default">아이디 찾기</button>
-			<button type ="button" class="btn btn-default">비밀 번호 찾기</button>
+			<button type ="button" class="btn btn-default" id ="findPw">비밀 번호 찾기</button>
 		</span>
 	</div>
 	
@@ -93,6 +94,12 @@
     function changeEmail() {
         var select_email = $("#select_email").val();
         $("#userEmail2").val(select_email);
+    }
+	
+	//pw 찾기 셀렉트 박스에서 이메일 선택시 email2에 자동 기입
+	function changeEmail2() {
+        var select_email2 = $("#select_email2").val();
+        $("#findPwEmail2").val(select_email2);
     }
 
 </script>

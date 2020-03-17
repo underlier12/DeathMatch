@@ -61,11 +61,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO kakaoLogin(UserDTO kakaoUser) {
 		int userCnt = userDAO.countMember(kakaoUser);
-		log.info("현재 아이디 : " + kakaoUser.getUserEmail());
+		String userEmail = kakaoUser.getUserEmail();
+		String userId = userEmail.substring(0,userEmail.indexOf('@'));
+		log.info("현재 이메일 : " + userEmail);
+		log.info("현재 아이디 : " + userId);
 		if (userCnt>0) {
 			kakaoUser = userDAO.selectKakaoMember(kakaoUser);
 			log.info("이미 등록된 회원 입니다!");
 		} else{
+			kakaoUser.setUserId(userId);
 			userDAO.insertKakaoMember(kakaoUser);
 			log.info("Kakao 회원 가입 성공!");
 		}
@@ -85,11 +89,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO naverLogin(UserDTO naverUser) {
 		int userCnt = userDAO.countMember(naverUser);
-		log.info("현재 아이디 : " + naverUser.getUserEmail());
+		String userEmail = naverUser.getUserEmail();
+		String userId = userEmail.substring(0,userEmail.indexOf('@'));
+		log.info("현재 아이디 : " + userEmail);
+		log.info("현재 아이디 : " + userId);
 		if (userCnt>0) {
 			naverUser = userDAO.selectNaverMember(naverUser);
 			log.info("이미 등록된 회원 입니다!");
 		} else{
+			naverUser.setUserId(userId);
 			userDAO.insertKakaoMember(naverUser);
 			log.info("Naver 회원 가입 성공!");
 		}
