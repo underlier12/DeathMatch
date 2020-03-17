@@ -185,16 +185,6 @@ $(function () {
  			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
  					+ '승자는 ' + content.user1 + '입니다. 축하합니다.\n');
  		}
-// 		if(scoreAInput.val() > scoreBInput.val()){
-// 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
-// 					+ '승자는 ' + playerAInput.val() + '입니다. 축하합니다.\n');
-// 		} else if(scoreAInput.val() < scoreBInput.val()){
-// 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
-// 					+ '승자는 ' + playerBInput.val() + '입니다. 축하합니다.\n');
-// 		} else{
-// 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
-// 					+ '결과는 무승부입니다.\n');
-// 		}
  	}
  	
  	function resetAnswerList(){

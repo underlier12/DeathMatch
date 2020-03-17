@@ -61,8 +61,7 @@ public class UnionService {
 		queue.offer(unionSettingService.ready(session, gameDTO, gameRoom));
 		
 		if(unionSettingService.readyCheck(gameRoom)) {
-			unionSettingService.startGame(gameRoom);
-			queue.offer(unionSettingService.standby(gameRoom));
+			startGame(gameRoom);
 			startRound(gameDTO, gameRoom);
 		}
 	}
@@ -88,6 +87,11 @@ public class UnionService {
 		queue.offer(unionDealerService.onResult(session, gameRoom, gameDTO));
 	}
 	
+	private void startGame(GameRoom gameRoom) {
+		unionSettingService.startGame(gameRoom);
+		queue.offer(unionSettingService.standby(gameRoom));
+	}
+	
 	private void startRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(unionDealerService.decideRound(gameRoom));
 		queue.offer(unionSettingService.setUnionProblem(gameRoom));
@@ -103,6 +107,7 @@ public class UnionService {
 		
 		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
 			queue.offer(unionDealerService.endGame(gameRoom, gameDTO));
+			unionSettingService.resetGame(gameRoom);
 		} else {
 			startRound(gameDTO, gameRoom);
 		}

@@ -255,6 +255,20 @@ public class UnionSettingService {
 		unionSettingDAO.insertAnswer(gameRoom, answerSet);
 	}	
 	
+	public void resetGame(GameRoom gameRoom) {
+		gameRoom.setRound(0);
+		
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			
+			unionPlayerDTO.setReady(false);
+			unionPlayerDTO.setScore(0);
+		}
+	}
+	
 	public void bye(WebSocketSession session, CloseStatus status) {
 		Map<String, Object> map = session.getAttributes();
 		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
