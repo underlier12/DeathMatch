@@ -42,7 +42,7 @@
 							<option>hotmail.com</option>
 							<option>yahoo.com</option>
 						</select> <span id="email_check_text"></span> <span style="float: right;">
-							<button type="button" class="btn btn-warning" id="findPwEmail">
+							<button type="button" class="btn btn-warning" id="findPwCheckEmail">
 								Check</button>
 						</span>
 					</div>

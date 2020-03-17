@@ -140,5 +140,15 @@ public class UserController {
 		log.info("result :" + cnt);
 		return cnt;
 	}
+	
+	@ResponseBody
+	@PostMapping("/findPw")
+	public boolean findPw(@RequestBody UserDTO userDTO) {
+		boolean check = false;
+		String userEmail = userDTO.getUserEmail();
+		log.info("이메일 메일 " + userEmail);
+		return check;
+	}
+	
 
 }

@@ -11,9 +11,14 @@ $(function(){
 			$("#findModal").modal();
 		});
 		
-		$("#findPwEmail").click(function(e){
+		$("#findPwCheckEmail").click(function(e){
 			var email1 = $('#findPwEmail1').val();
 			var email2 = $('#findPwEmail2').val();
+			if(!email1 || !email2){
+				alert("이메일을 입력해 주세요");
+				$('#userEmail1').focus();
+				return false;
+			}
 			var userCheckEmail = email1 + '@' +email2;
 			console.log(userCheckEmail);
 			var userEmailInfo ={
@@ -22,9 +27,41 @@ $(function(){
 			checkFindPwEmail(userEmailInfo);
 		})
 		
+		$("#findUserPw").click(function(){
+			var email1 = $('#findPwEmail1').val();
+			var email2 = $('#findPwEmail2').val();
+			var userCheckEmail = email1 + '@' +email2;
+			console.log(userCheckEmail);
+			
+			var userInfo = {
+					userEmail : userCheckEmail,
+			};
+			
+			if(!email1 || !email2){
+				alert("이메일을 입력해 주세요");
+				$('#findPwEmail1').focus();
+				return false;
+			}else if(idflag == 1){
+				alert("ID 중복체크가 필요합니다");
+				return false;
+			}
+			var findPwCheck = confirm('이메일로 임시 비밀번호가 전송됩니다');
+			
+			if(findPwCheck){
+				//registerMember(userInfo);
+				alert('전송 완료!');
+				$('#findModal').modal('hide');
+			}
+		})
+		
 		$("#checkEmail").click(function(e){
 			var email1 = $('#userEmail1').val();
 			var email2 = $('#userEmail2').val();
+			if(!email1 || !email2){
+				alert("이메일을 입력해 주세요");
+				$('#userEmail1').focus();
+				return false;
+			}
 			var userCheckEmail = email1 + '@' +email2;
 			console.log(userCheckEmail);
 			var userEmailInfo ={
@@ -78,7 +115,7 @@ $(function(){
 					phone : phone
 			};
 				
-			if(!userEmail){
+			if(!email1 || !email2){
 				alert("이메일을 입력해 주세요");
 				$('#userEmail').focus();
 				return false;
@@ -95,7 +132,7 @@ $(function(){
 				$('#phone').focus();
 				return false;
 			}else if(idflag == 0){
-				alert("아이디를 한번 더 확인해주세요");
+				alert("Email 중복체크가 필요합니다");
 				$('#userEmail').focus();
 				return false;
 			}else if(userEmail == '' || !(chkEmail(userEmail))){
@@ -118,6 +155,17 @@ $(function(){
 			}
 			
 		});
+		function checkUserEmail(userInfo){
+			$.ajax({
+				type : 'post',
+				url : '/genious/user/findPw',
+				data : JSON.stringify(userInfo),
+				contentType : 'application/json; charset=utf-8',
+				success : function(result){
+					console.log(result)
+				}
+			})
+		}
 		
 		function registerMember(userInfo){
 			$.ajax({
@@ -142,6 +190,7 @@ $(function(){
                 	console.log(data);
                     if(data == 1){
                     	alert("이미 있는 이메일 입니다");
+                    	idflag = 0;
                     	return false;
                     }else {
                     	alert("사용 가능한 아이디 입니다");
@@ -163,6 +212,7 @@ $(function(){
                 	console.log(data);
                     if(data == 1){
                     	alert("존재하는 이메일 입니다! PW 확인시 이메일로 보내드리겠습니다");
+                    	idflag = 0;
                     	return false;
                     }else {
                     	alert("존재하지 않는 이메일 입니다.");
