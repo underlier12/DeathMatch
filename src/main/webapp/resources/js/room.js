@@ -1,5 +1,14 @@
 $(function () {
 	
+	// websocket variables
+	
+	var url = window.location.host;//웹브라우저의 주소창의 포트까지 가져옴
+	var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
+	var appCtx = pathname.substring(0, pathname.indexOf("/",2));
+	var root = url+appCtx;
+	
+	var sock = new SockJS("http://"+root+"/ws/chat");	
+	
 	// variables
 	
 	var chatStatus = $('#chatStatus');
@@ -12,12 +21,6 @@ $(function () {
     var answerList = $('.answer');
     var selectedInput = $('#selected');
    
-    
-    var url = window.location.host;//웹브라우저의 주소창의 포트까지 가져옴
-    var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
-    var appCtx = pathname.substring(0, pathname.indexOf("/",2));
-    var root = url+appCtx;
-
     var selectBtn = $('.select');
     var uniBtn = $('.uni');
     var onBtn = $('.on');
@@ -30,7 +33,6 @@ $(function () {
     
     var roundP = $('#round');
 
-    var sock = new SockJS("http://"+root+"/ws/chat");
     
     
     // websocket actions
