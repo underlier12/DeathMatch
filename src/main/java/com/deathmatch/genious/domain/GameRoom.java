@@ -1,8 +1,6 @@
 package com.deathmatch.genious.domain;
 
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.web.socket.WebSocketSession;
@@ -20,13 +18,20 @@ public class GameRoom {
     private String gameId;
     private int totalRound = 3;
     private int round = 0;
-    private Map<String, Boolean> readyUser = new LinkedHashMap<String, Boolean>();
     private Set<WebSocketSession> sessions = new HashSet<>();
     
     @Builder
     public GameRoom(String roomId, String name) {
         this.roomId = roomId;
         this.name = name;
+    }
+    
+    public void addSession(WebSocketSession session) {
+    	sessions.add(session);
+    }
+    
+    public void removeSession(WebSocketSession session) {
+    	sessions.remove(session);
     }
 
 }

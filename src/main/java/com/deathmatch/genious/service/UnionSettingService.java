@@ -8,9 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.deathmatch.genious.dao.UnionSettingDAO;
 import com.deathmatch.genious.domain.GameRoom;
@@ -19,6 +22,7 @@ import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
 import com.deathmatch.genious.domain.UnionGameDTO;
+import com.deathmatch.genious.domain.UnionPlayerDTO;
 import com.deathmatch.genious.domain.UnionSettingDTO;
 import com.deathmatch.genious.util.UnionCombination;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -33,6 +37,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionSettingService {
 	
+	private final GameRoomService gameRoomService;
 	private final UnionCombination unionCombination;
 	private final UnionSettingDAO unionSettingDAO;
 	private final ObjectMapper objectMapper;
@@ -62,6 +67,33 @@ public class UnionSettingService {
 		}
 	}
 	
+	public void welcome(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		log.info("welcome");
+		
+		gameRoom.addSession(session);
+		
+		UnionPlayerDTO unionPlayerDTO = new UnionPlayerDTO();
+		
+		unionPlayerDTO.setUserEmail(gameDTO.getSender());
+		unionPlayerDTO.setRoomId(gameRoom.getRoomId());
+		unionPlayerDTO.setStatus(decideStatus(gameRoom));
+		unionPlayerDTO.setReady(false);
+		unionPlayerDTO.setScore(0);
+		
+		Map<String, Object> map = session.getAttributes();
+		
+		map.put("player", unionPlayerDTO);
+	}
+	
+	public String decideStatus(GameRoom gameRoom) {
+		String status = null;
+		if(gameRoom.getSessions().size() == 1) status = "HOST";
+		else if(gameRoom.getSessions().size() == 2) status = "OPPONENT";
+		else status = "GUEST";
+		
+		return status;
+	}
+	
 	public UnionGameDTO join(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
 		gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
@@ -70,7 +102,11 @@ public class UnionSettingService {
 		return gameDTO;
 	}
 	
-	public UnionGameDTO ready(UnionGameDTO gameDTO, GameRoom gameRoom) {
+	public UnionGameDTO ready(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		
+		Map<String, Object> map = session.getAttributes();
+		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+		unionPlayerDTO.setReady(true);
 		
 		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
 		gameDTO.setSender("Setting");
@@ -78,33 +114,61 @@ public class UnionSettingService {
 		return gameDTO;
 	}
 	
-	public boolean readyCheck(Map<String, Boolean> readyUser) {
+	public boolean readyCheck(GameRoom gameRoom) {
 		boolean isReady = false;
 		int countReady = 0;
 		
-		for (Boolean ready : readyUser.values()) {
-			if (ready) {
-				countReady++;
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			switch (unionPlayerDTO.getStatus()) {
+			case "HOST":
+			case "OPPONENT":
+				if(unionPlayerDTO.getReady().equals(true)) countReady++;
+				break;
+			default:
+				break;
 			}
 		}
+		if(countReady > 1) isReady = true;
 		
-    	if (countReady > 1) {
-    		isReady = true;
-    	}
     	return isReady;
+	}
+	
+	public void startGame(GameRoom gameRoom) {
+		gameRoom.setGameId(makeGameId());
+	}
+	
+
+	public String makeGameId() {
+		return UUID.randomUUID().toString();
 	}
 	
 	public UnionSettingDTO standby(GameRoom gameRoom) {
 		
 		preprocessing();
-		Object[] players = gameRoom.getReadyUser().keySet().toArray();
+		
+		List<String> players = new ArrayList<>();
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			
+			if(unionPlayerDTO.getStatus().equals("HOST") ||
+					unionPlayerDTO.getStatus().equals("OPPONENT")) {
+				players.add(unionPlayerDTO.getUserEmail());
+			}
+		}
 		
 		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
 		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
-		jsonMap.put("user1", (String)players[0]);
-		jsonMap.put("user2", (String)players[1]);
+		jsonMap.put("user1", players.get(0));
+		jsonMap.put("user2", players.get(1));
 		
 		postprocessing();
 		
@@ -173,11 +237,8 @@ public class UnionSettingService {
 				
 				String answer = Arrays.toString(indices).replaceAll("[^0-9]","");
 				answerSet.add(answer);
-
 			}
-			
 		}
-		
 		return answerSet;
 	}
 	
@@ -193,4 +254,29 @@ public class UnionSettingService {
 		
 		unionSettingDAO.insertAnswer(gameRoom, answerSet);
 	}	
+	
+	public void resetGame(GameRoom gameRoom) {
+		gameRoom.setRound(0);
+		
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			
+			unionPlayerDTO.setReady(false);
+			unionPlayerDTO.setScore(0);
+		}
+	}
+	
+	public void bye(WebSocketSession session, CloseStatus status) {
+		Map<String, Object> map = session.getAttributes();
+		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+				
+		GameRoom gameRoom = gameRoomService.findRoomById(unionPlayerDTO.getRoomId());
+		gameRoom.removeSession(session);
+		
+		log.info("bye");
+		log.info(gameRoom.getSessions());
+	}
 }
