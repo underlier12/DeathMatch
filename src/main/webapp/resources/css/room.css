@@ -1,6 +1,7 @@
 /* id */
 
 #round{
+	width: 570px;
 	height: 70px;
 	color: #FFFFFF;
 	font-size: 50px;
@@ -8,11 +9,13 @@
 }
 
 #chatStatus{
+	width: 375px;
 	height: 100px;
 	text-align: center;
 }
 
 #playerA, #playerB{
+	width: 95px;
 	height: 40px;
 	color: #CEFBC9;
 	background-color: #3F1816;
@@ -20,6 +23,7 @@
 }
 
 #selected{
+	width: 375px;
 	height: 40px;
 	color: #ECA50E;
 	background-color: #3F1816;
@@ -28,7 +32,56 @@
 
 /* class */
 
+.game{
+	width: 580px;
+    height: 800px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -290px;
+    margin-top: -400px;
+}
+
+.title-box{
+	width: 570px;
+	
+	display: flex;
+	overflow: auto;
+	justify-content: center;
+}
+
+.round-box{
+	width: 570px;
+	display: flex;
+	overflow: auto;
+	justify-content: center;
+}
+
+.problem-box{
+	width: 570px;
+	display: flex;
+	overflow: auto;
+	justify-content: center;
+}
+
+.event-box{
+	width: 570px;
+	display: flex;
+	overflow: auto;
+	justify-content: center;
+}
+
+.battle-box{
+	width: 570px;
+	display: flex;
+	overflow: auto;
+	justify-content: center;
+}
+
+
+
 .answer{
+	width: 95px;
 	height: 375px;
 	list-style: none;
 	color: #CEFBC9;
@@ -51,7 +104,7 @@
 
 
 .uni, .on, .ready{
-	width: 100%;
+	width: 95px;
 	height: 125px;
 	font-size: 35px;
 	color: #E4F7BA;
@@ -60,6 +113,7 @@
 }
 
 .scoreA, .scoreB{
+	width: 95px;
 	height: 86px;
 	font-size: 45px;
 	color: #ECA50E;
@@ -70,13 +124,13 @@
 /* tag */
 
 input{
-	width: 100%;
+	/* width: 100%; */
 	margin: 0;
 	padding: 0;
 }
 
 textarea{
-	width: 100%;
+	width: 375px;
 	color: #CEFBC9;
 	background-color: #6D211C;
 }
