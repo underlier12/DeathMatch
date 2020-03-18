@@ -7,4 +7,5 @@
 <script src="/genious/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="/genious/css/bootstrap.css">
+<link rel="stylesheet" href="/genious/css/deathmatch.css">
 <link rel="stylesheet" href="/genious/css/footer.css">

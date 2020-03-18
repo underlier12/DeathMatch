@@ -7,6 +7,7 @@
     <%@ include file="includes/meta.jsp" %>
     <title>${room.name} 채팅방</title>
     <%@ include file="includes/header2.jsp" %>
+    <link href="/genious/css/room.css" rel="stylesheet">
 </head>
 
 <body>
@@ -124,7 +125,6 @@
 	</div>
 	
 	<%-- <script src="<c:url value="/resources/js/room.js" />"></script> --%>
-	<link href="/genious/css/room.css" rel="stylesheet">
 	<script src="/genious/js/room.js"></script>
 	<%@ include file="includes/footer2.jsp" %>
 </body>
