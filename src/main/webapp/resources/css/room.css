@@ -1,3 +1,101 @@
+/* common */
+
 body{
 	background-color: #94534D;
+}
+
+.no-padding{
+	padding: 0px;	
+}
+
+.no-margin{
+	margin: 0px;
+}
+
+/* id */
+
+#round{
+	height: 70px;
+	color: #FFFFFF;
+	font-size: 50px;
+	text-align: center;
+}
+
+#chatStatus{
+	height: 100px;
+	text-align: center;
+}
+
+#playerA, #playerB{
+	height: 40px;
+	color: #CEFBC9;
+	background-color: #3F1816;
+	text-align: center;
+}
+
+#selected{
+	height: 40px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+}
+
+/* class */
+
+.answer{
+	height: 375px;
+	list-style: none;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	font-size: 25px;
+	text-align: center;
+}
+
+.select{
+	width: 125px;
+	height: 125px;
+	margin: 0;
+	padding: 0;
+}
+
+.card{
+	width: 100%;
+	height: auto;
+}
+
+
+.uni, .on, .ready{
+	width: 100%;
+	height: 125px;
+	font-size: 35px;
+	color: #E4F7BA;
+	background-color: #6D211C;
+	text-align: center;
+}
+
+.scoreA, .scoreB{
+	height: 86px;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+}
+
+/* tag */
+
+input{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+textarea{
+	width: 100%;
+	color: #CEFBC9;
+	background-color: #6D211C;
+}
+
+/* test */
+div{
+ 	/* border: 1px solid gold */
 }
