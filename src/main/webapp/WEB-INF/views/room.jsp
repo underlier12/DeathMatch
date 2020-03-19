@@ -17,8 +17,7 @@
 		<!-- first row -->
 		<div class="title-box">
 			<div class="title">
-				<h1>${room.name}</h1>
-				<h4>${room.roomId}</h4>
+				<img class="logo" src="/genious/resources/images/UnionLogo.png">
 			</div>
 		</div>
 		
@@ -82,8 +81,8 @@
 		<!-- fifth row -->
 		<div class="battle-box">
 			<div class="playerA">
-				<input id="playerA">
-				<input id="scoreA">				
+				<input id="playerA" readonly>
+				<input id="scoreA" readonly>				
 			</div>
 			<div class="broadcast">
 				<input type="text" id="selected">
@@ -94,9 +93,15 @@
 			    <button class="send">보내기</button> -->									
 			</div>
 			<div class="playerB">
-				<input id="playerB">
-				<input id="scoreB">				
+				<input id="playerB" readonly>
+				<input id="scoreB" readonly>				
 			</div>
+		</div>
+		
+		<!-- test row -->
+		<div>
+			<h1>${room.name}</h1>
+			<h4>${room.roomId}</h4>
 		</div>
 		
 		<%@ include file="includes/footer2.jsp" %>

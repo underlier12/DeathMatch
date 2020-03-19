@@ -49,6 +49,7 @@ $(function () {
     sock.onopen = function () {
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
         connectionStatus.text('connection opened');
+        hideUnion();
     }
     
     sock.onmessage = function (event){
@@ -125,6 +126,8 @@ $(function () {
 			
 			scoreAInput.val(0);
 			scoreBInput.val(0);
+			showUnion();
+			hideReady();
 		}
  	}
 
@@ -194,6 +197,8 @@ $(function () {
  			gameBroadcast.eq(0).prepend(content.sender + ' : ' 
  					+ '승자는 ' + content.user1 + '입니다. 축하합니다.\n');
  		}
+ 		showReady();
+ 		hideUnion();
  	}
  	
  	function resetAnswerList(){
@@ -246,5 +251,33 @@ $(function () {
     	sock.send(JSON.stringify(
     			{type: 'READY', roomId: roomId, sender: member}));
     });
+    
+// setting functions
+    
+	//    function addDisabled(btn){
+	//    	btn.attr("disabled", true);
+	//    }
+	//    
+	//    function removeDisabled(btn){
+	//    	btn.removeAttr("disabled");
+	//    }
+    
+    function showReady(){
+    	readyBtn.show();
+    }
+    
+    function hideReady(){
+    	readyBtn.hide();
+    }
+    
+    function showUnion(){
+    	uniBtn.show();
+    	onBtn.show();
+    }
+    
+    function hideUnion(){
+    	uniBtn.hide();
+    	onBtn.hide();
+    }
     
 });

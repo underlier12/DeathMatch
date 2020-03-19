@@ -9,7 +9,7 @@
 }
 
 #connectionStatus{
-	width: 375px;
+	width: 125px;
 	height: 100px;
 	text-align: center;
 }
@@ -59,10 +59,10 @@
 
 .title-box{
 	width: 570px;
-	
 	display: flex;
 	overflow: auto;
 	justify-content: center;
+	padding-top: 50px;
 }
 
 .round-box{
@@ -94,6 +94,10 @@
 }
 
 
+.logo{
+	width: 300px;
+	height: auto;
+}
 
 .answer{
 	width: 95px;
@@ -126,6 +130,24 @@
 	background-color: #6D211C;
 	text-align: center;
 }
+
+/* setting class */
+
+/* .visibleReady{
+	height: 375px;
+}
+
+.invisibleReady{
+	height: 0px;
+}
+
+.visibleUnion{
+	height: 187px;
+}
+
+.invisibleUnion{
+	height: 0px;
+} */
 
 
 

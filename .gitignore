@@ -6,3 +6,17 @@ target/m2e-wtp/web-resources/META-INF/maven/com.deathmatch/genious/pom.propertie
 *.class
 
 .classpath
+
+src/.DS_Store
+
+bin/.DS_Store
+
+src/main/.DS_Store
+
+src/main/webapp/.DS_Store
+
+src/main/webapp/resources/.DS_Store
+
+src/main/webapp/resources/images/.DS_Store
+
+.DS_Store
