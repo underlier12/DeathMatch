@@ -97,16 +97,6 @@ $(function(){
 			var userPw = $('#pw').val();
 			//이름
 			var userName = $('#userName').val();
-			//전화번호
-		/*	var phone1 = $('#phone1').val();
-			var phone2 = $('#phone2').val();
-			var phone3 = $('#phone3').val();
-			var phone = phone1 + '-' + phone2 + '-' + phone3;*/
-			
-			// 휴대전화가 비어있을 경우 phone = ""
-            /*if(!phone2 && !phone3) {
-                phone = "";
-            }*/
 			
 			var userInfo = {
 					userEmail : userEmail,
