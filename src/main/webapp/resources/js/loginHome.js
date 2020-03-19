@@ -98,21 +98,20 @@ $(function(){
 			//이름
 			var userName = $('#userName').val();
 			//전화번호
-			var phone1 = $('#phone1').val();
+		/*	var phone1 = $('#phone1').val();
 			var phone2 = $('#phone2').val();
 			var phone3 = $('#phone3').val();
-			var phone = phone1 + '-' + phone2 + '-' + phone3;
+			var phone = phone1 + '-' + phone2 + '-' + phone3;*/
 			
 			// 휴대전화가 비어있을 경우 phone = ""
-            if(!phone2 && !phone3) {
+            /*if(!phone2 && !phone3) {
                 phone = "";
-            }
+            }*/
 			
 			var userInfo = {
 					userEmail : userEmail,
 					pw : userPw,
 					name : userName,
-					phone : phone
 			};
 				
 			if(!email1 || !email2){
@@ -126,10 +125,6 @@ $(function(){
 			}else if(!userName){
 				alert("이름을 입력해주세요");
 				$('#name').focus();
-				return false;
-			}else if((phone2||phone3) && !(phone2&&phone3)){
-				alert("핸드폰 번호를 확인해주세요");
-				$('#phone').focus();
 				return false;
 			}else if(idflag == 0){
 				alert("Email 중복체크가 필요합니다");

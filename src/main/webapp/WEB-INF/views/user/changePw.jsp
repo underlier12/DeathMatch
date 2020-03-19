@@ -19,8 +19,8 @@
 		<div class="row changePw-row" style="margin-top: 80px">
 			<div class="col-md-4 col-md-offset-4" style="margin-top: 80px;">
 				<p>안전한 비밀번호로 내 정보를 보호하세요</p>
-				<p>다른 아이디/사이트에서 사용한 적 없는 비밀번호</p>
-				<p>이전에 사용한 적 없는 비밀번호가 안전합니다</p>
+				<p class ="text-warning">다른 아이디/사이트에서 사용한 적 없는 비밀번호</p>
+				<p class ="text-warning">이전에 사용한 적 없는 비밀번호가 안전합니다</p>
 			</div>
 
 			<div class="col-md-4 col-md-offset-4" style= "margin-top: 20px;">

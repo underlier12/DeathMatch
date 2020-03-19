@@ -6,9 +6,9 @@
 
 	<!-- 일반 유저 가입하기 -->
     <insert id ="insertMember">
-        insert into tbl_user(userEmail,userId,pw,name,phone)
+        insert into tbl_user(userEmail,userId,pw,name)
         values
-        (#{userEmail},#{userId},#{pw},#{name},#{phone});
+        (#{userEmail},#{userId},#{pw},#{name});
     </insert>
     
     <!-- SNS 유저 가입하기 -->
@@ -51,7 +51,7 @@
     
     <!-- 유저 조회 하기 -->
     <select id ="selectMember" resultType="UserDTO">
-        select userEmail,pw,userId,name,score,phone
+        select userEmail,pw,userId,name,score
         from tbl_user
         where userEmail = #{userEmail};
     </select>
