@@ -111,7 +111,7 @@
 
 
 .checkbox{
-	/* display: none; */
+	display: none;
 	margin: 0;
 }
 
@@ -122,16 +122,16 @@
 
 
 
-.select{
+/* .select{
 	width: 125px;
 	height: 125px;
 	margin: 0;
 	padding: 0;
-}
+} */
 
 .card{
-	width: 100%;
-	height: auto;
+	width: 125px;
+	height: 125px;
 }
 
 
@@ -155,7 +155,9 @@
 
 /* setting class */
 
-
+.boundary{
+	border: 2px solid #EFF482;
+}
 
 
 

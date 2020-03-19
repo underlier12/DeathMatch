@@ -225,11 +225,11 @@ $(function () {
 	//        messageInput.val('');
 	//    });
     
-    selectBtn.click(function(){
-    	var selectedCard = $(this).attr('name');
-    	var selectedBefore = selectedInput.val();
-    	selectedInput.val(selectedBefore + selectedCard);
-    });
+//    selectBtn.click(function(){
+//    	var selectedCard = $(this).attr('name');
+//    	var selectedBefore = selectedInput.val();
+//    	selectedInput.val(selectedBefore + selectedCard);
+//    });
     
     uniBtn.click(function(){
     	sock.send(JSON.stringify(
@@ -238,15 +238,15 @@ $(function () {
     
     onBtn.click(function(){
     	
-    	var answerString = selectedInput.val();
-    	var answerArray = answerString.split("");
-    	var sortedAnswerArray = answerArray.sort();
-    	var message = sortedAnswerArray.join('');
-    	
-    	sock.send(JSON.stringify(
-    			{type: 'ON', roomId: roomId, sender: member, message: message}));
-    	
-    	selectedInput.val('');
+//    	var answerString = selectedInput.val();
+//    	var answerArray = answerString.split("");
+//    	var sortedAnswerArray = answerArray.sort();
+//    	var message = sortedAnswerArray.join('');
+//    	
+//    	sock.send(JSON.stringify(
+//    			{type: 'ON', roomId: roomId, sender: member, message: message}));
+//    	
+//    	selectedInput.val('');
     });
     
     readyBtn.click(function(){
@@ -256,9 +256,8 @@ $(function () {
     
     
     
-    selectBox.change(function(){
-    	console.log("selectBox");
-    	
+    selectBox.change(function(){	
+    	$(this).next().children().toggleClass("boundary");
     	var checkedBox = $('input[type="checkbox"]:checked');
     	
     	if(checkedBox.length == 3){
@@ -266,28 +265,19 @@ $(function () {
     		
     		checkedBox.each(function(){
     			var selected = $(this).attr("name");
-    			console.log(selected);
     			message += selected;
     		})
-    		
-    		console.log(message);
-    		
+    		    		
     		sock.send(JSON.stringify(
         			{type: 'ON', roomId: roomId, sender: member, message: message}));
     		
     		checkedBox.each(function(){
     			$(this).prop("checked", false);
+    			$(this).next().children().toggleClass("boundary");
     		})
-    		
     	}
-    	
-    	
-//    	if($('#card1').is(":checked")){
-//    		console.log("선택");
-//    	}else{
-//    		console.log("선택해제");
-//    	}
     });
+
     
     
 // setting functions
