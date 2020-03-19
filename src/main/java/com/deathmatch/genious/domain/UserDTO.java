@@ -1,6 +1,9 @@
 package com.deathmatch.genious.domain;
 
 import java.util.Date;
+
+import com.mysql.cj.log.Log;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,5 +32,10 @@ public class UserDTO {
 		this.phone = phone;
 		this.join_date = join_date;
 	}
-
+	
+	public UserDTO(String userEmail, String pw) {
+		this.userEmail = userEmail;
+		this.pw = pw;
+	}
+	
 }

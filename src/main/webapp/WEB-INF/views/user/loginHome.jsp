@@ -25,7 +25,7 @@
 			</div>
 			<div class="col-md-4 col-md-offset-4">
 				<input type="password" class="form-control" name="pw" id ="password"
-					placeholder="비밀번호">
+					placeholder="비밀번호" maxlength="15">
 			</div>
 			<div class="col-md-4 col-md-offset-4">
 				<c:if test="${empty login}">

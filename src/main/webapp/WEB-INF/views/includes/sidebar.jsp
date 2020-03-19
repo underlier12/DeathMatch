@@ -38,10 +38,12 @@
 		</div>
 
 		<div class="row mypage">
-			<div class="col-md-12">
-				<button class="btn btn-default-sm"
-					style="width: 260px; height: 60px; margin-top: 15px;">MyPage</button>
-			</div>
+			<form action ="/genious/user/myPage" method ="get">
+				<div class="col-md-12">
+					<button class="btn btn-default-sm"
+						style="width: 260px; height: 60px; margin-top: 15px;">MyPage</button>
+				</div>
+			</form>
 
 			<form action="/genious/user/logout" method="get">
 				<div class="col-md-12">

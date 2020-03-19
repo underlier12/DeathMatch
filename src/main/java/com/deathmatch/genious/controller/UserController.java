@@ -23,7 +23,6 @@ import com.deathmatch.genious.service.UserService;
 import com.deathmatch.genious.util.KakaoConnectionUtil;
 import com.deathmatch.genious.util.NaverLoginBO;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -49,7 +48,37 @@ public class UserController {
 		model.addAttribute("url", naverAuthUrl);
 		return "/user/loginHome";
 	}
+
+	@GetMapping("/myPage")
+	public String myPage() {
+		return "/user/myPage";
+	}
+
+	@GetMapping("/changePw")
+	public String changePwGet() {
+		return "/user/changePw";
+	}
 	
+	@GetMapping("/modifyInfo")
+	public String modifyInfo() {
+		return "/user/modifyInfo";
+	}
+
+	// 비밀번호 변경
+	@PostMapping("/changePw")
+	public String changePw(@RequestParam String currentPw, @RequestParam String changePw, HttpSession session,
+			Model model) {
+		Object currentSessionUser = session.getAttribute("login"); // 세션 유저는 비밀번호를 들고 다니지 않음
+		UserDTO currentUser = (UserDTO)currentSessionUser;
+		if(userService.checkPw(currentUser, currentPw)) {
+			userService.changePw(currentUser,changePw);
+		}else {
+			model.addAttribute("msg","비밀번호가 일치하지 않습니다");
+			return "/user/changePw";
+		}
+		return "/user/myPage";
+	}
+
 	@GetMapping("/login")
 	public void loginGet(@ModelAttribute("loginDTO") LoginDTO loginDTO) {
 
@@ -72,9 +101,9 @@ public class UserController {
 			log.info("Login User is Empty");
 			model.addAttribute("msg", "등록되지 않은 회원입니다");
 			return "/user/loginHome";
-		}else {
+		} else {
 			log.info("Local User :" + LocalUserDTO.toString());
-			model.addAttribute("userDTO",LocalUserDTO); 
+			model.addAttribute("userDTO", LocalUserDTO);
 			return "gameHome";
 		}
 	}
@@ -93,7 +122,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/naverLogin", method = { RequestMethod.GET, RequestMethod.POST })
-	public String naverLogin(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+	public String naverLogin(Model model, @RequestParam String code, @RequestParam String state, HttpSession session)
+			throws IOException, ParseException {
 
 		OAuth2AccessToken oauthToken = naverLoginService.getAccessToken(session, code, state);
 		String apiResult = naverLoginService.getUserProfile(oauthToken);
@@ -104,7 +134,7 @@ public class UserController {
 
 		return "gameHome";
 	}
-	
+
 	@GetMapping("/naverGetToken")
 	public void naverGetToken(HttpSession session, Model model) {
 		String naverAuthUrl = naverLoginService.getAuthorizationUrl(session);
@@ -118,7 +148,7 @@ public class UserController {
 		ResponseEntity<String> entity = null;
 		try {
 			String userEmail = userDTO.getUserEmail();
-			String userId = userEmail.substring(0,userEmail.indexOf('@'));
+			String userId = userEmail.substring(0, userEmail.indexOf('@'));
 			log.info("userEmail:" + userEmail);
 			log.info("ID:" + userId);
 			userDTO.setUserId(userId);
@@ -130,17 +160,17 @@ public class UserController {
 		}
 		return entity;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/checkEmail")
-	public int checkMember(@RequestBody UserDTO userDTO ){
+	public int checkMember(@RequestBody UserDTO userDTO) {
 		int cnt = 0;
 		log.info(userDTO);
 		cnt = userService.checkUserEmail(userDTO);
 		log.info("result :" + cnt);
 		return cnt;
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/findPw")
 	public boolean findPw(@RequestBody UserDTO userDTO) {
@@ -149,6 +179,5 @@ public class UserController {
 		log.info("이메일 메일 " + userEmail);
 		return check;
 	}
-	
 
 }

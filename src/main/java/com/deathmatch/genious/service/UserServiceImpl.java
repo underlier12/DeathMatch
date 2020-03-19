@@ -1,13 +1,13 @@
 package com.deathmatch.genious.service;
 
 import org.springframework.stereotype.Service;
-
 import com.deathmatch.genious.dao.UserDAO;
 import com.deathmatch.genious.domain.LoginDTO;
 import com.deathmatch.genious.domain.UserDTO;
-
 import lombok.extern.log4j.Log4j;
 
+// 서비스는 DTO 에서 얻은정보를 효율적으로 Controller에 조립하여 넘겨준다
+// 서비스에서 DTO,VO를 조립한다
 @Log4j
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 	public UserDTO login(LoginDTO loginDTO) {
 		return userDAO.login(loginDTO);
 	}
-
+	
 	@Override
 	public int deleteMember() {
 		return 0;
@@ -39,10 +39,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int modifyPw(UserDTO userDTO) {
-		return 0;
+	public int changePw(UserDTO currentUser,String changePw) {
+		UserDTO changePwUser = new UserDTO(currentUser.getUserEmail(),changePw);
+		int result = userDAO.changePw(changePwUser);
+		return result;
 	}
-
+	
+	@Override
+	public boolean checkPw(UserDTO currentUser,String currentPw) {
+		String getPassword = userDAO.getUserPassword(currentUser);
+		return getPassword.equals(currentPw);
+	}
+	
 	@Override
 	public UserDTO findId(UserDTO userDTO) {
 		return null;
