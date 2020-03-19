@@ -31,7 +31,7 @@
 		
 		<!-- third row -->
 		<div class="problem-box">
-			<div class="answer-sheet">
+			<div class="answerSheet">
 				<ul class="answer no-padding"></ul>
 			</div>
 			<div class="problem">
@@ -62,40 +62,40 @@
 		
 		<!-- forth row -->
 		<div class="event-box">
-			<div class="exclaim-A">
+			<div class="exclaimA">
 			
 			</div>
-			<div class="timer-A">
+			<div class="timerA">
 			
 			</div>
 			<div class="connection">
-				<div id='chatStatus'></div>
+				<div id='connectionStatus'></div>
 			</div>
-			<div class="timer-B">
+			<div class="timerB">
 			
 			</div>
-			<div class="exclaim-B">
+			<div class="exclaimB">
 			
 			</div>
 		</div>
 		
 		<!-- fifth row -->
 		<div class="battle-box">
-			<div class="player-A">
+			<div class="playerA">
 				<input id="playerA">
-				<input class="scoreA">				
+				<input id="scoreA">				
 			</div>
 			<div class="broadcast">
 				<input type="text" id="selected">
 				<div class="content" data-room-id="${room.roomId}" data-member="${member}">
-			    	<textarea name="chatMsg" rows="4" cols="70" readonly></textarea><p>
+			    	<textarea id="broadcast" rows="4" cols="70" readonly></textarea><p>
 			    </div>
 			    <!-- <input name="message">
 			    <button class="send">보내기</button> -->									
 			</div>
-			<div class="player-B">
+			<div class="playerB">
 				<input id="playerB">
-				<input class="scoreB">				
+				<input id="scoreB">				
 			</div>
 		</div>
 		
