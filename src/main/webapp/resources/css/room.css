@@ -109,6 +109,19 @@
 	text-align: center;
 }
 
+
+.checkbox{
+	/* display: none; */
+	margin: 0;
+}
+
+.label{
+	margin: 0;
+	padding: 0;
+}
+
+
+
 .select{
 	width: 125px;
 	height: 125px;
@@ -122,9 +135,18 @@
 }
 
 
-.uni, .on, .ready{
+.uni, .on{
 	width: 95px;
-	height: 125px;
+	height: 187px;
+	font-size: 35px;
+	color: #E4F7BA;
+	background-color: #6D211C;
+	text-align: center;
+}
+
+.ready{
+	width: 95px;
+	height: 375px;
 	font-size: 35px;
 	color: #E4F7BA;
 	background-color: #6D211C;
@@ -133,31 +155,9 @@
 
 /* setting class */
 
-/* .visibleReady{
-	height: 375px;
-}
-
-.invisibleReady{
-	height: 0px;
-}
-
-.visibleUnion{
-	height: 187px;
-}
-
-.invisibleUnion{
-	height: 0px;
-} */
 
 
 
-/* tag */
-/* 
-input{
-	width: 100%;
-	margin: 0;
-	padding: 0;
-} */
 
 /* test */
 div{

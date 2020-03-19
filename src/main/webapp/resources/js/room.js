@@ -22,6 +22,8 @@ $(function () {
 	var readyBtn = $('.ready');
 	
 	// input tag
+	var selectBox = $('.selectbox');
+	
 	var selectedInput = $('#selected');
 	var playerAInput = $('#playerA');
 	var playerBInput = $('#playerB');
@@ -214,7 +216,7 @@ $(function () {
  	}
  	
  	
-// button actions
+// button/checkbox actions
 	
 	//    sendBtn.click(function () {
 	//        var message = messageInput.val();
@@ -252,6 +254,42 @@ $(function () {
     			{type: 'READY', roomId: roomId, sender: member}));
     });
     
+    
+    
+    selectBox.change(function(){
+    	console.log("selectBox");
+    	
+    	var checkedBox = $('input[type="checkbox"]:checked');
+    	
+    	if(checkedBox.length == 3){
+    		var message = "";
+    		
+    		checkedBox.each(function(){
+    			var selected = $(this).attr("name");
+    			console.log(selected);
+    			message += selected;
+    		})
+    		
+    		console.log(message);
+    		
+    		sock.send(JSON.stringify(
+        			{type: 'ON', roomId: roomId, sender: member, message: message}));
+    		
+    		checkedBox.each(function(){
+    			$(this).prop("checked", false);
+    		})
+    		
+    	}
+    	
+    	
+//    	if($('#card1').is(":checked")){
+//    		console.log("선택");
+//    	}else{
+//    		console.log("선택해제");
+//    	}
+    });
+    
+    
 // setting functions
     
 	//    function addDisabled(btn){
@@ -279,5 +317,9 @@ $(function () {
     	uniBtn.hide();
     	onBtn.hide();
     }
+    
+    
+    
+    
     
 });

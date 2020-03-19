@@ -36,19 +36,55 @@
 			<div class="problem">
 				<table>
 				    <tr>
-						<td><button class="select" name="1"><img class="card"></button></td>
+						<!-- <td><button class="select" name="1"><img class="card"></button></td>
 						<td><button class="select" name="2"><img class="card"></button></td>
-						<td><button class="select" name="3"><img class="card"></button></td>
+						<td><button class="select" name="3"><img class="card"></button></td> -->
+						<td>
+							<input type="checkbox"  id="card1" class="selectbox checkbox" name="1">
+							<label for="card1" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card2" class="selectbox checkbox" name="2">
+							<label for="card2" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card3" class="selectbox checkbox" name="3">
+							<label for="card3" class="label"><img class="card"></label>
+						</td>
 				    </tr>
 				    <tr>
-						<td><button class="select" name="4"><img class="card"></button></td>
+						<!-- <td><button class="select" name="4"><img class="card"></button></td>
 						<td><button class="select" name="5"><img class="card"></button></td>
-						<td><button class="select" name="6"><img class="card"></button></td>
+						<td><button class="select" name="6"><img class="card"></button></td> -->
+						<td>
+							<input type="checkbox"  id="card4" class="selectbox checkbox" name="4">
+							<label for="card4" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card5" class="selectbox checkbox" name="5">
+							<label for="card5" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card6" class="selectbox checkbox" name="6">
+							<label for="card6" class="label"><img class="card"></label>
+						</td>
 				    </tr>
 				    <tr>
-						<td><button class="select" name="7"><img class="card"></button></td>
+						<!-- <td><button class="select" name="7"><img class="card"></button></td>
 						<td><button class="select" name="8"><img class="card"></button></td>
-						<td><button class="select" name="9"><img class="card"></button></td>
+						<td><button class="select" name="9"><img class="card"></button></td> -->
+						<td>
+							<input type="checkbox"  id="card7" class="selectbox checkbox" name="7">
+							<label for="card7" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card8" class="selectbox checkbox" name="8">
+							<label for="card8" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card9" class="selectbox checkbox" name="9">
+							<label for="card9" class="label"><img class="card"></label>
+						</td>
 				    </tr>
 				</table>
 			</div>
