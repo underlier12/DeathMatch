@@ -143,9 +143,11 @@ $(function () {
  		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
  		addUp(content);
+ 		
+ 		console.log(content.answer);
 		
 		if(parseInt(content.score) > 0){
-        	answerList.append('<li>' + content.message.substring(0, 3) + '</li>');
+        	answerList.append('<li>' + content.answer + '</li>');
 		}
  	}
  	
@@ -176,15 +178,12 @@ $(function () {
  	}
  	
  	function announceWinner(content){
- 		if(scoreAInput.val() > scoreBInput.val()){
+ 		
+ 		if(content.user1 == "무승부"){
+ 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + '결과는 무승부입니다.\n');
+ 		} else {
  			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
- 					+ '승자는 ' + playerAInput.val() + '입니다. 축하합니다.\n');
- 		} else if(scoreAInput.val() < scoreBInput.val()){
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
- 					+ '승자는 ' + playerBInput.val() + '입니다. 축하합니다.\n');
- 		} else{
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
- 					+ '결과는 무승부입니다.\n');
+ 					+ '승자는 ' + content.user1 + '입니다. 축하합니다.\n');
  		}
  	}
  	

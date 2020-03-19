@@ -2,7 +2,6 @@ package com.deathmatch.genious.service;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -17,9 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 
-@Log4j
 @RequiredArgsConstructor
 @Service
 public class UnionService {
@@ -32,35 +29,21 @@ public class UnionService {
 	
 	public void handleActions(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
-		Map<String, Object> map = session.getAttributes();
-		
-		if(map.get("userEmail") != null) {
-			String userEmail = (String) map.get("userEmail");
-			
-			log.info("userEmail : " + userEmail);
-			gameDTO.setSender(userEmail);
-		}
-		
 		switch (gameDTO.getType()) {
 		case JOIN:
 			joinAction(session, gameDTO, gameRoom);
 			break;
 			
 		case READY:
-			readyAction(gameDTO, gameRoom);
+			readyAction(session, gameDTO, gameRoom);
 			break;
 			
 		case UNI:
-			uniAction(gameDTO, gameRoom);
+			uniAction(session, gameDTO, gameRoom);
 			break;
 			
 		case ON:
-			onAction(gameDTO, gameRoom);
-			break;
-			
-		case OUT:
-			log.info("OUT ACTION");
-			outAction(session, gameDTO, gameRoom);
+			onAction(session, gameDTO, gameRoom);
 			break;
 
 		default:
@@ -70,59 +53,53 @@ public class UnionService {
 	}
 
 	private void joinAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
-		gameRoom.getSessions().add(session);
+		unionSettingService.welcome(session, gameDTO, gameRoom);
 		queue.offer(unionSettingService.join(gameDTO, gameRoom));
 	}
 
-	private void readyAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		Map<String, Boolean> readyUser = gameRoom.getReadyUser();
-		readyUser.put(gameDTO.getSender(), Boolean.TRUE);
+	private void readyAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		queue.offer(unionSettingService.ready(session, gameDTO, gameRoom));
 		
-		queue.offer(unionSettingService.ready(gameDTO, gameRoom));
-		
-		if(unionSettingService.readyCheck(readyUser)) {
-			allReady(gameDTO, gameRoom);
+		if(unionSettingService.readyCheck(gameRoom)) {
+			startGame(gameRoom);
+			startRound(gameDTO, gameRoom);
 		}
 	}
 
-	private void uniAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
+	private void uniAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
 		
-		switch (unionDealerService.uniCheck(gameRoom)) {
+		switch (unionDealerService.uniCheck(gameDTO, gameRoom)) {
 		case "CORRECT":
-			endRound(gameDTO, gameRoom);
+			endRound(session, gameDTO, gameRoom);
 			isGameOver(gameDTO, gameRoom);
 			break;
 
 		case "INCORRECT":
-			maintainRound(gameDTO, gameRoom);
+			maintainRound(session, gameDTO, gameRoom);
 			break;
 		}
 		
 	}
 
-	private void onAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
+	private void onAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
-		queue.offer(unionDealerService.onCheck(gameRoom, gameDTO));
+		queue.offer(unionDealerService.onResult(session, gameRoom, gameDTO));
 	}
 	
-	private void outAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
-		gameRoom.getSessions().remove(session);
-		log.info("session : " + gameRoom.getSessions());
-	}
-	
-	
-	private void allReady(UnionGameDTO gameDTO, GameRoom gameRoom) {
+	private void startGame(GameRoom gameRoom) {
+		unionSettingService.startGame(gameRoom);
 		queue.offer(unionSettingService.standby(gameRoom));
-		queue.offer(unionSettingService.setUnionProblem(gameRoom));
-		
-		unionSettingService.setUnionAnswer(gameRoom);
-		
+	}
+	
+	private void startRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(unionDealerService.decideRound(gameRoom));
+		queue.offer(unionSettingService.setUnionProblem(gameRoom));
+		unionSettingService.setUnionAnswer(gameRoom);
 	}
 
-	private void endRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		queue.offer(unionDealerService.correctUni(gameRoom, gameDTO));
+	private void endRound(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		queue.offer(unionDealerService.uniResult(session, gameRoom, gameDTO, true));
 		queue.offer(unionDealerService.closeRound(gameRoom));
 	}
 	
@@ -130,15 +107,14 @@ public class UnionService {
 		
 		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
 			queue.offer(unionDealerService.endGame(gameRoom, gameDTO));
+			unionSettingService.resetGame(gameRoom);
 		} else {
-			queue.offer(unionSettingService.setUnionProblem(gameRoom));
-			unionSettingService.setUnionAnswer(gameRoom);
-			queue.offer(unionDealerService.decideRound(gameRoom));
+			startRound(gameDTO, gameRoom);
 		}
 	}
 	
-	private void maintainRound(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		queue.offer(unionDealerService.incorrectUni(gameRoom, gameDTO));
+	private void maintainRound(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		queue.offer(unionDealerService.uniResult(session, gameRoom, gameDTO, false));
 	}
 
 	public void send(GameRoom gameRoom) {
@@ -164,8 +140,7 @@ public class UnionService {
 	}
 
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-		// TODO Auto-generated method stub
-		
+		unionSettingService.bye(session, status);
 	}
 	
 }

@@ -3,24 +3,26 @@ package com.deathmatch.genious.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.annotation.PostConstruct;
+import java.util.UUID;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.WebSocketSession;
 
+import com.deathmatch.genious.dao.UnionSettingDAO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionCardDTO;
-import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
+import com.deathmatch.genious.domain.UnionGameDTO;
+import com.deathmatch.genious.domain.UnionPlayerDTO;
 import com.deathmatch.genious.domain.UnionSettingDTO;
 import com.deathmatch.genious.util.UnionCombination;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -35,58 +37,15 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionSettingService {
 	
+	private final GameRoomService gameRoomService;
 	private final UnionCombination unionCombination;
+	private final UnionSettingDAO unionSettingDAO;
 	private final ObjectMapper objectMapper;
 
-	private List<UnionCardDTO> allCardList;
 	private Map<String, Object> jsonMap;
 	private UnionSettingDTO unionSettingDTO;
 	private JSONObject jsonObject;
-	
 	private String jsonString;
-	
-	@PostConstruct
-	public void init() {
-		allCardList = new ArrayList<>();
-		enumerateAllCards();
-	}
-	
-	private void enumerateAllCards() {
-		
-		ShapeType[] shapeValues = UnionCardDTO.ShapeType.values();
-		ColorType[] colorValues = UnionCardDTO.ColorType.values();
-		BackType[] backValues = UnionCardDTO.BackType.values();
-		
-		for(ShapeType shape : shapeValues) {
-			for(ColorType color : colorValues) {
-				for(BackType back : backValues) {
-					
-					char shapeFirstChar = shape.toString().charAt(0); 
-					char colorFirstChar = color.toString().charAt(0);
-					char backFirstChar = back.toString().charAt(0);
-					
-					String name = String.valueOf(shapeFirstChar)
-							+ String.valueOf(colorFirstChar)
-							+ String.valueOf(backFirstChar);
-					
-					String resourceAddress = "genious/resources/images/"
-							+ name + ".jpg";
-					
-					UnionCardDTO unionCard = UnionCardDTO.builder()
-							.name(name)
-							.shape(shape)
-							.color(color)
-							.background(back)
-							.resourceAddress(resourceAddress)
-							.build();
-					
-					allCardList.add(unionCard);
-				}
-			}
-		}
-		
-		log.info("allCardList : " + allCardList);
-	}
 	
 	public void preprocessing() {
 		jsonMap = new HashMap<>();
@@ -106,7 +65,33 @@ public class UnionSettingService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void welcome(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		log.info("welcome");
 		
+		gameRoom.addSession(session);
+		
+		UnionPlayerDTO unionPlayerDTO = new UnionPlayerDTO();
+		
+		unionPlayerDTO.setUserEmail(gameDTO.getSender());
+		unionPlayerDTO.setRoomId(gameRoom.getRoomId());
+		unionPlayerDTO.setStatus(decideStatus(gameRoom));
+		unionPlayerDTO.setReady(false);
+		unionPlayerDTO.setScore(0);
+		
+		Map<String, Object> map = session.getAttributes();
+		
+		map.put("player", unionPlayerDTO);
+	}
+	
+	public String decideStatus(GameRoom gameRoom) {
+		String status = null;
+		if(gameRoom.getSessions().size() == 1) status = "HOST";
+		else if(gameRoom.getSessions().size() == 2) status = "OPPONENT";
+		else status = "GUEST";
+		
+		return status;
 	}
 	
 	public UnionGameDTO join(UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -117,7 +102,11 @@ public class UnionSettingService {
 		return gameDTO;
 	}
 	
-	public UnionGameDTO ready(UnionGameDTO gameDTO, GameRoom gameRoom) {
+	public UnionGameDTO ready(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		
+		Map<String, Object> map = session.getAttributes();
+		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+		unionPlayerDTO.setReady(true);
 		
 		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
 		gameDTO.setSender("Setting");
@@ -125,69 +114,82 @@ public class UnionSettingService {
 		return gameDTO;
 	}
 	
-	public boolean readyCheck(Map<String, Boolean> readyUser) {
+	public boolean readyCheck(GameRoom gameRoom) {
 		boolean isReady = false;
 		int countReady = 0;
 		
-		for (Boolean ready : readyUser.values()) {
-			if (ready) {
-				countReady++;
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			switch (unionPlayerDTO.getStatus()) {
+			case "HOST":
+			case "OPPONENT":
+				if(unionPlayerDTO.getReady().equals(true)) countReady++;
+				break;
+			default:
+				break;
 			}
 		}
+		if(countReady > 1) isReady = true;
 		
-    	if (countReady > 1) {
-    		isReady = true;
-    	}
     	return isReady;
+	}
+	
+	public void startGame(GameRoom gameRoom) {
+		gameRoom.setGameId(makeGameId());
+	}
+	
+
+	public String makeGameId() {
+		return UUID.randomUUID().toString();
 	}
 	
 	public UnionSettingDTO standby(GameRoom gameRoom) {
 		
 		preprocessing();
-		Object[] players = gameRoom.getReadyUser().keySet().toArray();
+		
+		List<String> players = new ArrayList<>();
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			
+			if(unionPlayerDTO.getStatus().equals("HOST") ||
+					unionPlayerDTO.getStatus().equals("OPPONENT")) {
+				players.add(unionPlayerDTO.getUserEmail());
+			}
+		}
 		
 		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
 		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
-		jsonMap.put("user1", (String)players[0]);
-		jsonMap.put("user2", (String)players[1]);
+		jsonMap.put("user1", players.get(0));
+		jsonMap.put("user2", players.get(1));
 		
 		postprocessing();
 		
 		return unionSettingDTO;
 	}
 	
-	public List<UnionCardDTO> makeUnionProblem() {
-		List<UnionCardDTO> problemList = new ArrayList<>();
-		List<UnionCardDTO> randomCardList = allCardList;
-		
-		Collections.shuffle(randomCardList);
-		
-		for(int i = 0; i < 9; i++) {
-			problemList.add(randomCardList.get(i));
-		}
-		
-		return problemList;
-	}
-	
 	public UnionSettingDTO setUnionProblem(GameRoom gameRoom) {
 		
 		preprocessing();
 		
-		List<UnionCardDTO> problemList = makeUnionProblem();
+		List<UnionCardDTO> problemList = unionSettingDAO.makeUnionProblem();
 		List<String> problemCardNames = new ArrayList<>();
-		gameRoom.setProblemList(problemList);
-		
-		log.info("getSubmited : " + gameRoom.getSubmitedAnswerSet());
-		gameRoom.setSubmitedAnswerSet(new HashSet<>());
-		log.info("getSubmited : " + gameRoom.getSubmitedAnswerSet());
 		
 		log.info("problemList.toString : " + problemList.toString());
-
-		for(UnionCardDTO card : problemList) {
-			problemCardNames.add(card.getName());
+		
+		for(int i = 0; i < problemList.size(); i++) {
+			String cardName = problemList.get(i).getName();
+			problemCardNames.add(cardName);
+			unionSettingDAO.insertProblem(gameRoom, i, cardName);			
 		}
+		
 		
 		jsonMap.put("type", "PROBLEM");
 		jsonMap.put("roomId", gameRoom.getRoomId());
@@ -232,34 +234,49 @@ public class UnionSettingService {
 				}
 				
 				Arrays.sort(indices);
-				log.info(indices);
 				
 				String answer = Arrays.toString(indices).replaceAll("[^0-9]","");
 				answerSet.add(answer);
-
 			}
-			
 		}
-		
-		for(String answer : answerSet) {
-			log.info("answer : " + answer);
-		}
-		log.info("answerSet.size() : " + answerSet.size() + "\n");
-		
 		return answerSet;
 	}
 	
 	public void setUnionAnswer(GameRoom gameRoom){
 		
-		List<UnionCardDTO> problemList = gameRoom.getProblemList();
+		List<UnionCardDTO> problemList = unionSettingDAO.selectUnionProblem(gameRoom);
 		
 		Set<UnionCardDTO[]> answerCandidateSet = new HashSet<>();
 		Set<String> answerSet = new HashSet<>();
 		
 		answerCandidateSet = unionCombination.makeCombination(problemList);
 		answerSet = makeUnionAnswer(problemList, answerCandidateSet);
-		gameRoom.setAnswerSet(answerSet);
 		
-		log.info("answerSet : " + gameRoom.getAnswerSet() + "\n");
+		unionSettingDAO.insertAnswer(gameRoom, answerSet);
 	}	
+	
+	public void resetGame(GameRoom gameRoom) {
+		gameRoom.setRound(0);
+		
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			
+			unionPlayerDTO.setReady(false);
+			unionPlayerDTO.setScore(0);
+		}
+	}
+	
+	public void bye(WebSocketSession session, CloseStatus status) {
+		Map<String, Object> map = session.getAttributes();
+		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+				
+		GameRoom gameRoom = gameRoomService.findRoomById(unionPlayerDTO.getRoomId());
+		gameRoom.removeSession(session);
+		
+		log.info("bye");
+		log.info(gameRoom.getSessions());
+	}
 }
