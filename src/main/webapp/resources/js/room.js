@@ -15,6 +15,11 @@ $(function () {
 	var roomId = $('.content').data('room-id');
 	var member = $('.content').data('member');
 	
+	// resources variables
+	var defaultImagePath = "/genious/resources/images/";
+	var defaultJpg = ".jpg";
+	var defaultPng = ".png";
+	
     // button tag
 	var selectBtn = $('.select');
 	var uniBtn = $('.uni');
@@ -42,16 +47,13 @@ $(function () {
     // p tag
     var roundP = $('#round');
 
-	// var messageInput = $('input[name="message"]');
-	// var sendBtn = $('.send');
-
-    
 // websocket actions
     
     sock.onopen = function () {
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
         connectionStatus.text('connection opened');
         hideUnion();
+        setProblemNum();
     }
     
     sock.onmessage = function (event){
@@ -130,6 +132,7 @@ $(function () {
 			scoreBInput.val(0);
 			showUnion();
 			hideReady();
+			dismantleProblemNum();
 		}
  	}
 
@@ -139,11 +142,8 @@ $(function () {
  	}
  	
  	function notifyProblem(content){
-		var defaultPath = "/genious/resources/images/";
-		var defaultExtension = ".jpg";
-		
 		for(var i=0; i < content.cards.length; i++){
-			$(".card:eq("+i+")").attr("src", defaultPath + content.cards[i] + defaultExtension);
+			$(".card:eq("+i+")").attr("src", defaultImagePath + content.cards[i] + defaultJpg);
 		}
  	}
  	
@@ -201,6 +201,7 @@ $(function () {
  		}
  		showReady();
  		hideUnion();
+ 		setProblemNum();
  	}
  	
  	function resetAnswerList(){
@@ -217,36 +218,14 @@ $(function () {
  	
  	
 // button/checkbox actions
-	
-	//    sendBtn.click(function () {
-	//        var message = messageInput.val();
-	//        sock.send(JSON.stringify(
-	//        		{type: 'TALK', roomId: roomId, sender: member, message: message}));
-	//        messageInput.val('');
-	//    });
-    
-//    selectBtn.click(function(){
-//    	var selectedCard = $(this).attr('name');
-//    	var selectedBefore = selectedInput.val();
-//    	selectedInput.val(selectedBefore + selectedCard);
-//    });
-    
+ 	
     uniBtn.click(function(){
     	sock.send(JSON.stringify(
     			{type: 'UNI', roomId: roomId, sender: member, message: "결!"}));
     });
     
     onBtn.click(function(){
-    	
-//    	var answerString = selectedInput.val();
-//    	var answerArray = answerString.split("");
-//    	var sortedAnswerArray = answerArray.sort();
-//    	var message = sortedAnswerArray.join('');
-//    	
-//    	sock.send(JSON.stringify(
-//    			{type: 'ON', roomId: roomId, sender: member, message: message}));
-//    	
-//    	selectedInput.val('');
+    	// TODO : annouce for user to select answer
     });
     
     readyBtn.click(function(){
@@ -281,14 +260,7 @@ $(function () {
     
     
 // setting functions
-    
-	//    function addDisabled(btn){
-	//    	btn.attr("disabled", true);
-	//    }
-	//    
-	//    function removeDisabled(btn){
-	//    	btn.removeAttr("disabled");
-	//    }
+
     
     function showReady(){
     	readyBtn.show();
@@ -308,7 +280,17 @@ $(function () {
     	onBtn.hide();
     }
     
+    function setProblemNum(){
+    	for(var i=0; i < 9; i++){
+    		$(".card:eq("+i+")").attr("src", defaultImagePath + (i+1) + defaultPng);
+		}
+    }
     
+    function dismantleProblemNum(){
+    	for(var i=0; i < 9; i++){
+    		$(".card:eq("+i+")").attr("src", "");
+		}
+    }
     
     
     

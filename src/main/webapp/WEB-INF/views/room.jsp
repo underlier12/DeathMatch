@@ -36,9 +36,6 @@
 			<div class="problem">
 				<table>
 				    <tr>
-						<!-- <td><button class="select" name="1"><img class="card"></button></td>
-						<td><button class="select" name="2"><img class="card"></button></td>
-						<td><button class="select" name="3"><img class="card"></button></td> -->
 						<td>
 							<input type="checkbox"  id="card1" class="selectbox checkbox" name="1">
 							<label for="card1" class="label"><img class="card"></label>
@@ -53,9 +50,6 @@
 						</td>
 				    </tr>
 				    <tr>
-						<!-- <td><button class="select" name="4"><img class="card"></button></td>
-						<td><button class="select" name="5"><img class="card"></button></td>
-						<td><button class="select" name="6"><img class="card"></button></td> -->
 						<td>
 							<input type="checkbox"  id="card4" class="selectbox checkbox" name="4">
 							<label for="card4" class="label"><img class="card"></label>
@@ -70,9 +64,6 @@
 						</td>
 				    </tr>
 				    <tr>
-						<!-- <td><button class="select" name="7"><img class="card"></button></td>
-						<td><button class="select" name="8"><img class="card"></button></td>
-						<td><button class="select" name="9"><img class="card"></button></td> -->
 						<td>
 							<input type="checkbox"  id="card7" class="selectbox checkbox" name="7">
 							<label for="card7" class="label"><img class="card"></label>
@@ -124,9 +115,7 @@
 				<input type="text" id="selected">
 				<div class="content" data-room-id="${room.roomId}" data-member="${member}">
 			    	<textarea id="broadcast" rows="4" cols="70" readonly></textarea><p>
-			    </div>
-			    <!-- <input name="message">
-			    <button class="send">보내기</button> -->									
+			    </div>							
 			</div>
 			<div class="playerB">
 				<input id="playerB" readonly>
