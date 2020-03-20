@@ -1,6 +1,8 @@
 package com.deathmatch.genious.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.web.socket.WebSocketSession;
@@ -18,6 +20,7 @@ public class GameRoom {
     private String gameId;
     private int totalRound = 3;
     private int round = 0;
+    private List<UnionPlayerDTO> engaged = new ArrayList<>();
     private Set<WebSocketSession> sessions = new HashSet<>();
     
     @Builder
@@ -32,6 +35,14 @@ public class GameRoom {
     
     public void removeSession(WebSocketSession session) {
     	sessions.remove(session);
+    }
+    
+    public void addPlayer(UnionPlayerDTO player) {
+    	engaged.add(player);
+    }
+    
+    public void removePlayer(UnionPlayerDTO player) {
+    	engaged.remove(player);
     }
 
 }

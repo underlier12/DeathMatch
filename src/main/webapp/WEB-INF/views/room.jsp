@@ -89,16 +89,17 @@
 		<!-- forth row -->
 		<div class="event-box">
 			<div class="exclaimA">
-			
+				<!-- test -->
+				<div id="app"></div>
 			</div>
 			<div class="timerA">
-			
+				<div id="timerA"></div>
 			</div>
 			<div class="connection">
 				<div id='connectionStatus'></div>
 			</div>
 			<div class="timerB">
-			
+				<div id="timerB"></div>
 			</div>
 			<div class="exclaimB">
 			

@@ -71,18 +71,22 @@ public class UnionSettingService {
 		log.info("welcome");
 		
 		gameRoom.addSession(session);
+		String status = decideStatus(gameRoom);
 		
 		UnionPlayerDTO unionPlayerDTO = new UnionPlayerDTO();
 		
 		unionPlayerDTO.setUserEmail(gameDTO.getSender());
 		unionPlayerDTO.setRoomId(gameRoom.getRoomId());
-		unionPlayerDTO.setStatus(decideStatus(gameRoom));
+		unionPlayerDTO.setStatus(status);
 		unionPlayerDTO.setReady(false);
+		unionPlayerDTO.setTurn(false);
 		unionPlayerDTO.setScore(0);
 		
 		Map<String, Object> map = session.getAttributes();
 		
 		map.put("player", unionPlayerDTO);
+		
+		isEngaged(unionPlayerDTO, gameRoom);
 	}
 	
 	public String decideStatus(GameRoom gameRoom) {
@@ -92,6 +96,15 @@ public class UnionSettingService {
 		else status = "GUEST";
 		
 		return status;
+	}
+	
+	public void isEngaged(UnionPlayerDTO player, GameRoom gameRoom) {
+		switch (player.getStatus()) {
+		case "HOST":
+		case "OPPONENT":
+			gameRoom.addPlayer(player);
+			break;
+		}
 	}
 	
 	public UnionGameDTO join(UnionGameDTO gameDTO, GameRoom gameRoom) {

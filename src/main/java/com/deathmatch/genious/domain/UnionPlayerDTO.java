@@ -11,5 +11,6 @@ public class UnionPlayerDTO {
 	private String roomId;
 	private String status;
 	private Boolean ready;
+	private Boolean turn;
 	private int score;
 }
