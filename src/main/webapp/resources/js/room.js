@@ -1,50 +1,64 @@
 $(function () {
 	
-	// variables
+// websocket variables
 	
-	var chatStatus = $('#chatStatus');
-	var chatMsgArea = $('textarea[name="chatMsg"]');
-    var messageInput = $('input[name="message"]');
-    var sendBtn = $('.send');
-    var roomId = $('.content').data('room-id');
-    var member = $('.content').data('member');
-    
-    var answerList = $('.answer');
-    var selectedInput = $('#selected');
-   
-    
-    var url = window.location.host;//웹브라우저의 주소창의 포트까지 가져옴
-    var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
-    var appCtx = pathname.substring(0, pathname.indexOf("/",2));
-    var root = url+appCtx;
+	var url = window.location.host;//웹브라우저의 주소창의 포트까지 가져옴
+	var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
+	var appCtx = pathname.substring(0, pathname.indexOf("/",2));
+	var root = url+appCtx;
+	
+	var sock = new SockJS("http://"+root+"/ws/chat");	
+	
+// variables
+	
+	// request variables
+	var roomId = $('.content').data('room-id');
+	var member = $('.content').data('member');
+	
+	// resources variables
+	var defaultImagePath = "/genious/resources/images/";
+	var defaultJpg = ".jpg";
+	var defaultPng = ".png";
+	
+    // button tag
+	var selectBtn = $('.select');
+	var uniBtn = $('.uni');
+	var onBtn = $('.on');
+	var readyBtn = $('.ready');
+	
+	// input tag
+	var selectBox = $('.selectbox');
+	
+	var selectedInput = $('#selected');
+	var playerAInput = $('#playerA');
+	var playerBInput = $('#playerB');
+	var scoreAInput = $('#scoreA');
+	var scoreBInput = $('#scoreB');
 
-    var selectBtn = $('.select');
-    var uniBtn = $('.uni');
-    var onBtn = $('.on');
-    var readyBtn = $('.ready');
+	// div tag
+	var connectionStatus = $('#connectionStatus');
+	
+	// textarea tag
+	var gameBroadcast = $('#broadcast');
+	
+	// ul tag
+    var answerList = $('.answer');
     
-    var playerAInput = $('#playerA');
-    var playerBInput = $('#playerB');
-    var scoreAInput = $('.scoreA');
-    var scoreBInput = $('.scoreB');
-    
+    // p tag
     var roundP = $('#round');
 
-    var sock = new SockJS("http://"+root+"/ws/chat");
-    
-    
-    // websocket actions
+// websocket actions
     
     sock.onopen = function () {
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
-        chatStatus.text('Info: connection opened.');
+        connectionStatus.text('connection opened');
+        hideUnion();
+        setProblemNum();
     }
     
     sock.onmessage = function (event){
     	var content = JSON.parse(event.data);
-    	
-    	console.log("content.sender : " + content.sender);
-    	
+    	    	
     	switch(content.sender){
     	case "Setting":
     	case "Dealer":
@@ -57,10 +71,10 @@ $(function () {
     
  	sock.onclose = function(event){
  		console.log("sock.onclose");
- 		chatStatus.text('Info: connection closed.');
+ 		connectionStatus.text('connection closed');
  	}
 
- 	// websocket functions
+// websocket functions
  	
  	function fromServer(content){
  		switch(content.type){
@@ -104,43 +118,43 @@ $(function () {
  	}
  	
  	function notifyJoin(content){
-		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
  	
  	function notifyReady(content){
-		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
 		
 		if(content.user1){
 			playerAInput.val(content.user1);
 			playerBInput.val(content.user2);
 			
-			$('.scoreA').val(0);
-			$('.scoreB').val(0);
+			scoreAInput.val(0);
+			scoreBInput.val(0);
+			showUnion();
+			hideReady();
+			dismantleProblemNum();
 		}
  	}
 
  	function notifyRound(content){
- 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
         roundP.text(content.round + ' ROUND');
  	}
  	
  	function notifyProblem(content){
-		var defaultPath = "/genious/resources/images/";
-		var defaultExtension = ".jpg";
-		
 		for(var i=0; i < content.cards.length; i++){
-			$(".card:eq("+i+")").attr("src", defaultPath + content.cards[i] + defaultExtension);
+			$(".card:eq("+i+")").attr("src", defaultImagePath + content.cards[i] + defaultJpg);
 		}
  	}
  	
  	function notifyUni(content){
- 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
 			
 		addUp(content);
  	}
  	
  	function notifyOn(content){
- 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
  		addUp(content);
  		
@@ -152,7 +166,7 @@ $(function () {
  	}
  	
  	function notifyEnd(content){
- 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
  		switch(content.message.substring(0, 4)){
 		case "데스매치":
@@ -180,11 +194,14 @@ $(function () {
  	function announceWinner(content){
  		
  		if(content.user1 == "무승부"){
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' + '결과는 무승부입니다.\n');
+ 			gameBroadcast.eq(0).prepend(content.sender + ' : ' + '결과는 무승부입니다.\n');
  		} else {
- 			chatMsgArea.eq(0).prepend(content.sender + ' : ' 
+ 			gameBroadcast.eq(0).prepend(content.sender + ' : ' 
  					+ '승자는 ' + content.user1 + '입니다. 축하합니다.\n');
  		}
+ 		showReady();
+ 		hideUnion();
+ 		setProblemNum();
  	}
  	
  	function resetAnswerList(){
@@ -192,50 +209,89 @@ $(function () {
  	}
  	
  	function submitUni(content){
- 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
  	
  	function submitOn(content){
- 		chatMsgArea.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
  	
  	
- 	// button actions
-	
-    sendBtn.click(function () {
-        var message = messageInput.val();
-        sock.send(JSON.stringify(
-        		{type: 'TALK', roomId: roomId, sender: member, message: message}));
-        messageInput.val('');
-    });
-    
-    selectBtn.click(function(){
-    	var selectedCard = $(this).attr('name');
-    	var selectedBefore = selectedInput.val();
-    	selectedInput.val(selectedBefore + selectedCard);
-    });
-    
+// button/checkbox actions
+ 	
     uniBtn.click(function(){
     	sock.send(JSON.stringify(
     			{type: 'UNI', roomId: roomId, sender: member, message: "결!"}));
     });
     
     onBtn.click(function(){
-    	
-    	var answerString = selectedInput.val();
-    	var answerArray = answerString.split("");
-    	var sortedAnswerArray = answerArray.sort();
-    	var message = sortedAnswerArray.join('');
-    	
-    	sock.send(JSON.stringify(
-    			{type: 'ON', roomId: roomId, sender: member, message: message}));
-    	
-    	selectedInput.val('');
+    	// TODO : annouce for user to select answer
     });
     
     readyBtn.click(function(){
     	sock.send(JSON.stringify(
     			{type: 'READY', roomId: roomId, sender: member}));
     });
+    
+    
+    
+    selectBox.change(function(){	
+    	$(this).next().children().toggleClass("boundary");
+    	var checkedBox = $('input[type="checkbox"]:checked');
+    	
+    	if(checkedBox.length == 3){
+    		var message = "";
+    		
+    		checkedBox.each(function(){
+    			var selected = $(this).attr("name");
+    			message += selected;
+    		})
+    		    		
+    		sock.send(JSON.stringify(
+        			{type: 'ON', roomId: roomId, sender: member, message: message}));
+    		
+    		checkedBox.each(function(){
+    			$(this).prop("checked", false);
+    			$(this).next().children().toggleClass("boundary");
+    		})
+    	}
+    });
+
+    
+    
+// setting functions
+
+    
+    function showReady(){
+    	readyBtn.show();
+    }
+    
+    function hideReady(){
+    	readyBtn.hide();
+    }
+    
+    function showUnion(){
+    	uniBtn.show();
+    	onBtn.show();
+    }
+    
+    function hideUnion(){
+    	uniBtn.hide();
+    	onBtn.hide();
+    }
+    
+    function setProblemNum(){
+    	for(var i=0; i < 9; i++){
+    		$(".card:eq("+i+")").attr("src", defaultImagePath + (i+1) + defaultPng);
+		}
+    }
+    
+    function dismantleProblemNum(){
+    	for(var i=0; i < 9; i++){
+    		$(".card:eq("+i+")").attr("src", "");
+		}
+    }
+    
+    
     
 });
