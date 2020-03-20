@@ -2,6 +2,7 @@ package com.deathmatch.genious.service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,6 +54,37 @@ public class UnionDealerService {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public UnionDealerDTO whoseTurn(GameRoom gameRoom) {
+		preprocessing();
+		
+		String myTurn = nextTurn(gameRoom);
+		
+		log.info("myTurn : " + myTurn);
+						
+		jsonMap.put("type", "TURN");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Dealer");
+		jsonMap.put("user1", myTurn);
+		jsonMap.put("message", myTurn + "님의 차례입니다. ");
+		jsonMap.put("countDown", 10);
+		
+		postprocessing();
+		
+		return unionDealerDTO;
+	}
+	
+	public String nextTurn(GameRoom gameRoom) {
+		
+		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
+		String myTurn = engaged.get(1).getUserEmail();
+		
+		if(engaged.get(0).getTurn()) {
+			myTurn = engaged.get(0).getUserEmail();
+		}
+		
+		return myTurn;
 	}
 	
 	public UnionDealerDTO decideRound(GameRoom gameRoom) {
