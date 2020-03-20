@@ -85,6 +85,7 @@ public class UnionService {
 	private void onAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(gameDTO);
 		queue.offer(unionDealerService.onResult(session, gameRoom, gameDTO));
+		queue.offer(unionDealerService.whoseTurn(gameRoom));
 	}
 	
 	private void startGame(GameRoom gameRoom) {
@@ -96,6 +97,7 @@ public class UnionService {
 		queue.offer(unionDealerService.decideRound(gameRoom));
 		queue.offer(unionSettingService.setUnionProblem(gameRoom));
 		unionSettingService.setUnionAnswer(gameRoom);
+		queue.offer(unionDealerService.whoseTurn(gameRoom));
 	}
 
 	private void endRound(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -115,6 +117,7 @@ public class UnionService {
 	
 	private void maintainRound(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		queue.offer(unionDealerService.uniResult(session, gameRoom, gameDTO, false));
+		queue.offer(unionDealerService.whoseTurn(gameRoom));
 	}
 
 	public void send(GameRoom gameRoom) {

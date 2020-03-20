@@ -1,60 +1,138 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <%@ include file="includes/meta.jsp" %>
     <title>${room.name} 채팅방</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <%@ include file="includes/header2.jsp" %>
+    <link href="/genious/css/room.css" rel="stylesheet">
 </head>
+
 <body>
-<h1>${room.name}</h1>
 
-<h4>${room.roomId}</h4>
+	<div class="game">
+	
+		<!-- first row -->
+		<div class="title-box">
+			<div class="title">
+				<img class="logo" src="/genious/resources/images/UnionLogo.png">
+			</div>
+		</div>
+		
+		<!-- second row -->
+		<div class="round-box">
+			<div class="round">
+				<p id="round"></p>
+			</div>
+		</div>
+		
+		<!-- third row -->
+		<div class="problem-box">
+			<div class="answerSheet">
+				<ul class="answer no-padding"></ul>
+			</div>
+			<div class="problem">
+				<table>
+				    <tr>
+						<td>
+							<input type="checkbox"  id="card1" class="selectbox checkbox" name="1">
+							<label for="card1" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card2" class="selectbox checkbox" name="2">
+							<label for="card2" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card3" class="selectbox checkbox" name="3">
+							<label for="card3" class="label"><img class="card"></label>
+						</td>
+				    </tr>
+				    <tr>
+						<td>
+							<input type="checkbox"  id="card4" class="selectbox checkbox" name="4">
+							<label for="card4" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card5" class="selectbox checkbox" name="5">
+							<label for="card5" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card6" class="selectbox checkbox" name="6">
+							<label for="card6" class="label"><img class="card"></label>
+						</td>
+				    </tr>
+				    <tr>
+						<td>
+							<input type="checkbox"  id="card7" class="selectbox checkbox" name="7">
+							<label for="card7" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card8" class="selectbox checkbox" name="8">
+							<label for="card8" class="label"><img class="card"></label>
+						</td>
+						<td>
+							<input type="checkbox"  id="card9" class="selectbox checkbox" name="9">
+							<label for="card9" class="label"><img class="card"></label>
+						</td>
+				    </tr>
+				</table>
+			</div>
+			<div class="buttons">
+				<button class="uni">결</button>
+				<button class="on">합</button>
+				<button class="ready">준비</button>
+			</div>
+		</div>
+		
+		<!-- forth row -->
+		<div class="event-box">
+			<div class="exclaimA">
+				<!-- test -->
+				<div id="app"></div>
+			</div>
+			<div class="timerA">
+				<div id="timerA"></div>
+			</div>
+			<div class="connection">
+				<div id='connectionStatus'></div>
+			</div>
+			<div class="timerB">
+				<div id="timerB"></div>
+			</div>
+			<div class="exclaimB">
+			
+			</div>
+		</div>
+		
+		<!-- fifth row -->
+		<div class="battle-box">
+			<div class="playerA">
+				<input id="playerA" readonly>
+				<input id="scoreA" readonly>				
+			</div>
+			<div class="broadcast">
+				<input type="text" id="selected">
+				<div class="content" data-room-id="${room.roomId}" data-member="${member}">
+			    	<textarea id="broadcast" rows="4" cols="70" readonly></textarea><p>
+			    </div>							
+			</div>
+			<div class="playerB">
+				<input id="playerB" readonly>
+				<input id="scoreB" readonly>				
+			</div>
+		</div>
+		
+		<!-- test row -->
+		<div>
+			<h1>${room.name}</h1>
+			<h4>${room.roomId}</h4>
+		</div>
+		
+		<%@ include file="includes/footer2.jsp" %>
+	</div>
 
-<p id="round"></p>
-
-<div id='chatStatus'></div>
-<div class="content" data-room-id="${room.roomId}" data-member="${member}">
-    <textarea name="chatMsg" rows="5" cols="40" readonly></textarea><p>
-    <input name="message">
-    <button class="send">보내기</button>
-</div>
-
-<ul class="answer">
-</ul>
-
-<table border="1">
-    <tr>
-		<td><button class="select" name="1">1<img id="card1" class="card"></button></td>
-		<td><button class="select" name="2">2<img id="card2" class="card"></button></td>
-		<td><button class="select" name="3">3<img id="card3" class="card"></button></td>
-    </tr>
-    <tr>
-		<td><button class="select" name="4">4<img id="card4" class="card"></button></td>
-		<td><button class="select" name="5">5<img id="card5" class="card"></button></td>
-		<td><button class="select" name="6">6<img id="card6" class="card"></button></td>
-    </tr>
-    <tr>
-		<td><button class="select" name="7">7<img id="card7" class="card"></button></td>
-		<td><button class="select" name="8">8<img id="card8" class="card"></button></td>
-		<td><button class="select" name="9">9<img id="card9" class="card"></button></td>
-    </tr>
-</table>
-
-<input type="text" id="selected"><br>
-
-<button class="uni">결</button>
-<button class="on">합</button>
-<button class="ready">Ready</button> <br>
-
-<h3> Score </h3>
-<input id="playerA"> : <input id="playerB"><br>
-<input class="scoreA"> : <input class="scoreB">
-
-<script src="<c:url value="/resources/js/room.js" />"></script>
+	<script src="/genious/js/room.js"></script>
 </body>
 </html>
