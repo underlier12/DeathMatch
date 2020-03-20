@@ -6,10 +6,10 @@
 		alert(message);
 	}
 </script>
-<script src ="/genious/js/loginHome.js?ver=1"></script>
 
 <body>
 	<%@ include file="/WEB-INF/views/includes/joinModal.jsp" %>
+	<%@ include file="/WEB-INF/views/includes/findModal.jsp" %>
 	
 	<div style="margin-top: 80px">
 		<div class="col-md-10 col-md-offset-1" style="text-align: center">
@@ -25,7 +25,7 @@
 			</div>
 			<div class="col-md-4 col-md-offset-4">
 				<input type="password" class="form-control" name="pw" id ="password"
-					placeholder="비밀번호">
+					placeholder="비밀번호" maxlength="15">
 			</div>
 			<div class="col-md-4 col-md-offset-4">
 				<c:if test="${empty login}">
@@ -46,7 +46,7 @@
 		<span>
 			<button type ="button" class="btn btn-default" id ="regiBtn" >회원가입</button>
 			<button type ="button" class="btn btn-default">아이디 찾기</button>
-			<button type ="button" class="btn btn-default">비밀 번호 찾기</button>
+			<button type ="button" class="btn btn-default" id ="findPw">비밀 번호 찾기</button>
 		</span>
 	</div>
 	
@@ -54,12 +54,12 @@
 		<div class="col-md-4 col-md-offset-4" style="margin-bottom: 50px;">
 			<div>
 				<a href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://localhost:8003/genious/user/kakaoLogin&response_type=code">
-					<img src="/images/btn_kakao_login.gif">
+					<img src="${pageContext.request.contextPath}/images/btn_kakao_login.gif">
 				</a>
 			</div>
 			<div id="naver_id_login" style="margin-bottom: 50px;">
 				<a href="${url}">
-				<img src="/images/btn_naver_login.gif"></a>
+				<img src="${pageContext.request.contextPath}/images/btn_naver_login.gif"></a>
 			</div>
 		</div>
 	</c:if>
@@ -74,12 +74,12 @@
 	</form>
 	
 	<%@ include file="/WEB-INF/views/includes/footer.jsp" %>
-	
+	<script src ="/genious/js/loginHome.js?ver=1"></script>
 </body>
 <script type ="text/javascript">
 
-
-	$("#loginBtn").click(function(e) {
+	// 로그인, 아이디 입력 유효성 검사
+	 $("#loginBtn").click(function(e) {
 		if ($("#email").val() == ""|| $("#email").val() == null) {
 				alert("ID를 입력해주세요");
 				return false;
@@ -90,11 +90,16 @@
 		}
 		loginForm.submit();
 	});
-	
 	//셀렉트 박스에서 이메일 선택시 email2에 자동 기입
     function changeEmail() {
         var select_email = $("#select_email").val();
         $("#userEmail2").val(select_email);
+    }
+	
+	//pw 찾기 셀렉트 박스에서 이메일 선택시 email2에 자동 기입
+	function changeEmail2() {
+        var select_email2 = $("#select_email2").val();
+        $("#findPwEmail2").val(select_email2);
     }
 
 </script>

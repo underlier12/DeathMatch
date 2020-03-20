@@ -12,8 +12,6 @@ public interface UserService {
     public int deleteMember();
     // 회원 전부 탈퇴
     public int deleteAllMember();
-    // 비밀번호 변경
-    public int modifyPw(UserDTO userDTO);
     //아이디 찾기
     public UserDTO findId(UserDTO userDTO);
     //비밀번호 찾기
@@ -28,5 +26,10 @@ public interface UserService {
     public UserDTO selectNaverMember(UserDTO userDTO);
     // 아이디 조회
     public int checkUserEmail(UserDTO userDTO);
+    // 비밀번호 확인
+    public boolean checkPw(UserDTO currentUser,String currentPw);
+    // 비밀번호 변경
+    public int changePw(UserDTO currentUser,String changePw);
+    
 
 }
