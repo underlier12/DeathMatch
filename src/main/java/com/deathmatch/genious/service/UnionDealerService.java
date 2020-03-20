@@ -78,10 +78,19 @@ public class UnionDealerService {
 	public String nextTurn(GameRoom gameRoom) {
 		
 		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
-		String myTurn = engaged.get(1).getUserEmail();
+		String myTurn;
+		
+		log.info("getTurn0 : " + engaged.get(0).getTurn());
+		log.info("getTurn1 : " + engaged.get(1).getTurn());
 		
 		if(!engaged.get(0).getTurn()) {
 			myTurn = engaged.get(0).getUserEmail();
+			engaged.get(0).setTurn(true);
+			engaged.get(1).setTurn(false);
+		} else {
+			myTurn = engaged.get(1).getUserEmail();
+			engaged.get(1).setTurn(true);
+			engaged.get(0).setTurn(false);
 		}
 		
 		return myTurn;

@@ -96,6 +96,9 @@ $(function () {
  		case "ON":
  			notifyOn(content);
  			break;
+ 		case "TURN":
+ 			notifyTurn(content);
+ 			break;
  		case "END":
  			notifyEnd(content);
  			break;
@@ -165,6 +168,13 @@ $(function () {
 		}
  	}
  	
+ 	function notifyTurn(content){
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
+ 		console.log(content.user1);
+ 		console.log(content.countDown);
+ 	}
+ 	
  	function notifyEnd(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
@@ -216,6 +226,48 @@ $(function () {
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
  	
+// timer
+ 	
+ 	// Start with an initial value of 20 seconds
+ 	const TIME_LIMIT = 20;
+
+ 	// Initially, no time has passed, but this will count up
+ 	// and subtract from the TIME_LIMIT
+ 	let timePassed = 0;
+ 	let timeLeft = TIME_LIMIT;
+ 	
+ 	function startTimer(){
+ 		document.getElementById("app").innerHTML = `
+ 			<div class="base-timer">
+ 			  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+ 			    <g class="base-timer__circle">
+ 			      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
+ 			    </g>
+ 			  </svg>
+ 			  <span>
+ 			    ${formatTime(timeLeft)}
+ 			  </span>
+ 			</div>
+ 			`;
+ 	}
+ 	
+ 	function formatTimeLeft(time) {
+ 		  // The largest round integer less than or equal to the result of time divided being by 60.
+ 		  const minutes = Math.floor(time / 60);
+ 		  
+ 		  // Seconds are the remainder of the time divided by 60 (modulus operator)
+ 		  let seconds = time % 60;
+ 		  
+ 		  // If the value of seconds is less than 10, then display seconds with a leading zero
+ 		  if (seconds < 10) {
+ 		    seconds = `0${seconds}`;
+ 		  }
+
+ 		  // The output in MM:SS format
+ 		  return `${minutes}:${seconds}`;
+ 		}
+ 	
+ 	
  	
 // button/checkbox actions
  	
@@ -225,7 +277,7 @@ $(function () {
     });
     
     onBtn.click(function(){
-    	// TODO : annouce for user to select answer
+    	// TODO : announce for user to select answer
     });
     
     readyBtn.click(function(){
