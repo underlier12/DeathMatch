@@ -80,7 +80,7 @@ public class UnionDealerService {
 		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
 		String myTurn = engaged.get(1).getUserEmail();
 		
-		if(engaged.get(0).getTurn()) {
+		if(!engaged.get(0).getTurn()) {
 			myTurn = engaged.get(0).getUserEmail();
 		}
 		

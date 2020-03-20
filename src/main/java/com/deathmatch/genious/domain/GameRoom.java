@@ -36,5 +36,13 @@ public class GameRoom {
     public void removeSession(WebSocketSession session) {
     	sessions.remove(session);
     }
+    
+    public void addPlayer(UnionPlayerDTO player) {
+    	engaged.add(player);
+    }
+    
+    public void removePlayer(UnionPlayerDTO player) {
+    	engaged.remove(player);
+    }
 
 }
