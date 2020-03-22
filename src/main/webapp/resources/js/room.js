@@ -47,6 +47,11 @@ $(function () {
     // p tag
     var roundP = $('#round');
 
+// timer variables
+    
+    const FULL_DASH_ARRAY = 283; // 2*pi*r
+    
+    
 // websocket actions
     
     sock.onopen = function () {
@@ -173,6 +178,8 @@ $(function () {
  		
  		console.log(content.user1);
  		console.log(content.countDown);
+ 		
+ 		countDown(content);
  	}
  	
  	function notifyEnd(content){
@@ -214,6 +221,22 @@ $(function () {
  		setProblemNum();
  	}
  	
+ 	function countDown(content){
+ 		var timer;
+ 		
+ 		switch (content.user1) {
+		case playerAInput.val():
+			timer = "timerA";
+			setTimer(timer, content.countDown);
+			break;
+		case playerBInput.val():
+			timer = "timerB";
+			setTimer(timer, content.countDown);
+			break;
+		}
+ 	 	startTimer(timer, content.countDown);
+ 	}
+ 	
  	function resetAnswerList(){
  		answerList.empty();
  	}
@@ -227,46 +250,68 @@ $(function () {
  	}
  	
 // timer
- 	
- 	// Start with an initial value of 20 seconds
- 	const TIME_LIMIT = 20;
 
- 	// Initially, no time has passed, but this will count up
- 	// and subtract from the TIME_LIMIT
- 	let timePassed = 0;
- 	let timeLeft = TIME_LIMIT;
- 	
- 	function startTimer(){
- 		document.getElementById("app").innerHTML = `
+ 	function setTimer(timer, time){
+ 		document.getElementById(timer).innerHTML = `
  			<div class="base-timer">
- 			  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
- 			    <g class="base-timer__circle">
- 			      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
- 			    </g>
- 			  </svg>
- 			  <span>
- 			    ${formatTime(timeLeft)}
- 			  </span>
+ 			<svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+ 			<g class="base-timer__circle">
+ 			<circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+ 			<path
+ 			id="base-timer-path-remaining"
+ 			stroke-dasharray="283"
+ 			class="base-timer__path-remaining"
+ 			d="
+ 			M 50, 50
+ 			m -45, 0
+ 			a 45,45 0 1,0 90,0
+ 			a 45,45 0 1,0 -90,0
+ 			"
+ 			></path>
+ 			</g>
+ 			</svg>
+ 			
+ 			
+ 			<span id="base-timer-label" class="base-timer__label">${time}</span>
  			</div>
  			`;
  	}
- 	
- 	function formatTimeLeft(time) {
- 		  // The largest round integer less than or equal to the result of time divided being by 60.
- 		  const minutes = Math.floor(time / 60);
- 		  
- 		  // Seconds are the remainder of the time divided by 60 (modulus operator)
- 		  let seconds = time % 60;
- 		  
- 		  // If the value of seconds is less than 10, then display seconds with a leading zero
- 		  if (seconds < 10) {
- 		    seconds = `0${seconds}`;
- 		  }
 
- 		  // The output in MM:SS format
- 		  return `${minutes}:${seconds}`;
- 		}
- 	
+ 	function onTimesUp(timer, timerInterval) {
+ 	  clearInterval(timerInterval);
+ 	  document.getElementById(timer).innerHTML = "";
+ 	}
+
+ 	function startTimer(timer, timeLimit) {
+ 	 	let timePassed = 0;
+ 	 	let timeLeft = timeLimit;
+ 	 	let timerInterval = null;
+ 	 	
+ 	  timerInterval = setInterval(() => {
+ 	    timePassed = timePassed += 1;
+ 	    timeLeft = timeLimit - timePassed;
+ 	    document.getElementById("base-timer-label").innerHTML = timeLeft;
+ 	    setCircleDasharray(timeLimit, timeLeft);
+
+ 	    if (timeLeft === 0) {
+ 	      onTimesUp(timer, timerInterval);
+ 	    }
+ 	  }, 1000);
+ 	}
+
+ 	function calculateTimeFraction(timeLimit, timeLeft) {
+ 	  const rawTimeFraction = timeLeft / timeLimit;
+ 	  return rawTimeFraction - (1 / timeLimit) * (1 - rawTimeFraction);
+ 	}
+
+ 	function setCircleDasharray(timeLimit, timeLeft) {
+ 	  const circleDasharray = `${(
+ 	    calculateTimeFraction(timeLimit, timeLeft) * FULL_DASH_ARRAY
+ 	  ).toFixed(0)} 283`;
+ 	  document
+ 	    .getElementById("base-timer-path-remaining")
+ 	    .setAttribute("stroke-dasharray", circleDasharray);
+ 	}
  	
  	
 // button/checkbox actions
