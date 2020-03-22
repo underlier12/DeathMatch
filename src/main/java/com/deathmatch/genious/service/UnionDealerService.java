@@ -56,10 +56,18 @@ public class UnionDealerService {
 
 	}
 	
-	public UnionDealerDTO whoseTurn(GameRoom gameRoom) {
+	public UnionDealerDTO whoseTurn(Boolean same, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		preprocessing();
 		
-		String myTurn = nextTurn(gameRoom);
+		String myTurn = gameDTO.getSender();
+		String message = "합을 선택해주세요.";
+		int time = 5;
+		
+		if(!same) {
+			myTurn = nextTurn(gameRoom);
+			message = myTurn + "님의 차례입니다. ";
+			time = 10;
+		}
 		
 		log.info("myTurn : " + myTurn);
 						
@@ -67,8 +75,8 @@ public class UnionDealerService {
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Dealer");
 		jsonMap.put("user1", myTurn);
-		jsonMap.put("message", myTurn + "님의 차례입니다. ");
-		jsonMap.put("countDown", 10);
+		jsonMap.put("message", message);
+		jsonMap.put("countDown", time);
 		
 		postprocessing();
 		

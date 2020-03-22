@@ -138,7 +138,7 @@
 
 .uni, .on{
 	width: 95px;
-	height: 187px;
+	height: 187.5px;
 	font-size: 35px;
 	color: #E4F7BA;
 	background-color: #6D211C;
@@ -161,8 +161,8 @@
 	height: 125px;
 }
 
-.playerA, .playerB{
-	width: 95px;
+.timer{
+	width: 125px;
 	height: 125px;
 }
 

@@ -164,11 +164,12 @@ $(function () {
  	function notifyOn(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
- 		addUp(content);
- 		
- 		console.log(content.answer);
+ 		if(!content.message == "합!"){
+ 			addUp(content);
+ 		}
 		
 		if(parseInt(content.score) > 0){
+			console.log(content.answer); 			
         	answerList.append('<li>' + content.answer + '</li>');
 		}
  	}
@@ -293,9 +294,8 @@ $(function () {
  	    document.getElementById("base-timer-label").innerHTML = timeLeft;
  	    setCircleDasharray(timeLimit, timeLeft);
 
- 	    if (timeLeft === 0) {
- 	      onTimesUp(timer, timerInterval);
- 	    }
+ 	    endCondition(timer, timeLeft, timerInterval);
+ 	    
  	  }, 1000);
  	}
 
@@ -313,6 +313,14 @@ $(function () {
  	    .setAttribute("stroke-dasharray", circleDasharray);
  	}
  	
+ 	function endCondition(timer, timeLeft, timerInterval){
+ 		
+ 		
+ 		
+ 		if (timeLeft === 0) {
+ 	      onTimesUp(timer, timerInterval);
+ 	    }
+ 	}
  	
 // button/checkbox actions
  	
@@ -322,7 +330,8 @@ $(function () {
     });
     
     onBtn.click(function(){
-    	// TODO : announce for user to select answer
+    	sock.send(JSON.stringify(
+    			{type: 'ON', roomId: roomId, sender: member, message: "합!"}));
     });
     
     readyBtn.click(function(){
