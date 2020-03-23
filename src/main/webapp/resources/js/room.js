@@ -193,6 +193,8 @@ $(function () {
  	function notifyEnd(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
+ 		onTimesUp();
+ 		
  		switch(content.message.substring(0, 4)){
 		case "데스매치":
  			announceWinner(content);
