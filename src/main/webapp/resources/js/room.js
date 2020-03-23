@@ -47,6 +47,13 @@ $(function () {
     // p tag
     var roundP = $('#round');
 
+// timer variables
+    
+    const FULL_DASH_ARRAY = 283; // 2*pi*r
+    let timerInterval = null;
+    var timer;
+    
+    
 // websocket actions
     
     sock.onopen = function () {
@@ -95,6 +102,9 @@ $(function () {
  			break;
  		case "ON":
  			notifyOn(content);
+ 			break;
+ 		case "TURN":
+ 			notifyTurn(content);
  			break;
  		case "END":
  			notifyEnd(content);
@@ -156,17 +166,34 @@ $(function () {
  	function notifyOn(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
- 		addUp(content);
+ 		console.log("message : " + content.message);
  		
- 		console.log(content.answer);
+ 		if(!(content.message == "합!")){
+ 			
+ 			console.log("content : " + content);
+ 			addUp(content);
+ 		}
 		
 		if(parseInt(content.score) > 0){
+			console.log(content.answer); 			
         	answerList.append('<li>' + content.answer + '</li>');
 		}
  	}
  	
+ 	function notifyTurn(content){
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
+ 		console.log(content.user1);
+ 		console.log(content.countDown);
+ 		
+ 		
+		countDown(content); 			
+ 	}
+ 	
  	function notifyEnd(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
+ 		onTimesUp();
  		
  		switch(content.message.substring(0, 4)){
 		case "데스매치":
@@ -204,6 +231,25 @@ $(function () {
  		setProblemNum();
  	}
  	
+ 	function countDown(content){
+ 		
+ 		if(timerInterval){
+ 			onTimesUp(); 			
+ 		}
+ 		
+ 		switch (content.user1) {
+		case playerAInput.val():
+			timer = "timerA";
+			setTimer(content.countDown);
+			break;
+		case playerBInput.val():
+			timer = "timerB";
+			setTimer(content.countDown);
+			break;
+		}
+ 	 	startTimer(content);
+ 	}
+ 	
  	function resetAnswerList(){
  		answerList.empty();
  	}
@@ -216,6 +262,83 @@ $(function () {
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
  	
+// timer
+
+ 	function setTimer(time){
+ 		document.getElementById(timer).innerHTML = `
+ 			<div class="base-timer">
+ 			<svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+ 			<g class="base-timer__circle">
+ 			<circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+ 			<path
+ 			id="base-timer-path-remaining"
+ 			stroke-dasharray="283"
+ 			class="base-timer__path-remaining"
+ 			d="
+ 			M 50, 50
+ 			m -45, 0
+ 			a 45,45 0 1,0 90,0
+ 			a 45,45 0 1,0 -90,0
+ 			"
+ 			></path>
+ 			</g>
+ 			</svg>
+ 			
+ 			
+ 			<span id="base-timer-label" class="base-timer__label">${time}</span>
+ 			</div>
+ 			`;
+ 	}
+
+ 	function onTimesUp() {
+ 	  clearInterval(timerInterval);
+ 	  timerInterval = null;
+ 	  document.getElementById(timer).innerHTML = "";
+ 	}
+
+ 	function startTimer(content) {
+ 	 	let timePassed = 0;
+ 	 	let timeLimit = content.countDown;
+ 	 	let timeLeft = timeLimit;
+ 	 	
+ 	 	timerInterval = setInterval(() => {
+ 	    timePassed = timePassed += 1;
+ 	    timeLeft = timeLimit - timePassed;
+ 	    document.getElementById("base-timer-label").innerHTML = timeLeft;
+ 	    setCircleDasharray(timeLimit, timeLeft);
+
+ 	    if(timeLeft <= 0){
+ 	    	timeUp(timeLeft, content); 	    	
+ 	    }
+ 	    
+ 	 	}, 1000);
+ 	}
+
+ 	function calculateTimeFraction(timeLimit, timeLeft) {
+ 	  const rawTimeFraction = timeLeft / timeLimit;
+ 	  return rawTimeFraction - (1 / timeLimit) * (1 - rawTimeFraction);
+ 	}
+
+ 	function setCircleDasharray(timeLimit, timeLeft) {
+ 	  const circleDasharray = `${(
+ 	    calculateTimeFraction(timeLimit, timeLeft) * FULL_DASH_ARRAY
+ 	  ).toFixed(0)} 283`;
+ 	  document
+ 	    .getElementById("base-timer-path-remaining")
+ 	    .setAttribute("stroke-dasharray", circleDasharray);
+ 	}
+ 	
+ 	function timeUp(timeLeft, content){
+		onTimesUp();
+		
+		if(content.user1 == member){
+			console.log("content.message, timeup : " + content.message);
+			sock.send(JSON.stringify(
+					{type: 'TIMEUP', roomId: roomId, sender: member, message: "TIMEUP"}));
+		}
+ 	      
+ 	    
+ 	}
  	
 // button/checkbox actions
  	
@@ -225,12 +348,13 @@ $(function () {
     });
     
     onBtn.click(function(){
-    	// TODO : annouce for user to select answer
+    	sock.send(JSON.stringify(
+    			{type: 'ON', roomId: roomId, sender: member, message: "합!"}));
     });
     
     readyBtn.click(function(){
     	sock.send(JSON.stringify(
-    			{type: 'READY', roomId: roomId, sender: member}));
+    			{type: 'READY', roomId: roomId, sender: member, message: "READY"}));
     });
     
     

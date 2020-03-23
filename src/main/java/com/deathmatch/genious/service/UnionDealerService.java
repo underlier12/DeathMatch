@@ -2,6 +2,7 @@ package com.deathmatch.genious.service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -53,6 +54,64 @@ public class UnionDealerService {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public UnionDealerDTO whoseTurn(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		preprocessing();
+		
+		String myTurn = gameDTO.getSender();
+		String message = "결을 외칠 수 있습니다.";
+		int time = 5;
+		
+		log.info("getmessage : " + gameDTO.getMessage());
+		
+		switch (gameDTO.getMessage()) {
+		case "합!":
+			message = "합이 되는 조합을 찾아주세요.";
+			break;
+			
+		case "결!":
+		case "READY":
+		case "TIMEUP":
+			time = 10;
+			myTurn = nextTurn(gameRoom);
+			message = myTurn + "님의 차례입니다.";
+			break;
+		}
+		
+		log.info("myTurn : " + myTurn);
+						
+		jsonMap.put("type", "TURN");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Dealer");
+		jsonMap.put("user1", myTurn);
+		jsonMap.put("message", message);
+		jsonMap.put("countDown", time);
+		
+		postprocessing();
+		
+		return unionDealerDTO;
+	}
+	
+	public String nextTurn(GameRoom gameRoom) {
+		
+		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
+		String myTurn;
+		
+		log.info("getTurn0 : " + engaged.get(0).getTurn());
+		log.info("getTurn1 : " + engaged.get(1).getTurn());
+		
+		if(!engaged.get(0).getTurn()) {
+			myTurn = engaged.get(0).getUserEmail();
+			engaged.get(0).setTurn(true);
+			engaged.get(1).setTurn(false);
+		} else {
+			myTurn = engaged.get(1).getUserEmail();
+			engaged.get(1).setTurn(true);
+			engaged.get(0).setTurn(false);
+		}
+		
+		return myTurn;
 	}
 	
 	public UnionDealerDTO decideRound(GameRoom gameRoom) {

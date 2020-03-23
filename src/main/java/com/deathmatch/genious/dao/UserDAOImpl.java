@@ -37,8 +37,16 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public int modifyPw(UserDTO userDTO) {
-		return 0;
+	public int changePw(UserDTO userDTO) {
+		int result = 0;
+		sqlSession.update(namespace + ".changePw",userDTO);
+		result = 1;
+		return result;
+	}
+	
+	@Override
+	public String getUserPassword(UserDTO userDTO) {
+		return sqlSession.selectOne(namespace+".checkPw",userDTO);
 	}
 
 	@Override
@@ -75,11 +83,14 @@ public class UserDAOImpl implements UserDAO {
 	public int countMember(UserDTO userDTO) {
 		return sqlSession.selectOne(namespace + ".countUser", userDTO);
 	}
+	
+	@Override
+	public UserDTO selectUser(UserDTO userDTO) {
+		return sqlSession.selectOne(namespace+ ".selectMember",userDTO);
+	}
 
 	@Override
 	public UserDTO checkUserEmail(UserDTO userDTO) {
 		return sqlSession.selectOne(namespace + ".countUser",userDTO);
 	}
-	
-
 }

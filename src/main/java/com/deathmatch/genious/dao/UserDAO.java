@@ -13,7 +13,7 @@ public interface UserDAO {
     // 회원 전부 탈퇴
     public int deleteAllMember();
     // 비밀번호 변경
-    public int modifyPw(UserDTO userDTO);
+    public int changePw(UserDTO userDTO);
     //아이디 찾기
     public UserDTO findId(UserDTO userDTO);
     //비밀번호 찾기
@@ -30,4 +30,8 @@ public interface UserDAO {
     public int countMember(UserDTO userDTO);
     // 유저 이메일 체크하기
     public UserDTO checkUserEmail(UserDTO userDTO);
+    // 패스워드 조회
+    public String getUserPassword(UserDTO userDTO);
+    // 유저 조회하기
+    public UserDTO selectUser(UserDTO userDTO);
 }

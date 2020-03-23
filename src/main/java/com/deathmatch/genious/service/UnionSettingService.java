@@ -71,18 +71,22 @@ public class UnionSettingService {
 		log.info("welcome");
 		
 		gameRoom.addSession(session);
+		String status = decideStatus(gameRoom);
 		
 		UnionPlayerDTO unionPlayerDTO = new UnionPlayerDTO();
 		
 		unionPlayerDTO.setUserEmail(gameDTO.getSender());
 		unionPlayerDTO.setRoomId(gameRoom.getRoomId());
-		unionPlayerDTO.setStatus(decideStatus(gameRoom));
+		unionPlayerDTO.setStatus(status);
 		unionPlayerDTO.setReady(false);
+		unionPlayerDTO.setTurn(false);
 		unionPlayerDTO.setScore(0);
 		
 		Map<String, Object> map = session.getAttributes();
 		
 		map.put("player", unionPlayerDTO);
+		
+		isEngaged(unionPlayerDTO, gameRoom);
 	}
 	
 	public String decideStatus(GameRoom gameRoom) {
@@ -94,6 +98,15 @@ public class UnionSettingService {
 		return status;
 	}
 	
+	public void isEngaged(UnionPlayerDTO player, GameRoom gameRoom) {
+		switch (player.getStatus()) {
+		case "HOST":
+		case "OPPONENT":
+			gameRoom.addPlayer(player);
+			break;
+		}
+	}
+	
 	public UnionGameDTO join(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
 		gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
@@ -102,16 +115,22 @@ public class UnionSettingService {
 		return gameDTO;
 	}
 	
-	public UnionGameDTO ready(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+	public UnionSettingDTO ready(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
+		preprocessing();
+
 		Map<String, Object> map = session.getAttributes();
 		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
 		unionPlayerDTO.setReady(true);
 		
-		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
-		gameDTO.setSender("Setting");
+		jsonMap.put("type", "READY");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Setting");
+		jsonMap.put("message", gameDTO.getSender() + "님이 준비하셨습니다.");
 		
-		return gameDTO;
+		postprocessing();
+
+		return unionSettingDTO;
 	}
 	
 	public boolean readyCheck(GameRoom gameRoom) {

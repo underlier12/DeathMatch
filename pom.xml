@@ -136,6 +136,20 @@
             <artifactId>gson</artifactId>
             <version>2.8.5</version>
         </dependency>
+        
+         <!-- Java mail Api -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+		
+		<!-- smtp -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>2.0.1.RELEASE</version>
+		</dependency>
 
         <!-- Json Parsing -->
         <dependency>

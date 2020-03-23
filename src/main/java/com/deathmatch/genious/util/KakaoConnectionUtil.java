@@ -107,12 +107,14 @@ public class KakaoConnectionUtil {
 			JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 			JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 
-			/* String id_element = element.getAsJsonObject().get("id").getAsString(); */
+			String userEmail = kakao_account.getAsJsonObject().get("email").getAsString();
+			String userId = userEmail.substring(0,userEmail.indexOf('@'));
 			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-			String email = kakao_account.getAsJsonObject().get("email").getAsString();
-
+		
+			kakaoUser.setUserEmail(userEmail);
+			kakaoUser.setUserId(userId);
 			kakaoUser.setName(nickname);
-			kakaoUser.setUserEmail(email);
+			
 
 			log.info(kakaoUser.toString());
 

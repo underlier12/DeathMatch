@@ -129,15 +129,6 @@
 	padding: 0;
 }
 
-
-
-/* .select{
-	width: 125px;
-	height: 125px;
-	margin: 0;
-	padding: 0;
-} */
-
 .card{
 	width: 125px;
 	height: 125px;
@@ -147,7 +138,7 @@
 
 .uni, .on{
 	width: 95px;
-	height: 187px;
+	height: 187.5px;
 	font-size: 35px;
 	color: #E4F7BA;
 	background-color: #6D211C;
@@ -164,6 +155,64 @@
 	text-align: center;
 	border: 2px solid #000000;
 }
+
+.exclaimA, .exclaimB{
+	width: 95px;
+	height: 125px;
+}
+
+.timer{
+	width: 125px;
+	height: 125px;
+}
+
+
+/* timer */
+
+.base-timer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.base-timer__svg {
+  transform: scaleX(-1);
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: grey;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+  color: #ECA50E;
+}
+
+.base-timer__label {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: #ECA50E; 
+}
+
+
 
 /* setting class */
 
