@@ -166,7 +166,11 @@ $(function () {
  	function notifyOn(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
- 		if(!content.message == "합!"){
+ 		console.log("message : " + content.message);
+ 		
+ 		if(!(content.message == "합!")){
+ 			
+ 			console.log("content : " + content);
  			addUp(content);
  		}
 		
