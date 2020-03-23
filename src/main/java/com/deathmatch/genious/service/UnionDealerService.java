@@ -59,12 +59,6 @@ public class UnionDealerService {
 	public UnionDealerDTO whoseTurn(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		preprocessing();
 		
-//		if(!same) {
-//			myTurn = nextTurn(gameRoom);
-//			message = myTurn + "님의 차례입니다. ";
-//			time = 10;
-//		}
-		
 		String myTurn = gameDTO.getSender();
 		String message = "결을 외칠 수 있습니다.";
 		int time = 5;

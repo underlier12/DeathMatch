@@ -234,8 +234,6 @@ $(function () {
  	function countDown(content){
  		
  		if(timerInterval){
-// 			console.log("timeInterval : " + timerInterval);
-// 			console.log("timer : " + timer);
  			onTimesUp(); 			
  		}
  		
@@ -312,10 +310,8 @@ $(function () {
  	    if(timeLeft <= 0){
  	    	timeUp(timeLeft, content); 	    	
  	    }
-// 	    console.log("interval : " + timerInterval);
-// 	    console.log("interval type : " + typeof timerInterval);
  	    
- 	  }, 1000);
+ 	 	}, 1000);
  	}
 
  	function calculateTimeFraction(timeLimit, timeLeft) {
@@ -333,11 +329,6 @@ $(function () {
  	}
  	
  	function timeUp(timeLeft, content){
- 		
-//		gameBroadcast.bind('input propertychange', function(){
-//			timeLeft = 0;	
-//		});
- 		
 		onTimesUp();
 		
 		if(content.user1 == member){

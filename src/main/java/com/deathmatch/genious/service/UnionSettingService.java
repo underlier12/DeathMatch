@@ -123,9 +123,6 @@ public class UnionSettingService {
 		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
 		unionPlayerDTO.setReady(true);
 		
-//		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
-//		gameDTO.setSender("Setting");
-		
 		jsonMap.put("type", "READY");
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
