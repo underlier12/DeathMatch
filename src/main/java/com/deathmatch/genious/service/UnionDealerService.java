@@ -56,17 +56,33 @@ public class UnionDealerService {
 
 	}
 	
-	public UnionDealerDTO whoseTurn(Boolean same, UnionGameDTO gameDTO, GameRoom gameRoom) {
+	public UnionDealerDTO whoseTurn(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		preprocessing();
 		
+//		if(!same) {
+//			myTurn = nextTurn(gameRoom);
+//			message = myTurn + "님의 차례입니다. ";
+//			time = 10;
+//		}
+		
 		String myTurn = gameDTO.getSender();
-		String message = "합을 선택해주세요.";
+		String message = "결을 외칠 수 있습니다.";
 		int time = 5;
 		
-		if(!same) {
-			myTurn = nextTurn(gameRoom);
-			message = myTurn + "님의 차례입니다. ";
+		log.info("getmessage : " + gameDTO.getMessage());
+		
+		switch (gameDTO.getMessage()) {
+		case "합!":
+			message = "합이 되는 조합을 찾아주세요.";
+			break;
+			
+		case "결!":
+		case "READY":
+		case "TIMEUP":
 			time = 10;
+			myTurn = nextTurn(gameRoom);
+			message = myTurn + "님의 차례입니다.";
+			break;
 		}
 		
 		log.info("myTurn : " + myTurn);

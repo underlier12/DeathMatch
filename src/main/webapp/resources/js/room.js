@@ -228,8 +228,8 @@ $(function () {
  	function countDown(content){
  		
  		if(timerInterval){
- 			console.log("timeInterval : " + timerInterval);
- 			console.log("timer : " + timer);
+// 			console.log("timeInterval : " + timerInterval);
+// 			console.log("timer : " + timer);
  			onTimesUp(); 			
  		}
  		
@@ -243,7 +243,7 @@ $(function () {
 			setTimer(content.countDown);
 			break;
 		}
- 	 	startTimer(content.countDown);
+ 	 	startTimer(content);
  	}
  	
  	function resetAnswerList(){
@@ -292,8 +292,9 @@ $(function () {
  	  document.getElementById(timer).innerHTML = "";
  	}
 
- 	function startTimer(timeLimit) {
+ 	function startTimer(content) {
  	 	let timePassed = 0;
+ 	 	let timeLimit = content.countDown;
  	 	let timeLeft = timeLimit;
  	 	
  	 	timerInterval = setInterval(() => {
@@ -302,9 +303,11 @@ $(function () {
  	    document.getElementById("base-timer-label").innerHTML = timeLeft;
  	    setCircleDasharray(timeLimit, timeLeft);
 
- 	    endCondition(timeLeft);
- 	    console.log("interval : " + timerInterval);
- 	    console.log("interval type : " + typeof timerInterval);
+ 	    if(timeLeft <= 0){
+ 	    	timeUp(timeLeft, content); 	    	
+ 	    }
+// 	    console.log("interval : " + timerInterval);
+// 	    console.log("interval type : " + typeof timerInterval);
  	    
  	  }, 1000);
  	}
@@ -323,15 +326,21 @@ $(function () {
  	    .setAttribute("stroke-dasharray", circleDasharray);
  	}
  	
- 	function endCondition(timeLeft){
+ 	function timeUp(timeLeft, content){
  		
 //		gameBroadcast.bind('input propertychange', function(){
 //			timeLeft = 0;	
 //		});
  		
- 		if (timeLeft <= 0) {
- 	      onTimesUp();
- 	    }
+		onTimesUp();
+		
+		if(content.user1 == member){
+			console.log("content.message, timeup : " + content.message);
+			sock.send(JSON.stringify(
+					{type: 'TIMEUP', roomId: roomId, sender: member, message: "TIMEUP"}));
+		}
+ 	      
+ 	    
  	}
  	
 // button/checkbox actions
@@ -348,7 +357,7 @@ $(function () {
     
     readyBtn.click(function(){
     	sock.send(JSON.stringify(
-    			{type: 'READY', roomId: roomId, sender: member}));
+    			{type: 'READY', roomId: roomId, sender: member, message: "READY"}));
     });
     
     
