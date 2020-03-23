@@ -50,6 +50,8 @@ $(function () {
 // timer variables
     
     const FULL_DASH_ARRAY = 283; // 2*pi*r
+    let timerInterval = null;
+    var timer;
     
     
 // websocket actions
@@ -180,7 +182,8 @@ $(function () {
  		console.log(content.user1);
  		console.log(content.countDown);
  		
- 		countDown(content);
+ 		
+		countDown(content); 			
  	}
  	
  	function notifyEnd(content){
@@ -223,19 +226,24 @@ $(function () {
  	}
  	
  	function countDown(content){
- 		var timer;
+ 		
+ 		if(timerInterval){
+ 			console.log("timeInterval : " + timerInterval);
+ 			console.log("timer : " + timer);
+ 			onTimesUp(); 			
+ 		}
  		
  		switch (content.user1) {
 		case playerAInput.val():
 			timer = "timerA";
-			setTimer(timer, content.countDown);
+			setTimer(content.countDown);
 			break;
 		case playerBInput.val():
 			timer = "timerB";
-			setTimer(timer, content.countDown);
+			setTimer(content.countDown);
 			break;
 		}
- 	 	startTimer(timer, content.countDown);
+ 	 	startTimer(content.countDown);
  	}
  	
  	function resetAnswerList(){
@@ -252,7 +260,7 @@ $(function () {
  	
 // timer
 
- 	function setTimer(timer, time){
+ 	function setTimer(time){
  		document.getElementById(timer).innerHTML = `
  			<div class="base-timer">
  			<svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -278,23 +286,25 @@ $(function () {
  			`;
  	}
 
- 	function onTimesUp(timer, timerInterval) {
+ 	function onTimesUp() {
  	  clearInterval(timerInterval);
+ 	  timerInterval = null;
  	  document.getElementById(timer).innerHTML = "";
  	}
 
- 	function startTimer(timer, timeLimit) {
+ 	function startTimer(timeLimit) {
  	 	let timePassed = 0;
  	 	let timeLeft = timeLimit;
- 	 	let timerInterval = null;
  	 	
- 	  timerInterval = setInterval(() => {
+ 	 	timerInterval = setInterval(() => {
  	    timePassed = timePassed += 1;
  	    timeLeft = timeLimit - timePassed;
  	    document.getElementById("base-timer-label").innerHTML = timeLeft;
  	    setCircleDasharray(timeLimit, timeLeft);
 
- 	    endCondition(timer, timeLeft, timerInterval);
+ 	    endCondition(timeLeft);
+ 	    console.log("interval : " + timerInterval);
+ 	    console.log("interval type : " + typeof timerInterval);
  	    
  	  }, 1000);
  	}
@@ -313,12 +323,14 @@ $(function () {
  	    .setAttribute("stroke-dasharray", circleDasharray);
  	}
  	
- 	function endCondition(timer, timeLeft, timerInterval){
+ 	function endCondition(timeLeft){
  		
+//		gameBroadcast.bind('input propertychange', function(){
+//			timeLeft = 0;	
+//		});
  		
- 		
- 		if (timeLeft === 0) {
- 	      onTimesUp(timer, timerInterval);
+ 		if (timeLeft <= 0) {
+ 	      onTimesUp();
  	    }
  	}
  	
