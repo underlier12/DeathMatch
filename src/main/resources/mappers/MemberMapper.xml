@@ -51,14 +51,14 @@
     
     <!-- 유저 조회 하기 -->
     <select id ="selectMember" resultType="UserDTO">
-        select userEmail,pw,userId,name,score
+        select userEmail,pw,userId,name
         from tbl_user
         where userEmail = #{userEmail};
     </select>
 
 	<!-- 로그인 하기 -->
     <select id = "login" resultType ="UserDTO">
-        select userEmail,userId,name,score
+        select userEmail,userId,name
         from tbl_user
         where userEmail = #{userEmail} and pw = #{pw};
     </select>

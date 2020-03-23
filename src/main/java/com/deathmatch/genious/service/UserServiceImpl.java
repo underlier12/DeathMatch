@@ -1,5 +1,7 @@
 package com.deathmatch.genious.service;
 
+import java.util.Random;
+
 import org.springframework.stereotype.Service;
 import com.deathmatch.genious.dao.UserDAO;
 import com.deathmatch.genious.domain.LoginDTO;
@@ -58,7 +60,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO findPw(UserDTO userDTO) {
-		return null;
+		String userEmail = userDTO.getUserEmail();
+		log.info("=== 이메일 메일  === : " + userEmail);
+		Random random = new Random();
+		int ranNum = random.nextInt(79999) + 10000;
+		log.info("=== 랜덤 PassWord === : " + "death"+ranNum);
+		String ranPassword = "death" + Integer.toString(ranNum);
+		UserDTO changePwUser = new UserDTO(userEmail,ranPassword);
+		userDAO.changePw(changePwUser);
+		// 패스워드 변경 완료
+		UserDTO user = userDAO.selectUser(changePwUser);
+		return user;
 	}
 
 	/*

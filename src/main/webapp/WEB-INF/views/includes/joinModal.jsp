@@ -59,6 +59,14 @@
 							maxlength="15">
 						<div class="check_font" id="pw_check"></div>
 					</div>
+					
+					<!-- 비밀번호 확인 -->
+					<div class="form-group">
+						<label for="pw">비밀번호 확인</label> <input type="password"
+							class="form-control" id="checkPw" name="checkPw" placeholder="PASSWORD"
+							maxlength="15">
+						<div class="check_font" id="pw_check"></div>
+					</div>
 
 					<!-- 이름 -->
 					<div class="form-group">
