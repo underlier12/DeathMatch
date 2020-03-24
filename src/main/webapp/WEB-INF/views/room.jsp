@@ -89,16 +89,15 @@
 		<!-- forth row -->
 		<div class="event-box">
 			<div class="exclaimA">
-				<!-- test -->
-				<div id="app"></div>
+				
 			</div>
-			<div class="timerA">
+			<div class="timer">
 				<div id="timerA"></div>
 			</div>
 			<div class="connection">
 				<div id='connectionStatus'></div>
 			</div>
-			<div class="timerB">
+			<div class="timer">
 				<div id="timerB"></div>
 			</div>
 			<div class="exclaimB">
@@ -129,6 +128,7 @@
 			<h1>${room.name}</h1>
 			<h4>${room.roomId}</h4>
 		</div>
+				
 		
 		<%@ include file="includes/footer2.jsp" %>
 	</div>

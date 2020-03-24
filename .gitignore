@@ -21,6 +21,7 @@ src/main/webapp/resources/images/.DS_Store
 
 .DS_Store
 
+
 bin/.settings/org.eclipse.wst.common.component
 
 bin/
@@ -28,3 +29,6 @@ bin/
 target/surefire-reports/
 
 target/classes/
+
+.settings/org.springframework.ide.eclipse.prefs
+
