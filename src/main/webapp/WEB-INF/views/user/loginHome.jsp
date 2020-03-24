@@ -5,6 +5,7 @@
 	if (message != "") {
 		alert(message);
 	}
+
 </script>
 
 <body>
@@ -72,6 +73,7 @@
 			</c:if>
 		</div>
 	</form>
+
 	
 	<%@ include file="/WEB-INF/views/includes/footer.jsp" %>
 	<script src ="/genious/js/loginHome.js?ver=1"></script>

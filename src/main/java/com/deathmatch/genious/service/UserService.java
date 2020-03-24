@@ -30,6 +30,5 @@ public interface UserService {
     public boolean checkPw(UserDTO currentUser,String currentPw);
     // 비밀번호 변경
     public int changePw(UserDTO currentUser,String changePw);
-    
 
 }
