@@ -54,6 +54,11 @@ public class UserController {
 
 	@GetMapping("/loginHome")
 	public String loginHome(HttpSession session, Model model, HttpServletRequest request) {
+		/*
+		 * UserDTO currentUser = (UserDTO)session.getAttribute("login"); if(currentUser
+		 * != null) { model.addAttribute("checkSession","이미 로그인 되었습니다"); return
+		 * "gameHome"; }
+		 */
 		String naverAuthUrl = naverLoginService.getAuthorizationUrl(session);
 		log.info("naver :" + naverAuthUrl);
 		model.addAttribute("url", naverAuthUrl);

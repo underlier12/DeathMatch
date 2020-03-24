@@ -22,8 +22,9 @@ public class UserDTO {
 	private int score;
 	private String phone;
 	private Date join_date;
+	private int auth;
 	
-	public UserDTO(String userEmail, String userId, String pw, String name, int score, String phone, Date join_date) {
+	public UserDTO(String userEmail, String userId, String pw, String name, int score, String phone, Date join_date,int auth) {
 		this.userEmail = userEmail;
 		this.userId = userId;
 		this.pw = pw;
@@ -31,6 +32,7 @@ public class UserDTO {
 		this.score = score;
 		this.phone = phone;
 		this.join_date = join_date;
+		this.auth = auth;
 	}
 	
 	public UserDTO(String userEmail, String pw) {

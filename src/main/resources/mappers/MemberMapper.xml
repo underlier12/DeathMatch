@@ -13,9 +13,9 @@
     
     <!-- SNS 유저 가입하기 -->
     <insert id ="insertSnsMember">
-    insert into tbl_user (userEmail,userId,name)
+    insert into tbl_user (userEmail,userId,name,auth)
         values
-        (#{userEmail},#{userId},#{name});
+        (#{userEmail},#{userId},#{name},1);
     </insert>
     
     <!-- 비밀번호 체크하기 -->
