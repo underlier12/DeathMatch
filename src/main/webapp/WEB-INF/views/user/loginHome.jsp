@@ -5,11 +5,7 @@
 	if (message != "") {
 		alert(message);
 	}
-	
-	var checkSession ="${checkSession}"
-	if(checkSession != ""){
-		alert(checkSession);
-	}
+
 </script>
 
 <body>
@@ -77,10 +73,7 @@
 			</c:if>
 		</div>
 	</form>
-	
-	<div>
-		auth : "${login.auth }"
-	</div>
+
 	
 	<%@ include file="/WEB-INF/views/includes/footer.jsp" %>
 	<script src ="/genious/js/loginHome.js?ver=1"></script>
