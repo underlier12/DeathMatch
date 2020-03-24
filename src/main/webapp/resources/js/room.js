@@ -21,7 +21,7 @@ $(function () {
 	var defaultPng = ".png";
 	
     // button tag
-	var selectBtn = $('.select');
+//	var selectBtn = $('.select');
 	var uniBtn = $('.uni');
 	var onBtn = $('.on');
 	var readyBtn = $('.ready');
@@ -61,6 +61,9 @@ $(function () {
         connectionStatus.text('connection opened');
         hideUnion();
         setProblemNum();
+        disableProblem();
+        disableUni();
+        disableOn();
     }
     
     sock.onmessage = function (event){
@@ -142,7 +145,7 @@ $(function () {
 			scoreBInput.val(0);
 			showUnion();
 			hideReady();
-			dismantleProblemNum();
+//			dismantleProblemNum();
 		}
  	}
 
@@ -186,8 +189,8 @@ $(function () {
  		console.log(content.user1);
  		console.log(content.countDown);
  		
- 		
-		countDown(content); 			
+		countDown(content);		
+		isMyTurn(content);
  	}
  	
  	function notifyEnd(content){
@@ -229,6 +232,7 @@ $(function () {
  		showReady();
  		hideUnion();
  		setProblemNum();
+ 		disableProblem();
  	}
  	
  	function countDown(content){
@@ -294,6 +298,10 @@ $(function () {
  	  clearInterval(timerInterval);
  	  timerInterval = null;
  	  document.getElementById(timer).innerHTML = "";
+ 	  
+ 	  disableProblem();
+ 	  disableUni();
+ 	  disableOn();
  	}
 
  	function startTimer(content) {
@@ -410,12 +418,66 @@ $(function () {
 		}
     }
     
-    function dismantleProblemNum(){
-    	for(var i=0; i < 9; i++){
-    		$(".card:eq("+i+")").attr("src", "");
-		}
+//    function dismantleProblemNum(){
+//    	for(var i=0; i < 9; i++){
+//    		$(".card:eq("+i+")").attr("src", "");
+//		}
+//    }
+    
+    function isMyTurn(content){
+    	console.log(" ");
+    	console.log("isMyTurn : " + content.message + " " + content.user1);
+    	
+    	if(content.user1 == member){
+    		switch (content.message.substring(0, 1)) {
+			case "결":
+				enableUni();
+				break;
+				
+			case "합":
+				enableProblem();
+				break;
+
+			default:
+				enableUni();
+				enableOn();
+				break;
+			}
+    	}
     }
     
+    function disableProblem(){
+    	console.log("disProb");
+    	for(var i=0; i < 9; i++){
+    		$(".selectbox:eq("+i+")").prop("disabled", true);
+    	}
+    }
     
+    function enableProblem(){
+    	console.log("enProb");
+    	for(var i=0; i < 9; i++){
+    		$(".selectbox:eq("+i+")").prop("disabled", false);
+    	}
+    }
+    
+    function disableUni(){
+    	console.log("disUni");
+    	uniBtn.prop('disabled', true);
+    }
+    
+    function enableUni(){
+    	console.log("enUni");
+    	uniBtn.prop("disabled", false);
+    }
+    
+    function disableOn(){
+    	console.log("disOn");
+    	onBtn.prop('disabled', true);
+    }
+    
+    function enableOn(){
+    	console.log("enOn");
+    	onBtn.prop("disabled", false);
+    }
     
 });

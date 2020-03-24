@@ -20,6 +20,8 @@ public class GameRoom {
     private String gameId;
     private int totalRound = 3;
     private int round = 0;
+    private int pass;
+    private boolean playing;
     private List<UnionPlayerDTO> engaged = new ArrayList<>();
     private Set<WebSocketSession> sessions = new HashSet<>();
     
