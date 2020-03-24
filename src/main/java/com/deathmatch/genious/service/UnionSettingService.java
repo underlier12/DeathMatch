@@ -288,7 +288,7 @@ public class UnionSettingService {
 		}
 	}
 	
-	public void bye(WebSocketSession session, CloseStatus status) {
+	public UnionPlayerDTO quitSession(WebSocketSession session, CloseStatus status) {
 		Map<String, Object> map = session.getAttributes();
 		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
 				
@@ -297,5 +297,7 @@ public class UnionSettingService {
 		
 		log.info("bye");
 		log.info(gameRoom.getSessions());
+		
+		return unionPlayerDTO;
 	}
 }

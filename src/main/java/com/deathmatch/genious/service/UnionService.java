@@ -12,6 +12,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionGameDTO;
+import com.deathmatch.genious.domain.UnionPlayerDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -155,7 +156,14 @@ public class UnionService {
 	}
 
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-		unionSettingService.bye(session, status);
+		UnionPlayerDTO player = unionSettingService.quitSession(session, status);
+		
+		switch (player.getStatus()) {
+		case "HOST":
+		case "OPPONENT":
+			
+			break;
+		}
 	}
 	
 }
