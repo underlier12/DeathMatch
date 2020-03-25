@@ -324,7 +324,8 @@ public class UnionSettingService {
 		jsonMap.put("roomId", gameRoom.getRoomId());
 		jsonMap.put("sender", "Setting");
 		jsonMap.put("message", player.getUserEmail() + "가 나가셨습니다. 10초간 기다립니다.");
-		
+		jsonMap.put("countDown", 10);
+
 		postprocessing();
 		
 		return unionSettingDTO;

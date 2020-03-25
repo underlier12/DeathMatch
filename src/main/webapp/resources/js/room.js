@@ -112,6 +112,9 @@ $(function () {
  		case "END":
  			notifyEnd(content);
  			break;
+ 		case "QUIT":
+ 			notifyQuit(content);
+ 			break;
  		default:
  			console.log("fromServer default");
  		}
@@ -208,6 +211,16 @@ $(function () {
  		}
  	}
  	
+ 	function notifyQuit(content){
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+
+ 		
+ 		
+ 		
+ 	}
+ 	
+ 	
+ 	
  	function addUp(content){
  		var existingScore;
 		var score = parseInt(content.score);
@@ -256,6 +269,13 @@ $(function () {
  	
  	function resetAnswerList(){
  		answerList.empty();
+ 	}
+ 	
+ 	function quitCountDown(content){
+ 		onTimesUp();
+ 		
+ 		setTimer(content.countDown);
+ 		
  	}
  	
  	function submitUni(content){
@@ -348,6 +368,50 @@ $(function () {
  	    
  	}
  	
+// quit timer
+ 	// TODO: merge to timer
+ 	
+ 	function startQuitTimer(content) {
+ 	 	let timePassed = 0;
+ 	 	let timeLimit = content.countDown;
+ 	 	let timeLeft = timeLimit;
+ 	 	
+ 	 	timerInterval = setInterval(() => {
+ 	    timePassed = timePassed += 1;
+ 	    timeLeft = timeLimit - timePassed;
+ 	    document.getElementById("base-timer-label").innerHTML = timeLeft;
+ 	    setCircleDasharray(timeLimit, timeLeft);
+
+ 	    if(timeLeft <= 0){
+ 	    	quitTimeUp(timeLeft, content); 	    	
+ 	    }
+ 	    
+ 	 	}, 1000);
+ 	}
+ 	
+ 	function quitTimeUp(timeLeft, content){
+		onQuitTimesUp();
+		
+		if(playerAInput.val() == member
+				|| playerBInput.val() == member){
+			console.log("QUIT content.message, timeup : " + content.message);
+			sock.send(JSON.stringify(
+					{type: 'DIE', roomId: roomId, sender: member, message: "DIE"}));
+		}
+ 	     
+ 	}
+ 	
+ 	function onQuitTimesUp() {
+ 	  clearInterval(timerInterval);
+ 	  timerInterval = null;
+ 	  document.getElementById(timer).innerHTML = "";
+ 	  
+ 	  disableProblem();
+ 	  disableUni();
+ 	  disableOn();
+ 	}
+ 	
+
 // button/checkbox actions
  	
     uniBtn.click(function(){
