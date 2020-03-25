@@ -1,0 +1,60 @@
+.gameHome{
+	display:flex;
+	width : 1400px;
+	height: 800px;
+}
+
+.gameBtn{
+	margin-top : 25px;
+}
+
+.title{
+	justify-content : center;
+}
+
+.buttonList{
+	margin-left:auto;
+	width:200px;
+	height:50px;
+	/* margin-left : 300px; */
+}
+
+.sidebar{
+	justify-content : center;
+	width: 300px;
+	height: 700px;
+	margin-left : 50px;
+}
+
+.gameRooms{
+	justify-content : center;
+	width: 900px;
+	height: 700px;
+	margin-left: 150px;	
+}
+
+.leftRooms{
+	margin-right : 150px;
+}
+
+.oneRoom{
+	background-color : #F781BE;
+	border: 1px solid gold;
+	width : 250px;
+	height: 140px;
+	margin-top:15px;
+}
+
+.gameJoinBtn{
+	height:40px;
+	width:70px;
+	background-color : #FA5882;
+	margin-left: 170px;
+	margin-top:30px;
+}
+
+.pageBtn{
+	justify-content : center;
+	margin-right : 70px;
+} 
+

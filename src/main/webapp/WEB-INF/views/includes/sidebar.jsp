@@ -4,7 +4,8 @@
 <body>
 	<%@ include file="/WEB-INF/views/includes/header.jsp"%>
 
-	<div class="w3-sidebar w3-bar-block container" style="width: 32%">
+	<!-- w3-sidebar w3-bar-block container -->
+	<div class="sidebar">
 		<div class="row">
 			<div class="col-md-12">
 				<h1 style="font-size: 45px;">
