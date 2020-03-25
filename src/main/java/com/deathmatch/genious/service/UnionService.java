@@ -2,6 +2,7 @@ package com.deathmatch.genious.service;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -62,8 +63,13 @@ public class UnionService {
 	}
 
 	private void joinAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
-		unionSettingService.welcome(session, gameDTO, gameRoom);
-		queue.offer(unionSettingService.join(gameDTO, gameRoom));
+//		unionSettingService.welcome(session, gameDTO, gameRoom);
+		queue.offer(unionSettingService.join(session, gameDTO, gameRoom));
+		if(unionSettingService.isRejoin(session, gameDTO, gameRoom)) {
+			resumeGame(gameRoom);
+		} else {
+			unionSettingService.register(session, gameDTO, gameRoom);
+		}
 	}
 
 	private void readyAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -155,6 +161,25 @@ public class UnionService {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		
+	}
+	
+	public void resumeGame(GameRoom gameRoom) {
+		UnionGameDTO gameDTO = gameRoom.getLastGameDTO();
+		Set<WebSocketSession> sessions = gameRoom.getSessions();
+		
+		for(WebSocketSession sess : sessions) {
+			Map<String, Object> map = sess.getAttributes();
+			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+			
+			log.info("player : " + unionPlayerDTO.getUserEmail() + 
+					" sender : " + gameDTO.getSender());
+			
+			if(gameDTO.getSender().equals(unionPlayerDTO.getUserEmail())) {
+				handleActions(sess, gameDTO, gameRoom);
+				break;
+			}
 		}
 		
 	}

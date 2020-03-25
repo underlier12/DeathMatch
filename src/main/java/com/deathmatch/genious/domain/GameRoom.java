@@ -22,6 +22,8 @@ public class GameRoom {
     private int round = 0;
     private int pass;
     private Boolean playing;
+    
+    private UnionGameDTO lastGameDTO;
     private List<UnionPlayerDTO> engaged = new ArrayList<>();
     private Set<WebSocketSession> sessions = new HashSet<>();
     
