@@ -36,8 +36,29 @@
 		</table>
 	</div>
 
+	<div class="text-center">
+		<ul class="pagination">
+			<c:if test="${pageMaker.prev }">
+				<li><a
+					href='<c:url value="/gameHome?page=${pageMaker.startPage-1 }"/>'><i
+						class="fa fa-chevron-left"></i></a></li>
+			</c:if>
+			<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage }"
+				var="idx">
+				<li
+					<c:out value ="${pageMaker.cri.page == idx?'class =active':''}"/>>
+					<a href="gameHome?page=${idx }">${idx }</a>
+				</li>
+			</c:forEach>
+			<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+				<li><a
+					href='<c:url value="/gameHome?page=${pageMaker.endPage+1 }"/>'><i
+						class="fa fa-chevron-right"></i></a></li>
+			</c:if>
+		</ul>
+	</div>
 
 	<%@ include file="/WEB-INF/views/includes/roomModal.jsp"%>
-	<script src ="/genious/js/gameHome.js?ver=1"></script>
-	<%-- <%@ include file="/WEB-INF/views/includes/footer.jsp"%> --%>
+	<script src="/genious/js/gameHome.js?ver=1"></script>
+
 </body>
