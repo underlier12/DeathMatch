@@ -87,6 +87,9 @@ $(function () {
 // websocket functions
  	
  	function fromServer(content){
+ 		
+ 		console.log("type : " + content.type);
+ 		
  		switch(content.type){
  		case "JOIN":
  			notifyJoin(content);
@@ -113,7 +116,12 @@ $(function () {
  			notifyEnd(content);
  			break;
  		case "QUIT":
+ 			console.log(" ");
+ 			console.log("QUIT enter");
  			notifyQuit(content);
+ 			break;
+ 		case "RESUME":
+ 			notifyResume(content);
  			break;
  		default:
  			console.log("fromServer default");
@@ -204,9 +212,9 @@ $(function () {
  		switch(content.message.substring(0, 4)){
 		case "데스매치":
  			announceWinner(content);
- 			break;
  		default:
  			resetAnswerList();
+ 			resetRound();
  			break;
  		}
  	}
@@ -214,11 +222,21 @@ $(function () {
  	function notifyQuit(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
 
+ 		console.log("content : " + content);
+ 		console.log("countDown : " + content.countDown);
  		
+ 		onTimesUp();
  		
+ 		setTimer(content.countDown);
+ 		startQuitTimer(content);
  		
  	}
  	
+ 	function notifyResume(content){
+ 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
+ 		onQuitTimesUp();
+ 	}
  	
  	
  	function addUp(content){
@@ -271,12 +289,16 @@ $(function () {
  		answerList.empty();
  	}
  	
- 	function quitCountDown(content){
- 		onTimesUp();
- 		
- 		setTimer(content.countDown);
- 		
+ 	function resetRound(){
+ 		roundP.text('');
  	}
+ 	
+// 	function quitCountDown(content){
+// 		onTimesUp();
+// 		
+// 		setTimer(content.countDown);
+// 		
+// 	}
  	
  	function submitUni(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
@@ -364,7 +386,6 @@ $(function () {
 			sock.send(JSON.stringify(
 					{type: 'TIMEUP', roomId: roomId, sender: member, message: "TIMEUP"}));
 		}
- 	      
  	    
  	}
  	
@@ -372,6 +393,8 @@ $(function () {
  	// TODO: merge to timer
  	
  	function startQuitTimer(content) {
+ 		
+ 		
  	 	let timePassed = 0;
  	 	let timeLimit = content.countDown;
  	 	let timeLeft = timeLimit;
@@ -381,6 +404,8 @@ $(function () {
  	    timeLeft = timeLimit - timePassed;
  	    document.getElementById("base-timer-label").innerHTML = timeLeft;
  	    setCircleDasharray(timeLimit, timeLeft);
+
+ 	    console.log(timeLeft);
 
  	    if(timeLeft <= 0){
  	    	quitTimeUp(timeLeft, content); 	    	

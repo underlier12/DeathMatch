@@ -269,7 +269,7 @@ public class UnionDealerService {
 		unionPlayerDTO.setScore(currentScore + score);
 	}
 	
-	public UnionDealerDTO endGame(GameRoom gameRoom, UnionGameDTO gameDTO) {
+	public UnionDealerDTO endGame(GameRoom gameRoom) {
 		preprocessing();
 		
 		String winner = announceWinner(gameRoom);

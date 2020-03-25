@@ -70,6 +70,7 @@ public class UnionService {
 //		unionSettingService.welcome(session, gameDTO, gameRoom);
 		queue.offer(unionSettingService.join(session, gameDTO, gameRoom));
 		if(unionSettingService.isRejoin(session, gameDTO, gameRoom)) {
+			queue.offer(unionSettingService.resumeGame(gameRoom));
 			resumeGame(gameRoom);
 		} else {
 			unionSettingService.register(session, gameDTO, gameRoom);
@@ -120,7 +121,7 @@ public class UnionService {
 	
 	private void dieAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		unionSettingService.quitOtherPlayer(session, gameDTO, gameRoom);
-		queue.offer(unionDealerService.endGame(gameRoom, gameDTO));
+		queue.offer(unionDealerService.endGame(gameRoom));
 		unionSettingService.resetGame(gameRoom);
 	}
 	
@@ -146,7 +147,7 @@ public class UnionService {
 	private void isGameOver(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
 		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
-			queue.offer(unionDealerService.endGame(gameRoom, gameDTO));
+			queue.offer(unionDealerService.endGame(gameRoom));
 			unionSettingService.resetGame(gameRoom);
 		} else {
 			startRound(gameDTO, gameRoom);
@@ -180,6 +181,27 @@ public class UnionService {
 		
 	}
 	
+
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+		UnionPlayerDTO player = unionSettingService.quitSession(session, status);
+		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
+		
+//		if(unionSettingService.isPlaying(gameRoom)
+//				&& !unionSettingService.isGuest(player)) {
+//			queue.offer(unionSettingService.playerGone(player, gameRoom));
+//			send(gameRoom);
+//		} else {
+//			unionSettingService.quitPlayer(player);
+//		}
+		
+		unionSettingService.quitPlayer(player);
+		queue.offer(unionDealerService.endGame(gameRoom));
+		unionSettingService.resetGame(gameRoom);
+		send(gameRoom);
+	}
+	
+	// TODO : Resume game function
+	
 	public void resumeGame(GameRoom gameRoom) {
 		UnionGameDTO gameDTO = gameRoom.getLastGameDTO();
 		Set<WebSocketSession> sessions = gameRoom.getSessions();
@@ -198,18 +220,4 @@ public class UnionService {
 		}
 		
 	}
-
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-		UnionPlayerDTO player = unionSettingService.quitSession(session, status);
-		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
-		
-		if(unionSettingService.isPlaying(gameRoom)
-				&& !unionSettingService.isGuest(player)) {
-			queue.offer(unionSettingService.playerGone(player, gameRoom));
-			send(gameRoom);
-		} else {
-			unionSettingService.quitPlayer(player);
-		}
-	}
-	
 }

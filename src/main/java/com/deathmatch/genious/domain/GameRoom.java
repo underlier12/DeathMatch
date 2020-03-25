@@ -21,7 +21,7 @@ public class GameRoom {
     private int totalRound = 3;
     private int round = 0;
     private int pass;
-    private Boolean playing;
+    private Boolean playing = false;
     
     private UnionGameDTO lastGameDTO;
     private List<UnionPlayerDTO> engaged = new ArrayList<>();
