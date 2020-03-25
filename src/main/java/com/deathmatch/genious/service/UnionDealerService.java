@@ -268,7 +268,7 @@ public class UnionDealerService {
 		int currentScore = unionPlayerDTO.getScore();
 		unionPlayerDTO.setScore(currentScore + score);
 	}
-
+	
 	public UnionDealerDTO endGame(GameRoom gameRoom, UnionGameDTO gameDTO) {
 		preprocessing();
 		
@@ -283,12 +283,19 @@ public class UnionDealerService {
 		log.info("jsonMap : " + jsonMap);
 		
 		postprocessing();
+		
+		gameRoom.setPlaying(false);
 				
 		return unionDealerDTO;
 	}
 	
 	public String announceWinner(GameRoom gameRoom) {
 		String winner;
+		
+		log.info("engaged size : " + gameRoom.getEngaged().size());
+		if(gameRoom.getEngaged().size() < 2) {
+			return gameRoom.getEngaged().get(0).getUserEmail();
+		}
 		
 		Set<WebSocketSession> sessions = gameRoom.getSessions();
 		String[] userArray = new String[2];

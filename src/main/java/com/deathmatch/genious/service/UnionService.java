@@ -54,6 +54,10 @@ public class UnionService {
 		case TIMEUP:
 			timeupAction(session, gameDTO, gameRoom);
 			break;
+			
+		case DIE:
+			dieAction(session, gameDTO, gameRoom);
+			break;
 
 		default:
 			log.info("default action");
@@ -82,6 +86,7 @@ public class UnionService {
 	}
 
 	private void uniAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		gameRoom.setLastGameDTO(gameDTO);
 		queue.offer(gameDTO);
 		
 		switch (unionDealerService.uniCheck(gameDTO, gameRoom)) {
@@ -98,6 +103,7 @@ public class UnionService {
 	}
 
 	private void onAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		gameRoom.setLastGameDTO(gameDTO);
 		queue.offer(gameDTO);
 		if(!gameDTO.getMessage().equals("합!")) {
 			queue.offer(unionDealerService.onResult(session, gameRoom, gameDTO));
@@ -108,8 +114,17 @@ public class UnionService {
 	}
 	
 	private void timeupAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		gameRoom.setLastGameDTO(gameDTO);
 		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
 	}
+	
+	private void dieAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		unionSettingService.quitOtherPlayer(session, gameDTO, gameRoom);
+		queue.offer(unionDealerService.endGame(gameRoom, gameDTO));
+		unionSettingService.resetGame(gameRoom);
+	}
+	
+	
 	
 	private void startGame(GameRoom gameRoom) {
 		unionSettingService.startGame(gameRoom);

@@ -197,6 +197,7 @@ public class UnionSettingService {
 	
 	public void startGame(GameRoom gameRoom) {
 		gameRoom.setGameId(makeGameId());
+		gameRoom.setPlaying(true);
 	}
 	
 
@@ -341,7 +342,9 @@ public class UnionSettingService {
 	}
 	
 	public Boolean isPlaying(GameRoom gameRoom) {
-		return gameRoom.getPlaying();
+		log.info("isPlaying : " + gameRoom.getPlaying());
+		log.info("lastGameDTO : " + gameRoom.getLastGameDTO());
+		return gameRoom.getPlaying() && !gameRoom.getLastGameDTO().equals(null);
 	}
 	
 	public Boolean isGuest(UnionPlayerDTO player) {
@@ -373,5 +376,16 @@ public class UnionSettingService {
 	public void quitPlayer(UnionPlayerDTO player) {
 		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
 		gameRoom.removePlayer(player);
+	}
+	
+	public void quitOtherPlayer(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
+		
+		for(UnionPlayerDTO player : engaged) {
+			if(!session.getAttributes().get("player").equals(player)) {
+				gameRoom.removePlayer(player);
+				break;
+			}
+		}
 	}
 }
