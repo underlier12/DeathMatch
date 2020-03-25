@@ -300,4 +300,38 @@ public class UnionSettingService {
 		
 		return unionPlayerDTO;
 	}
+	
+	public Boolean isPlaying(GameRoom gameRoom) {
+		return gameRoom.getPlaying();
+	}
+	
+	public Boolean isGuest(UnionPlayerDTO player) {
+		boolean isGuest = true;
+		
+		switch (player.getStatus()) {
+		case "HOST":
+		case "OPPONENT":
+			isGuest = false;
+			break;
+		}
+		return isGuest;
+	}
+	
+	public UnionSettingDTO playerGone(UnionPlayerDTO player, GameRoom gameRoom) {
+		preprocessing();
+		
+		jsonMap.put("type", "QUIT");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Setting");
+		jsonMap.put("message", player.getUserEmail() + "가 나가셨습니다. 10초간 기다립니다.");
+		
+		postprocessing();
+		
+		return unionSettingDTO;
+	}
+	
+	public void quitPlayer(UnionPlayerDTO player) {
+		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
+		gameRoom.removePlayer(player);
+	}
 }

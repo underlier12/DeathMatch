@@ -17,11 +17,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 @RequiredArgsConstructor
 @Service
 public class UnionService {
 
+	private final GameRoomService gameRoomService;
 	private final ObjectMapper objectMapper;
 	private final UnionDealerService unionDealerService;
 	private final UnionSettingService unionSettingService;
@@ -52,6 +55,7 @@ public class UnionService {
 			break;
 
 		default:
+			log.info("default action");
 			break;
 		}
 		send(gameRoom);
@@ -157,12 +161,14 @@ public class UnionService {
 
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
 		UnionPlayerDTO player = unionSettingService.quitSession(session, status);
+		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
 		
-		switch (player.getStatus()) {
-		case "HOST":
-		case "OPPONENT":
-			
-			break;
+		if(unionSettingService.isPlaying(gameRoom)
+				&& !unionSettingService.isGuest(player)) {
+			queue.offer(unionSettingService.playerGone(player, gameRoom));
+			send(gameRoom);
+		} else {
+			unionSettingService.quitPlayer(player);
 		}
 	}
 	
