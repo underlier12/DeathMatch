@@ -8,7 +8,7 @@ import lombok.Setter;
 public class UnionSettingDTO {
 
 	public enum MessageType {
-        JOIN, READY, ROUND, PROBLEM, QUIT, RESUME
+        LOAD, JOIN, READY, ROUND, PROBLEM, QUIT, RESUME, LEAVE
     }
     private MessageType type; 
     private String roomId; 

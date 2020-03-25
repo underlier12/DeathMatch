@@ -86,11 +86,11 @@ $(function () {
 
 // websocket functions
  	
- 	function fromServer(content){
- 		
- 		console.log("type : " + content.type);
- 		
+ 	function fromServer(content){ 		
  		switch(content.type){
+ 		case "LOAD":
+ 			notifyLoad(content);
+ 			break;
  		case "JOIN":
  			notifyJoin(content);
  			break;
@@ -115,14 +115,17 @@ $(function () {
  		case "END":
  			notifyEnd(content);
  			break;
- 		case "QUIT":
- 			console.log(" ");
- 			console.log("QUIT enter");
- 			notifyQuit(content);
+ 		case "LEAVE":
+ 			notifyLeave(content);
  			break;
- 		case "RESUME":
- 			notifyResume(content);
- 			break;
+// 		case "QUIT":
+// 			console.log(" ");
+// 			console.log("QUIT enter");
+// 			notifyQuit(content);
+// 			break;
+// 		case "RESUME":
+// 			notifyResume(content);
+// 			break;
  		default:
  			console.log("fromServer default");
  		}
@@ -141,16 +144,37 @@ $(function () {
  		}
  	}
  	
+ 	function notifyLoad(content){
+ 		switch (content.message) {
+		case "PLAYER":
+			if(!playerAInput.val()){
+				playerAInput.val(content.user1);
+			}else if(!playerBInput.val()){
+				playerBInput.val(content.user1);
+			}
+			break;
+
+		default:
+			break;
+		}
+ 	}
+ 	
  	function notifyJoin(content){
 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+		
+		if(!playerAInput.val()){
+			playerAInput.val(content.user1);
+		}else if(!playerBInput.val()){
+			playerBInput.val(content.user1);
+		}
  	}
  	
  	function notifyReady(content){
 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
 		
 		if(content.user1){
-			playerAInput.val(content.user1);
-			playerBInput.val(content.user2);
+//			playerAInput.val(content.user1);
+//			playerBInput.val(content.user2);
 			
 			scoreAInput.val(0);
 			scoreBInput.val(0);
@@ -219,24 +243,34 @@ $(function () {
  		}
  	}
  	
- 	function notifyQuit(content){
- 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
-
- 		console.log("content : " + content);
- 		console.log("countDown : " + content.countDown);
+ 	function notifyLeave(content){
+ 		console.log(content.user1);
  		
- 		onTimesUp();
- 		
- 		setTimer(content.countDown);
- 		startQuitTimer(content);
- 		
+ 		if(content.user1 == playerAInput.val()){
+ 			playerAInput.val('');
+ 		} else {
+ 			playerBInput.val('');
+ 		}
  	}
  	
- 	function notifyResume(content){
- 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 		
- 		onQuitTimesUp();
- 	}
+// 	function notifyQuit(content){
+// 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+//
+// 		console.log("content : " + content);
+// 		console.log("countDown : " + content.countDown);
+// 		
+// 		onTimesUp();
+// 		
+// 		setTimer(content.countDown);
+// 		startQuitTimer(content);
+// 		
+// 	}
+// 	
+// 	function notifyResume(content){
+// 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+// 		
+// 		onQuitTimesUp();
+// 	}
  	
  	
  	function addUp(content){
@@ -264,6 +298,9 @@ $(function () {
  		hideUnion();
  		setProblemNum();
  		disableProblem();
+ 		resetScore();
+ 		resetRound();
+ 		resetAnswerList();
  	}
  	
  	function countDown(content){
@@ -291,6 +328,11 @@ $(function () {
  	
  	function resetRound(){
  		roundP.text('');
+ 	}
+ 	
+ 	function resetScore(){
+ 		scoreAInput.val('');
+		scoreBInput.val('');
  	}
  	
 // 	function quitCountDown(content){
@@ -392,49 +434,49 @@ $(function () {
 // quit timer
  	// TODO: merge to timer
  	
- 	function startQuitTimer(content) {
- 		
- 		
- 	 	let timePassed = 0;
- 	 	let timeLimit = content.countDown;
- 	 	let timeLeft = timeLimit;
- 	 	
- 	 	timerInterval = setInterval(() => {
- 	    timePassed = timePassed += 1;
- 	    timeLeft = timeLimit - timePassed;
- 	    document.getElementById("base-timer-label").innerHTML = timeLeft;
- 	    setCircleDasharray(timeLimit, timeLeft);
-
- 	    console.log(timeLeft);
-
- 	    if(timeLeft <= 0){
- 	    	quitTimeUp(timeLeft, content); 	    	
- 	    }
- 	    
- 	 	}, 1000);
- 	}
- 	
- 	function quitTimeUp(timeLeft, content){
-		onQuitTimesUp();
-		
-		if(playerAInput.val() == member
-				|| playerBInput.val() == member){
-			console.log("QUIT content.message, timeup : " + content.message);
-			sock.send(JSON.stringify(
-					{type: 'DIE', roomId: roomId, sender: member, message: "DIE"}));
-		}
- 	     
- 	}
- 	
- 	function onQuitTimesUp() {
- 	  clearInterval(timerInterval);
- 	  timerInterval = null;
- 	  document.getElementById(timer).innerHTML = "";
- 	  
- 	  disableProblem();
- 	  disableUni();
- 	  disableOn();
- 	}
+// 	function startQuitTimer(content) {
+// 		
+// 		
+// 	 	let timePassed = 0;
+// 	 	let timeLimit = content.countDown;
+// 	 	let timeLeft = timeLimit;
+// 	 	
+// 	 	timerInterval = setInterval(() => {
+// 	    timePassed = timePassed += 1;
+// 	    timeLeft = timeLimit - timePassed;
+// 	    document.getElementById("base-timer-label").innerHTML = timeLeft;
+// 	    setCircleDasharray(timeLimit, timeLeft);
+//
+// 	    console.log(timeLeft);
+//
+// 	    if(timeLeft <= 0){
+// 	    	quitTimeUp(timeLeft, content); 	    	
+// 	    }
+// 	    
+// 	 	}, 1000);
+// 	}
+// 	
+// 	function quitTimeUp(timeLeft, content){
+//		onQuitTimesUp();
+//		
+//		if(playerAInput.val() == member
+//				|| playerBInput.val() == member){
+//			console.log("QUIT content.message, timeup : " + content.message);
+//			sock.send(JSON.stringify(
+//					{type: 'DIE', roomId: roomId, sender: member, message: "DIE"}));
+//		}
+// 	     
+// 	}
+// 	
+// 	function onQuitTimesUp() {
+// 	  clearInterval(timerInterval);
+// 	  timerInterval = null;
+// 	  document.getElementById(timer).innerHTML = "";
+// 	  
+// 	  disableProblem();
+// 	  disableUni();
+// 	  disableOn();
+// 	}
  	
 
 // button/checkbox actions
