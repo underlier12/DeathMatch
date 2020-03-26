@@ -115,22 +115,16 @@ public class UnionSettingService {
 		return gameDTO;
 	}
 	
-	public UnionSettingDTO ready(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+	public UnionGameDTO ready(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
-		preprocessing();
-
 		Map<String, Object> map = session.getAttributes();
 		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
 		unionPlayerDTO.setReady(true);
 		
-		jsonMap.put("type", "READY");
-		jsonMap.put("roomId", gameRoom.getRoomId());
-		jsonMap.put("sender", "Setting");
-		jsonMap.put("message", gameDTO.getSender() + "님이 준비하셨습니다.");
+		gameDTO.setMessage(gameDTO.getSender() + "님이 준비하셨습니다.");
+		gameDTO.setSender("Setting");
 		
-		postprocessing();
-
-		return unionSettingDTO;
+		return gameDTO;
 	}
 	
 	public boolean readyCheck(GameRoom gameRoom) {

@@ -129,6 +129,15 @@
 	padding: 0;
 }
 
+
+
+/* .select{
+	width: 125px;
+	height: 125px;
+	margin: 0;
+	padding: 0;
+} */
+
 .card{
 	width: 125px;
 	height: 125px;
@@ -138,7 +147,7 @@
 
 .uni, .on{
 	width: 95px;
-	height: 187.5px;
+	height: 187px;
 	font-size: 35px;
 	color: #E4F7BA;
 	background-color: #6D211C;
@@ -156,60 +165,46 @@
 	border: 2px solid #000000;
 }
 
-.exclaimA, .exclaimB{
-	width: 95px;
-	height: 125px;
-}
-
-.timer{
-	width: 125px;
-	height: 125px;
-}
 
 
 /* timer */
 
+/* Sets the containers height and width */
 .base-timer {
   position: relative;
-  width: 100px;
   height: 100px;
+  width: 100px;
 }
 
-.base-timer__svg {
-  transform: scaleX(-1);
-}
-
+/* Removes SVG styling that would hide the time label */
 .base-timer__circle {
   fill: none;
   stroke: none;
 }
 
+/* The SVG path that displays the timer's progress */
 .base-timer__path-elapsed {
   stroke-width: 7px;
   stroke: grey;
 }
 
-.base-timer__path-remaining {
-  stroke-width: 7px;
-  stroke-linecap: round;
-  transform: rotate(90deg);
-  transform-origin: center;
-  transition: 1s linear all;
-  fill-rule: nonzero;
-  stroke: currentColor;
-  color: #ECA50E;
-}
-
 .base-timer__label {
   position: absolute;
-  width: 100px;
-  height: 100px;
+  
+  /* Size should match the parent container */
+  width: 300px;
+  height: 300px;
+  
+  /* Keep the label aligned to the top */
   top: 0;
+  
+  /* Create a flexible box that centers content vertically and horizontally */
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /* Sort of an arbitrary number; adjust to your liking */
   font-size: 48px;
-  color: #ECA50E; 
 }
 
 
