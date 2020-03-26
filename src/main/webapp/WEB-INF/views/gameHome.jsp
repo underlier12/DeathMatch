@@ -6,7 +6,7 @@
 <head>
 <%@ include file="includes/meta.jsp"%>
 <title>DeathMatch GameHome</title>
-<%@ include file="includes/header2.jsp"%>
+<%@ include file="includes/header.jsp"%>
 <link href="/genious/css/gameHome.css" rel="stylesheet">
 <link href="/genious/css/deathmatch.css" rel="stylesheet">
 </head>

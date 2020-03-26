@@ -6,7 +6,7 @@
 <head>
     <%@ include file="includes/meta.jsp" %>
     <title>${room.name} 채팅방</title>
-    <%@ include file="includes/header2.jsp" %>
+    <%@ include file="includes/header.jsp" %>
     <link href="/genious/css/room.css" rel="stylesheet">
 </head>
 
@@ -130,7 +130,7 @@
 			<h4>${room.roomId}</h4>
 		</div>
 		
-		<%@ include file="includes/footer2.jsp" %>
+		<%@ include file="includes/footer.jsp" %>
 	</div>
 
 	<script src="/genious/js/room.js"></script>
