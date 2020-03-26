@@ -1,7 +1,5 @@
-<link rel="stylesheet" href="/genious/css/footer.css">
-
 <footer>
-	<div class ="row" style ="margin-top:100px;">
+	<div class ="row">
 		<div class="col-md-10 col-md-offset-1">
 			<ul class ="footer-list">
 				<li><a href="#">DEATHMATCH</a></li>
