@@ -4,42 +4,61 @@
 
 <mapper namespace="com.deathmatch.geniouse.mapper.MemberMapper">
 
+	<!-- 일반 유저 가입하기 -->
     <insert id ="insertMember">
-        insert into tbl_user(userEmail,pw,name,phone)
+        insert into tbl_user(userEmail,userId,pw,name)
         values
-        (#{userEmail},#{pw},#{name},#{phone});
+        (#{userEmail},#{userId},#{pw},#{name});
     </insert>
     
+    <!-- SNS 유저 가입하기 -->
     <insert id ="insertSnsMember">
-    insert into tbl_user (userEmail,name)
+    insert into tbl_user (userEmail,userId,name,auth)
         values
-        (#{userEmail},#{name});
+        (#{userEmail},#{userId},#{name},1);
     </insert>
     
-    <select id ="modifyUser" resultType ="UserDTO">
-    	update tbl_user
-    	where userEmail = #{userEmail}
-    	set pw = ${pw};
-    </select>
+    <!-- 비밀번호 체크하기 -->
+	<select id="checkPw" resultType="String">
+		SELECT
+		    pw
+		FROM
+		    tbl_user
+		WHERE
+		    userEmail = #{userEmail}
+	</select>
     
+    <!-- 비밀번호 변경하기 -->
+    <update id ="changePw">
+    	update 
+    	tbl_user
+    	set
+    	pw = #{pw}
+  		where userEmail = #{userEmail}
+    </update>
+    
+    <!-- 유저수 체크하기 -->
     <select id ="countUser" resultType="int">
     	select count(*) from tbl_user
     	where userEmail = #{userEmail};
     </select>
 
+	<!-- 유저 이메일 체크하기 -->
     <select id = "checkUserEmail" resultType="UserDTO">
         select userEmail from tbl_user
         where userEmail = #{userEmail};
     </select>
     
+    <!-- 유저 조회 하기 -->
     <select id ="selectMember" resultType="UserDTO">
-        select userEmail,name,score
+        select userEmail,pw,userId,name
         from tbl_user
         where userEmail = #{userEmail};
     </select>
 
+	<!-- 로그인 하기 -->
     <select id = "login" resultType ="UserDTO">
-        select userEmail,name,score
+        select userEmail,userId,name
         from tbl_user
         where userEmail = #{userEmail} and pw = #{pw};
     </select>
