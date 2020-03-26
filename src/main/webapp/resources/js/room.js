@@ -47,6 +47,13 @@ $(function () {
     // p tag
     var roundP = $('#round');
 
+// timer variables
+    
+    const FULL_DASH_ARRAY = 283; // 2*pi*r
+    let timerInterval = null;
+    var timer;
+    
+    
 // websocket actions
     
     sock.onopen = function () {
@@ -197,11 +204,16 @@ $(function () {
  	function notifyOn(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
- 		addUp(content);
+ 		console.log("message : " + content.message);
  		
- 		console.log(content.answer);
+ 		if(!(content.message == "합!")){
+ 			
+ 			console.log("content : " + content);
+ 			addUp(content);
+ 		}
 		
 		if(parseInt(content.score) > 0){
+			console.log(content.answer); 			
         	answerList.append('<li>' + content.answer + '</li>');
 		}
  	}
@@ -218,6 +230,8 @@ $(function () {
  	
  	function notifyEnd(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
+ 		onTimesUp();
  		
  		switch(content.message.substring(0, 4)){
 		case "데스매치":
@@ -289,6 +303,25 @@ $(function () {
  		resetAnswerList();
  	}
  	
+ 	function countDown(content){
+ 		
+ 		if(timerInterval){
+ 			onTimesUp(); 			
+ 		}
+ 		
+ 		switch (content.user1) {
+		case playerAInput.val():
+			timer = "timerA";
+			setTimer(content.countDown);
+			break;
+		case playerBInput.val():
+			timer = "timerB";
+			setTimer(content.countDown);
+			break;
+		}
+ 	 	startTimer(content);
+ 	}
+ 	
  	function resetAnswerList(){
  		answerList.empty();
  	}
@@ -318,41 +351,32 @@ $(function () {
  	}
  	
 // timer
- 	
- 	// Start with an initial value of 20 seconds
- 	const TIME_LIMIT = 20;
 
- 	// Initially, no time has passed, but this will count up
- 	// and subtract from the TIME_LIMIT
- 	let timePassed = 0;
- 	let timeLeft = TIME_LIMIT;
- 	
- 	function startTimer(){
- 		document.getElementById("app").innerHTML = `
+ 	function setTimer(time){
+ 		document.getElementById(timer).innerHTML = `
  			<div class="base-timer">
- 			  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
- 			    <g class="base-timer__circle">
- 			      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
- 			    </g>
- 			  </svg>
- 			  <span>
- 			    ${formatTime(timeLeft)}
- 			  </span>
+ 			<svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+ 			<g class="base-timer__circle">
+ 			<circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+ 			<path
+ 			id="base-timer-path-remaining"
+ 			stroke-dasharray="283"
+ 			class="base-timer__path-remaining"
+ 			d="
+ 			M 50, 50
+ 			m -45, 0
+ 			a 45,45 0 1,0 90,0
+ 			a 45,45 0 1,0 -90,0
+ 			"
+ 			></path>
+ 			</g>
+ 			</svg>
+ 			
+ 			
+ 			<span id="base-timer-label" class="base-timer__label">${time}</span>
  			</div>
  			`;
  	}
- 	
- 	function formatTimeLeft(time) {
- 		  // The largest round integer less than or equal to the result of time divided being by 60.
- 		  const minutes = Math.floor(time / 60);
- 		  
- 		  // Seconds are the remainder of the time divided by 60 (modulus operator)
- 		  let seconds = time % 60;
- 		  
- 		  // If the value of seconds is less than 10, then display seconds with a leading zero
- 		  if (seconds < 10) {
- 		    seconds = `0${seconds}`;
- 		  }
 
  	function onTimesUp() {
  	  clearInterval(timerInterval);
@@ -463,12 +487,13 @@ $(function () {
     });
     
     onBtn.click(function(){
-    	// TODO : announce for user to select answer
+    	sock.send(JSON.stringify(
+    			{type: 'ON', roomId: roomId, sender: member, message: "합!"}));
     });
     
     readyBtn.click(function(){
     	sock.send(JSON.stringify(
-    			{type: 'READY', roomId: roomId, sender: member}));
+    			{type: 'READY', roomId: roomId, sender: member, message: "READY"}));
     });
     
     
