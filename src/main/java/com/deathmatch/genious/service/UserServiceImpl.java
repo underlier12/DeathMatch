@@ -1,13 +1,15 @@
 package com.deathmatch.genious.service;
 
-import org.springframework.stereotype.Service;
+import java.util.Random;
 
+import org.springframework.stereotype.Service;
 import com.deathmatch.genious.dao.UserDAO;
 import com.deathmatch.genious.domain.LoginDTO;
 import com.deathmatch.genious.domain.UserDTO;
-
 import lombok.extern.log4j.Log4j;
 
+// 서비스는 DTO 에서 얻은정보를 효율적으로 Controller에 조립하여 넘겨준다
+// 서비스에서 DTO,VO를 조립한다
 @Log4j
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService {
 	public UserDTO login(LoginDTO loginDTO) {
 		return userDAO.login(loginDTO);
 	}
-
+	
 	@Override
 	public int deleteMember() {
 		return 0;
@@ -39,10 +41,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int modifyPw(UserDTO userDTO) {
-		return 0;
+	public int changePw(UserDTO currentUser,String changePw) {
+		UserDTO changePwUser = new UserDTO(currentUser.getUserEmail(),changePw);
+		int result = userDAO.changePw(changePwUser);
+		return result;
 	}
-
+	
+	@Override
+	public boolean checkPw(UserDTO currentUser,String currentPw) {
+		String getPassword = userDAO.getUserPassword(currentUser);
+		return getPassword.equals(currentPw);
+	}
+	
 	@Override
 	public UserDTO findId(UserDTO userDTO) {
 		return null;
@@ -50,7 +60,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO findPw(UserDTO userDTO) {
-		return null;
+		String userEmail = userDTO.getUserEmail();
+		log.info("=== 이메일 메일  === : " + userEmail);
+		Random random = new Random();
+		int ranNum = random.nextInt(79999) + 10000;
+		log.info("=== 랜덤 PassWord === : " + "death"+ranNum);
+		String ranPassword = "death" + Integer.toString(ranNum);
+		UserDTO changePwUser = new UserDTO(userEmail,ranPassword);
+		userDAO.changePw(changePwUser);
+		// 패스워드 변경 완료
+		UserDTO user = userDAO.selectUser(changePwUser);
+		return user;
 	}
 
 	/*
@@ -61,11 +81,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO kakaoLogin(UserDTO kakaoUser) {
 		int userCnt = userDAO.countMember(kakaoUser);
-		log.info("현재 아이디 : " + kakaoUser.getUserEmail());
+		String userEmail = kakaoUser.getUserEmail();
+		String userId = userEmail.substring(0,userEmail.indexOf('@'));
+		log.info("현재 이메일 : " + userEmail);
+		log.info("현재 아이디 : " + userId);
 		if (userCnt>0) {
 			kakaoUser = userDAO.selectKakaoMember(kakaoUser);
 			log.info("이미 등록된 회원 입니다!");
 		} else{
+			kakaoUser.setUserId(userId);
 			userDAO.insertKakaoMember(kakaoUser);
 			log.info("Kakao 회원 가입 성공!");
 		}
@@ -85,11 +109,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO naverLogin(UserDTO naverUser) {
 		int userCnt = userDAO.countMember(naverUser);
-		log.info("현재 아이디 : " + naverUser.getUserEmail());
+		String userEmail = naverUser.getUserEmail();
+		String userId = userEmail.substring(0,userEmail.indexOf('@'));
+		log.info("현재 아이디 : " + userEmail);
+		log.info("현재 아이디 : " + userId);
 		if (userCnt>0) {
 			naverUser = userDAO.selectNaverMember(naverUser);
 			log.info("이미 등록된 회원 입니다!");
 		} else{
+			naverUser.setUserId(userId);
 			userDAO.insertKakaoMember(naverUser);
 			log.info("Naver 회원 가입 성공!");
 		}

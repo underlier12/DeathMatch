@@ -3,8 +3,8 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/includes/header.jsp"%>
-
-	<div class="w3-sidebar w3-bar-block container" style="width: 32%">
+	
+	<div class="sidebar">
 		<div class="row">
 			<div class="col-md-12">
 				<h1 style="font-size: 45px;">
@@ -38,10 +38,12 @@
 		</div>
 
 		<div class="row mypage">
-			<div class="col-md-12">
-				<button class="btn btn-default-sm"
-					style="width: 260px; height: 60px; margin-top: 15px;">MyPage</button>
-			</div>
+			<form action ="/genious/user/myPage" method ="get">
+				<div class="col-md-12">
+					<button class="btn btn-default-sm"
+						style="width: 260px; height: 60px; margin-top: 15px;">MyPage</button>
+				</div>
+			</form>
 
 			<form action="/genious/user/logout" method="get">
 				<div class="col-md-12">
