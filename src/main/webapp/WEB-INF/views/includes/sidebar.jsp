@@ -3,8 +3,7 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/includes/header.jsp"%>
-
-	<!-- w3-sidebar w3-bar-block container -->
+	
 	<div class="sidebar">
 		<div class="row">
 			<div class="col-md-12">
