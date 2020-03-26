@@ -67,10 +67,83 @@ public class UnionSettingService {
 		}
 	}
 	
-	public void welcome(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
-		log.info("welcome");
+//	public void welcome(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+//		log.info("welcome");
+//		
+//		gameRoom.addSession(session);
+//		
+//		if(isRejoin(gameDTO, gameRoom)) {
+//			resumeGame();
+//		} else {
+//			register(session, gameDTO, gameRoom);
+//		}
+//		
+//	}
+
+	public UnionSettingDTO loadPlayer(UnionPlayerDTO player, GameRoom gameRoom) {
+		preprocessing();
 		
+		jsonMap.put("type", "LOAD");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Setting");
+		jsonMap.put("message", "PLAYER");
+		jsonMap.put("user1", player.getUserEmail());
+		
+		postprocessing();
+		
+		return unionSettingDTO;
+	}
+	
+	public UnionSettingDTO join(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		log.info("join");
 		gameRoom.addSession(session);
+
+		preprocessing();
+		
+		jsonMap.put("type", "JOIN");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Setting");
+		jsonMap.put("message", gameDTO.getSender() + "님이 입장했습니다.");
+		jsonMap.put("user1", gameDTO.getSender());
+		
+		postprocessing();
+		
+		return unionSettingDTO;
+	}
+	
+//	public Boolean isRejoin(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+//		boolean isRejoin = false;
+//		
+//		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
+//		for(UnionPlayerDTO player : engaged) {
+//			log.info("player : " + player.getUserEmail() + 
+//					" sender : " + gameDTO.getSender());
+//			if(player.getUserEmail().equals(gameDTO.getSender())) {
+//				Map<String, Object> map = session.getAttributes();
+//				map.put("player", player);
+//				isRejoin = true;
+//				break;
+//			}
+//		}
+//		
+//		return isRejoin;
+//	}
+	
+//	public UnionSettingDTO resumeGame(GameRoom gameRoom) {
+//		preprocessing();
+//		
+//		jsonMap.put("type", "RESUME");
+//		jsonMap.put("roomId", gameRoom.getRoomId());
+//		jsonMap.put("sender", "Setting");
+//		jsonMap.put("message", "게임을 재개합니다.");
+//		
+//		postprocessing();
+//
+//		return unionSettingDTO;
+//	}
+	
+	public void register(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+		
 		String status = decideStatus(gameRoom);
 		
 		UnionPlayerDTO unionPlayerDTO = new UnionPlayerDTO();
@@ -87,12 +160,13 @@ public class UnionSettingService {
 		map.put("player", unionPlayerDTO);
 		
 		isEngaged(unionPlayerDTO, gameRoom);
+		
 	}
 	
 	public String decideStatus(GameRoom gameRoom) {
 		String status = null;
-		if(gameRoom.getSessions().size() == 1) status = "HOST";
-		else if(gameRoom.getSessions().size() == 2) status = "OPPONENT";
+		if(gameRoom.getEngaged().size() == 0) status = "HOST";
+		else if(gameRoom.getEngaged().size() == 1) status = "OPPONENT";
 		else status = "GUEST";
 		
 		return status;
@@ -107,13 +181,6 @@ public class UnionSettingService {
 		}
 	}
 	
-	public UnionGameDTO join(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		
-		gameDTO.setMessage(gameDTO.getSender() + "님이 입장했습니다.");
-		gameDTO.setSender("Setting");
-		
-		return gameDTO;
-	}
 	
 	public UnionSettingDTO ready(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		
@@ -158,6 +225,7 @@ public class UnionSettingService {
 	
 	public void startGame(GameRoom gameRoom) {
 		gameRoom.setGameId(makeGameId());
+		gameRoom.setPlaying(true);
 	}
 	
 
@@ -288,7 +356,7 @@ public class UnionSettingService {
 		}
 	}
 	
-	public void bye(WebSocketSession session, CloseStatus status) {
+	public UnionPlayerDTO quitSession(WebSocketSession session, CloseStatus status) {
 		Map<String, Object> map = session.getAttributes();
 		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
 				
@@ -297,5 +365,68 @@ public class UnionSettingService {
 		
 		log.info("bye");
 		log.info(gameRoom.getSessions());
+		
+		return unionPlayerDTO;
 	}
+	
+	public Boolean isPlaying(GameRoom gameRoom) {
+		log.info("isPlaying : " + gameRoom.getPlaying());
+		log.info("lastGameDTO : " + gameRoom.getLastGameDTO());
+		return gameRoom.getPlaying() && !gameRoom.getLastGameDTO().equals(null);
+	}
+	
+	public Boolean isGuest(UnionPlayerDTO player) {
+		boolean isGuest = true;
+		
+		switch (player.getStatus()) {
+		case "HOST":
+		case "OPPONENT":
+			isGuest = false;
+			break;
+		}
+		return isGuest;
+	}
+	
+	public UnionSettingDTO quitPlayer(UnionPlayerDTO player) {
+		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
+		gameRoom.removePlayer(player);
+		
+		preprocessing();
+		
+		jsonMap.put("type", "LEAVE");
+		jsonMap.put("roomId", gameRoom.getRoomId());
+		jsonMap.put("sender", "Setting");
+		jsonMap.put("user1", player.getUserEmail());
+		
+		postprocessing();
+	
+		return unionSettingDTO;
+	}
+	
+	// TODO : Resume game functions
+	
+//	public UnionSettingDTO playerGone(UnionPlayerDTO player, GameRoom gameRoom) {
+//		preprocessing();
+//		
+//		jsonMap.put("type", "QUIT");
+//		jsonMap.put("roomId", gameRoom.getRoomId());
+//		jsonMap.put("sender", "Setting");
+//		jsonMap.put("message", player.getUserEmail() + "가 나가셨습니다. 10초간 기다립니다.");
+//		jsonMap.put("countDown", 10);
+//		
+//		postprocessing();
+//		
+//		return unionSettingDTO;
+//	}
+//	
+//	public void quitOtherPlayer(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
+//		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
+//		
+//		for(UnionPlayerDTO player : engaged) {
+//			if(!session.getAttributes().get("player").equals(player)) {
+//				gameRoom.removePlayer(player);
+//				break;
+//			}
+//		}
+//	}
 }

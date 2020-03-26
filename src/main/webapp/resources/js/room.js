@@ -21,7 +21,7 @@ $(function () {
 	var defaultPng = ".png";
 	
     // button tag
-	var selectBtn = $('.select');
+//	var selectBtn = $('.select');
 	var uniBtn = $('.uni');
 	var onBtn = $('.on');
 	var readyBtn = $('.ready');
@@ -61,6 +61,9 @@ $(function () {
         connectionStatus.text('connection opened');
         hideUnion();
         setProblemNum();
+        disableProblem();
+        disableUni();
+        disableOn();
     }
     
     sock.onmessage = function (event){
@@ -83,8 +86,11 @@ $(function () {
 
 // websocket functions
  	
- 	function fromServer(content){
+ 	function fromServer(content){ 		
  		switch(content.type){
+ 		case "LOAD":
+ 			notifyLoad(content);
+ 			break;
  		case "JOIN":
  			notifyJoin(content);
  			break;
@@ -109,6 +115,17 @@ $(function () {
  		case "END":
  			notifyEnd(content);
  			break;
+ 		case "LEAVE":
+ 			notifyLeave(content);
+ 			break;
+// 		case "QUIT":
+// 			console.log(" ");
+// 			console.log("QUIT enter");
+// 			notifyQuit(content);
+// 			break;
+// 		case "RESUME":
+// 			notifyResume(content);
+// 			break;
  		default:
  			console.log("fromServer default");
  		}
@@ -127,22 +144,43 @@ $(function () {
  		}
  	}
  	
+ 	function notifyLoad(content){
+ 		switch (content.message) {
+		case "PLAYER":
+			if(!playerAInput.val()){
+				playerAInput.val(content.user1);
+			}else if(!playerBInput.val()){
+				playerBInput.val(content.user1);
+			}
+			break;
+
+		default:
+			break;
+		}
+ 	}
+ 	
  	function notifyJoin(content){
 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+		
+		if(!playerAInput.val()){
+			playerAInput.val(content.user1);
+		}else if(!playerBInput.val()){
+			playerBInput.val(content.user1);
+		}
  	}
  	
  	function notifyReady(content){
 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
 		
 		if(content.user1){
-			playerAInput.val(content.user1);
-			playerBInput.val(content.user2);
+//			playerAInput.val(content.user1);
+//			playerBInput.val(content.user2);
 			
 			scoreAInput.val(0);
 			scoreBInput.val(0);
 			showUnion();
 			hideReady();
-			dismantleProblemNum();
+//			dismantleProblemNum();
 		}
  	}
 
@@ -186,8 +224,8 @@ $(function () {
  		console.log(content.user1);
  		console.log(content.countDown);
  		
- 		
-		countDown(content); 			
+		countDown(content);		
+		isMyTurn(content);
  	}
  	
  	function notifyEnd(content){
@@ -198,12 +236,42 @@ $(function () {
  		switch(content.message.substring(0, 4)){
 		case "데스매치":
  			announceWinner(content);
- 			break;
  		default:
  			resetAnswerList();
+ 			resetRound();
  			break;
  		}
  	}
+ 	
+ 	function notifyLeave(content){
+ 		console.log(content.user1);
+ 		
+ 		if(content.user1 == playerAInput.val()){
+ 			playerAInput.val('');
+ 		} else {
+ 			playerBInput.val('');
+ 		}
+ 	}
+ 	
+// 	function notifyQuit(content){
+// 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+//
+// 		console.log("content : " + content);
+// 		console.log("countDown : " + content.countDown);
+// 		
+// 		onTimesUp();
+// 		
+// 		setTimer(content.countDown);
+// 		startQuitTimer(content);
+// 		
+// 	}
+// 	
+// 	function notifyResume(content){
+// 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+// 		
+// 		onQuitTimesUp();
+// 	}
+ 	
  	
  	function addUp(content){
  		var existingScore;
@@ -229,6 +297,10 @@ $(function () {
  		showReady();
  		hideUnion();
  		setProblemNum();
+ 		disableProblem();
+ 		resetScore();
+ 		resetRound();
+ 		resetAnswerList();
  	}
  	
  	function countDown(content){
@@ -253,6 +325,22 @@ $(function () {
  	function resetAnswerList(){
  		answerList.empty();
  	}
+ 	
+ 	function resetRound(){
+ 		roundP.text('');
+ 	}
+ 	
+ 	function resetScore(){
+ 		scoreAInput.val('');
+		scoreBInput.val('');
+ 	}
+ 	
+// 	function quitCountDown(content){
+// 		onTimesUp();
+// 		
+// 		setTimer(content.countDown);
+// 		
+// 	}
  	
  	function submitUni(content){
  		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
@@ -294,6 +382,10 @@ $(function () {
  	  clearInterval(timerInterval);
  	  timerInterval = null;
  	  document.getElementById(timer).innerHTML = "";
+ 	  
+ 	  disableProblem();
+ 	  disableUni();
+ 	  disableOn();
  	}
 
  	function startTimer(content) {
@@ -336,10 +428,57 @@ $(function () {
 			sock.send(JSON.stringify(
 					{type: 'TIMEUP', roomId: roomId, sender: member, message: "TIMEUP"}));
 		}
- 	      
  	    
  	}
  	
+// quit timer
+ 	// TODO: merge to timer
+ 	
+// 	function startQuitTimer(content) {
+// 		
+// 		
+// 	 	let timePassed = 0;
+// 	 	let timeLimit = content.countDown;
+// 	 	let timeLeft = timeLimit;
+// 	 	
+// 	 	timerInterval = setInterval(() => {
+// 	    timePassed = timePassed += 1;
+// 	    timeLeft = timeLimit - timePassed;
+// 	    document.getElementById("base-timer-label").innerHTML = timeLeft;
+// 	    setCircleDasharray(timeLimit, timeLeft);
+//
+// 	    console.log(timeLeft);
+//
+// 	    if(timeLeft <= 0){
+// 	    	quitTimeUp(timeLeft, content); 	    	
+// 	    }
+// 	    
+// 	 	}, 1000);
+// 	}
+// 	
+// 	function quitTimeUp(timeLeft, content){
+//		onQuitTimesUp();
+//		
+//		if(playerAInput.val() == member
+//				|| playerBInput.val() == member){
+//			console.log("QUIT content.message, timeup : " + content.message);
+//			sock.send(JSON.stringify(
+//					{type: 'DIE', roomId: roomId, sender: member, message: "DIE"}));
+//		}
+// 	     
+// 	}
+// 	
+// 	function onQuitTimesUp() {
+// 	  clearInterval(timerInterval);
+// 	  timerInterval = null;
+// 	  document.getElementById(timer).innerHTML = "";
+// 	  
+// 	  disableProblem();
+// 	  disableUni();
+// 	  disableOn();
+// 	}
+ 	
+
 // button/checkbox actions
  	
     uniBtn.click(function(){
@@ -410,12 +549,66 @@ $(function () {
 		}
     }
     
-    function dismantleProblemNum(){
-    	for(var i=0; i < 9; i++){
-    		$(".card:eq("+i+")").attr("src", "");
-		}
+//    function dismantleProblemNum(){
+//    	for(var i=0; i < 9; i++){
+//    		$(".card:eq("+i+")").attr("src", "");
+//		}
+//    }
+    
+    function isMyTurn(content){
+    	console.log(" ");
+    	console.log("isMyTurn : " + content.message + " " + content.user1);
+    	
+    	if(content.user1 == member){
+    		switch (content.message.substring(0, 1)) {
+			case "결":
+				enableUni();
+				break;
+				
+			case "합":
+				enableProblem();
+				break;
+
+			default:
+				enableUni();
+				enableOn();
+				break;
+			}
+    	}
     }
     
+    function disableProblem(){
+    	console.log("disProb");
+    	for(var i=0; i < 9; i++){
+    		$(".selectbox:eq("+i+")").prop("disabled", true);
+    	}
+    }
     
+    function enableProblem(){
+    	console.log("enProb");
+    	for(var i=0; i < 9; i++){
+    		$(".selectbox:eq("+i+")").prop("disabled", false);
+    	}
+    }
+    
+    function disableUni(){
+    	console.log("disUni");
+    	uniBtn.prop('disabled', true);
+    }
+    
+    function enableUni(){
+    	console.log("enUni");
+    	uniBtn.prop("disabled", false);
+    }
+    
+    function disableOn(){
+    	console.log("disOn");
+    	onBtn.prop('disabled', true);
+    }
+    
+    function enableOn(){
+    	console.log("enOn");
+    	onBtn.prop("disabled", false);
+    }
     
 });
