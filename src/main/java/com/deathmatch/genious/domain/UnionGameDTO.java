@@ -14,6 +14,6 @@ public class UnionGameDTO {
     private String roomId;
     private String sender;
     private String message;
-//    private String gameId;
-//    private int round;
+    private String gameId;
+    private int round;
 }
