@@ -37,7 +37,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionSettingService {
 	
-	private final GameRoomService gameRoomService;
+//	private final GameRoomService gameRoomService;
 	private final UnionCombination unionCombination;
 	private final UnionSettingDAO unionSettingDAO;
 	private final ObjectMapper objectMapper;
@@ -356,17 +356,17 @@ public class UnionSettingService {
 		}
 	}
 	
-	public UnionPlayerDTO quitSession(WebSocketSession session, CloseStatus status) {
-		Map<String, Object> map = session.getAttributes();
-		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
+	public void quitSession(WebSocketSession session, GameRoom gameRoom, CloseStatus status) {
+//		Map<String, Object> map = session.getAttributes();
+//		UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
 				
-		GameRoom gameRoom = gameRoomService.findRoomById(unionPlayerDTO.getRoomId());
+//		GameRoom gameRoom = gameRoomService.findRoomById(unionPlayerDTO.getRoomId());
 		gameRoom.removeSession(session);
 		
 		log.info("bye");
 		log.info(gameRoom.getSessions());
 		
-		return unionPlayerDTO;
+//		return unionPlayerDTO;
 	}
 	
 	public Boolean isPlaying(GameRoom gameRoom) {
@@ -387,8 +387,8 @@ public class UnionSettingService {
 		return isGuest;
 	}
 	
-	public UnionSettingDTO quitPlayer(UnionPlayerDTO player) {
-		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
+	public UnionSettingDTO quitPlayer(UnionPlayerDTO player, GameRoom gameRoom) {
+//		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
 		gameRoom.removePlayer(player);
 		
 		preprocessing();

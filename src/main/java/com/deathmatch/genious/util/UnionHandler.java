@@ -9,6 +9,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.deathmatch.genious.domain.UnionGameDTO;
+import com.deathmatch.genious.domain.UnionPlayerDTO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.service.GameRoomService;
 import com.deathmatch.genious.service.UnionService;
@@ -23,19 +24,21 @@ import lombok.extern.log4j.Log4j;
 public class UnionHandler extends TextWebSocketHandler{
 
 	private final ObjectMapper objectMapper;
-    private final GameRoomService gameRoomService;
     private final UnionService unionService;
+    private final GameRoomService gameRoomService;
     
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		
-    	log.info("session ID : " + session.getId());
-    	log.info("Session : " + session + "\n");
-    	
-    	Map<String, Object> map = session.getAttributes();
-    	String userEmail = (String) map.get("userEmail");
-    	
-    	log.info("userEmail : " + userEmail);
+		log.info("afterConnectionEstablished");
+
+//    	log.info("session ID : " + session.getId());
+//    	log.info("Session : " + session + "\n");
+//    	
+//    	Map<String, Object> map = session.getAttributes();
+//    	String userEmail = (String) map.get("userEmail");
+//    	
+//    	log.info("userEmail : " + userEmail);
     }
     
 	@Override
@@ -51,7 +54,11 @@ public class UnionHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception{
 		log.info("afterConnectionClosed");
-		unionService.afterConnectionClosed(session, status);
+		
+		Map<String, Object> map = session.getAttributes();
+		UnionPlayerDTO player = (UnionPlayerDTO) map.get("player");
+		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
+		unionService.afterConnectionClosed(session, player, gameRoom, status);
 	}
 	
 	@Override
