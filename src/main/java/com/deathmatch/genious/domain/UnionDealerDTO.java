@@ -8,7 +8,8 @@ import lombok.Setter;
 public class UnionDealerDTO {
 
     public enum MessageType {
-        JOIN, TALK, READY, UNI, ON, OUT, ROUND, END, TURN
+    	TURN, ROUND, END, UNI, ON, 
+        JOIN, TALK, READY, OUT
     }
     private MessageType type;
     private String roomId;
