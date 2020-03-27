@@ -1,5 +1,6 @@
 package com.deathmatch.genious.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,10 +8,25 @@ import lombok.Setter;
 @Setter
 public class UnionPlayerDTO {
 
-	private String userEmail;
+	public enum StatusType {
+		HOST, OPPONENT, GUEST
+	}
+//	private String userEmail;
+	private String userId;
 	private String roomId;
-	private String status;
+	private StatusType status;
 	private Boolean ready;
 	private Boolean turn;
 	private int score;
+	
+	@Builder
+	public UnionPlayerDTO(String userId, String roomId, StatusType status,
+			Boolean ready, Boolean turn, int score) {
+		this.userId = userId;
+		this.roomId = roomId;
+		this.status = status;
+		this.ready = ready;
+		this.turn = turn;
+		this.score = score;
+	}
 }
