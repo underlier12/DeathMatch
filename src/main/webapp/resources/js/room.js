@@ -172,10 +172,13 @@ $(function () {
  	function notifyReady(content){
 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
 		
-		if(content.user1){
+//		if(content.user1){
 //			playerAInput.val(content.user1);
 //			playerBInput.val(content.user2);
 			
+		console.log("message : " + content.message);
+		
+		if(content.message.substring(0, 3) == '참가자'){
 			scoreAInput.val(0);
 			scoreBInput.val(0);
 			showUnion();

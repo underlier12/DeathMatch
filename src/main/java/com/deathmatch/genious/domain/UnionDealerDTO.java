@@ -9,7 +9,7 @@ public class UnionDealerDTO {
 
     public enum MessageType {
     	TURN, ROUND, END, UNI, ON, 
-        JOIN, TALK, READY, OUT
+//        JOIN, TALK, READY, OUT
     }
     private MessageType type;
     private String roomId;

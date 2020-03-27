@@ -266,6 +266,7 @@ public class UnionSettingService {
 	public UnionSettingDTO standby(GameRoom gameRoom) {
 		
 		Map<String, Object> jsonMap = preprocessing(MessageType.READY, gameRoom.getRoomId());
+//		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
 		
 //		List<String> players = new ArrayList<>();
 //		Set<WebSocketSession> sessions = gameRoom.getSessions();
@@ -284,11 +285,10 @@ public class UnionSettingService {
 //		jsonMap.put("roomId", gameRoom.getRoomId());
 //		jsonMap.put("sender", "Setting");
 		
-		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
 		
 		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
-		jsonMap.put("user1", engaged.get(0));
-		jsonMap.put("user2", engaged.get(1));
+//		jsonMap.put("user1", engaged.get(0));
+//		jsonMap.put("user2", engaged.get(1));
 		
 		UnionSettingDTO unionSettingDTO = postprocessing(jsonMap);
 		
