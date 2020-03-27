@@ -1,7 +1,6 @@
 package com.deathmatch.genious.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,7 @@ import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionCardDTO.BackType;
 import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
 import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
+import com.deathmatch.genious.domain.UnionDatabaseDTO;
 import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.UnionPlayerDTO;
 import com.deathmatch.genious.domain.UnionPlayerDTO.StatusType;
@@ -77,6 +78,34 @@ public class UnionSettingService {
 			e.printStackTrace();
 		}
 		return unionSettingDTO;
+	}
+	
+	public Map<String, Object> dbPreprocessing(GameRoom gameRoom){
+		Map<String, Object> jsonMap = new HashMap<>();
+		jsonMap.put("gameId", gameRoom.getGameId());
+		jsonMap.put("round", gameRoom.getRound());
+		
+		return jsonMap;
+	}
+	
+	public UnionDatabaseDTO dbPostprocessing(Map<String, Object> jsonMap) {
+		JSONObject jsonObject = new JSONObject(jsonMap);
+		String jsonString = jsonObject.toJSONString();
+		
+		log.info("jsonString : " + jsonString);
+
+		UnionDatabaseDTO unionDatabaseDTO = null;
+		try {
+			unionDatabaseDTO = objectMapper.readValue(jsonString, UnionDatabaseDTO.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return unionDatabaseDTO;
 	}
 	
 //	public void welcome(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -298,28 +327,33 @@ public class UnionSettingService {
 	public UnionSettingDTO setUnionProblem(GameRoom gameRoom) {
 		
 		Map<String, Object> jsonMap = preprocessing(MessageType.PROBLEM, gameRoom.getRoomId());
+		Map<String, Object> dbJsonMap = dbPreprocessing(gameRoom);
 		
 		List<UnionCardDTO> problemList = unionSettingDAO.makeUnionProblem();
-		List<String> problemCardNames = new ArrayList<>();
+		List<String> problemCardNames = problemList.stream()
+													.map(c -> c.getName())
+													.collect(Collectors.toList());
 		
-		log.info("problemList.toString : " + problemList.toString());
+//		log.info("problemList.toString : " + problemList.toString());
 		
-		for(int i = 0; i < problemList.size(); i++) {
-			String cardName = problemList.get(i).getName();
-			problemCardNames.add(cardName);
-			unionSettingDAO.insertProblem(gameRoom, i, cardName);			
-		}
+//		for(int i = 0; i < problemList.size(); i++) {
+//			String cardName = problemList.get(i).getName();
+//			problemCardNames.add(cardName);
+//			unionSettingDAO.insertProblem(gameRoom, i, cardName);			
+//		}
 		
 		
 //		jsonMap.put("type", "PROBLEM");
 //		jsonMap.put("roomId", gameRoom.getRoomId());
 //		jsonMap.put("sender", "Setting");
 		
-		jsonMap.put("cards", problemCardNames);
+		UnionDatabaseDTO dbDTO = dbPostprocessing(dbJsonMap);
+		unionSettingDAO.insertProblem(dbDTO, problemCardNames);
 		
+		jsonMap.put("cards", problemCardNames);
 		UnionSettingDTO unionSettingDTO = postprocessing(jsonMap);
 		
-		log.info("unionProblemDTO : " + unionSettingDTO + "\n");
+//		log.info("unionProblemDTO : " + unionSettingDTO + "\n");
 		
 		return unionSettingDTO;
 	}
@@ -365,7 +399,10 @@ public class UnionSettingService {
 	
 	public void setUnionAnswer(GameRoom gameRoom){
 		
-		List<UnionCardDTO> problemList = unionSettingDAO.selectUnionProblem(gameRoom);
+		Map<String, Object> dbJsonMap = dbPreprocessing(gameRoom);
+		UnionDatabaseDTO dbDTO = dbPostprocessing(dbJsonMap);
+		
+		List<UnionCardDTO> problemList = unionSettingDAO.selectUnionProblem(dbDTO);
 		
 		Set<UnionCardDTO[]> answerCandidateSet = new HashSet<>();
 		Set<String> answerSet = new HashSet<>();
@@ -373,7 +410,7 @@ public class UnionSettingService {
 		answerCandidateSet = unionCombination.makeCombination(problemList);
 		answerSet = makeUnionAnswer(problemList, answerCandidateSet);
 		
-		unionSettingDAO.insertAnswer(gameRoom, answerSet);
+		unionSettingDAO.insertAnswer(dbDTO, answerSet);
 	}	
 	
 	public void resetGame(GameRoom gameRoom) {

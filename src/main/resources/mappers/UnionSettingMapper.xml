@@ -28,7 +28,7 @@
     
     <insert id="insertAnswer">
     	insert into tbl_union_answer
-    	values (#{gameId},#{round},#{answer});
+    	values (#{gameId},#{round},#{card});
     </insert>
     
 </mapper>
