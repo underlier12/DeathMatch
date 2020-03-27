@@ -1,5 +1,20 @@
 /* id */
 
+#game{
+	width: 580px;
+    height: 1000px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -290px;
+    margin-top: -400px;
+}
+
+#logo{
+	width: 300px;
+	height: auto;
+}
+
 #round{
 	width: 570px;
 	height: 70px;
@@ -8,13 +23,43 @@
 	text-align: center;
 }
 
-#connectionStatus{
+#answer{
+	width: 95px;
+	height: 375px;
+	list-style: none;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	font-size: 25px;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+#ready{
+	width: 95px;
+	height: 375px;
+	font-size: 35px;
+	color: #E4F7BA;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+#pass{
 	width: 125px;
 	height: 100px;
 	text-align: center;
 }
 
-#playerA, #playerB{
+#connectionStatus{
+	width: 375px;
+	height: 40px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+/* #playerA, #playerB{
 	width: 95px;
 	height: 40px;
 	margin: 0;
@@ -23,9 +68,9 @@
 	background-color: #3F1816;
 	text-align: center;
 	border: 2px solid #000000;
-}
+} */
 
-#scoreA, #scoreB{
+/* #scoreA, #scoreB{
 	width: 95px;
 	height: 88px;
 	margin: 0;
@@ -35,16 +80,16 @@
 	background-color: #6D211C;
 	text-align: center;
 	border: 2px solid #000000;
-}
+} */
 
-#selected{
+/* #selected{
 	width: 375px;
 	height: 40px;
 	color: #ECA50E;
 	background-color: #3F1816;
 	text-align: center;
 	border: 2px solid #000000;
-}
+} */
 
 #broadcast{
 	width: 375px;
@@ -55,7 +100,7 @@
 
 /* class */
 
-.game{
+/* .game{
 	width: 580px;
     height: 800px;
     position: absolute;
@@ -63,14 +108,14 @@
     top: 50%;
     margin-left: -290px;
     margin-top: -400px;
-}
+} */
 
-.title-box{
+/* .title-box{
 	width: 570px;
 	display: flex;
 	overflow: auto;
 	justify-content: center;
-	/* padding-top: 50px; */
+	padding-top: 50px;
 }
 
 .round-box{
@@ -99,30 +144,27 @@
 	display: flex;
 	overflow: auto;
 	justify-content: center;
+} */
+
+.flex-box{
+	width: 570px;
+	display: flex;
+	overflow: auto;
+	justify-content: center;
 }
 
-
-.logo{
-	width: 300px;
-	height: auto;
-}
-
-.answer{
-	width: 95px;
-	height: 375px;
-	list-style: none;
-	color: #CEFBC9;
-	background-color: #6D211C;
-	font-size: 25px;
-	text-align: center;
-	border: 2px solid #000000;
-}
-
-
-.checkbox{
+.selectbox{
 	display: none;
 	margin: 0;
 }
+
+
+
+
+/* .checkbox{
+	display: none;
+	margin: 0;
+} */
 
 .label{
 	margin: 0;
@@ -136,7 +178,7 @@
 }
 
 
-.uni, .on{
+.union{
 	width: 95px;
 	height: 187.5px;
 	font-size: 35px;
@@ -146,17 +188,8 @@
 	border: 2px solid #000000;
 }
 
-.ready{
-	width: 95px;
-	height: 375px;
-	font-size: 35px;
-	color: #E4F7BA;
-	background-color: #6D211C;
-	text-align: center;
-	border: 2px solid #000000;
-}
 
-.exclaimA, .exclaimB{
+.exclaim{
 	width: 95px;
 	height: 125px;
 }
@@ -166,6 +199,28 @@
 	height: 125px;
 }
 
+.player{
+	width: 95px;
+	height: 40px;
+	margin: 0;
+	padding: 0;
+	color: #CEFBC9;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+.score{
+	width: 95px;
+	height: 88px;
+	margin: 0;
+	padding: 0;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+}
 
 /* timer */
 
@@ -223,6 +278,6 @@
 
 
 /* test */
-div{
- 	/* border: 1px solid gold */
-}
+/* div{
+ 	border: 1px solid gold
+} */

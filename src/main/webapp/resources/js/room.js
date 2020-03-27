@@ -22,30 +22,30 @@ $(function () {
 	
     // button tag
 //	var selectBtn = $('.select');
-	var uniBtn = $('.uni');
-	var onBtn = $('.on');
-	var readyBtn = $('.ready');
+	var $uniBtn = $('#uni');
+	var $onBtn = $('#on');
+	var $readyBtn = $('#ready');
 	
 	// input tag
-	var selectBox = $('.selectbox');
+	var $selectBox = $('.selectbox');
 	
-	var selectedInput = $('#selected');
-	var playerAInput = $('#playerA');
-	var playerBInput = $('#playerB');
-	var scoreAInput = $('#scoreA');
-	var scoreBInput = $('#scoreB');
+//	var selectedInput = $('#selected');
+	var $playerAInput = $('#playerA');
+	var $playerBInput = $('#playerB');
+	var $scoreAInput = $('#scoreA');
+	var $scoreBInput = $('#scoreB');
 
 	// div tag
-	var connectionStatus = $('#connectionStatus');
+	var $connectionStatus = $('#connectionStatus');
 	
 	// textarea tag
-	var gameBroadcast = $('#broadcast');
+	var $gameBroadcast = $('#broadcast');
 	
 	// ul tag
-    var answerList = $('.answer');
+    var $answerList = $('#answer');
     
     // p tag
-    var roundP = $('#round');
+    var $roundP = $('#round');
 
 // timer variables
     
@@ -58,12 +58,10 @@ $(function () {
     
     sock.onopen = function () {
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
-        connectionStatus.text('connection opened');
-        hideUnion();
-        setProblemNum();
-        disableProblem();
-        disableUni();
-        disableOn();
+        $connectionStatus.text('connection opened');
+//        initialization();
+        notInGame();
+        disableAll();
     }
     
     sock.onmessage = function (event){
@@ -81,12 +79,28 @@ $(function () {
     
  	sock.onclose = function(event){
  		console.log("sock.onclose");
- 		connectionStatus.text('connection closed');
+ 		$connectionStatus.text('connection closed');
  	}
+ 	
+// 	function initialization(){
+// 		notInGame();
+//// 		hideUnion();
+////        setProblemNum();
+//        disableAll();
+////        disableProblem();
+////        disableUni();
+////        disableOn();
+// 	}
+ 	
 
 // websocket functions
  	
- 	function fromServer(content){ 		
+ 	function fromServer(content){ 	
+ 		
+ 		if(content.message){
+ 			$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		}
+ 		
  		switch(content.type){
  		case "LOAD":
  			notifyLoad(content);
@@ -132,6 +146,9 @@ $(function () {
  	}
  	
  	function fromUser(content){
+ 		
+ 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		
  		switch(content.type){
  		case "UNI":
  			submitUni(content);
@@ -147,49 +164,50 @@ $(function () {
  	function notifyLoad(content){
  		switch (content.message) {
 		case "PLAYER":
-			if(!playerAInput.val()){
-				playerAInput.val(content.user1);
-			}else if(!playerBInput.val()){
-				playerBInput.val(content.user1);
+			if(!$playerAInput.val()){
+				$playerAInput.val(content.user1);
+			}else if(!$playerBInput.val()){
+				$playerBInput.val(content.user1);
 			}
 			break;
-
-		default:
-			break;
+//
+//		default:
+//			break;
 		}
  	}
  	
  	function notifyJoin(content){
-		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+//		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
 		
-		if(!playerAInput.val()){
-			playerAInput.val(content.user1);
-		}else if(!playerBInput.val()){
-			playerBInput.val(content.user1);
+		if(!$playerAInput.val()){
+			$playerAInput.val(content.user1);
+		}else if(!$playerBInput.val()){
+			$playerBInput.val(content.user1);
 		}
  	}
  	
  	function notifyReady(content){
-		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+//		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
 		
 //		if(content.user1){
 //			playerAInput.val(content.user1);
 //			playerBInput.val(content.user2);
 			
-		console.log("message : " + content.message);
+//		console.log("message : " + content.message);
 		
 		if(content.message.substring(0, 3) == '참가자'){
-			scoreAInput.val(0);
-			scoreBInput.val(0);
-			showUnion();
-			hideReady();
+			$scoreAInput.val(0);
+			$scoreBInput.val(0);
+			inGame();
+//			showUnion();
+//			hideReady();
 //			dismantleProblemNum();
 		}
  	}
 
  	function notifyRound(content){
- 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
-        roundP.text(content.round + ' ROUND');
+// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
+        $roundP.text(content.round + ' ROUND');
  	}
  	
  	function notifyProblem(content){
@@ -199,40 +217,40 @@ $(function () {
  	}
  	
  	function notifyUni(content){
- 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
+// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
 			
 		addUp(content);
  	}
  	
  	function notifyOn(content){
- 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
- 		console.log("message : " + content.message);
+// 		console.log("message : " + content.message);
  		
  		if(!(content.message == "합!")){
  			
- 			console.log("content : " + content);
+// 			console.log("content : " + content);
  			addUp(content);
  		}
 		
 		if(parseInt(content.score) > 0){
-			console.log(content.answer); 			
-        	answerList.append('<li>' + content.answer + '</li>');
+//			console.log(content.answer); 			
+        	$answerList.append('<li>' + content.answer + '</li>');
 		}
  	}
  	
  	function notifyTurn(content){
- 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
- 		console.log(content.user1);
- 		console.log(content.countDown);
+// 		console.log(content.user1);
+// 		console.log(content.countDown);
  		
 		countDown(content);		
 		isMyTurn(content);
  	}
  	
  	function notifyEnd(content){
- 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
  		onTimesUp();
  		
@@ -240,19 +258,19 @@ $(function () {
 		case "데스매치":
  			announceWinner(content);
  		default:
- 			resetAnswerList();
+// 			resetAnswerList();
  			resetRound();
  			break;
  		}
  	}
  	
  	function notifyLeave(content){
- 		console.log(content.user1);
+// 		console.log(content.user1);
  		
- 		if(content.user1 == playerAInput.val()){
- 			playerAInput.val('');
+ 		if(content.user1 == $playerAInput.val()){
+ 			$playerAInput.val('');
  		} else {
- 			playerBInput.val('');
+ 			$playerBInput.val('');
  		}
  	}
  	
@@ -280,44 +298,46 @@ $(function () {
  		var existingScore;
 		var score = parseInt(content.score);
  		
- 		if(content.user1 == playerAInput.val()){
-			existingScore = parseInt(scoreAInput.val()); 
-			scoreAInput.val(existingScore + score);
+ 		if(content.user1 == $playerAInput.val()){
+			existingScore = parseInt($scoreAInput.val()); 
+			$scoreAInput.val(existingScore + score);
 		}else{
-			existingScore = parseInt(scoreBInput.val()); 
-			scoreBInput.val(existingScore + score);
+			existingScore = parseInt($scoreBInput.val()); 
+			$scoreBInput.val(existingScore + score);
 		}
  	}
  	
  	function announceWinner(content){
  		
  		if(content.user1 == "무승부"){
- 			gameBroadcast.eq(0).prepend(content.sender + ' : ' + '결과는 무승부입니다.\n');
+ 			$gameBroadcast.eq(0).prepend(content.sender + ' : ' + '결과는 무승부입니다.\n');
  		} else {
- 			gameBroadcast.eq(0).prepend(content.sender + ' : ' 
+ 			$gameBroadcast.eq(0).prepend(content.sender + ' : ' 
  					+ '승자는 ' + content.user1 + '입니다. 축하합니다.\n');
  		}
- 		showReady();
- 		hideUnion();
- 		setProblemNum();
- 		disableProblem();
+// 		showReady();
+// 		hideUnion();
+// 		setProblemNum();
+ 		notInGame();
+// 		disableProblem();
+ 		disableAll();
  		resetScore();
  		resetRound();
- 		resetAnswerList();
+// 		resetAnswerList();
  	}
  	
  	function countDown(content){
  		
  		if(timerInterval){
- 			onTimesUp(); 			
+ 			onTimesUp();
  		}
  		
  		switch (content.user1) {
-		case playerAInput.val():
+		case $playerAInput.val():
 			timer = "timerA";
 			setTimer(content.countDown);
 			break;
-		case playerBInput.val():
+		case $playerBInput.val():
 			timer = "timerB";
 			setTimer(content.countDown);
 			break;
@@ -325,17 +345,18 @@ $(function () {
  	 	startTimer(content);
  	}
  	
- 	function resetAnswerList(){
- 		answerList.empty();
- 	}
+// 	function resetAnswerList(){
+// 		$answerList.empty();
+// 	}
  	
  	function resetRound(){
- 		roundP.text('');
+ 		$roundP.text('');
+ 		$answerList.empty();
  	}
  	
  	function resetScore(){
- 		scoreAInput.val('');
-		scoreBInput.val('');
+ 		$scoreAInput.val('');
+		$scoreBInput.val('');
  	}
  	
 // 	function quitCountDown(content){
@@ -346,11 +367,11 @@ $(function () {
 // 	}
  	
  	function submitUni(content){
- 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
  	
  	function submitOn(content){
- 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
  	
 // timer
@@ -386,9 +407,10 @@ $(function () {
  	  timerInterval = null;
  	  document.getElementById(timer).innerHTML = "";
  	  
- 	  disableProblem();
- 	  disableUni();
- 	  disableOn();
+ 	  disableAll()
+// 	  disableProblem();
+// 	  disableUni();
+// 	  disableOn();
  	}
 
  	function startTimer(content) {
@@ -484,24 +506,22 @@ $(function () {
 
 // button/checkbox actions
  	
-    uniBtn.click(function(){
+    $uniBtn.click(function(){
     	sock.send(JSON.stringify(
     			{type: 'UNI', roomId: roomId, sender: member, message: "결!"}));
     });
     
-    onBtn.click(function(){
+    $onBtn.click(function(){
     	sock.send(JSON.stringify(
     			{type: 'ON', roomId: roomId, sender: member, message: "합!"}));
     });
     
-    readyBtn.click(function(){
+    $readyBtn.click(function(){
     	sock.send(JSON.stringify(
     			{type: 'READY', roomId: roomId, sender: member, message: "READY"}));
     });
     
-    
-    
-    selectBox.change(function(){	
+    $selectBox.change(function(){	
     	$(this).next().children().toggleClass("boundary");
     	var checkedBox = $('input[type="checkbox"]:checked');
     	
@@ -528,29 +548,44 @@ $(function () {
 // setting functions
 
     
-    function showReady(){
-    	readyBtn.show();
+    function inGame(){
+    	$readyBtn.hide();
+    	$uniBtn.show();
+    	$onBtn.show();
     }
     
-    function hideReady(){
-    	readyBtn.hide();
-    }
-    
-    function showUnion(){
-    	uniBtn.show();
-    	onBtn.show();
-    }
-    
-    function hideUnion(){
-    	uniBtn.hide();
-    	onBtn.hide();
-    }
-    
-    function setProblemNum(){
+    function notInGame(){
+    	$uniBtn.hide();
+    	$onBtn.hide();
+    	$readyBtn.show();
     	for(var i=0; i < 9; i++){
     		$(".card:eq("+i+")").attr("src", defaultImagePath + (i+1) + defaultPng);
 		}
     }
+    
+//    function showReady(){
+//    	$readyBtn.show();
+//    }
+//    
+//    function hideReady(){
+//    	$readyBtn.hide();
+//    }
+//    
+//    function showUnion(){
+//    	$uniBtn.show();
+//    	$onBtn.show();
+//    }
+//    
+//    function hideUnion(){
+//    	$uniBtn.hide();
+//    	$onBtn.hide();
+//    }
+//    
+//    function setProblemNum(){
+//    	for(var i=0; i < 9; i++){
+//    		$(".card:eq("+i+")").attr("src", defaultImagePath + (i+1) + defaultPng);
+//		}
+//    }
     
 //    function dismantleProblemNum(){
 //    	for(var i=0; i < 9; i++){
@@ -580,12 +615,12 @@ $(function () {
     	}
     }
     
-    function disableProblem(){
-    	console.log("disProb");
-    	for(var i=0; i < 9; i++){
-    		$(".selectbox:eq("+i+")").prop("disabled", true);
-    	}
-    }
+//    function disableProblem(){
+//    	console.log("disProb");
+//    	for(var i=0; i < 9; i++){
+//    		$(".selectbox:eq("+i+")").prop("disabled", true);
+//    	}
+//    }
     
     function enableProblem(){
     	console.log("enProb");
@@ -594,24 +629,33 @@ $(function () {
     	}
     }
     
-    function disableUni(){
-    	console.log("disUni");
-    	uniBtn.prop('disabled', true);
-    }
+//    function disableUni(){
+//    	console.log("disUni");
+//    	$uniBtn.prop('disabled', true);
+//    }
     
     function enableUni(){
     	console.log("enUni");
-    	uniBtn.prop("disabled", false);
+    	$uniBtn.prop("disabled", false);
     }
     
-    function disableOn(){
-    	console.log("disOn");
-    	onBtn.prop('disabled', true);
-    }
+//    function disableOn(){
+//    	console.log("disOn");
+//    	$onBtn.prop('disabled', true);
+//    }
     
     function enableOn(){
     	console.log("enOn");
-    	onBtn.prop("disabled", false);
+    	$onBtn.prop("disabled", false);
+    }
+    
+    function disableAll(){
+    	console.log("disAll");
+    	for(var i=0; i < 9; i++){
+    		$(".selectbox:eq("+i+")").prop("disabled", true);
+    	}
+    	$uniBtn.prop('disabled', true);
+    	$onBtn.prop('disabled', true);
     }
     
 });
