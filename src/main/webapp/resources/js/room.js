@@ -16,7 +16,7 @@ $(function () {
 	var member = $('.content').data('member');
 	
 	// resources variables
-	var defaultImagePath = "/genious/resources/images/";
+	var defaultCardPath = "/genious/resources/images/cards/";
 	var defaultJpg = ".jpg";
 	var defaultPng = ".png";
 	
@@ -174,7 +174,7 @@ $(function () {
  	
  	function notifyProblem(content){
 		for(var i=0; i < content.cards.length; i++){
-			$(".card:eq("+i+")").attr("src", defaultImagePath + content.cards[i] + defaultJpg);
+			$(".card:eq("+i+")").attr("src", defaultCardPath + content.cards[i] + defaultJpg);
 		}
  	}
  	
@@ -413,7 +413,7 @@ $(function () {
     	$onBtn.hide();
     	$readyBtn.show();
     	for(var i=0; i < 9; i++){
-    		$(".card:eq("+i+")").attr("src", defaultImagePath + (i+1) + defaultPng);
+    		$(".card:eq("+i+")").attr("src", defaultCardPath + (i+1) + defaultPng);
 		}
     }
     
