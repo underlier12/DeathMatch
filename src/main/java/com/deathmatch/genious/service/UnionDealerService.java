@@ -133,13 +133,6 @@ public class UnionDealerService {
 	public String uniCheck(UnionGameDTO gameDTO, GameRoom gameRoom) {		
 		int submittedSize = unionDealerDAO.countCorrectSubmittedAnswer(gameDTO, gameRoom);
 		int answerSize = unionDealerDAO.countAnswer(gameDTO, gameRoom);
-//		String isCorrect;
-		
-//		if(answerSize == submittedSize) {
-//			isCorrect = "CORRECT";
-//		} else {
-//			isCorrect = "INCORRECT";
-//		}
 		return (answerSize == submittedSize) ? "CORRECT" : "INCORRECT";
 	}
 	
@@ -151,12 +144,7 @@ public class UnionDealerService {
 		if(isCorrect) {
 			message = "정답 +3";
 			score = 3;
-		} 
-//		else {
-//			message = "틀렸습니다 -1점";
-//			score = -1;
-//		}
-		
+		}
 		jsonMap.put("gameId", gameRoom.getGameId());
 		jsonMap.put("answer", gameDTO.getMessage());
 		jsonMap.put("message", message);
@@ -251,15 +239,13 @@ public class UnionDealerService {
 		}
 		
 		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
-		String winner = engaged.get(1).getUserId();;
+		String winner = "무승부";
 		
 		if(engaged.get(0).getScore() > engaged.get(1).getScore()) {
 			winner = engaged.get(0).getUserId();
-		} 
-//		else {
-//			winner = engaged.get(1).getUserId();
-//		}
-		
+		} else if(engaged.get(0).getScore() < engaged.get(1).getScore()) {
+			winner = engaged.get(1).getUserId();
+		}
 		return winner;
 	}
 

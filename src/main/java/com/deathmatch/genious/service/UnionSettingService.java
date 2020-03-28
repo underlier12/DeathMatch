@@ -164,10 +164,6 @@ public class UnionSettingService {
 	}
 	
 	public boolean readyCheck(GameRoom gameRoom) {
-//		boolean isReady = false;
-//		if(engaged.get(0).getReady() && engaged.get(1).getReady()) isReady = true;
-//		
-//		
 		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
     	return engaged.get(0).getReady() && engaged.get(1).getReady();
 	}
@@ -180,7 +176,7 @@ public class UnionSettingService {
 	public UnionSettingDTO standby(GameRoom gameRoom) {
 		Map<String, Object> jsonMap = preprocessing(MessageType.READY, gameRoom.getRoomId());
 
-		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n곧 게임을 시작합니다.");
+		jsonMap.put("message", "참가자들이 모두 준비를 마쳤습니다.\n게임을 시작합니다.");
 		
 		UnionSettingDTO unionSettingDTO = postprocessing(jsonMap);
 		return unionSettingDTO;
@@ -265,12 +261,6 @@ public class UnionSettingService {
 	}
 	
 	public Boolean isGuest(UnionPlayerDTO player) {
-//		boolean isGuest = true;
-//		
-//		if(player.getStatus() == StatusType.HOST ||
-//				player.getStatus() == StatusType.OPPONENT) {
-//			isGuest = false;
-//		}
 		return player.getStatus() == StatusType.GUEST;
 	}
 	

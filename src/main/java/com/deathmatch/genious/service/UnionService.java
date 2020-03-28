@@ -178,7 +178,6 @@ public class UnionService {
 			sendMessage(session, queue.poll());
 		}
 	}
-	
 
 	public void afterConnectionClosed(WebSocketSession session, UnionPlayerDTO player, 
 			GameRoom gameRoom, CloseStatus status) {
