@@ -30,11 +30,6 @@ public class UnionDealerService {
 	private final UnionDealerDAO unionDealerDAO;
 	private final ObjectMapper objectMapper;
 	
-//	private UnionDealerDTO unionDealerDTO;
-//	private Map<String, Object> jsonMap;
-//	private JSONObject jsonObject;
-//	private String jsonString;
-	
 	public Map<String, Object> preprocessing(MessageType type, String roomId) {
 		Map<String, Object> jsonMap = new HashMap<>();
 		
@@ -47,9 +42,7 @@ public class UnionDealerService {
 	
 	public UnionDealerDTO postprocessing(Map<String, Object> jsonMap) {
 		JSONObject jsonObject = new JSONObject(jsonMap);
-		String jsonString = jsonObject.toJSONString();
-		log.info("jsonString : " + jsonString);
-		
+		String jsonString = jsonObject.toJSONString();		
 		UnionDealerDTO unionDealerDTO = null;
 
 		try {
@@ -87,12 +80,6 @@ public class UnionDealerService {
 			break;
 		}
 		
-		log.info("myTurn : " + myTurn);
-						
-//		jsonMap.put("type", "TURN");
-//		jsonMap.put("roomId", gameRoom.getRoomId());
-//		jsonMap.put("sender", "Dealer");
-		
 		jsonMap.put("user1", myTurn);
 		jsonMap.put("message", message);
 		jsonMap.put("countDown", time);
@@ -103,12 +90,8 @@ public class UnionDealerService {
 	}
 	
 	public String nextTurn(GameRoom gameRoom) {
-		
 		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
 		String myTurn;
-		
-		log.info("getTurn0 : " + engaged.get(0).getTurn());
-		log.info("getTurn1 : " + engaged.get(1).getTurn());
 		
 		if(!engaged.get(0).getTurn()) {
 			myTurn = engaged.get(0).getUserId();
@@ -124,17 +107,9 @@ public class UnionDealerService {
 	}
 	
 	public UnionDealerDTO decideRound(GameRoom gameRoom) {
-		
 		Map<String, Object> jsonMap = preprocessing(MessageType.ROUND, gameRoom.getRoomId());
-		
 		int nextRound = gameRoom.getRound() + 1;
-		
 		gameRoom.setRound(nextRound);
-		log.info("gameId : " + gameRoom.getGameId());
-						
-//		jsonMap.put("type", "ROUND");
-//		jsonMap.put("roomId", gameRoom.getRoomId());
-//		jsonMap.put("sender", "Dealer");
 		
 		jsonMap.put("round", nextRound);
 		jsonMap.put("message", Integer.toString(nextRound) + " ROUND 그림 공개합니다.");
@@ -146,12 +121,7 @@ public class UnionDealerService {
 	
 	public UnionDealerDTO closeRound(GameRoom gameRoom) {
 		Map<String, Object> jsonMap = preprocessing(MessageType.END, gameRoom.getRoomId());
-						
 		int currentRound = gameRoom.getRound();
-		
-//		jsonMap.put("type", "END");
-//		jsonMap.put("roomId", gameRoom.getRoomId());
-//		jsonMap.put("sender", "Dealer");
 		
 		jsonMap.put("message", Integer.toString(currentRound) + " ROUND가 종료되었습니다.");
 		
@@ -161,36 +131,31 @@ public class UnionDealerService {
 	}
 
 	public String uniCheck(UnionGameDTO gameDTO, GameRoom gameRoom) {		
-		String isCorrect;
-		
-		int answerSize = unionDealerDAO.countAnswer(gameDTO, gameRoom);
 		int submittedSize = unionDealerDAO.countCorrectSubmittedAnswer(gameDTO, gameRoom);
+		int answerSize = unionDealerDAO.countAnswer(gameDTO, gameRoom);
+//		String isCorrect;
 		
-		if(answerSize == submittedSize) {
-			isCorrect = "CORRECT";
-		} else {
-			isCorrect = "INCORRECT";
-		}
-		return isCorrect;
+//		if(answerSize == submittedSize) {
+//			isCorrect = "CORRECT";
+//		} else {
+//			isCorrect = "INCORRECT";
+//		}
+		return (answerSize == submittedSize) ? "CORRECT" : "INCORRECT";
 	}
 	
 	public UnionDealerDTO uniResult(WebSocketSession session, GameRoom gameRoom, UnionGameDTO gameDTO, Boolean isCorrect) {
 		Map<String, Object> jsonMap = preprocessing(MessageType.UNI, gameRoom.getRoomId());
-		
-		String message;
-		int score;
+		String message = "틀렸습니다 -1점";
+		int score = -1;
 		
 		if(isCorrect) {
 			message = "정답 +3";
 			score = 3;
-		} else {
-			message = "틀렸습니다 -1점";
-			score = -1;
-		}
-		
-//		jsonMap.put("type", "UNI");
-//		jsonMap.put("roomId", gameRoom.getRoomId());
-//		jsonMap.put("sender", "Dealer");
+		} 
+//		else {
+//			message = "틀렸습니다 -1점";
+//			score = -1;
+//		}
 		
 		jsonMap.put("gameId", gameRoom.getGameId());
 		jsonMap.put("answer", gameDTO.getMessage());
@@ -200,9 +165,7 @@ public class UnionDealerService {
 		jsonMap.put("user1", gameDTO.getSender());
 		
 		log.info("jsonMap : " + jsonMap);
-		
 		UnionDealerDTO unionDealerDTO = postprocessing(jsonMap);
-		
 		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO);
 		scoring(session, score);
 				
@@ -210,13 +173,9 @@ public class UnionDealerService {
 	}
 	
 	public String onCheck(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		String onInfo;
-		
-		Boolean isAnswer = unionDealerDAO.checkAnswer(gameDTO, gameRoom);
 		Boolean isCorrectSubmittedAnswer = unionDealerDAO.checkCorrectSubmittedAnswer(gameDTO, gameRoom);
-		
-		log.info("isA : " + isAnswer);
-		log.info("isSA : " + isCorrectSubmittedAnswer);
+		Boolean isAnswer = unionDealerDAO.checkAnswer(gameDTO, gameRoom);
+		String onInfo;		
 		
 		if(isAnswer && !isCorrectSubmittedAnswer) onInfo = "CORRECT";
 		else if(isCorrectSubmittedAnswer) 		  onInfo = "ALREADY-SUBMIT";
@@ -226,13 +185,10 @@ public class UnionDealerService {
 	}
 	
 	public UnionDealerDTO onResult(WebSocketSession session, GameRoom gameRoom, UnionGameDTO gameDTO) {
-		
 		Map<String, Object> jsonMap = preprocessing(MessageType.ON, gameRoom.getRoomId());
-		
+		String onInfo = onCheck(gameDTO, gameRoom);
 		String message = null;
 		int score = 0;
-		
-		String onInfo = onCheck(gameDTO, gameRoom);
 		
 		switch (onInfo) {
 		case "CORRECT":
@@ -251,10 +207,6 @@ public class UnionDealerService {
 			break;
 		}
 		
-//		jsonMap.put("type", "ON");
-//		jsonMap.put("roomId", gameRoom.getRoomId());
-//		jsonMap.put("sender", "Dealer");
-		
 		jsonMap.put("answer", gameDTO.getMessage());
 		jsonMap.put("gameId", gameRoom.getGameId());
 		jsonMap.put("message", message);
@@ -263,7 +215,6 @@ public class UnionDealerService {
 		jsonMap.put("round", gameRoom.getRound());
 		
 		UnionDealerDTO unionDealerDTO = postprocessing(jsonMap);
-		
 		unionDealerDAO.insertSubmittedAnswer(unionDealerDTO);
 		scoring(session, score);
 		
@@ -282,10 +233,6 @@ public class UnionDealerService {
 		Map<String, Object> jsonMap = preprocessing(MessageType.END, gameRoom.getRoomId());
 		String winner = announceWinner(gameRoom);
 		
-//		jsonMap.put("type", "END");
-//		jsonMap.put("roomId", gameRoom.getRoomId());
-//		jsonMap.put("sender", "Dealer");
-		
 		jsonMap.put("message", "데스매치 결합이 종료되었습니다.");
 		jsonMap.put("user1", winner);
 		
@@ -298,52 +245,19 @@ public class UnionDealerService {
 	}
 	
 	public String announceWinner(GameRoom gameRoom) {
-		String winner;
-		
 		log.info("engaged size : " + gameRoom.getEngaged().size());
 		if(gameRoom.getEngaged().size() < 2) {
 			return gameRoom.getEngaged().get(0).getUserId();
 		}
 		
 		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
+		String winner = engaged.get(1).getUserId();;
 		
 		if(engaged.get(0).getScore() > engaged.get(1).getScore()) {
 			winner = engaged.get(0).getUserId();
-		} else {
-			winner = engaged.get(1).getUserId();
-		}
-		
-//		Set<WebSocketSession> sessions = gameRoom.getSessions();
-//		String[] userArray = new String[2];
-//		int[] scoreArray = new int[2];
-//		
-//		for(WebSocketSession sess : sessions) {
-//			Map<String, Object> map = sess.getAttributes();
-//			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
-//			
-//			switch (unionPlayerDTO.getStatus()) {
-//			case HOST:
-//				userArray[0] = unionPlayerDTO.getUserId();
-//				scoreArray[0] = unionPlayerDTO.getScore();
-//				break;
-//
-//			case OPPONENT:
-//				userArray[1] = unionPlayerDTO.getUserId();
-//				scoreArray[1] = unionPlayerDTO.getScore();
-//				break;
-//				
-//			default:
-//				break;
-//			}
-//			
-//		}
-//		
-//		if(scoreArray[0] > scoreArray[1]) {
-//			winner = userArray[0];
-//		} else if(scoreArray[0] < scoreArray[1]) {
-//			winner = userArray[1];
-//		} else {
-//			winner = "무승부";
+		} 
+//		else {
+//			winner = engaged.get(1).getUserId();
 //		}
 		
 		return winner;

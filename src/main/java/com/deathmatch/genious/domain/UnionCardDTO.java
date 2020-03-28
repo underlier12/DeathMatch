@@ -22,18 +22,16 @@ public class UnionCardDTO {
 	private ShapeType shape;
 	private ColorType color;
 	private BackType background;
-	private String resourceAddress;
 	
 	public UnionCardDTO() {	}
 	
 	@Builder
 	public UnionCardDTO(String name, ShapeType shape, 
-			ColorType color, BackType background, String resourceAddress) {
+			ColorType color, BackType background) {
 		this.name = name;
 		this.shape = shape;
 		this.color = color;
 		this.background = background;
-		this.resourceAddress = resourceAddress;
 	}
 	
 }

@@ -21,7 +21,6 @@ $(function () {
 	var defaultPng = ".png";
 	
     // button tag
-//	var selectBtn = $('.select');
 	var $uniBtn = $('#uni');
 	var $onBtn = $('#on');
 	var $readyBtn = $('#ready');
@@ -29,7 +28,6 @@ $(function () {
 	// input tag
 	var $selectBox = $('.selectbox');
 	
-//	var selectedInput = $('#selected');
 	var $playerAInput = $('#playerA');
 	var $playerBInput = $('#playerB');
 	var $scoreAInput = $('#scoreA');
@@ -59,7 +57,6 @@ $(function () {
     sock.onopen = function () {
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
         $connectionStatus.text('connection opened');
-//        initialization();
         notInGame();
         disableAll();
     }
@@ -81,17 +78,6 @@ $(function () {
  		console.log("sock.onclose");
  		$connectionStatus.text('connection closed');
  	}
- 	
-// 	function initialization(){
-// 		notInGame();
-//// 		hideUnion();
-////        setProblemNum();
-//        disableAll();
-////        disableProblem();
-////        disableUni();
-////        disableOn();
-// 	}
- 	
 
 // websocket functions
  	
@@ -132,14 +118,6 @@ $(function () {
  		case "LEAVE":
  			notifyLeave(content);
  			break;
-// 		case "QUIT":
-// 			console.log(" ");
-// 			console.log("QUIT enter");
-// 			notifyQuit(content);
-// 			break;
-// 		case "RESUME":
-// 			notifyResume(content);
-// 			break;
  		default:
  			console.log("fromServer default");
  		}
@@ -170,15 +148,10 @@ $(function () {
 				$playerBInput.val(content.user1);
 			}
 			break;
-//
-//		default:
-//			break;
 		}
  	}
  	
- 	function notifyJoin(content){
-//		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
-		
+ 	function notifyJoin(content){		
 		if(!$playerAInput.val()){
 			$playerAInput.val(content.user1);
 		}else if(!$playerBInput.val()){
@@ -187,26 +160,14 @@ $(function () {
  	}
  	
  	function notifyReady(content){
-//		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
-		
-//		if(content.user1){
-//			playerAInput.val(content.user1);
-//			playerBInput.val(content.user2);
-			
-//		console.log("message : " + content.message);
-		
 		if(content.message.substring(0, 3) == '참가자'){
 			$scoreAInput.val(0);
 			$scoreBInput.val(0);
 			inGame();
-//			showUnion();
-//			hideReady();
-//			dismantleProblemNum();
 		}
  	}
 
  	function notifyRound(content){
-// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	 			
         $roundP.text(content.round + ' ROUND');
  	}
  	
@@ -217,82 +178,43 @@ $(function () {
  	}
  	
  	function notifyUni(content){
-// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');	
-			
 		addUp(content);
  	}
  	
  	function notifyOn(content){
-// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 		
-// 		console.log("message : " + content.message);
- 		
  		if(!(content.message == "합!")){
- 			
-// 			console.log("content : " + content);
  			addUp(content);
  		}
 		
 		if(parseInt(content.score) > 0){
-//			console.log(content.answer); 			
         	$answerList.append('<li>' + content.answer + '</li>');
 		}
  	}
  	
  	function notifyTurn(content){
-// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 		
-// 		console.log(content.user1);
-// 		console.log(content.countDown);
- 		
 		countDown(content);		
 		isMyTurn(content);
  	}
  	
  	function notifyEnd(content){
-// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 		
  		onTimesUp();
  		
  		switch(content.message.substring(0, 4)){
 		case "데스매치":
  			announceWinner(content);
  		default:
-// 			resetAnswerList();
  			resetRound();
  			break;
  		}
  	}
  	
  	function notifyLeave(content){
-// 		console.log(content.user1);
- 		
  		if(content.user1 == $playerAInput.val()){
  			$playerAInput.val('');
  		} else {
  			$playerBInput.val('');
  		}
  	}
- 	
-// 	function notifyQuit(content){
-// 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
-//
-// 		console.log("content : " + content);
-// 		console.log("countDown : " + content.countDown);
-// 		
-// 		onTimesUp();
-// 		
-// 		setTimer(content.countDown);
-// 		startQuitTimer(content);
-// 		
-// 	}
-// 	
-// 	function notifyResume(content){
-// 		gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
-// 		
-// 		onQuitTimesUp();
-// 	}
- 	
  	
  	function addUp(content){
  		var existingScore;
@@ -308,26 +230,19 @@ $(function () {
  	}
  	
  	function announceWinner(content){
- 		
  		if(content.user1 == "무승부"){
  			$gameBroadcast.eq(0).prepend(content.sender + ' : ' + '결과는 무승부입니다.\n');
  		} else {
  			$gameBroadcast.eq(0).prepend(content.sender + ' : ' 
  					+ '승자는 ' + content.user1 + '입니다. 축하합니다.\n');
  		}
-// 		showReady();
-// 		hideUnion();
-// 		setProblemNum();
  		notInGame();
-// 		disableProblem();
  		disableAll();
  		resetScore();
  		resetRound();
-// 		resetAnswerList();
  	}
  	
  	function countDown(content){
- 		
  		if(timerInterval){
  			onTimesUp();
  		}
@@ -345,10 +260,6 @@ $(function () {
  	 	startTimer(content);
  	}
  	
-// 	function resetAnswerList(){
-// 		$answerList.empty();
-// 	}
- 	
  	function resetRound(){
  		$roundP.text('');
  		$answerList.empty();
@@ -359,19 +270,10 @@ $(function () {
 		$scoreBInput.val('');
  	}
  	
-// 	function quitCountDown(content){
-// 		onTimesUp();
-// 		
-// 		setTimer(content.countDown);
-// 		
-// 	}
- 	
  	function submitUni(content){
-// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
  	
  	function submitOn(content){
-// 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
  	
 // timer
@@ -408,9 +310,6 @@ $(function () {
  	  document.getElementById(timer).innerHTML = "";
  	  
  	  disableAll()
-// 	  disableProblem();
-// 	  disableUni();
-// 	  disableOn();
  	}
 
  	function startTimer(content) {
@@ -456,54 +355,6 @@ $(function () {
  	    
  	}
  	
-// quit timer
- 	// TODO: merge to timer
- 	
-// 	function startQuitTimer(content) {
-// 		
-// 		
-// 	 	let timePassed = 0;
-// 	 	let timeLimit = content.countDown;
-// 	 	let timeLeft = timeLimit;
-// 	 	
-// 	 	timerInterval = setInterval(() => {
-// 	    timePassed = timePassed += 1;
-// 	    timeLeft = timeLimit - timePassed;
-// 	    document.getElementById("base-timer-label").innerHTML = timeLeft;
-// 	    setCircleDasharray(timeLimit, timeLeft);
-//
-// 	    console.log(timeLeft);
-//
-// 	    if(timeLeft <= 0){
-// 	    	quitTimeUp(timeLeft, content); 	    	
-// 	    }
-// 	    
-// 	 	}, 1000);
-// 	}
-// 	
-// 	function quitTimeUp(timeLeft, content){
-//		onQuitTimesUp();
-//		
-//		if(playerAInput.val() == member
-//				|| playerBInput.val() == member){
-//			console.log("QUIT content.message, timeup : " + content.message);
-//			sock.send(JSON.stringify(
-//					{type: 'DIE', roomId: roomId, sender: member, message: "DIE"}));
-//		}
-// 	     
-// 	}
-// 	
-// 	function onQuitTimesUp() {
-// 	  clearInterval(timerInterval);
-// 	  timerInterval = null;
-// 	  document.getElementById(timer).innerHTML = "";
-// 	  
-// 	  disableProblem();
-// 	  disableUni();
-// 	  disableOn();
-// 	}
- 	
-
 // button/checkbox actions
  	
     $uniBtn.click(function(){
@@ -542,11 +393,8 @@ $(function () {
     		})
     	}
     });
-
-    
     
 // setting functions
-
     
     function inGame(){
     	$readyBtn.hide();
@@ -562,36 +410,6 @@ $(function () {
     		$(".card:eq("+i+")").attr("src", defaultImagePath + (i+1) + defaultPng);
 		}
     }
-    
-//    function showReady(){
-//    	$readyBtn.show();
-//    }
-//    
-//    function hideReady(){
-//    	$readyBtn.hide();
-//    }
-//    
-//    function showUnion(){
-//    	$uniBtn.show();
-//    	$onBtn.show();
-//    }
-//    
-//    function hideUnion(){
-//    	$uniBtn.hide();
-//    	$onBtn.hide();
-//    }
-//    
-//    function setProblemNum(){
-//    	for(var i=0; i < 9; i++){
-//    		$(".card:eq("+i+")").attr("src", defaultImagePath + (i+1) + defaultPng);
-//		}
-//    }
-    
-//    function dismantleProblemNum(){
-//    	for(var i=0; i < 9; i++){
-//    		$(".card:eq("+i+")").attr("src", "");
-//		}
-//    }
     
     function isMyTurn(content){
     	console.log(" ");
@@ -615,13 +433,6 @@ $(function () {
     	}
     }
     
-//    function disableProblem(){
-//    	console.log("disProb");
-//    	for(var i=0; i < 9; i++){
-//    		$(".selectbox:eq("+i+")").prop("disabled", true);
-//    	}
-//    }
-    
     function enableProblem(){
     	console.log("enProb");
     	for(var i=0; i < 9; i++){
@@ -629,20 +440,10 @@ $(function () {
     	}
     }
     
-//    function disableUni(){
-//    	console.log("disUni");
-//    	$uniBtn.prop('disabled', true);
-//    }
-    
     function enableUni(){
     	console.log("enUni");
     	$uniBtn.prop("disabled", false);
     }
-    
-//    function disableOn(){
-//    	console.log("disOn");
-//    	$onBtn.prop('disabled', true);
-//    }
     
     function enableOn(){
     	console.log("enOn");

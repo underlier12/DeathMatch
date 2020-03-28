@@ -24,7 +24,6 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionService {
 
-//	private final GameRoomService gameRoomService;
 	private final ObjectMapper objectMapper;
 	private final UnionDealerService unionDealerService;
 	private final UnionSettingService unionSettingService;
@@ -54,10 +53,6 @@ public class UnionService {
 			timeupAction(session, gameDTO, gameRoom);
 			break;
 			
-//		case DIE:
-//			dieAction(session, gameDTO, gameRoom);
-//			break;
-
 		default:
 			log.info("default action");
 			break;
@@ -65,19 +60,10 @@ public class UnionService {
 		send(gameRoom);
 	}
 
-	private void joinAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		unionSettingService.welcome(session, gameDTO, gameRoom);
-		
+	private void joinAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {		
 		loadGame(session, gameRoom);
 		queue.offer(unionSettingService.join(session, gameDTO, gameRoom));
 		unionSettingService.register(session, gameDTO, gameRoom);
-		
-//		if(unionSettingService.isRejoin(session, gameDTO, gameRoom)) {
-//			queue.offer(unionSettingService.resumeGame(gameRoom));
-//			resumeGame(gameRoom);
-//		} else {
-//			unionSettingService.register(session, gameDTO, gameRoom);
-//		}
 	}
 
 	private void readyAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -103,7 +89,6 @@ public class UnionService {
 			maintainRound(session, gameDTO, gameRoom);
 			break;
 		}
-		
 	}
 
 	private void onAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -121,12 +106,6 @@ public class UnionService {
 		gameRoom.setLastGameDTO(gameDTO);
 		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
 	}
-	
-//	private void dieAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		unionSettingService.quitOtherPlayer(session, gameDTO, gameRoom);
-//		queue.offer(unionDealerService.endGame(gameRoom));
-//		unionSettingService.resetGame(gameRoom);
-//	}
 	
 	private void loadGame(WebSocketSession session, GameRoom gameRoom) {
 		if(!gameRoom.getPlaying()) {
@@ -161,7 +140,6 @@ public class UnionService {
 	}
 	
 	private void isGameOver(UnionGameDTO gameDTO, GameRoom gameRoom) {
-		
 		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
 			queue.offer(unionDealerService.endGame(gameRoom));
 			unionSettingService.resetGame(gameRoom);
@@ -186,7 +164,6 @@ public class UnionService {
 	}
 	
 	public <T> void sendMessage(WebSocketSession session, T message) {
-		
 		try {
 			session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
 		} catch (JsonProcessingException e) {
@@ -194,7 +171,6 @@ public class UnionService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void load(WebSocketSession session, GameRoom gameRoom) {
@@ -206,16 +182,6 @@ public class UnionService {
 
 	public void afterConnectionClosed(WebSocketSession session, UnionPlayerDTO player, 
 			GameRoom gameRoom, CloseStatus status) {
-//		UnionPlayerDTO player = unionSettingService.quitSession(session, status);
-//		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
-		
-//		if(unionSettingService.isPlaying(gameRoom)
-//				&& !unionSettingService.isGuest(player)) {
-//			queue.offer(unionSettingService.playerGone(player, gameRoom));
-//			send(gameRoom);
-//		} else {
-//			unionSettingService.quitPlayer(player);
-//		}
 		unionSettingService.quitSession(session, gameRoom, status);
 		
 		if(unionSettingService.isPlaying(gameRoom)
@@ -230,25 +196,4 @@ public class UnionService {
 		}
 		send(gameRoom);			
 	}
-	
-	// TODO : Resume game function
-	
-//	public void resumeGame(GameRoom gameRoom) {
-//		UnionGameDTO gameDTO = gameRoom.getLastGameDTO();
-//		Set<WebSocketSession> sessions = gameRoom.getSessions();
-//		
-//		for(WebSocketSession sess : sessions) {
-//			Map<String, Object> map = sess.getAttributes();
-//			UnionPlayerDTO unionPlayerDTO = (UnionPlayerDTO) map.get("player");
-//			
-//			log.info("player : " + unionPlayerDTO.getUserEmail() + 
-//					" sender : " + gameDTO.getSender());
-//			
-//			if(gameDTO.getSender().equals(unionPlayerDTO.getUserEmail())) {
-//				handleActions(sess, gameDTO, gameRoom);
-//				break;
-//			}
-//		}
-//		
-//	}
 }

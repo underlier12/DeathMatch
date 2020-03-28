@@ -12,11 +12,9 @@
 
 <body>
 
-	<!-- <div class="game"> -->
 	<div id="game">
 	
 		<!-- first row -->
-		<!-- <div class="title-box"> -->
 		<div class="flex-box">
 			<div>
 				<img id="logo" src="/genious/resources/images/UnionLogo.png">
@@ -24,7 +22,6 @@
 		</div>
 		
 		<!-- second row -->
-		<!-- <div class="round-box"> -->
 		<div class="flex-box">
 			<div>
 				<p id="round"></p>
@@ -32,7 +29,6 @@
 		</div>
 		
 		<!-- third row -->
-		<!-- <div class="problem-box"> -->
 		<div class="flex-box">
 			<div>
 				<ul id="answer" class="no-padding"></ul>
@@ -91,7 +87,6 @@
 		</div>
 		
 		<!-- forth row -->
-		<!-- <div class="event-box"> -->
 		<div class="flex-box">
 			<div class="exclaim">
 				<div id="exclaimA"></div>
@@ -101,7 +96,6 @@
 			</div>
 			<div>
 				<div id='pass'></div>
-				<!-- <div id='connectionStatus'></div> -->
 			</div>
 			<div class="timer">
 				<div id="timerB"></div>
@@ -112,14 +106,12 @@
 		</div>
 		
 		<!-- fifth row -->
-		<!-- <div class="battle-box"> -->
 		<div class="flex-box">
 			<div>
 				<input id="playerA" class="player" readonly>
 				<input id="scoreA" class="score" readonly>				
 			</div>
 			<div>
-				<!-- <input type="text" id="selected"> -->
 				<div id='connectionStatus'></div>
 				<div class="content" data-room-id="${room.roomId}" data-member="${member}">
 			    	<textarea id="broadcast" rows="4" cols="70" readonly></textarea><p>
@@ -130,13 +122,6 @@
 				<input id="scoreB" class="score" readonly>				
 			</div>
 		</div>
-		
-		<!-- test row -->
-		<%-- <div>
-			<h1>${room.name}</h1>
-			<h4>${room.roomId}</h4>
-		</div> --%>
-				
 		
 		<%@ include file="includes/footer.jsp" %>
 	</div>

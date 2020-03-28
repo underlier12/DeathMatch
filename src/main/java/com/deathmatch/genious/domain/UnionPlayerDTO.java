@@ -11,7 +11,6 @@ public class UnionPlayerDTO {
 	public enum StatusType {
 		HOST, OPPONENT, GUEST
 	}
-//	private String userEmail;
 	private String userId;
 	private String roomId;
 	private StatusType status;

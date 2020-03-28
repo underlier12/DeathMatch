@@ -23,27 +23,17 @@ import lombok.extern.log4j.Log4j;
 @Component
 public class UnionHandler extends TextWebSocketHandler{
 
+	private final GameRoomService gameRoomService;
 	private final ObjectMapper objectMapper;
     private final UnionService unionService;
-    private final GameRoomService gameRoomService;
     
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		
 		log.info("afterConnectionEstablished");
-
-//    	log.info("session ID : " + session.getId());
-//    	log.info("Session : " + session + "\n");
-//    	
-//    	Map<String, Object> map = session.getAttributes();
-//    	String userEmail = (String) map.get("userEmail");
-//    	
-//    	log.info("userEmail : " + userEmail);
     }
     
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
-		
 		log.info("message.getPayload() : " + message.getPayload() + "\n");
 		
     	UnionGameDTO gameDTO = objectMapper.readValue(message.getPayload(), UnionGameDTO.class);

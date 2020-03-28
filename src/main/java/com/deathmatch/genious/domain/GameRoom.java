@@ -19,7 +19,7 @@ public class GameRoom {
     private String gameType;
     private String gameId;
     private int totalRound = 3;
-    private int round = 0;
+    private int round;
     private int pass;
     private Boolean playing = false;
     

@@ -20,57 +20,37 @@ public class UnionDealerDAOImpl implements UnionDealerDAO {
 	public UnionGameDTO preprocessing(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		gameDTO.setGameId(gameRoom.getGameId());
 		gameDTO.setRound(gameRoom.getRound());
+		
 		return gameDTO;
 	}
 
 	@Override
 	public Boolean checkAnswer(UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		Boolean isExist = false;
-//		
-//		gameDTO.setGameId(gameRoom.getGameId());
-//		gameDTO.setRound(gameRoom.getRound());
 		gameDTO = preprocessing(gameDTO, gameRoom);
-		
 		int check = sqlSession.selectOne(namespace + ".checkAnswer", gameDTO);
-		
-//		if(check == 1) {
-//			isExist = true;
-//		}
 		
 		return (check == 1) ? true : false;
 	}
 
 	@Override
 	public Boolean checkCorrectSubmittedAnswer(UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		Boolean isExist = false;
-//		
-//		gameDTO.setGameId(gameRoom.getGameId());
-//		gameDTO.setRound(gameRoom.getRound());
-		
 		gameDTO = preprocessing(gameDTO, gameRoom);
-		
 		int check = sqlSession.selectOne(namespace + ".checkCorrectSubmittedAnswer", gameDTO);
-		
-//		if(check == 1) {
-//			isExist = true;
-//		}
 		
 		return (check == 1) ? true : false;
 	}
 
 	@Override
 	public int countAnswer(UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		gameDTO.setGameId(gameRoom.getGameId());
-//		gameDTO.setRound(gameRoom.getRound());
 		gameDTO = preprocessing(gameDTO, gameRoom);
+		
 		return sqlSession.selectOne(namespace + ".countAnswer", gameDTO);
 	}
 
 	@Override
 	public int countCorrectSubmittedAnswer(UnionGameDTO gameDTO, GameRoom gameRoom) {
-//		gameDTO.setGameId(gameRoom.getGameId());
-//		gameDTO.setRound(gameRoom.getRound());
 		gameDTO = preprocessing(gameDTO, gameRoom);
+		
 		return sqlSession.selectOne(namespace + ".countCorrectSubmittedAnswer", gameDTO);
 	}
 

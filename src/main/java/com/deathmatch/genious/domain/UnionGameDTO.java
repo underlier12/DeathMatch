@@ -8,7 +8,6 @@ import lombok.Setter;
 public class UnionGameDTO {
     public enum MessageType {
         JOIN, READY, UNI, ON, TIMEUP
-//        TALK, SCORE, OUT, DIE
     }
     private MessageType type;
     private String roomId;
