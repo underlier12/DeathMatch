@@ -78,6 +78,7 @@
 	</div>
 
 	<%@ include file="/WEB-INF/views/includes/roomModal.jsp"%>
+	<%@ include file="tutoModal.jsp"%>
 	<script src="/genious/js/gameHome.js?ver=1"></script>
 
 </body>
