@@ -181,7 +181,7 @@ public class UnionService {
 
 	public void afterConnectionClosed(WebSocketSession session, UnionPlayerDTO player, 
 			GameRoom gameRoom, CloseStatus status) {
-		unionSettingService.quitSession(session, gameRoom, status);
+		unionSettingService.quitSession(session, gameRoom, status); 
 		
 		if(unionSettingService.isPlaying(gameRoom)
 				&& !unionSettingService.isGuest(player)) {
@@ -194,5 +194,9 @@ public class UnionService {
 			queue.offer(unionSettingService.quitPlayer(player, gameRoom));
 		}
 		send(gameRoom);			
+	}
+	
+	public Boolean isEmptyRoom(GameRoom gameRoom) {
+		return gameRoom.getSessions().size() == 0;
 	}
 }

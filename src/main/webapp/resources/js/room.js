@@ -24,6 +24,7 @@ $(function () {
 	var $uniBtn = $('#uni');
 	var $onBtn = $('#on');
 	var $readyBtn = $('#ready');
+	var $leaveBtn = $('#leave');
 	
 	// input tag
 	var $selectBox = $('.selectbox');
@@ -372,14 +373,19 @@ $(function () {
     			{type: 'READY', roomId: roomId, sender: member, message: "READY"}));
     });
     
+    $leaveBtn.click(function(){
+    	location.href='../gameHome';
+//    	window.location = document.referrer;
+    });
+    
     $selectBox.change(function(){	
     	$(this).next().children().toggleClass("boundary");
-    	var checkedBox = $('input[type="checkbox"]:checked');
+    	var $checkedBox = $('input[type="checkbox"]:checked');
     	
-    	if(checkedBox.length == 3){
+    	if($checkedBox.length == 3){
     		var message = "";
     		
-    		checkedBox.each(function(){
+    		$checkedBox.each(function(){
     			var selected = $(this).attr("name");
     			message += selected;
     		})
@@ -387,7 +393,7 @@ $(function () {
     		sock.send(JSON.stringify(
         			{type: 'ON', roomId: roomId, sender: member, message: message}));
     		
-    		checkedBox.each(function(){
+    		$checkedBox.each(function(){
     			$(this).prop("checked", false);
     			$(this).next().children().toggleClass("boundary");
     		})

@@ -49,6 +49,11 @@ public class UnionHandler extends TextWebSocketHandler{
 		UnionPlayerDTO player = (UnionPlayerDTO) map.get("player");
 		GameRoom gameRoom = gameRoomService.findRoomById(player.getRoomId());
 		unionService.afterConnectionClosed(session, player, gameRoom, status);
+		
+		if(unionService.isEmptyRoom(gameRoom)) {
+			log.info("isEmptyRoom sessions : " + gameRoom.getSessions());
+			gameRoomService.destroyRoom(gameRoom.getRoomId());
+		}
 	}
 	
 	@Override

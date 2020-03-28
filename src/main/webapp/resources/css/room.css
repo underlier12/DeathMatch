@@ -44,6 +44,17 @@
 	border: 2px solid #000000;
 }
 
+#leave{
+	width: 570px;
+	height: 60px;
+	font-size: 30px;
+	margin-top: 30px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
 #pass{
 	width: 125px;
 	height: 100px;

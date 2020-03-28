@@ -123,6 +123,11 @@
 			</div>
 		</div>
 		
+		<!-- sixth row -->
+		<div class="flex-box">
+			<button id="leave">나가기</button>
+		</div>
+		
 		<%@ include file="includes/footer.jsp" %>
 	</div>
 

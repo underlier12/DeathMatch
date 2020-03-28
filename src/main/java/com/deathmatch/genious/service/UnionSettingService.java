@@ -268,6 +268,7 @@ public class UnionSettingService {
 		Map<String, Object> jsonMap = preprocessing(MessageType.LEAVE, gameRoom.getRoomId());
 		gameRoom.removePlayer(player);		
 		
+		jsonMap.put("message", player.getUserId() + "님이 퇴장했습니다.");
 		jsonMap.put("user1", player.getUserId());
 		
 		UnionSettingDTO unionSettingDTO = postprocessing(jsonMap);
