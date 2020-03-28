@@ -10,9 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.deathmatch.genious.domain.UnionCardDTO;
 import com.deathmatch.genious.domain.UnionDatabaseDTO;
 
-import lombok.extern.log4j.Log4j;
-
-@Log4j
 @Repository
 public class UnionSettingDAOImpl implements UnionSettingDAO {
 

@@ -18,9 +18,6 @@ import org.springframework.web.socket.WebSocketSession;
 import com.deathmatch.genious.dao.UnionSettingDAO;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UnionCardDTO;
-import com.deathmatch.genious.domain.UnionCardDTO.BackType;
-import com.deathmatch.genious.domain.UnionCardDTO.ColorType;
-import com.deathmatch.genious.domain.UnionCardDTO.ShapeType;
 import com.deathmatch.genious.domain.UnionDatabaseDTO;
 import com.deathmatch.genious.domain.UnionGameDTO;
 import com.deathmatch.genious.domain.UnionPlayerDTO;
@@ -360,40 +357,69 @@ public class UnionSettingService {
 	
 	public Set<String> makeUnionAnswer(List<UnionCardDTO> problemList,
 			Set<UnionCardDTO[]>  answerCandidateSet) {
-				
+			
 		Set<String> answerSet = new HashSet<>();
+		
 		for(UnionCardDTO[] answerCandidate : answerCandidateSet) {
+			int shape = (int) Arrays.stream(answerCandidate)
+					.map(UnionCardDTO::getShape).distinct().count();
 			
-			int satisfiedCondition = 0;
-
-			Set<ShapeType> shapeList = new HashSet<>();
-			Set<ColorType> colorList = new HashSet<>();
-			Set<BackType> backList = new HashSet<>();
+//			log.info("makeUnionAnswer shape : " + shape);
 			
-			for(int i = 0; i < 3; i++) {
-				shapeList.add(answerCandidate[i].getShape());
-				colorList.add(answerCandidate[i].getColor());
-				backList.add(answerCandidate[i].getBackground());
-			}
+			int color = (int) Arrays.stream(answerCandidate)
+					.map(UnionCardDTO::getColor).distinct().count();
 			
-			if(shapeList.size() == 1 || shapeList.size() == 3) satisfiedCondition++;
-			if(colorList.size() == 1 || colorList.size() == 3) satisfiedCondition++;
-			if(backList.size() == 1 || backList.size() == 3) satisfiedCondition++;
+//			log.info("makeUnionAnswer color : " + color);
 			
-			if(satisfiedCondition == 3) {
-				
-				int[] indices = new int[3];
-				
-				for(int i = 0; i < 3; i++) {
-					indices[i] = problemList.indexOf(answerCandidate[i]) + 1;
+			int back = (int) Arrays.stream(answerCandidate)
+					.map(UnionCardDTO::getBackground).distinct().count();
+			
+//			log.info("makeUnionAnswer back : " + back);
+			
+			if(shape != 2 && color != 2 && back != 2) {
+				String answer = "";
+				for(UnionCardDTO ans : answerCandidate) {
+					answer += String.valueOf(problemList.indexOf(ans)+1);
 				}
-				
-				Arrays.sort(indices);
-				
-				String answer = Arrays.toString(indices).replaceAll("[^0-9]","");
+//				log.info("makeUnionAnswer answer : " + answer);
 				answerSet.add(answer);
 			}
 		}
+		
+//		Set<String> answerSet = new HashSet<>();
+//		for(UnionCardDTO[] answerCandidate : answerCandidateSet) {
+//			
+//			int satisfiedCondition = 0;
+//
+//			Set<ShapeType> shapeList = new HashSet<>();
+//			Set<ColorType> colorList = new HashSet<>();
+//			Set<BackType> backList = new HashSet<>();
+//			
+//			for(int i = 0; i < 3; i++) {
+//				shapeList.add(answerCandidate[i].getShape());
+//				colorList.add(answerCandidate[i].getColor());
+//				backList.add(answerCandidate[i].getBackground());
+//			}
+//			
+//			if(shapeList.size() == 1 || shapeList.size() == 3) satisfiedCondition++;
+//			if(colorList.size() == 1 || colorList.size() == 3) satisfiedCondition++;
+//			if(backList.size() == 1 || backList.size() == 3) satisfiedCondition++;
+//			
+//			if(satisfiedCondition == 3) {
+//				
+//				int[] indices = new int[3];
+//				
+//				for(int i = 0; i < 3; i++) {
+//					indices[i] = problemList.indexOf(answerCandidate[i]) + 1;
+//				}
+//				
+//				Arrays.sort(indices);
+//				
+//				String answer = Arrays.toString(indices).replaceAll("[^0-9]","");
+//				answerSet.add(answer);
+//			}
+//		}
+		
 		return answerSet;
 	}
 	
@@ -404,13 +430,15 @@ public class UnionSettingService {
 		
 		List<UnionCardDTO> problemList = unionSettingDAO.selectUnionProblem(dbDTO);
 		
-		Set<UnionCardDTO[]> answerCandidateSet = new HashSet<>();
-		Set<String> answerSet = new HashSet<>();
+		Set<UnionCardDTO[]> answerCandidateSet = 
+				unionCombination.makeCombination(problemList);
+		Set<String> answerSet = 
+				makeUnionAnswer(problemList, answerCandidateSet);
 		
-		answerCandidateSet = unionCombination.makeCombination(problemList);
-		answerSet = makeUnionAnswer(problemList, answerCandidateSet);
+		log.info(" ");
+		for(String ans : answerSet) log.info("answer : " + ans);
 		
-		unionSettingDAO.insertAnswer(dbDTO, answerSet);
+		if(answerSet.size() != 0) unionSettingDAO.insertAnswer(dbDTO, answerSet);
 	}	
 	
 	public void resetGame(GameRoom gameRoom) {
