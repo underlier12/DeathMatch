@@ -88,20 +88,24 @@
 		
 		<!-- forth row -->
 		<div class="flex-box">
-			<div class="exclaim">
-				<div id="exclaimA"></div>
+			<div class="exclaim-wrapper">
+				<div id="exclaimA" class="exclaim">				
+					<p id="statementA" class="statement"></p>
+				</div>
 			</div>
-			<div class="timer">
-				<div id="timerA"></div>
+			<div class="timer-wrapper">
+				<div id="timerA" class="timer"></div>
 			</div>
 			<div>
 				<div id='pass'></div>
 			</div>
-			<div class="timer">
-				<div id="timerB"></div>
+			<div class="timer-wrapper">
+				<div id="timerB" class="timer"></div>
 			</div>
-			<div class="exclaim">
-				<div id="exclaimB"></div>
+			<div class="exclaim-wrapper">
+				<div id="exclaimB" class="exclaim">
+					<p id="statementB" class="statement"></p>				
+				</div>
 			</div>
 		</div>
 		

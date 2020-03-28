@@ -35,6 +35,8 @@ $(function () {
 	var $scoreBInput = $('#scoreB');
 
 	// div tag
+	var $exclaimA = $('#exclaimA');
+	var $exclaimB = $('#exclaimB');
 	var $connectionStatus = $('#connectionStatus');
 	
 	// textarea tag
@@ -45,6 +47,8 @@ $(function () {
     
     // p tag
     var $roundP = $('#round');
+    var $statePA = $('#statementA');
+    var $statePB = $('#statementB');
 
 // timer variables
     
@@ -272,9 +276,23 @@ $(function () {
  	}
  	
  	function submitUni(content){
+ 		exclaim(content);
  	}
  	
  	function submitOn(content){
+ 		exclaim(content);
+ 	}
+ 	
+ 	function exclaim(content){
+ 		if(content.sender == $playerAInput.val()){
+ 			$exclaimA.show();
+ 	    	$exclaimB.hide();
+ 			$statePA.text(content.message); 			
+ 		}else{
+ 			$exclaimA.hide();
+ 	    	$exclaimB.show();
+ 			$statePB.text(content.message);
+ 		} 		
  	}
  	
 // timer
@@ -411,6 +429,8 @@ $(function () {
     function notInGame(){
     	$uniBtn.hide();
     	$onBtn.hide();
+    	$exclaimA.hide();
+    	$exclaimB.hide();
     	$readyBtn.show();
     	for(var i=0; i < 9; i++){
     		$(".card:eq("+i+")").attr("src", defaultCardPath + (i+1) + defaultPng);
