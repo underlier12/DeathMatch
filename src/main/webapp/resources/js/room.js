@@ -271,7 +271,7 @@ $(function () {
  	}
  	
  	function resetScore(){
- 		setTimeOut(function(){
+ 		setTimeout(function(){
  			$scoreAInput.val('');
  			$scoreBInput.val(''); 			
  		}, 5000);

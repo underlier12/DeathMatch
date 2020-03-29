@@ -132,7 +132,8 @@ public class UnionSettingService {
 		Map<String, Object> map = session.getAttributes();
 		map.put("player", player);
 		
-		isEngaged(player, gameRoom);
+		if(!isGuest(player)) gameRoom.addPlayer(player);
+//		isEngaged(player, gameRoom);
 	}
 	
 	public StatusType decideStatus(GameRoom gameRoom) {
@@ -145,12 +146,12 @@ public class UnionSettingService {
 		return status;
 	}
 	
-	public void isEngaged(UnionPlayerDTO player, GameRoom gameRoom) {
-		if(player.getStatus() == StatusType.HOST || 
-				player.getStatus() == StatusType.OPPONENT) {
-			gameRoom.addPlayer(player);
-		}
-	}
+//	public void isEngaged(UnionPlayerDTO player, GameRoom gameRoom) {
+//		if(player.getStatus() == StatusType.HOST || 
+//				player.getStatus() == StatusType.OPPONENT) {
+//			gameRoom.addPlayer(player);
+//		}
+//	}
 	
 	public UnionSettingDTO ready(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		Map<String, Object> jsonMap = preprocessing(MessageType.READY, gameRoom.getRoomId());
