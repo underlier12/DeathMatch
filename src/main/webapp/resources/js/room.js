@@ -174,6 +174,7 @@ $(function () {
 
  	function notifyRound(content){
         $roundP.text(content.round + ' ROUND');
+		countDown(content);
  	}
  	
  	function notifyProblem(content){
@@ -243,15 +244,14 @@ $(function () {
  		}
  		notInGame();
  		disableAll();
- 		resetScore();
  		resetRound();
+ 		resetScore();
  	}
  	
  	function countDown(content){
  		if(timerInterval){
  			onTimesUp();
  		}
- 		
  		switch (content.user1) {
 		case $playerAInput.val():
 			timer = "timerA";
@@ -271,8 +271,10 @@ $(function () {
  	}
  	
  	function resetScore(){
- 		$scoreAInput.val('');
-		$scoreBInput.val('');
+ 		setTimeOut(function(){
+ 			$scoreAInput.val('');
+ 			$scoreBInput.val(''); 			
+ 		}, 5000);
  	}
  	
  	function submitUni(content){
@@ -316,7 +318,6 @@ $(function () {
  			></path>
  			</g>
  			</svg>
- 			
  			
  			<span id="base-timer-label" class="base-timer__label">${time}</span>
  			</div>
@@ -371,7 +372,6 @@ $(function () {
 			sock.send(JSON.stringify(
 					{type: 'TIMEUP', roomId: roomId, sender: member, message: "TIMEUP"}));
 		}
- 	    
  	}
  	
 // button/checkbox actions

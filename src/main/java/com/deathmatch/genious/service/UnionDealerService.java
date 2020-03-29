@@ -112,7 +112,9 @@ public class UnionDealerService {
 		gameRoom.setRound(nextRound);
 		
 		jsonMap.put("round", nextRound);
-		jsonMap.put("message", Integer.toString(nextRound) + " ROUND 그림 공개합니다.");
+		jsonMap.put("user1", gameRoom.getEngaged().get(0).getUserId());
+		jsonMap.put("countDown", 7);
+		jsonMap.put("message", Integer.toString(nextRound) + " ROUND 그림 공개합니다. 7초 뒤 시작합니다.");
 		
 		UnionDealerDTO unionDealerDTO = postprocessing(jsonMap);
 		

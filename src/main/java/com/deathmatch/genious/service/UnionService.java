@@ -94,12 +94,11 @@ public class UnionService {
 	private void onAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		gameRoom.setLastGameDTO(gameDTO);
 		queue.offer(gameDTO);
+		
 		if(!gameDTO.getMessage().equals("합!")) {
 			queue.offer(unionDealerService.onResult(session, gameRoom, gameDTO));
-			queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
-		} else {
-			queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
 		}
+		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
 	}
 	
 	private void timeupAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -131,7 +130,7 @@ public class UnionService {
 		queue.offer(unionDealerService.decideRound(gameRoom));
 		queue.offer(unionSettingService.setUnionProblem(gameRoom));
 		unionSettingService.setUnionAnswer(gameRoom);
-		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
+//		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
 	}
 
 	private void endRound(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
