@@ -22,7 +22,7 @@
 					<table class="table">
 						<tr>
 							<td><p id ="roomIdTitle">방 만들기 :</p></td>
-							<td><input type ="email" name ="name" id="roomName"></td>
+							<td><input type ="email" name ="name" id="RoomName"></td>
 						</tr>
 
 					</table>

@@ -7,18 +7,19 @@
 		alert(message);
 	}
 </script>
+<link rel="stylesheet" href="/genious/css/changePw.css">
 <body>
 
 	<div style="margin-top: 80px">
-		<div class="col-md-10 col-md-offset-1" style="text-align: center">
-			<h2>비밀번호 변경</h2>
+		<div class="col-md-10 col-md-offset-1">
+			<h2 id="title">비밀번호 변경</h2>
 		</div>
 	</div>
 
 	<form action="/genious/user/changePw" method="post" id="changePw">
 		<div class="row changePw-row" style="margin-top: 80px">
 			<div class="col-md-4 col-md-offset-4" style="margin-top: 80px;">
-				<p>안전한 비밀번호로 내 정보를 보호하세요</p>
+				<p id="safeTitle">안전한 비밀번호로 내 정보를 보호하세요</p>
 				<p class ="text-warning">다른 아이디/사이트에서 사용한 적 없는 비밀번호</p>
 				<p class ="text-warning">이전에 사용한 적 없는 비밀번호가 안전합니다</p>
 			</div>
@@ -43,7 +44,7 @@
 			style="text-align: center; margin-top: 40px;">
 			<span>
 				<button type="button" class="btn btn-default" id="changePwBtn">변경</button>
-				<button type="button" class="btn btn-default" onclick ="history.back()">취소</button>
+				<button type="button" class="btn btn-default" id="cancleBtn" onclick ="history.back()">취소</button>
 			</span>
 		</div>
 	</form>
