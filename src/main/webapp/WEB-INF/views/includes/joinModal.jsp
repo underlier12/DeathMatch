@@ -31,7 +31,7 @@
 						<input type="text" style="width: 150px; display: inline-block;"
 							class="form-control" id="userEmail1" name="userEmail1"
 							placeholder="ID" maxlength="12" /> @ <input type="text"
-							style="width: 200px; display: inline-block;" class="form-control"
+							style="width: 160px; display: inline-block;" class="form-control"
 							id="userEmail2" name="userEmail2" /> <select id="select_email"
 							onchange="changeEmail()">
 							<option value="">-- 직접 입력 --</option>
@@ -78,12 +78,11 @@
 				<!-- Modal Footer -->
 				<div class="modal-footer">
 					<div class="reg_button">
+						<button type="button" class ="btn btn-default" data-dismiss="modal">
+							<i class="fa fa-rotate-right pr-2" aria-hidden="true"></i>닫기
+						</button>
 						<button type="button" id="join" class="btn btn-info">
 							<i class="fa fa-heart pr-2" aria-hidden="true"></i>Join
-						</button>
-						<button type="button" class="btn btn-primary px-3"
-							data-dismiss="modal">
-							<i class="fa fa-rotate-right pr-2" aria-hidden="true"></i>닫기
 						</button>
 					</div>
 				</div>

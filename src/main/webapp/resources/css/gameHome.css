@@ -71,6 +71,10 @@ body{
 	background-color : #6D211C;
 }
 
+#imageDiv{
+	text-align:center;
+}
+
 
 /* class */
 .oneRoom{
@@ -80,13 +84,16 @@ body{
 	width : 250px;
 	height: 170px;
 	margin-top:15px;
+	/* text-align:center; */
 }
 
 .gameJoinBtn{
-	height:40px;
-	width:70px;
+	height:30px;
+	width:245px;
 	background-color : #3F1816;
-	margin-left: 160px;
+	position:relative;
+	margin-bottom:50px;
+	margin-top:10px;
 	color :#E4F7BA;
 }
 
@@ -97,17 +104,22 @@ body{
 }
 
 .roomName{
-	margin-left :10px;
 	font-weight :bold;
+	width:100px;
+	text-align:center;
+	margin-left:75px;
+	/* margin-right:20px; */
+	font-size:25px;
+	margin-top:10px;
 }
 
-.gameKinds{
-	margin-left :10px;
-	font-weight :bold;
-}
 
 .isPlaying{
-	margin-left: 10px;
+	margin-left: 170px;
 	font-weight :bold;
+	margin-top:5px;
+	color :#E4F7BA;
 	height: 10px;
+	font-size:15px;
+	width:100px;
 }

@@ -110,10 +110,12 @@ public class KakaoConnectionUtil {
 			String userEmail = kakao_account.getAsJsonObject().get("email").getAsString();
 			String userId = userEmail.substring(0,userEmail.indexOf('@'));
 			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-		
+			int auth = 1;
+			
 			kakaoUser.setUserEmail(userEmail);
 			kakaoUser.setUserId(userId);
 			kakaoUser.setName(nickname);
+			kakaoUser.setAuth(auth);
 			
 
 			log.info(kakaoUser.toString());

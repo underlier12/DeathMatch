@@ -1,9 +1,6 @@
 package com.deathmatch.genious.domain;
 
 import java.util.Date;
-
-import com.mysql.cj.log.Log;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
