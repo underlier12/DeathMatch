@@ -77,6 +77,7 @@ public class UnionService {
 
 	private void uniAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		gameRoom.setLastGameDTO(gameDTO);
+		gameRoom.setPass(0);
 		queue.offer(gameDTO);
 		
 		switch (unionDealerService.uniCheck(gameDTO, gameRoom)) {
@@ -96,6 +97,7 @@ public class UnionService {
 		queue.offer(gameDTO);
 		
 		if(!gameDTO.getMessage().equals("합!")) {
+			gameRoom.setPass(0);
 			queue.offer(unionDealerService.onResult(session, gameRoom, gameDTO));
 		}
 		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
@@ -103,18 +105,23 @@ public class UnionService {
 	
 	private void timeupAction(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		gameRoom.setLastGameDTO(gameDTO);
+		if(unionDealerService.countPass(gameDTO, gameRoom) > 5) {
+			queue.offer(unionDealerService.closeRound(gameRoom));
+			isGameOver(gameDTO, gameRoom);
+			return;
+		}
 		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
 	}
 	
 	private void loadGame(WebSocketSession session, GameRoom gameRoom) {
 		if(!gameRoom.getPlaying()) {
 			switch (gameRoom.getEngaged().size()) {
+			case 2:
+//				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
+				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(1), gameRoom));
+//				break;
 			case 1:
 				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
-				break;
-			case 2:
-				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
-				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(1), gameRoom));
 				break;
 			}
 			load(session, gameRoom);

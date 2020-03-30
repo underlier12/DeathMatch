@@ -15,4 +15,5 @@ public class UnionGameDTO {
     private String message;
     private String gameId;
     private int round;
+    private int pass;
 }

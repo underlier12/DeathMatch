@@ -63,17 +63,20 @@ public class UnionDealerService {
 		String myTurn = gameDTO.getSender();
 		String message = "결을 외칠 수 있습니다.";
 		int time = 5;
+		int pass = 0;
 		
 		log.info("getmessage : " + gameDTO.getMessage());
 		
 		switch (gameDTO.getMessage()) {
 		case "합!":
 			message = "합이 되는 조합을 찾아주세요.";
+			pass = gameRoom.getPass();
 			break;
-			
+		case "TIMEUP":
+			pass = gameRoom.getPass();
+			log.info("pass : " + pass);
 		case "결!":
 		case "READY":
-		case "TIMEUP":
 			time = 10;
 			myTurn = nextTurn(gameRoom);
 			message = myTurn + "님의 차례입니다.";
@@ -83,6 +86,7 @@ public class UnionDealerService {
 		jsonMap.put("user1", myTurn);
 		jsonMap.put("message", message);
 		jsonMap.put("countDown", time);
+		jsonMap.put("pass", pass);
 		
 		UnionDealerDTO unionDealerDTO = postprocessing(jsonMap);
 		
@@ -106,6 +110,13 @@ public class UnionDealerService {
 		return myTurn;
 	}
 	
+	public int countPass(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		int pass = gameRoom.getPass() + gameDTO.getPass();
+		gameRoom.setPass(pass);
+		log.info("pass : " + pass);
+		return pass;
+	}
+	
 	public UnionDealerDTO decideRound(GameRoom gameRoom) {
 		Map<String, Object> jsonMap = preprocessing(MessageType.ROUND, gameRoom.getRoomId());
 		int nextRound = gameRoom.getRound() + 1;
@@ -124,6 +135,7 @@ public class UnionDealerService {
 	public UnionDealerDTO closeRound(GameRoom gameRoom) {
 		Map<String, Object> jsonMap = preprocessing(MessageType.END, gameRoom.getRoomId());
 		int currentRound = gameRoom.getRound();
+		gameRoom.setPass(0);
 		
 		jsonMap.put("message", Integer.toString(currentRound) + " ROUND가 종료되었습니다.");
 		

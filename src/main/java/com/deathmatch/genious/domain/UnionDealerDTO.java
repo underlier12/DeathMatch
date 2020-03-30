@@ -20,4 +20,5 @@ public class UnionDealerDTO {
     private int countDown;
     private int score;
     private int round;
+    private int pass;
 }

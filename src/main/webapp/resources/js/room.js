@@ -37,6 +37,7 @@ $(function () {
 	// div tag
 	var $exclaimA = $('#exclaimA');
 	var $exclaimB = $('#exclaimB');
+	var $pass = $('#pass');
 	var $connectionStatus = $('#connectionStatus');
 	
 	// textarea tag
@@ -175,6 +176,7 @@ $(function () {
  	function notifyRound(content){
         $roundP.text(content.round + ' ROUND');
 		countDown(content);
+		$pass.html('');
  	}
  	
  	function notifyProblem(content){
@@ -246,6 +248,7 @@ $(function () {
  		disableAll();
  		resetRound();
  		resetScore();
+ 		$pass.html('');
  	}
  	
  	function countDown(content){
@@ -369,8 +372,15 @@ $(function () {
 		
 		if(content.user1 == member){
 			console.log("content.message, timeup : " + content.message);
+			var pass = 1;
+			
+			if(content.type == 'ROUND' || content.message.substring(0, 1) == "결"){
+				pass = 0;
+			}
+			
 			sock.send(JSON.stringify(
-					{type: 'TIMEUP', roomId: roomId, sender: member, message: "TIMEUP"}));
+					{type: 'TIMEUP', roomId: roomId, sender: member, message: "TIMEUP",
+						pass: pass}));
 		}
  	}
  	
@@ -440,6 +450,12 @@ $(function () {
     function isMyTurn(content){
     	console.log(" ");
     	console.log("isMyTurn : " + content.message + " " + content.user1);
+
+    	var passText = "PASS<br>";
+    	var passTotal = passText.repeat(content.pass);
+    	$pass.html(passTotal);
+//    	console.log("pass : " + content.pass);
+//    	console.log("passTotal : " + passTotal);
     	
     	if(content.user1 == member){
     		switch (content.message.substring(0, 1)) {
