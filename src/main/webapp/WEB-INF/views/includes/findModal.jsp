@@ -11,14 +11,14 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="/genious/css/bootstrap.css">
 <script src="/genious/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/genious/css/findModal.css">
 </head>
 
 <body>
-	<!-- 회원가입 Modal 추가 -->
 	<div class="modal fade" id="findModal" role="dialog">
 		<div class="modal-dialog">
 			<!-- Modal content -->
-			<div class="modal-content">
+			<div class="modal-content" id="findModalContent">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 id="modal-title" class="modal-title"
@@ -26,7 +26,7 @@
 				</div>
 				<div class="modal-body">
 					<!-- 이메일 -->
-					<label for="findPwEmail1">아이디</label>
+					<label for="findPwEmail1" id="idTitle">아이디</label>
 					<div class="form-group">
 						<input type="text" style="width: 150px; display: inline-block;"
 							class="form-control" id="findPwEmail1" name="userEmail1"

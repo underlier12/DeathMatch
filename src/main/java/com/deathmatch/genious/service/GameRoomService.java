@@ -22,8 +22,6 @@ import lombok.extern.log4j.Log4j;
 public class GameRoomService {
 
 	private Map<String, GameRoom> gameRooms = new LinkedHashMap<>();
-
-	//private List<GameRoom> roomList = new LinkedList<>();
 	
 	public List<String> findAllId() {
 		return new LinkedList<>(gameRooms.keySet());
@@ -68,15 +66,5 @@ public class GameRoomService {
 	public int countRoom() {
 		return gameRooms.size();
 	}
-
-	/*
-	 * public List<GameRoom> listGameRoom(int length) { return findAllRoomList(); }
-	 */
-
-	/*
-	 * public List<GameRoom> listCriteria(Criteria cri) {
-	 * 
-	 * }
-	 */
 
 }

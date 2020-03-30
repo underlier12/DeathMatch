@@ -1,60 +1,113 @@
-.gameHome{
+/* 연두색 글씨 color: #E4F7BA */
+/* 노란색 글씨 color : #ECA50E */
+/* 검정색 글씨 진하게 : border: 2px solid #000000*/
+/* 중연한 갈색 배경  : background-color : #6D211C*/
+/* 진한 갈색 배경 : background-color: #3F1816; */
+
+
+/* Id */
+
+body{
+	background-color: #502228;
+}
+
+#gameHome{
 	display:flex;
 	width : 1400px;
 	height: 800px;
 }
 
-.gameBtn{
-	margin-top : 25px;
-}
-
-.title{
+#title{
 	justify-content : center;
+	color : #ECA50E; 
 }
 
-.buttonList{
+#buttonList{
 	margin-left:auto;
 	width:200px;
 	height:50px;
-	/* margin-left : 300px; */
 }
 
-.sidebar{
-	justify-content : center;
-	width: 300px;
-	height: 700px;
-	margin-left : 50px;
+#leftRooms{
+	margin-right : 150px;
 }
 
-.gameRooms{
+#gameBtn{
+	margin-top : 25px;
+}
+
+#btnCreate{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
+
+#btnTuto{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
+
+
+#gameRooms{
 	justify-content : center;
 	width: 900px;
 	height: 700px;
 	margin-left: 150px;	
 }
 
-.leftRooms{
-	margin-right : 150px;
+#pageBtn{
+	justify-content : center;
+	margin-right : 70px;
 }
 
+#sidebar{
+	justify-content : center;
+	width: 300px;
+	height: 700px;
+	margin-left : 50px;
+} 
+
+#pageNum{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
+
+
+/* class */
 .oneRoom{
-	background-color : #F781BE;
-	border: 1px solid gold;
+	background-color : #6D211C;
+	color : #ECA50E;
+	border: 2px solid#000000;
 	width : 250px;
-	height: 140px;
+	height: 170px;
 	margin-top:15px;
 }
 
 .gameJoinBtn{
 	height:40px;
 	width:70px;
-	background-color : #FA5882;
-	margin-left: 170px;
-	margin-top:30px;
+	background-color : #3F1816;
+	margin-left: 160px;
+	color :#E4F7BA;
 }
 
-.pageBtn{
-	justify-content : center;
-	margin-right : 70px;
-} 
+.userId{
+	margin-top:10px;
+	margin-left:10px;
+	font-weight :bold;
+}
 
+.roomName{
+	margin-left :10px;
+	font-weight :bold;
+}
+
+.gameKinds{
+	margin-left :10px;
+	font-weight :bold;
+}
+
+.isPlaying{
+	margin-left: 10px;
+	font-weight :bold;
+	height: 10px;
+}
