@@ -34,4 +34,9 @@ $(function(){
 			}
 		})
 	};
+	
+	$('#btnTuto').click(function(){
+		$('#tutoModal').modal();
+		document.getElementById("clip").play(); 
+	});
 });

@@ -1,5 +1,20 @@
 /* id */
 
+#game{
+	width: 580px;
+    height: 1000px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -290px;
+    margin-top: -400px;
+}
+
+#logo{
+	width: 300px;
+	height: auto;
+}
+
 #round{
 	width: 570px;
 	height: 70px;
@@ -8,36 +23,46 @@
 	text-align: center;
 }
 
-#connectionStatus{
-	width: 125px;
-	height: 100px;
-	text-align: center;
-}
-
-#playerA, #playerB{
+#answer{
 	width: 95px;
-	height: 40px;
-	margin: 0;
-	padding: 0;
+	height: 375px;
+	list-style: none;
 	color: #CEFBC9;
-	background-color: #3F1816;
+	background-color: #6D211C;
+	font-size: 25px;
 	text-align: center;
 	border: 2px solid #000000;
 }
 
-#scoreA, #scoreB{
+#ready{
 	width: 95px;
-	height: 88px;
-	margin: 0;
-	padding: 0;
-	font-size: 45px;
-	color: #ECA50E;
+	height: 375px;
+	font-size: 35px;
+	color: #E4F7BA;
 	background-color: #6D211C;
 	text-align: center;
 	border: 2px solid #000000;
 }
 
-#selected{
+#leave{
+	width: 570px;
+	height: 60px;
+	font-size: 30px;
+	margin-top: 30px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+#pass{
+	width: 125px;
+	height: 100px;
+	text-align: center;
+	color: #CEFBC9;
+}
+
+#connectionStatus{
 	width: 375px;
 	height: 40px;
 	color: #ECA50E;
@@ -55,71 +80,14 @@
 
 /* class */
 
-.game{
-	width: 580px;
-    height: 800px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-left: -290px;
-    margin-top: -400px;
-}
-
-.title-box{
-	width: 570px;
-	display: flex;
-	overflow: auto;
-	justify-content: center;
-	/* padding-top: 50px; */
-}
-
-.round-box{
+.flex-box{
 	width: 570px;
 	display: flex;
 	overflow: auto;
 	justify-content: center;
 }
 
-.problem-box{
-	width: 570px;
-	display: flex;
-	overflow: auto;
-	justify-content: center;
-}
-
-.event-box{
-	width: 570px;
-	display: flex;
-	overflow: auto;
-	justify-content: center;
-}
-
-.battle-box{
-	width: 570px;
-	display: flex;
-	overflow: auto;
-	justify-content: center;
-}
-
-
-.logo{
-	width: 300px;
-	height: auto;
-}
-
-.answer{
-	width: 95px;
-	height: 375px;
-	list-style: none;
-	color: #CEFBC9;
-	background-color: #6D211C;
-	font-size: 25px;
-	text-align: center;
-	border: 2px solid #000000;
-}
-
-
-.checkbox{
+.selectbox{
 	display: none;
 	margin: 0;
 }
@@ -135,8 +103,7 @@
 	border: 2px solid #000000;
 }
 
-
-.uni, .on{
+.union{
 	width: 95px;
 	height: 187.5px;
 	font-size: 35px;
@@ -146,26 +113,65 @@
 	border: 2px solid #000000;
 }
 
-.ready{
-	width: 95px;
-	height: 375px;
-	font-size: 35px;
-	color: #E4F7BA;
-	background-color: #6D211C;
-	text-align: center;
-	border: 2px solid #000000;
-}
-
-.exclaimA, .exclaimB{
+.exclaim-wrapper{
 	width: 95px;
 	height: 125px;
 }
 
-.timer{
+.exclaim{
+	position: relative;
+	width: 95px;
+	height: 125px;
+	background-image: url("/genious/resources/images/balloon.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.statement{
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 48px;
+	color: #ECA50E;
+	text-align: center;
+}
+
+.timer-wrapper{
+	position: relative;
 	width: 125px;
 	height: 125px;
 }
 
+.timer{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.player{
+	width: 95px;
+	height: 40px;
+	margin: 0;
+	padding: 0;
+	color: #CEFBC9;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+.score{
+	width: 95px;
+	height: 88px;
+	margin: 0;
+	padding: 0;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+}
 
 /* timer */
 
@@ -212,17 +218,8 @@
   color: #ECA50E; 
 }
 
-
-
 /* setting class */
 
 .boundary{
 	border: 2px solid #EFF482;
-}
-
-
-
-/* test */
-div{
- 	/* border: 1px solid gold */
 }

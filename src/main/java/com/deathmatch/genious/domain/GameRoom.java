@@ -19,7 +19,11 @@ public class GameRoom {
     private String gameType;
     private String gameId;
     private int totalRound = 3;
-    private int round = 0;
+    private int round;
+    private int pass;
+    private Boolean playing = false;
+    
+    private UnionGameDTO lastGameDTO;
     private List<UnionPlayerDTO> engaged = new ArrayList<>();
     private Set<WebSocketSession> sessions = new HashSet<>();
     

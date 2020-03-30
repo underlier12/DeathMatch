@@ -13,9 +13,9 @@
     
     <!-- SNS 유저 가입하기 -->
     <insert id ="insertSnsMember">
-    insert into tbl_user (userEmail,userId,name)
+    insert into tbl_user (userEmail,userId,name,auth)
         values
-        (#{userEmail},#{userId},#{name});
+        (#{userEmail},#{userId},#{name},1);
     </insert>
     
     <!-- 비밀번호 체크하기 -->
@@ -51,14 +51,14 @@
     
     <!-- 유저 조회 하기 -->
     <select id ="selectMember" resultType="UserDTO">
-        select userEmail,pw,userId,name,score
+        select userEmail,pw,userId,name,auth
         from tbl_user
         where userEmail = #{userEmail};
     </select>
 
 	<!-- 로그인 하기 -->
     <select id = "login" resultType ="UserDTO">
-        select userEmail,userId,name,score
+        select userEmail,userId,name,auth
         from tbl_user
         where userEmail = #{userEmail} and pw = #{pw};
     </select>

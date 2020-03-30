@@ -1,5 +1,7 @@
 package com.deathmatch.genious.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UserDTO;
 import com.deathmatch.genious.service.GameRoomService;
+import com.deathmatch.genious.service.UnionSettingService;
+import com.deathmatch.genious.util.Criteria;
+import com.deathmatch.genious.util.PageMaker;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -25,12 +30,18 @@ import lombok.extern.log4j.Log4j;
 public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
+	private final UnionSettingService unionSettingService;
 	 
-	@GetMapping
-    public String allRooms(Model model) {
-    	model.addAttribute("rooms", gameRoomService.findAllRooms());
-    	return "gameHome";
-    } 
+	//Criteria는 한 게시글 페이지 , PageMaker는 여러개의 게시글 페이지를 의미한다
+    @GetMapping
+    public void RoomList(Criteria cri,Model model) {
+    	log.info(cri.toString());
+    	PageMaker pageMaker = new PageMaker();
+    	pageMaker.setCri(cri);
+    	pageMaker.setTotalCount(gameRoomService.countRoom());	
+    	model.addAttribute("rooms",gameRoomService.findRoomList(cri));
+    	model.addAttribute("pageMaker",pageMaker);
+    }
 
 	@ResponseBody
     @PostMapping
@@ -38,6 +49,7 @@ public class GameRoomController {
 		GameRoom newRoom = gameRoomService.createRoom(name);
 		String currentRoomId = newRoom.getRoomId();
 		log.info("makeRoom Id :" + currentRoomId);
+		log.info("gameType: " + newRoom.getGameType() );
 		return "/genious/gameHome/" +currentRoomId; 
     }
 	
@@ -50,6 +62,6 @@ public class GameRoomController {
     	model.addAttribute("httpSession", httpSession);
     	return "room";
     }
-    
+      
     
 }

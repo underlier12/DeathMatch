@@ -97,12 +97,15 @@ public class NaverLoginBO {
         JSONObject response_obj = (JSONObject) jsonObj.get("response");
         String nickname = (String)response_obj.get("nickname");
         String email = (String)response_obj.get("email");
+        int auth = 1;
         
         UserDTO naverUser = new UserDTO();
         log.info("nickName : " + nickname);
         log.info("email : " + email);
+       
         naverUser.setUserEmail(email);
         naverUser.setName(nickname);
+        naverUser.setAuth(auth);
         
         log.info(naverUser.toString());
         

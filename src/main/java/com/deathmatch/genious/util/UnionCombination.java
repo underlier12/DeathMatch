@@ -15,8 +15,8 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class UnionCombination {
 	
-	private final int SUB = 3;
 	private final int TOTAL = 9;
+	private final int SUB = 3;
 	int index = 0;
 	
 	List<UnionCardDTO> answerSubCandidateList = new LinkedList<>();

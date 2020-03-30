@@ -1,12 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<body>
-	<%@ include file="/WEB-INF/views/includes/header.jsp" %>
-	
-    <div class ="col-md-5 col-md-offset-5" style ="margin-top : 250px;">
-        <p>Welcome to Death Match</p>
-        <input type="button" value="GameStart" onclick = "location.href='user/loginHome'"/>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%@ include file="includes/meta.jsp" %>
+    <title>Genius Death Match</title>
+    <%@ include file="includes/header.jsp" %>
+    <link href="/genious/css/index.css" rel="stylesheet">
+</head>
+
+<body>	
+    <div id="index">
+    	<div class="flex-box">
+       		<img src="/genious/resources/images/geniusLogo.png">
+    	</div>
+    	<div class="flex-box">
+       		<img src="/genious/resources/images/deathmatchLogo.png">
+    	</div>
+    	<div class="flex-box">
+	        <input id="startBtn" type="button" value="Game Start" 
+	        		onclick = "location.href='user/loginHome'"/>    	
+    	</div>
+	    <%@ include file="includes/footer.jsp" %>
     </div>
     
-    <%@ include file="/WEB-INF/views/includes/footer.jsp" %>
 </body>
 

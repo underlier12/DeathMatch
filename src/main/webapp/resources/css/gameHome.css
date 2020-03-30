@@ -1,0 +1,125 @@
+/* 연두색 글씨 color: #E4F7BA */
+/* 노란색 글씨 color : #ECA50E */
+/* 검정색 글씨 진하게 : border: 2px solid #000000*/
+/* 중연한 갈색 배경  : background-color : #6D211C*/
+/* 진한 갈색 배경 : background-color: #3F1816; */
+
+
+/* Id */
+
+body{
+	background-color: #502228;
+}
+
+#gameHome{
+	display:flex;
+	width : 1400px;
+	height: 800px;
+}
+
+#title{
+	justify-content : center;
+	color : #ECA50E; 
+}
+
+#buttonList{
+	margin-left:auto;
+	width:200px;
+	height:50px;
+}
+
+#leftRooms{
+	margin-right : 150px;
+}
+
+#gameBtn{
+	margin-top : 25px;
+}
+
+#btnCreate{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
+
+#btnTuto{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
+
+
+#gameRooms{
+	justify-content : center;
+	width: 900px;
+	height: 700px;
+	margin-left: 150px;	
+}
+
+#pageBtn{
+	justify-content : center;
+	margin-right : 70px;
+}
+
+#sidebar{
+	justify-content : center;
+	width: 300px;
+	height: 700px;
+	margin-left : 50px;
+} 
+
+#pageNum{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
+
+#imageDiv{
+	text-align:center;
+}
+
+
+/* class */
+.oneRoom{
+	background-color : #6D211C;
+	color : #ECA50E;
+	border: 2px solid#000000;
+	width : 250px;
+	height: 170px;
+	margin-top:15px;
+	/* text-align:center; */
+}
+
+.gameJoinBtn{
+	height:30px;
+	width:245px;
+	background-color : #3F1816;
+	position:relative;
+	margin-bottom:50px;
+	margin-top:10px;
+	color :#E4F7BA;
+}
+
+.userId{
+	margin-top:10px;
+	margin-left:10px;
+	font-weight :bold;
+}
+
+.roomName{
+	font-weight :bold;
+	width:100px;
+	text-align:center;
+	margin-left:75px;
+	/* margin-right:20px; */
+	font-size:25px;
+	margin-top:10px;
+}
+
+
+.isPlaying{
+	margin-left: 170px;
+	font-weight :bold;
+	margin-top:5px;
+	color :#E4F7BA;
+	height: 10px;
+	font-size:15px;
+	width:100px;
+}

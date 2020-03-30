@@ -1,13 +1,15 @@
 $(function(){
 	
 		var loginForm = $("#loginProc");
+		
 		var idflag = 0;
 		
-		$("#regiBtn").click(function(e){
+		
+		$("#regiBtn").click(function(){
 			$("#registerModal").modal();
 		});
 		
-		$("#findPw").click(function(e){
+		$("#findPw").click(function(){
 			$("#findModal").modal();
 		});
 		
@@ -48,7 +50,7 @@ $(function(){
 			var findPwCheck = confirm('이메일로 임시 비밀번호가 전송됩니다');
 			
 			if(findPwCheck){
-				//registerMember(userInfo);
+				findPw(userInfo);
 				alert('전송 완료!');
 				$('#findModal').modal('hide');
 			}
@@ -95,6 +97,8 @@ $(function(){
 			var userEmail = email1 + '@' +email2;
 			//패스워드
 			var userPw = $('#pw').val();
+			//패스워드 확인
+			var checkUserPw = $('#checkPw').val();
 			//이름
 			var userName = $('#userName').val();
 			
@@ -127,6 +131,14 @@ $(function(){
 			}else if(checkName(userName)){
 				alert("올바른 닉네임 형식이 아닙니다");
 				$('#name').focus();
+				return false;
+			}else if(checkUserPw != userPw){
+				alert("비밀번호와 비밀번호 확인이 일치하지 않습니다");
+				$('#pw').focus();
+				return false;
+			}else if(!checkUserPw){
+				alert("비밀번호 확인을 입력해 주세요");
+				$('#checkUserPw').focus();
 				return false;
 			}
 			
@@ -206,6 +218,18 @@ $(function(){
                     }
                 }
             })
+        }
+        
+        function findPw(userInfo){
+        	$.ajax({
+				type : 'post',
+				url : '/genious/user/findPw',
+				data : JSON.stringify(userInfo),
+				contentType : 'application/json; charset=utf-8',
+				success : function(result){
+					console.log(result)
+				}
+			})
         }
         
         //이메일 유효성 검사
