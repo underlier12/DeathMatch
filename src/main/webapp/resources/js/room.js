@@ -163,7 +163,7 @@ $(function () {
 		}else if(!$playerBInput.val()){
 			$playerBInput.val(content.user1);
 		}
-		toastMessage("info", content.message, content.sender);
+		toastMessage("info", content.message);
  	}
  	
  	function notifyReady(content){
@@ -172,7 +172,7 @@ $(function () {
 			$scoreBInput.val(0);
 			inGame();
 		}
-		toastMessage("info", content.message, content.sender);
+		toastMessage("info", content.message);
  	}
 
  	function notifyRound(content){
@@ -216,7 +216,7 @@ $(function () {
  			resetRound();
  			break;
  		}
- 		toastMessage("info", content.message, content.sender);
+ 		toastMessage("info", content.message);
  	}
  	
  	function notifyLeave(content){
@@ -225,7 +225,7 @@ $(function () {
  		} else {
  			$playerBInput.val('');
  		}
- 		toastMessage("info", content.message, content.sender);
+ 		toastMessage("info", content.message);
  	}
  	
  	function addUp(content){
@@ -241,9 +241,9 @@ $(function () {
 		}
  		
  		if(content.score > 0){
- 			toastMessage("success", content.message, content.sender);
+ 			toastMessage("success", content.message);
  		} else {
- 			toastMessage("warning", content.message, content.sender);
+ 			toastMessage("warning", content.message);
  		}
  	}
  	
@@ -255,7 +255,7 @@ $(function () {
  			message = '승자는 ' + content.user1 + '입니다. 축하합니다.\n';
  		}
  		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + message);
- 		toastMessage("info", message, content.sender);
+ 		toastMessage("info", message);
  		
  		notInGame();
  		disableAll();
@@ -514,7 +514,7 @@ $(function () {
     	$onBtn.prop('disabled', true);
     }
     
-    function toastMessage(type, message, sender){
+    function toastMessage(type, message){
     	toastr.options = {
     			  "closeButton": true,
     			  "progressBar": true,
@@ -525,7 +525,7 @@ $(function () {
     			  "showMethod": "fadeIn",
     			  "hideMethod": "fadeOut"
     			}
-    	toastr[type](message, sender);
+    	toastr[type](message);
     }
     
 });
