@@ -163,6 +163,7 @@ $(function () {
 		}else if(!$playerBInput.val()){
 			$playerBInput.val(content.user1);
 		}
+		toastMessage("info", content.message, content.sender);
  	}
  	
  	function notifyReady(content){
@@ -171,6 +172,7 @@ $(function () {
 			$scoreBInput.val(0);
 			inGame();
 		}
+		toastMessage("info", content.message, content.sender);
  	}
 
  	function notifyRound(content){
@@ -214,6 +216,7 @@ $(function () {
  			resetRound();
  			break;
  		}
+ 		toastMessage("info", content.message, content.sender);
  	}
  	
  	function notifyLeave(content){
@@ -222,6 +225,7 @@ $(function () {
  		} else {
  			$playerBInput.val('');
  		}
+ 		toastMessage("info", content.message, content.sender);
  	}
  	
  	function addUp(content){
@@ -235,15 +239,24 @@ $(function () {
 			existingScore = parseInt($scoreBInput.val()); 
 			$scoreBInput.val(existingScore + score);
 		}
+ 		
+ 		if(content.score > 0){
+ 			toastMessage("success", content.message, content.sender);
+ 		} else {
+ 			toastMessage("warning", content.message, content.sender);
+ 		}
  	}
  	
  	function announceWinner(content){
+ 		var message;
  		if(content.user1 == "무승부"){
- 			$gameBroadcast.eq(0).prepend(content.sender + ' : ' + '결과는 무승부입니다.\n');
+ 			message = '결과는 무승부입니다.\n';
  		} else {
- 			$gameBroadcast.eq(0).prepend(content.sender + ' : ' 
- 					+ '승자는 ' + content.user1 + '입니다. 축하합니다.\n');
+ 			message = '승자는 ' + content.user1 + '입니다. 축하합니다.\n';
  		}
+ 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + message);
+ 		toastMessage("info", message, content.sender);
+ 		
  		notInGame();
  		disableAll();
  		resetRound();
@@ -499,6 +512,20 @@ $(function () {
     	}
     	$uniBtn.prop('disabled', true);
     	$onBtn.prop('disabled', true);
+    }
+    
+    function toastMessage(type, message, sender){
+    	toastr.options = {
+    			  "closeButton": true,
+    			  "progressBar": true,
+    			  "positionClass": "toast-top-center",
+    			  "showDuration": "300",
+    			  "hideDuration": "1000",
+    			  "timeOut": "3000",
+    			  "showMethod": "fadeIn",
+    			  "hideMethod": "fadeOut"
+    			}
+    	toastr[type](message, sender);
     }
     
 });
