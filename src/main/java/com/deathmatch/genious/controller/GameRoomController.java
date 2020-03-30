@@ -49,6 +49,7 @@ public class GameRoomController {
 		GameRoom newRoom = gameRoomService.createRoom(name);
 		String currentRoomId = newRoom.getRoomId();
 		log.info("makeRoom Id :" + currentRoomId);
+		log.info("gameType: " + newRoom.getGameType() );
 		return "/genious/gameHome/" +currentRoomId; 
     }
 	

@@ -36,12 +36,29 @@
 				<div class="col-md-3" id="leftRooms">
 					<c:forEach var="room" items="${rooms }" begin="0" end="4">
 						<div class="oneRoom">
-							<p class="userId">${login.userId }</p>
+							<c:choose>
+								<c:when test="${room.gameType eq null }">
+									<div id ="imageDiv">
+									<img
+										src="${pageContext.request.contextPath}/images/UnionLogo.png"
+										width="130px" height="50px">
+									</div>
+								</c:when>
+							</c:choose>
 							<p class="roomName">${room.name}</p>
-							<p class="gameKinds">결 합</p>
-							<p class="isPlaying">게임중</p>
+
+							<c:choose>
+								<c:when test="${room.playing eq true }">
+									<p class="isPlaying">Playing...</p>
+								</c:when>
+								<c:when test="${room.playing eq false }">
+									<p class="isPlaying">Waiting...</p>
+								</c:when>
+							</c:choose>
+
 							<button type="button" class="gameJoinBtn"
 								onclick="location.href='gameHome/<c:out value="${room.roomId}"/>'">Join</button>
+
 						</div>
 					</c:forEach>
 				</div>
@@ -49,12 +66,29 @@
 				<div class="col-md-4 rightRooms">
 					<c:forEach var="room" items="${rooms }" begin="5" end="9">
 						<div class="oneRoom">
-							<p class="userId">${login.userId }</p>
+							<c:choose>
+								<c:when test="${room.gameType eq null }">
+									<div id ="imageDiv">
+									<img
+										src="${pageContext.request.contextPath}/images/UnionLogo.png"
+										width="130px" height="50px">
+									</div>
+								</c:when>
+							</c:choose>
 							<p class="roomName">${room.name}</p>
-							<p class="gameKinds">결 합</p>
-							<p class="isPlaying">게임중</p>
+
+							<c:choose>
+								<c:when test="${room.playing eq true }">
+									<p class="isPlaying">Playing...</p>
+								</c:when>
+								<c:when test="${room.playing eq false }">
+									<p class="isPlaying">Waiting...</p>
+								</c:when>
+							</c:choose>
+
 							<button type="button" class="gameJoinBtn"
 								onclick="location.href='gameHome/<c:out value="${room.roomId}"/>'">Join</button>
+
 						</div>
 					</c:forEach>
 				</div>

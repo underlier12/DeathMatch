@@ -20,8 +20,6 @@
 </script>
 </head>
 
-
-
 <body>
 	<div id="loginHome">
 		<div id="loginFrame">
@@ -45,10 +43,10 @@
 							<button type="submit" id="loginBtn"
 								class="btn btn-default btn-block login-btn">로그인</button>
 						</c:if>
-						<div id="checkId">
+						<!-- <div id="checkId">
 							<input type="checkbox" id="saveId"><span>아이디
 										저장</span> 
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</form>
@@ -70,8 +68,8 @@
 							<img
 							src="${pageContext.request.contextPath}/images/btn_kakao_login.gif" width="150px">
 						</a>
-						<a href="${url}"> <img
-							src="${pageContext.request.contextPath}/images/btn_naver_login.gif" width="150px"></a>
+						<%-- <a href="${url}"> <img
+							src="${pageContext.request.contextPath}/images/btn_naver_login.gif" width="150px"></a> --%>
 					</div>
 				</div>
 			</c:if>
