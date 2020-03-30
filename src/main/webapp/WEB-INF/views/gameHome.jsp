@@ -11,11 +11,13 @@
 <link href="/genious/css/deathmatch.css" rel="stylesheet">
 </head>
 
+<!-- GameRoom isPlaying property boolean 참조해서 room 만들기 -->
+<!-- True: 진행중 , False: 대기중 -->
 <body>
-	<div class="gameHome">
+	<div id="gameHome">
 		<%@ include file="/WEB-INF/views/includes/sidebar.jsp"%>
 
-		<div class="gameRooms">
+		<div id="gameRooms">
 
 			<div class="title">
 				<div>
@@ -23,18 +25,21 @@
 				</div>
 			</div>
 
-			<div class="buttonList">
-				<div class="gameBtn">
+			<div id="buttonList">
+				<div id="gameBtn">
 					<button type="button" class="btn btn-default" id="btnCreate">방만들기</button>
 					<button type="button" class="btn btn-default" id="btnTuto">튜토리얼</button>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-md-3 leftRooms">
+				<div class="col-md-3" id="leftRooms">
 					<c:forEach var="room" items="${rooms }" begin="0" end="4">
 						<div class="oneRoom">
-							Id : ${login.userEmail } <br /> 방 제목 : ${room.name}<br /> 게임 종류 : <br/>
+							<p class="userId">${login.userId }</p>
+							<p class="roomName">${room.name}</p>
+							<p class="gameKinds">결 합</p>
+							<p class="isPlaying">게임중</p>
 							<button type="button" class="gameJoinBtn"
 								onclick="location.href='gameHome/<c:out value="${room.roomId}"/>'">Join</button>
 						</div>
@@ -44,7 +49,10 @@
 				<div class="col-md-4 rightRooms">
 					<c:forEach var="room" items="${rooms }" begin="5" end="9">
 						<div class="oneRoom">
-							Id : ${login.userEmail } <br /> 방 제목 : ${room.name}<br /> 게임 종류 : <br/>
+							<p class="userId">${login.userId }</p>
+							<p class="roomName">${room.name}</p>
+							<p class="gameKinds">결 합</p>
+							<p class="isPlaying">게임중</p>
 							<button type="button" class="gameJoinBtn"
 								onclick="location.href='gameHome/<c:out value="${room.roomId}"/>'">Join</button>
 						</div>
@@ -53,7 +61,7 @@
 
 			</div>
 
-			<div class="text-center pageBtn">
+			<div class="text-center" id="pageBtn">
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev }">
 						<li><a
@@ -64,7 +72,7 @@
 						end="${pageMaker.endPage }" var="idx">
 						<li
 							<c:out value ="${pageMaker.cri.page == idx?'class =active':''}"/>>
-							<a href="gameHome?page=${idx }">${idx }</a>
+							<a id="pageNum" href="gameHome?page=${idx }">${idx }</a>
 						</li>
 					</c:forEach>
 					<c:if test="${pageMaker.next && pageMaker.endPage >0 }">

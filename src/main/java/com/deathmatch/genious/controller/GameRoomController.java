@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UserDTO;
 import com.deathmatch.genious.service.GameRoomService;
+import com.deathmatch.genious.service.UnionSettingService;
 import com.deathmatch.genious.util.Criteria;
 import com.deathmatch.genious.util.PageMaker;
 
@@ -29,12 +30,8 @@ import lombok.extern.log4j.Log4j;
 public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
+	private final UnionSettingService unionSettingService;
 	 
-	/*
-	 * @GetMapping public String allRooms(Model model) { model.addAttribute("rooms",
-	 * gameRoomService.findAllRooms()); return "gameHome"; }
-	 */
-	
 	//Criteria는 한 게시글 페이지 , PageMaker는 여러개의 게시글 페이지를 의미한다
     @GetMapping
     public void RoomList(Criteria cri,Model model) {

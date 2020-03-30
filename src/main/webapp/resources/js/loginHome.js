@@ -1,13 +1,15 @@
 $(function(){
 	
 		var loginForm = $("#loginProc");
+		
 		var idflag = 0;
 		
-		$("#regiBtn").click(function(e){
+		
+		$("#regiBtn").click(function(){
 			$("#registerModal").modal();
 		});
 		
-		$("#findPw").click(function(e){
+		$("#findPw").click(function(){
 			$("#findModal").modal();
 		});
 		
