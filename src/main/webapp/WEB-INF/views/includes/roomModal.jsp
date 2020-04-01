@@ -19,20 +19,20 @@
 					<h2 id="modal-title" class="modal-title">방 생성</h2>
 				</div>
 				<div class="modal-body">
-					<table class="table">
+					<table class="table no-margin">
 						<tr>
-							<td><p id ="roomIdTitle">방제 :</p></td>
+							<td><p id ="roomIdTitle">방 이름 :</p></td>
 							<td><input type ="email" name ="name" id="RoomName"></td>
 						</tr>
 						<tr>
 							<td>
-								<input type="radio" value="union" class="radioBtn" name="type" checked>
+								<input type="radio" id="union" value="union" class="radioBtn" name="type" checked>
 								<label for="union" class="label">
-									<img class="typeImg" src="/genious/resources/images/UnionLogo.png">
+									<img class="typeImg boundary" src="/genious/resources/images/UnionLogo.png">
 								</label>
 							</td>
 							<td>
-								<input type="radio" value="indian" class="radioBtn" name="type">
+								<input type="radio" id="indian" value="indian" class="radioBtn" name="type">
 								<label for="indian" class="label">
 									<img class="typeImg" src="/genious/resources/images/UnionLogo.png">
 								</label>

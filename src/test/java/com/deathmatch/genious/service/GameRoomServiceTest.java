@@ -14,7 +14,7 @@ public class GameRoomServiceTest {
 	@Test
 	public void testDestroyRoom(String roomId) {
 		GameRoomService gameRoomService = new GameRoomService();
-		gameRoomService.createRoom("test1");
+//		gameRoomService.createRoom("test1");
 		
 		List<String> gameRoomList = gameRoomService.findAllId();
 		log.info("gameRoomList : " + gameRoomList);
