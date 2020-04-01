@@ -17,7 +17,7 @@
 	<div id="gameHome">
 		<%@ include file="/WEB-INF/views/includes/sidebar.jsp"%>
 
-		<div id="gameRooms">
+		<div id="gameRooms" class="content" data-msg="${msg}">
 
 			<div class="title">
 				<div>

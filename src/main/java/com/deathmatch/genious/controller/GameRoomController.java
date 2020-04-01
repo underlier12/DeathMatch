@@ -54,6 +54,13 @@ public class GameRoomController {
     public String room(@PathVariable String roomId, Model model, HttpSession httpSession) {    	
     	GameRoom room = gameRoomService.findRoomById(roomId);
     	UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
+    	
+    	if(room == null) {
+    		log.info("null exception");
+    		model.addAttribute("msg", "해당 방은 사라졌습니다.");
+    		return "gameHome";
+    	}
+    	
     	model.addAttribute("room", room);
     	model.addAttribute("member", currentDTO.getUserId());
 //    	model.addAttribute("httpSession", httpSession);

@@ -1,4 +1,6 @@
 $(function(){
+	var msg = $('.content').data('msg');
+	if(msg) alert(msg);
 	
 	$("#btnCreate").click(function() {
 		$("#roomModal").modal();
