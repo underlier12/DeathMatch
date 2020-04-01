@@ -1,7 +1,5 @@
 package com.deathmatch.genious.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UserDTO;
 import com.deathmatch.genious.service.GameRoomService;
-import com.deathmatch.genious.service.UnionSettingService;
 import com.deathmatch.genious.util.Criteria;
 import com.deathmatch.genious.util.PageMaker;
 
@@ -30,7 +27,7 @@ import lombok.extern.log4j.Log4j;
 public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
-	private final UnionSettingService unionSettingService;
+//	private final UnionSettingService unionSettingService;
 	 
 	//Criteria는 한 게시글 페이지 , PageMaker는 여러개의 게시글 페이지를 의미한다
     @GetMapping
@@ -58,8 +55,8 @@ public class GameRoomController {
     	GameRoom room = gameRoomService.findRoomById(roomId);
     	UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
     	model.addAttribute("room", room);
-    	model.addAttribute("member", currentDTO.getUserEmail());
-    	model.addAttribute("httpSession", httpSession);
+    	model.addAttribute("member", currentDTO.getUserId());
+//    	model.addAttribute("httpSession", httpSession);
     	return "room";
     }
       
