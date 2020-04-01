@@ -16,13 +16,27 @@
 			<div class="modal-content" id ="roomModalContent">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 id="modal-title" class="modal-title"></h4>
+					<h2 id="modal-title" class="modal-title">방 생성</h2>
 				</div>
 				<div class="modal-body">
 					<table class="table">
 						<tr>
-							<td><p id ="roomIdTitle">방 만들기 :</p></td>
+							<td><p id ="roomIdTitle">방제 :</p></td>
 							<td><input type ="email" name ="name" id="RoomName"></td>
+						</tr>
+						<tr>
+							<td>
+								<input type="radio" value="union" class="radioBtn" name="type" checked>
+								<label for="union" class="label">
+									<img class="typeImg" src="/genious/resources/images/UnionLogo.png">
+								</label>
+							</td>
+							<td>
+								<input type="radio" value="indian" class="radioBtn" name="type">
+								<label for="indian" class="label">
+									<img class="typeImg" src="/genious/resources/images/UnionLogo.png">
+								</label>
+							</td>
 						</tr>
 
 					</table>

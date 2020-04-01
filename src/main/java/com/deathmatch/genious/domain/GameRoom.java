@@ -28,7 +28,8 @@ public class GameRoom {
     private Set<WebSocketSession> sessions = new HashSet<>();
     
     @Builder
-    public GameRoom(String roomId, String name) {
+    public GameRoom(String gameType, String roomId, String name) {
+    	this.gameType = gameType;
         this.roomId = roomId;
         this.name = name;
     }

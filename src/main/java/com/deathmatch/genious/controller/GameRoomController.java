@@ -1,5 +1,7 @@
 package com.deathmatch.genious.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -42,8 +44,9 @@ public class GameRoomController {
 
 	@ResponseBody
     @PostMapping
-    public String createRoom(@RequestBody String name,Model model) {
-		GameRoom newRoom = gameRoomService.createRoom(name);
+    public String createRoom(@RequestBody Map<String, String> json, Model model) {
+		GameRoom newRoom = gameRoomService.createRoom(
+				json.get("gameType"), json.get("roomName"));
 		String currentRoomId = newRoom.getRoomId();
 		log.info("makeRoom Id :" + currentRoomId);
 		log.info("gameType: " + newRoom.getGameType() );

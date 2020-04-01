@@ -12,3 +12,24 @@
 #roomIdTitle{
 	color: #ECA50E;
 }
+
+
+/* .selectbox{
+	display: none;
+	margin: 0;
+} */
+
+/* .label{
+	margin: 0;
+	padding: 0;
+} */
+
+.typeImg{
+	width: 125px;
+	height: 125px;
+	border: 2px solid #000000;
+}
+
+.boundary{
+	border: 2px solid #EFF482;
+}
