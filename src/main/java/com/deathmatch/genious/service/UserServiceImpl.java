@@ -3,9 +3,12 @@ package com.deathmatch.genious.service;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
+
 import com.deathmatch.genious.dao.UserDAO;
 import com.deathmatch.genious.domain.LoginDTO;
 import com.deathmatch.genious.domain.UserDTO;
+import com.deathmatch.genious.util.Email;
+
 import lombok.extern.log4j.Log4j;
 
 // 서비스는 DTO 에서 얻은정보를 효율적으로 Controller에 조립하여 넘겨준다
@@ -21,8 +24,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void insertMember(UserDTO userDTO) {
-		userDAO.insertMember(userDTO);
+	public int insertMember(UserDTO userDTO) {
+		int result = 0;
+		String splitUserId = userDTO.getUserEmail()
+							.substring(0,userDTO.getUserEmail()
+							.indexOf('@'));
+		log.info(splitUserId); 	//쪼갠 유저 Id
+		// 새로운 User 객체를 생성해서 회원 가입 처리 한다
+		UserDTO newUser = UserDTO.builder().userEmail(userDTO.getUserEmail())
+						.userId(splitUserId).name(userDTO.getName())
+						.pw(userDTO.getPw()).auth(userDTO.getAuth())
+						.build();
+		userDAO.insertMember(newUser);
+		result = 1;
+		return result;
 	}
 
 	@Override
@@ -42,7 +57,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int changePw(UserDTO currentUser,String changePw) {
-		UserDTO changePwUser = new UserDTO(currentUser.getUserEmail(),changePw);
+		UserDTO changePwUser = UserDTO.builder().userEmail(currentUser.getUserEmail())
+							   .pw(changePw).build();
 		int result = userDAO.changePw(changePwUser);
 		return result;
 	}
@@ -60,17 +76,25 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDTO findPw(UserDTO userDTO) {
-		String userEmail = userDTO.getUserEmail();
-		log.info("=== 이메일 메일  === : " + userEmail);
 		Random random = new Random();
+		log.info("=== 이메일 메일  === : " + userDTO.getUserEmail());
 		int ranNum = random.nextInt(79999) + 10000;
-		log.info("=== 랜덤 PassWord === : " + "death"+ranNum);
+		log.info(" 새로운  Random Password : " + "death"+ranNum);
 		String ranPassword = "death" + Integer.toString(ranNum);
-		UserDTO changePwUser = new UserDTO(userEmail,ranPassword);
+		UserDTO changePwUser = UserDTO.builder().userEmail(userDTO.getUserEmail()).pw(ranPassword).build();
 		userDAO.changePw(changePwUser);
 		// 패스워드 변경 완료
 		UserDTO user = userDAO.selectUser(changePwUser);
 		return user;
+	}
+	
+	@Override
+	public Email sendEmail(UserDTO findPwUser) {
+		String content = "임시 비밀 번호는 " + findPwUser.getPw() +"입니다";
+		String subject = "안녕하세요!  DeathMatch 입니다 !" +findPwUser.getName() + "님 "
+				+"임시 번호를 확인해주세요!";
+		Email email = new Email(subject,content,findPwUser.getUserEmail());
+		return email;
 	}
 
 	/*
