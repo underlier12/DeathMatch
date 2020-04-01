@@ -37,7 +37,7 @@
 					<c:forEach var="room" items="${rooms }" begin="0" end="4">
 						<div class="oneRoom">
 							<c:choose>
-								<c:when test="${room.gameType eq union }">
+								<c:when test="${room.gameType eq 'union' }">
 									<div id ="imageDiv">
 									<img
 										src="${pageContext.request.contextPath}/images/UnionLogo.png"

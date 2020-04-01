@@ -31,20 +31,19 @@
 									<img class="typeImg boundary" src="/genious/resources/images/UnionLogo.png">
 								</label>
 							</td>
-							<td>
+							<!-- <td>
 								<input type="radio" id="indian" value="indian" class="radioBtn" name="type">
 								<label for="indian" class="label">
-									<img class="typeImg" src="/genious/resources/images/UnionLogo.png">
+									<img class="typeImg" src="">
 								</label>
-							</td>
+							</td> -->
 						</tr>
 
 					</table>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id ="createRoom" class ="btn btn-default btn-sm">방만들기</button>
-					<button type="button" class="btn btn-default btn-sm"
-						data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">닫기</button>
+					<button type="button" id ="createRoom" class ="btn btn-default btn-lg">방 만들기</button>
 				</div>
 			</div>
 		</div>
