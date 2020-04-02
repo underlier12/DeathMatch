@@ -12,6 +12,7 @@
 <%@ include file="../includes/meta.jsp"%>
 <link href="/genious/css/loginHome.css" rel="stylesheet">
 <link href="/genious/css/deathmatch.css" rel="stylesheet">
+<!-- <script src="/genious/js/loginHome.js?ver=1"></script> -->
 <script type="text/javascript">
 	var message = "${msg}";
 	if (message != "") {
@@ -32,7 +33,7 @@
 				<div class="row loginForm-row" id="loginDiv">
 					<div class="col-md-4 col-md-offset-4">
 						<input type="email" class="form-control" name="userEmail"
-							id="email" placeholder="아이디">
+							id="email" placeholder="이메일">
 					</div>
 					<div class="col-md-4 col-md-offset-4">
 						<input type="password" class="form-control" name="pw"
@@ -43,8 +44,8 @@
 							<button type="submit" id="loginBtn"
 								class="btn btn-default btn-block login-btn">로그인</button>
 						</c:if>
-						<!-- <div id="checkId">
-							<input type="checkbox" id="saveId"><span>아이디
+						<!-- <div id="checkbox">
+							<input type="checkbox" id="checkEmail"><span>이메일
 										저장</span> 
 						</div> -->
 					</div>
@@ -54,7 +55,6 @@
 			<div id ="loginBtns">
 				<span>
 					<button type="button" class="btn btn-default" id="regiBtn">회원가입</button>
-					<button type="button" class="btn btn-default" id="findId">아이디 찾기</button>
 					<button type="button" class="btn btn-default" id="findPw">비밀
 						번호 찾기</button>
 				</span>
@@ -89,7 +89,7 @@
 	<script src="/genious/js/loginHome.js?ver=1"></script>
 </body>
 <script type="text/javascript">
-	// 로그인, 아이디 입력 유효성 검사
+	var loginForm = $("#loginProc");
 	$("#loginBtn").click(function(e) {
 		if ($("#email").val() == "" || $("#email").val() == null) {
 			alert("ID를 입력해주세요");
@@ -101,6 +101,8 @@
 		}
 		loginForm.submit();
 	});
+	
+	
 	//셀렉트 박스에서 이메일 선택시 email2에 자동 기입
 	function changeEmail() {
 		var select_email = $("#select_email").val();
@@ -112,5 +114,7 @@
 		var select_email2 = $("#select_email2").val();
 		$("#findPwEmail2").val(select_email2);
 	}
+	
+	
 </script>
 

@@ -65,7 +65,7 @@
 		<property name="port" value="587" />
 		<property name="defaultEncoding" value="utf-8"/> 
 		<property name="username" value="hongu8159@gmail.com" /> 
-		<property name="password" value="h2047426!" />
+		<property name="password" value="qlnxtakjmfnmazxv" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.stmp.starttls.enable">true</prop>

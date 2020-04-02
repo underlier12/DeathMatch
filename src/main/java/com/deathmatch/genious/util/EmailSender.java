@@ -12,9 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailSender {
 
-	/*
-	 * @Autowired protected JavaMailSender mailSender;
-	 */
 	private final JavaMailSender mailSender;
 
 	public EmailSender(JavaMailSender mailSender) {

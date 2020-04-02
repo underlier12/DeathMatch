@@ -3,7 +3,6 @@ package com.deathmatch.genious.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.deathmatch.genious.domain.GameRoom;
 import com.deathmatch.genious.domain.UserDTO;
 import com.deathmatch.genious.service.GameRoomService;
 import com.deathmatch.genious.util.Criteria;
 import com.deathmatch.genious.util.PageMaker;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
@@ -29,8 +26,7 @@ import lombok.extern.log4j.Log4j;
 public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
-//	private final UnionSettingService unionSettingService;
-	 
+
 	//Criteria는 한 게시글 페이지 , PageMaker는 여러개의 게시글 페이지를 의미한다
     @GetMapping
     public void RoomList(Criteria cri,Model model) {
