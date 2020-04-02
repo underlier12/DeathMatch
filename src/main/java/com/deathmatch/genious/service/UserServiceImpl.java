@@ -32,8 +32,10 @@ public class UserServiceImpl implements UserService {
 		log.info(splitUserId); 	//쪼갠 유저 Id
 		// 새로운 User 객체를 생성해서 회원 가입 처리 한다
 		UserDTO newUser = UserDTO.builder().userEmail(userDTO.getUserEmail())
-						.userId(splitUserId).name(userDTO.getName())
-						.pw(userDTO.getPw()).auth(userDTO.getAuth())
+						.userId(splitUserId)
+						.name(userDTO.getName())
+						.pw(userDTO.getPw())
+						.auth(userDTO.getAuth())
 						.build();
 		userDAO.insertMember(newUser);
 		result = 1;
@@ -81,7 +83,10 @@ public class UserServiceImpl implements UserService {
 		int ranNum = random.nextInt(79999) + 10000;
 		log.info(" 새로운  Random Password : " + "death"+ranNum);
 		String ranPassword = "death" + Integer.toString(ranNum);
-		UserDTO changePwUser = UserDTO.builder().userEmail(userDTO.getUserEmail()).pw(ranPassword).build();
+		UserDTO changePwUser = UserDTO.builder()
+							.userEmail(userDTO.getUserEmail())
+							.pw(ranPassword)
+							.build();
 		userDAO.changePw(changePwUser);
 		// 패스워드 변경 완료
 		UserDTO user = userDAO.selectUser(changePwUser);
