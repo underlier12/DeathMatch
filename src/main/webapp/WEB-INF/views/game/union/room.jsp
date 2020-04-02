@@ -4,10 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%@ include file="includes/meta.jsp" %>
+    <%@ include file="../../includes/meta.jsp" %>
     <title>${room.name} 게임방</title>
-    <%@ include file="includes/header.jsp" %>
-    <link href="/css/room.css" rel="stylesheet">
+    <%@ include file="../../includes/header.jsp" %>
+    <link href="/css/game/union/room.css" rel="stylesheet">
 </head>
 
 <body>
@@ -132,9 +132,9 @@
 			<button id="leave">나가기</button>
 		</div>
 		
-		<%@ include file="includes/footer.jsp" %>
+		<%@ include file="../../includes/footer.jsp" %>
 	</div>
 
-	<script src="/js/room.js"></script>
+	<script src="/js/game/union/room.js"></script>
 </body>
 </html>

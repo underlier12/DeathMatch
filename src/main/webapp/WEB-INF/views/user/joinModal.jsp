@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="/css/bootstrap.css">
 <script src="/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="/css/joinModal.css">
+<link rel="stylesheet" href="/css/user/joinModal.css">
 
 </head>
 

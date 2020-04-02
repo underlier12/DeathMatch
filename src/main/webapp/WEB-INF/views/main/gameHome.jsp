@@ -4,16 +4,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<%@ include file="includes/meta.jsp"%>
+<%@ include file="../includes/meta.jsp"%>
 <title>DeathMatch GameHome</title>
-<%@ include file="includes/header.jsp"%>
-<link href="/css/gameHome.css" rel="stylesheet">
-<link href="/css/deathmatch.css" rel="stylesheet">
+<%@ include file="../includes/header.jsp"%>
+<link href="/css/main/gameHome.css" rel="stylesheet">
 </head>
 
 <body>
 	<div id="gameHome">
-		<%@ include file="/WEB-INF/views/includes/sidebar.jsp"%>
+		<%@ include file="sidebar.jsp"%>
 
 		<div id="gameRooms" class="content" data-msg="${msg}">
 
@@ -117,8 +116,8 @@
 		</div>
 	</div>
 
-	<%@ include file="/WEB-INF/views/includes/roomModal.jsp"%>
+	<%@ include file="roomModal.jsp"%>
 	<%@ include file="tutoModal.jsp"%>
-	<script src="/js/gameHome.js?ver=1"></script>
+	<script src="/js/main/gameHome.js?ver=1"></script>
 
 </body>

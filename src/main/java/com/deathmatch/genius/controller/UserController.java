@@ -121,14 +121,15 @@ public class UserController {
 	@PostMapping("/loginPost")
 	public String loginPost(LoginDTO loginDTO, HttpSession session, Model model) {
 		UserDTO localUserDTO = userService.login(loginDTO);
+		log.info("loginPost");
 		if (localUserDTO == null) {
 			log.info("Login User is Empty");
 			model.addAttribute("msg", "등록되지 않은 회원이거나,아이디 비밀번호가 일치하지 않습니다");
-			return "/user/loginHome";
+			return "user/loginHome";
 		} else {
 			log.info("Local User :" + localUserDTO.toString());
 			model.addAttribute("userDTO", localUserDTO);
-			return "gameHome";
+			return "user/loginPost";
 		}
 	}
 
@@ -141,7 +142,7 @@ public class UserController {
 		// 유저 정보가 없으면 새로운 vo, 있으면 기존의 정보를 불러온다.
 		userService.kakaoLogin(kakaoUser);
 		model.addAttribute("userDTO", kakaoUser);
-		return "gameHome";
+		return "main/gameHome";
 	}
 
 	// NaverUser 로그인
@@ -154,7 +155,7 @@ public class UserController {
 		userService.naverLogin(naverUser);
 		log.info("NaverUser :" + naverUser.toString());
 		model.addAttribute("userDTO", naverUser);
-		return "gameHome";
+		return "main/gameHome";
 	}
 
 	// 이메일 확인하기

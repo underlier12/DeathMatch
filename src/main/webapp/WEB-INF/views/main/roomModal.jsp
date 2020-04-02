@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<link rel="stylesheet" href="/css/roomModal.css">
+<link rel="stylesheet" href="/css/main/roomModal.css">
 <body>
 
 	<!-- 회원가입 Modal 추가 -->

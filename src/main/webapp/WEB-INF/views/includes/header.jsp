@@ -11,5 +11,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="/css/bootstrap.css">
-<link rel="stylesheet" href="/css/deathmatch.css">
-<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/includes/deathmatch.css">
+<link rel="stylesheet" href="/css/includes/footer.css">

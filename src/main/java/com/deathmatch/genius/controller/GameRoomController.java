@@ -31,13 +31,14 @@ public class GameRoomController {
 
 	//Criteria는 한 게시글 페이지 , PageMaker는 여러개의 게시글 페이지를 의미한다
     @GetMapping
-    public void RoomList(Criteria cri,Model model) {
+    public String RoomList(Criteria cri,Model model) {
     	log.info(cri.toString());
     	PageMaker pageMaker = new PageMaker();
     	pageMaker.setCri(cri);
     	pageMaker.setTotalCount(gameRoomService.countRoom());	
     	model.addAttribute("rooms",gameRoomService.findRoomList(cri));
     	model.addAttribute("pageMaker",pageMaker);
+    	return "main/gameHome";
     }
 
 	@ResponseBody
@@ -59,13 +60,13 @@ public class GameRoomController {
     	if(room == null) {
     		log.info("null exception");
     		model.addAttribute("msg", "해당 방은 사라졌습니다.");
-    		return "gameHome";
+    		return "main/gameHome";
     	}
     	
     	model.addAttribute("room", room);
     	model.addAttribute("member", currentDTO.getUserId());
 //    	model.addAttribute("httpSession", httpSession);
-    	return "room";
+    	return "game/union/room";
     }
       
     

@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/includes/header.jsp"%>
+<%@ include file="../includes/header.jsp"%>
 <script type="text/javascript">
 	var message = "${msg}";
 	if (message != "") {
 		alert(message);
 	}
 </script>
-<link rel="stylesheet" href="/css/changePw.css">
+<link rel="stylesheet" href="/css/user/changePw.css">
 <body>
 
 	<div style="margin-top: 80px">
@@ -49,7 +49,7 @@
 		</div>
 	</form>
 
-	<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
+	<%@ include file="../includes/footer.jsp"%>
 
 
 </body>

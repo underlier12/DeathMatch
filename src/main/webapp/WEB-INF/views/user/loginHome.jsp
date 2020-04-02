@@ -1,5 +1,5 @@
-<%@ include file="../includes/joinModal.jsp"%>
-<%@ include file="../includes/findModal.jsp"%>
+<%@ include file="joinModal.jsp"%>
+<%@ include file="findModal.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -10,8 +10,8 @@
 <title>LoginHome</title>
 <%@ include file="../includes/header.jsp"%>
 <%@ include file="../includes/meta.jsp"%>
-<link href="/css/loginHome.css" rel="stylesheet">
-<link href="/css/deathmatch.css" rel="stylesheet">
+<link href="/css/user/loginHome.css" rel="stylesheet">
+
 <!-- <script src="/js/loginHome.js?ver=1"></script> -->
 <script type="text/javascript">
 	var message = "${msg}";
@@ -83,10 +83,10 @@
 				</div>
 			</form>
 
-			<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
+			<%@ include file="../includes/footer.jsp"%>
 		</div>
 	</div>
-	<script src="/js/loginHome.js?ver=1"></script>
+	<script src="/js/user/loginHome.js?ver=1"></script>
 </body>
 <script type="text/javascript">
 	var loginForm = $("#loginProc");

@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <head>
-	<%@ include file="meta.jsp" %>
+	<%@ include file="../includes/meta.jsp" %>
 	<title>sidebar</title>
-	<%@ include file="header.jsp" %>
-	<link href="/css/sidebar.css" rel="stylesheet">
+	<%@ include file="../includes/header.jsp" %>
+	<link href="/css/main/sidebar.css" rel="stylesheet">
 </head>
 <body>
 	<div id="sidebar">
