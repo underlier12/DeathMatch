@@ -2,7 +2,19 @@
 	color:#ECA50E;
 }
 
-#userTitle{
+#userIdTitle{
+	color:#ECA50E;
+}
+
+#userEmailTitle{
+	color:#ECA50E;
+}
+
+#userNameTitle{
+	color:#ECA50E;
+}
+
+#pwTitle{
 	color:#ECA50E;
 }
 
@@ -10,8 +22,12 @@
 	color: #E4F7BA;
 }
 
-#pwTitle{
-	color:#ECA50E;
+#userEmail{
+	color: #E4F7BA;
+}
+
+#userName{
+	color: #E4F7BA;
 }
 
 #getInfo{

@@ -22,29 +22,29 @@
 			<div class="modal-content" id="joinModal">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title" id ="modal-title">Welcome To DeathMatch</h4>
+					<h2 class="modal-title" id ="modal-title">Welcome To DeathMatch</h2>
 				</div>
 				<div class="modal-body">
 					<!-- 이메일 -->
-					<label for="userEmail1" id="idTitle">아이디</label>
+					<label for="userEmail1" id="idTitle">이메일</label>
 					<div class="form-group">
-						<input type="text" style="width: 150px; display: inline-block;"
-							class="form-control" id="userEmail1" name="userEmail1"
-							placeholder="ID" maxlength="12" /> @ <input type="text"
-							style="width: 160px; display: inline-block;" class="form-control"
-							id="userEmail2" name="userEmail2" /> <select id="select_email"
-							onchange="changeEmail()">
-							<option value="">-- 직접 입력 --</option>
-							<option>naver.com</option>
-							<option>daum.net</option>
-							<option>nate.com</option>
-							<option>gmail.com</option>
-							<option>hotmail.com</option>
-							<option>yahoo.com</option>
-						</select> <span id="email_check_text"></span> <span style="float: right;">
-							<button type="button" class="btn btn-warning" id="checkEmail">
-								Check</button>
-						</span>
+						<input type="text" class="form-control" id="userEmail1" name="userEmail1"
+							placeholder="ID" maxlength="12" /> 
+							<span id="atSign">@</span> 
+							<input type="text" class="form-control" id="userEmail2" name="userEmail2" /> 
+							<select id="select_email" onchange="changeEmail()">
+								<option value="">-- 직접 입력 --</option>
+								<option>naver.com</option>
+								<option>daum.net</option>
+								<option>nate.com</option>
+								<option>gmail.com</option>
+								<option>hotmail.com</option>
+								<option>yahoo.com</option>
+							</select> 
+							<span id="email_check_text"></span> 
+							<span id ="checkEmailSpan">
+							<button type="button" class="btn btn-lg" id="checkEmailBtn">
+								Check</button></span>
 					</div>
 				</div>
 
@@ -78,10 +78,10 @@
 				<!-- Modal Footer -->
 				<div class="modal-footer">
 					<div class="reg_button">
-						<button type="button" class ="btn btn-default" data-dismiss="modal">
+						<button type="button" id ="closeModalBtn" class ="btn btn-lg" data-dismiss="modal">
 							<i class="fa fa-rotate-right pr-2" aria-hidden="true"></i>닫기
 						</button>
-						<button type="button" id="join" class="btn btn-info">
+						<button type="button" id="join" class="btn btn-lg btn-warning">
 							<i class="fa fa-heart pr-2" aria-hidden="true"></i>Join
 						</button>
 					</div>

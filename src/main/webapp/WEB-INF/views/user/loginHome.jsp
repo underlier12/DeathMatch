@@ -54,8 +54,8 @@
 
 			<div id ="loginBtns">
 				<span>
-					<button type="button" class="btn btn-default" id="regiBtn">회원가입</button>
-					<button type="button" class="btn btn-default" id="findPw">비밀
+					<button type="button" class="btn btn-lg" id="regiBtn">회원가입</button>
+					<button type="button" class="btn btn-lg" id="findPw">비밀
 						번호 찾기</button>
 				</span>
 			</div>
@@ -66,7 +66,7 @@
 						<a
 							href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://localhost:8003/user/kakaoLogin&response_type=code">
 							<img
-							src="${pageContext.request.contextPath}/images/btn_kakao_login.gif" width="150px">
+							src="${pageContext.request.contextPath}/images/btn_kakao_login.gif" width="250px">
 						</a>
 						<%-- <a href="${url}"> <img
 							src="${pageContext.request.contextPath}/images/btn_naver_login.gif" width="150px"></a> --%>
@@ -78,7 +78,7 @@
 				<div class="col-md-3 col-md-offset-4">
 					<c:if test="${!empty login}">
 						<button type="submit" id="logout"
-							class="btn btn-default btn-block login-btn">로그아웃</button>
+							class="btn btn-lg btn-block login-btn">로그아웃</button>
 					</c:if>
 				</div>
 			</form>
