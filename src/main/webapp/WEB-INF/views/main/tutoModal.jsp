@@ -4,13 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Tutorial</title>
-<style type="text/css">
-.modal-dialog{
-	max-width: 100%; 
-	width: auto; 
-	display: table;
-}
-</style>
+<link rel="stylesheet" href="/css/main/tutoModal.css">
 </head>
 <body>
 	<!-- Tutorial Modal -->
@@ -28,7 +22,7 @@
 					</video>
 				</div>
 				<div class="modal-footer">
-					<button onclick="stopClip()" class="btn btn-default btn-lg" data-dismiss="modal">닫기</button>
+					<button onclick="stopClip()" class="btn btn-warning btn-lg" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>

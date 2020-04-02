@@ -2,6 +2,11 @@
 	background-color: #502228;
 }
 
+#modal-title{
+	text-align: center;
+	color: #ECA50E;
+}
+
 #RoomName{
 	width: 200px;
 	border: 2px solid #000000;
@@ -15,6 +20,10 @@
 	color: #ECA50E;
 }
 
+#closeBtn{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
 
 .radioBtn{
 	display: none;
