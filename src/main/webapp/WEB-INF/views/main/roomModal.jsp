@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-</head>
 <link rel="stylesheet" href="/css/main/roomModal.css">
+</head>
 <body>
 
 	<!-- 회원가입 Modal 추가 -->
@@ -42,8 +42,8 @@
 					</table>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">닫기</button>
-					<button type="button" id ="createRoom" class ="btn btn-default btn-lg">방 만들기</button>
+					<button type="button" id="closeBtn" class="btn btn-default btn-lg" data-dismiss="modal">닫기</button>
+					<button type="button" id="createRoomBtn" class ="btn btn-warning btn-lg">방 만들기</button>
 				</div>
 			</div>
 		</div>

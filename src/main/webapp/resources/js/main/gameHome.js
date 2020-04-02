@@ -6,7 +6,7 @@ $(function(){
 		$("#roomModal").modal();
 	}); 
 	
-	$("#createRoom").click(function(){
+	$("#createRoomBtn").click(function(){
 		var gameType = $('input[name="type"]:checked').val();
 		var roomName = $('#RoomName').val();
 		
