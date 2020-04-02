@@ -13,7 +13,7 @@ import com.deathmatch.genius.domain.UnionDatabaseDTO;
 @Repository
 public class UnionSettingDAOImpl implements UnionSettingDAO {
 	
-	private String namespace = "com.deathmatch.genious.mapper.UnionSettingMapper";
+	private String namespace = "com.deathmatch.genius.mapper.UnionSettingMapper";
 	private SqlSession sqlSession;
 	
 	public UnionSettingDAOImpl(SqlSession sqlSession) {

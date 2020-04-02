@@ -10,7 +10,7 @@ import com.deathmatch.genius.domain.UnionGameDTO;
 @Repository
 public class UnionDealerDAOImpl implements UnionDealerDAO {
 
-	private String namespace = "com.deathmatch.genious.mapper.UnionDealerMapper";
+	private String namespace = "com.deathmatch.genius.mapper.UnionDealerMapper";
 	private SqlSession sqlSession;
 	
 	public UnionDealerDAOImpl(SqlSession sqlSession) {

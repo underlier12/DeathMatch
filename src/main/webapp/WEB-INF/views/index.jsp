@@ -6,16 +6,16 @@
     <%@ include file="includes/meta.jsp" %>
     <title>Genius Death Match</title>
     <%@ include file="includes/header.jsp" %>
-    <link href="/genious/css/index.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
 </head>
 
 <body>	
     <div id="index">
     	<div class="flex-box">
-       		<img src="/genious/resources/images/geniusLogo.png">
+       		<img src="/resources/images/geniusLogo.png">
     	</div>
     	<div class="flex-box">
-       		<img src="/genious/resources/images/deathmatchLogo.png">
+       		<img src="/resources/images/deathmatchLogo.png">
     	</div>
     	<div class="flex-box">
 	        <input id="startBtn" type="button" value="Game Start" 

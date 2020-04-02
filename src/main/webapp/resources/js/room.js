@@ -3,11 +3,16 @@ $(function () {
 // websocket variables
 	
 	var url = window.location.host;//웹브라우저의 주소창의 포트까지 가져옴
-	var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
-	var appCtx = pathname.substring(0, pathname.indexOf("/",2));
-	var root = url+appCtx;
+//	var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
+//	var appCtx = pathname.substring(0, pathname.indexOf("/",1));
+//	var root = url+appCtx;
+//	
+//	console.log("url : " + url);
+//	console.log("pathname : " + pathname);
+//	console.log("appCtx : " + appCtx);
+//	console.log("root : " + root);
 	
-	var sock = new SockJS("http://"+root+"/ws/chat");	
+	var sock = new SockJS("http://"+url+"/ws/chat");	
 	
 // variables
 	
@@ -16,7 +21,7 @@ $(function () {
 	var member = $('.content').data('member');
 	
 	// resources variables
-	var defaultCardPath = "/genious/resources/images/cards/";
+	var defaultCardPath = "/resources/images/cards/";
 	var defaultJpg = ".jpg";
 	var defaultPng = ".png";
 	

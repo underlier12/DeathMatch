@@ -122,7 +122,7 @@
 	position: relative;
 	width: 95px;
 	height: 125px;
-	background-image: url("/genious/resources/images/balloon.png");
+	background-image: url("/resources/images/balloon.png");
 	background-size: contain;
 	background-repeat: no-repeat;
 }

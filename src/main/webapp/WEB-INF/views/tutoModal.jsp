@@ -24,7 +24,7 @@
 				</div>
 				<div class="modal-body">
 					<video id="clip" width="960" height="560" controls>
-					    <source src="/genious/resources/videos/unionTutorial.mp4" type="video/mp4">
+					    <source src="/resources/videos/unionTutorial.mp4" type="video/mp4">
 					</video>
 				</div>
 				<div class="modal-footer">

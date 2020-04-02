@@ -7,8 +7,8 @@
 <%@ include file="includes/meta.jsp"%>
 <title>DeathMatch GameHome</title>
 <%@ include file="includes/header.jsp"%>
-<link href="/genious/css/gameHome.css" rel="stylesheet">
-<link href="/genious/css/deathmatch.css" rel="stylesheet">
+<link href="/css/gameHome.css" rel="stylesheet">
+<link href="/css/deathmatch.css" rel="stylesheet">
 </head>
 
 <body>
@@ -119,6 +119,6 @@
 
 	<%@ include file="/WEB-INF/views/includes/roomModal.jsp"%>
 	<%@ include file="tutoModal.jsp"%>
-	<script src="/genious/js/gameHome.js?ver=1"></script>
+	<script src="/js/gameHome.js?ver=1"></script>
 
 </body>

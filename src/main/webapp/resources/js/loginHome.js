@@ -157,7 +157,7 @@ $(document).ready(function(){
 		function checkUserEmail(userInfo){
 			$.ajax({
 				type : 'post',
-				url : '/genious/user/findPw',
+				url : '/user/findPw',
 				data : JSON.stringify(userInfo),
 				contentType : 'application/json; charset=utf-8',
 				success : function(result){
@@ -169,7 +169,7 @@ $(document).ready(function(){
 		function registerMember(userInfo){
 			$.ajax({
 				type : 'post',
-				url : '/genious/user/join',
+				url : '/user/join',
 				data : JSON.stringify(userInfo),
 				contentType : 'application/json; charset=utf-8',
 				success : function(result){
@@ -181,7 +181,7 @@ $(document).ready(function(){
         function checkUserEmail(userEmailInfo){
             $.ajax({
                 type : 'post',
-                url : '/genious/user/checkEmail',
+                url : '/user/checkEmail',
                 data : JSON.stringify(userEmailInfo),
                 dataType:"json",
                 contentType : 'application/json; charset=utf-8',
@@ -203,7 +203,7 @@ $(document).ready(function(){
         function checkFindPwEmail(userEmailInfo){
             $.ajax({
                 type : 'post',
-                url : '/genious/user/checkEmail',
+                url : '/user/checkEmail',
                 data : JSON.stringify(userEmailInfo),
                 dataType:"json",
                 contentType : 'application/json; charset=utf-8',
@@ -225,7 +225,7 @@ $(document).ready(function(){
         function findPw(userInfo){
         	$.ajax({
 				type : 'post',
-				url : '/genious/user/findPw',
+				url : '/user/findPw',
 				data : JSON.stringify(userInfo),
 				contentType : 'application/json; charset=utf-8',
 				success : function(result){

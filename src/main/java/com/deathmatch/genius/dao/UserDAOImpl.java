@@ -9,7 +9,7 @@ import com.deathmatch.genius.domain.UserDTO;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-	private String namespace = "com.deathmatch.geniouse.mapper.MemberMapper";
+	private String namespace = "com.deathmatch.genius.mapper.MemberMapper";
 
 	private SqlSession sqlSession;
 

@@ -7,7 +7,7 @@
     <%@ include file="includes/meta.jsp" %>
     <title>${room.name} 게임방</title>
     <%@ include file="includes/header.jsp" %>
-    <link href="/genious/css/room.css" rel="stylesheet">
+    <link href="/css/room.css" rel="stylesheet">
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 		<!-- first row -->
 		<div class="flex-box">
 			<div>
-				<img id="logo" src="/genious/resources/images/UnionLogo.png">
+				<img id="logo" src="/resources/images/UnionLogo.png">
 			</div>
 		</div>
 		
@@ -135,6 +135,6 @@
 		<%@ include file="includes/footer.jsp" %>
 	</div>
 
-	<script src="/genious/js/room.js"></script>
+	<script src="/js/room.js"></script>
 </body>
 </html>

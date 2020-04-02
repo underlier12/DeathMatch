@@ -30,7 +30,7 @@ public class NaverLoginBO {
 	
 	private final static String CLIENT_ID = "U7v56brPWZpVGMdWjoaW";
 	private final static String CLIENT_SECRET = "hFMx7MxsY_";
-	private final static String REDIRECT_URI = "http://localhost:8003/genious/user/naverLogin";
+	private final static String REDIRECT_URI = "http://localhost:8003/user/naverLogin";
 	private final static String SESSION_STATE = "oauth_state";
 	private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
 

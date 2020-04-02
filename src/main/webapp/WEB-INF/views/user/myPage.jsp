@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/includes/header.jsp"%>
 
-<link href="/genious/css/myPage.css" rel="stylesheet">
+<link href="/css/myPage.css" rel="stylesheet">
 <body>
 
 	<div>
@@ -21,7 +21,7 @@
 		<div class ="col-md-6" style ="margin-top :80px">
 			<c:if test = "${login.auth ne 1}">
 				<h3 id="pwTitle">비밀번호 수정</h3>
-					<button type="button" class="btn btn-default" id="changePwBtn" onclick ="location.href='/genious/user/changePw'">수정</button>
+					<button type="button" class="btn btn-default" id="changePwBtn" onclick ="location.href='/user/changePw'">수정</button>
 			</c:if>
 		</div>
 	</div>

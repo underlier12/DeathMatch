@@ -4,7 +4,7 @@
 	<%@ include file="meta.jsp" %>
 	<title>sidebar</title>
 	<%@ include file="header.jsp" %>
-	<link href="/genious/css/sidebar.css" rel="stylesheet">
+	<link href="/css/sidebar.css" rel="stylesheet">
 </head>
 <body>
 	<div id="sidebar">
@@ -36,13 +36,13 @@
 		</div>
 
 		<div class="row mypage">
-			<form action ="/genious/user/myPage" method ="get">
+			<form action ="/user/myPage" method ="get">
 				<div class="col-md-12">
 					<button class="btn btn-default btn-block infoBtn">MyPage</button>
 				</div>
 			</form>
 
-			<form action="/genious/user/logout" method="get">
+			<form action="/user/logout" method="get">
 				<div class="col-md-12">
 					<c:if test="${!empty login}">
 						<button type="submit" class="btn btn-default btn-block logoutBtn" id="logout">LogOut</button>

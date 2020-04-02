@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<link rel="stylesheet" href="/genious/css/roomModal.css">
+<link rel="stylesheet" href="/css/roomModal.css">
 <body>
 
 	<!-- 회원가입 Modal 추가 -->
@@ -28,7 +28,7 @@
 							<td>
 								<input type="radio" id="union" value="union" class="radioBtn" name="type" checked>
 								<label for="union" class="label">
-									<img class="typeImg boundary" src="/genious/resources/images/UnionLogo.png">
+									<img class="typeImg boundary" src="/resources/images/UnionLogo.png">
 								</label>
 							</td>
 							<!-- <td>

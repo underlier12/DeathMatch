@@ -48,7 +48,7 @@ public class GameRoomController {
 		String currentRoomId = newRoom.getRoomId();
 		log.info("makeRoom Id :" + currentRoomId);
 		log.info("gameType: " + newRoom.getGameType() );
-		return "/genious/gameHome/" +currentRoomId; 
+		return "/gameHome/" +currentRoomId; 
     }
 	
     @GetMapping("/{roomId}")
