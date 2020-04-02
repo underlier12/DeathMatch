@@ -20,11 +20,11 @@
 	<!-- ============= COMMON ============== -->
 	
 	<!-- java class를 spring bean으로 등록 -->
-	<context:component-scan base-package="com.deathmatch.genious.dao" />
-	<context:component-scan base-package="com.deathmatch.genious.service" />
-	<context:component-scan base-package="com.deathmatch.genious.util" />
-	<context:component-scan base-package="com.deathmatch.genious.interceptor" />
-	<context:component-scan base-package="com.deathmatch.genious.config" />
+	<context:component-scan base-package="com.deathmatch.genius.dao" />
+	<context:component-scan base-package="com.deathmatch.genius.service" />
+	<context:component-scan base-package="com.deathmatch.genius.util" />
+	<context:component-scan base-package="com.deathmatch.genius.interceptor" />
+	<context:component-scan base-package="com.deathmatch.genius.config" />
 	
 	<!-- =================================== -->
 	

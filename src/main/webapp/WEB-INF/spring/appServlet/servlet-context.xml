@@ -24,13 +24,13 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.deathmatch.genious.controller"/>
+	<context:component-scan base-package="com.deathmatch.genius.controller"/>
 	
 	<!-- ============= GH ============== -->
 	
 	<!-- 로그인 Interceptor 처리 -->
 	
-	<beans:bean id ="loginInterceptor" class ="com.deathmatch.genious.interceptor.LoginInterceptor"/>
+	<beans:bean id ="loginInterceptor" class ="com.deathmatch.genius.interceptor.LoginInterceptor"/>
 	<interceptors>
 		<interceptor>
 			<mapping path="/user/loginPost"/>
