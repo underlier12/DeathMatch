@@ -15,7 +15,7 @@
 	<div id="gameHome">
 		<%@ include file="/WEB-INF/views/includes/sidebar.jsp"%>
 
-		<div id="gameRooms">
+		<div id="gameRooms" class="content" data-msg="${msg}">
 
 			<div class="title">
 				<div>
@@ -35,7 +35,7 @@
 					<c:forEach var="room" items="${rooms }" begin="0" end="4">
 						<div class="oneRoom">
 							<c:choose>
-								<c:when test="${room.gameType eq null }">
+								<c:when test="${room.gameType eq 'union' }">
 									<div id ="imageDiv">
 									<img
 										src="${pageContext.request.contextPath}/images/UnionLogo.png"

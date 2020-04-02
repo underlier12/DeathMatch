@@ -2,13 +2,35 @@
 	background-color: #502228;
 }
 
-
 #RoomName{
+	width: 200px;
 	border: 2px solid #000000;
 	background-color: #3F1816;
 	color: #E4F7BA;
 }
 
 #roomIdTitle{
+	text-align: center;
+	font-size: 16px;
 	color: #ECA50E;
+}
+
+
+.radioBtn{
+	display: none;
+	margin: 0;
+}
+
+.label{
+	margin: 0;
+	padding: 0;
+}
+
+.typeImg{
+	width: 200px;
+	height: auto;
+}
+
+.boundary{
+	border: 2px solid #EFF482;
 }

@@ -50,12 +50,14 @@ public class GameRoomService {
 		return gameRooms.get(roomId);
 	}
 
-	public GameRoom createRoom(String name) {
-
+	public GameRoom createRoom(String gameType, String name) {
 		String randomId = UUID.randomUUID().toString();
-		GameRoom gameRoom = GameRoom.builder().roomId(randomId).name(name).build();
+		GameRoom gameRoom = GameRoom.builder()
+				.gameType(gameType)
+				.roomId(randomId)
+				.name(name)
+				.build();
 		gameRooms.put(randomId, gameRoom);
-
 		return gameRoom;
 	}
 

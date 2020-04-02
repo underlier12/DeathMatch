@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <%@ include file="includes/meta.jsp" %>
-    <title>${room.name} 채팅방</title>
+    <title>${room.name} 게임방</title>
     <%@ include file="includes/header.jsp" %>
     <link href="/genious/css/room.css" rel="stylesheet">
 </head>

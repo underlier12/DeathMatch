@@ -1,5 +1,6 @@
 package com.deathmatch.genious.controller;
 
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -39,8 +40,9 @@ public class GameRoomController {
 
 	@ResponseBody
     @PostMapping
-    public String createRoom(@RequestBody String name,Model model) {
-		GameRoom newRoom = gameRoomService.createRoom(name);
+    public String createRoom(@RequestBody Map<String, String> json, Model model) {
+		GameRoom newRoom = gameRoomService.createRoom(
+				json.get("gameType"), json.get("roomName"));
 		String currentRoomId = newRoom.getRoomId();
 		log.info("makeRoom Id :" + currentRoomId);
 		log.info("gameType: " + newRoom.getGameType() );
@@ -51,9 +53,16 @@ public class GameRoomController {
     public String room(@PathVariable String roomId, Model model, HttpSession httpSession) {    	
     	GameRoom room = gameRoomService.findRoomById(roomId);
     	UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
+    	
+    	if(room == null) {
+    		log.info("null exception");
+    		model.addAttribute("msg", "해당 방은 사라졌습니다.");
+    		return "gameHome";
+    	}
+    	
     	model.addAttribute("room", room);
-    	model.addAttribute("member", currentDTO.getUserEmail());
-    	model.addAttribute("httpSession", httpSession);
+    	model.addAttribute("member", currentDTO.getUserId());
+//    	model.addAttribute("httpSession", httpSession);
     	return "room";
     }
       
