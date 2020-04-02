@@ -11,8 +11,6 @@
 <link href="/genious/css/deathmatch.css" rel="stylesheet">
 </head>
 
-<!-- GameRoom isPlaying property boolean 참조해서 room 만들기 -->
-<!-- True: 진행중 , False: 대기중 -->
 <body>
 	<div id="gameHome">
 		<%@ include file="/WEB-INF/views/includes/sidebar.jsp"%>
