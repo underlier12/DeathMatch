@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/includes/header.jsp"%>
+<%@ include file="../includes/header.jsp"%>
 <script type="text/javascript">
 	var message = "${msg}";
 	if (message != "") {
 		alert(message);
 	}
 </script>
-<link rel="stylesheet" href="/genious/css/changePw.css">
+<link rel="stylesheet" href="/css/user/changePw.css">
 <body>
 
 	<div style="margin-top: 80px">
@@ -16,7 +16,7 @@
 		</div>
 	</div>
 
-	<form action="/genious/user/changePw" method="post" id="changePw">
+	<form action="/user/changePw" method="post" id="changePw">
 		<div class="row changePw-row" style="margin-top: 80px">
 			<div class="col-md-4 col-md-offset-4" style="margin-top: 80px;">
 				<p id="safeTitle">안전한 비밀번호로 내 정보를 보호하세요</p>
@@ -49,7 +49,7 @@
 		</div>
 	</form>
 
-	<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
+	<%@ include file="../includes/footer.jsp"%>
 
 
 </body>

@@ -1,5 +1,5 @@
-<%@ include file="../includes/joinModal.jsp"%>
-<%@ include file="../includes/findModal.jsp"%>
+<%@ include file="joinModal.jsp"%>
+<%@ include file="findModal.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -10,8 +10,9 @@
 <title>LoginHome</title>
 <%@ include file="../includes/header.jsp"%>
 <%@ include file="../includes/meta.jsp"%>
-<link href="/genious/css/loginHome.css" rel="stylesheet">
-<link href="/genious/css/deathmatch.css" rel="stylesheet">
+<link href="/css/user/loginHome.css" rel="stylesheet">
+
+<!-- <script src="/js/loginHome.js?ver=1"></script> -->
 <script type="text/javascript">
 	var message = "${msg}";
 	if (message != "") {
@@ -28,11 +29,11 @@
 				<h1>DeathMatch</h1>
 			</div>
 
-			<form action="/genious/user/loginPost" method="post" id="loginProc">
+			<form action="/user/loginPost" method="post" id="loginProc">
 				<div class="row loginForm-row" id="loginDiv">
 					<div class="col-md-4 col-md-offset-4">
 						<input type="email" class="form-control" name="userEmail"
-							id="email" placeholder="아이디">
+							id="email" placeholder="이메일">
 					</div>
 					<div class="col-md-4 col-md-offset-4">
 						<input type="password" class="form-control" name="pw"
@@ -43,8 +44,8 @@
 							<button type="submit" id="loginBtn"
 								class="btn btn-default btn-block login-btn">로그인</button>
 						</c:if>
-						<!-- <div id="checkId">
-							<input type="checkbox" id="saveId"><span>아이디
+						<!-- <div id="checkbox">
+							<input type="checkbox" id="checkEmail"><span>이메일
 										저장</span> 
 						</div> -->
 					</div>
@@ -53,9 +54,8 @@
 
 			<div id ="loginBtns">
 				<span>
-					<button type="button" class="btn btn-default" id="regiBtn">회원가입</button>
-					<button type="button" class="btn btn-default" id="findId">아이디 찾기</button>
-					<button type="button" class="btn btn-default" id="findPw">비밀
+					<button type="button" class="btn btn-lg" id="regiBtn">회원가입</button>
+					<button type="button" class="btn btn-lg" id="findPw">비밀
 						번호 찾기</button>
 				</span>
 			</div>
@@ -64,9 +64,9 @@
 				<div id="snsBtns" >
 					<div>
 						<a
-							href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://localhost:8003/genious/user/kakaoLogin&response_type=code">
+							href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://localhost:8003/user/kakaoLogin&response_type=code">
 							<img
-							src="${pageContext.request.contextPath}/images/btn_kakao_login.gif" width="150px">
+							src="${pageContext.request.contextPath}/images/btn_kakao_login.gif" width="250px">
 						</a>
 						<%-- <a href="${url}"> <img
 							src="${pageContext.request.contextPath}/images/btn_naver_login.gif" width="150px"></a> --%>
@@ -74,22 +74,22 @@
 				</div>
 			</c:if>
 
-			<form action="/genious/user/logout" method="get">
+			<form action="/user/logout" method="get">
 				<div class="col-md-3 col-md-offset-4">
 					<c:if test="${!empty login}">
 						<button type="submit" id="logout"
-							class="btn btn-default btn-block login-btn">로그아웃</button>
+							class="btn btn-lg btn-block login-btn">로그아웃</button>
 					</c:if>
 				</div>
 			</form>
 
-			<%@ include file="/WEB-INF/views/includes/footer.jsp"%>
+			<%@ include file="../includes/footer.jsp"%>
 		</div>
 	</div>
-	<script src="/genious/js/loginHome.js?ver=1"></script>
+	<script src="/js/user/loginHome.js?ver=1"></script>
 </body>
 <script type="text/javascript">
-	// 로그인, 아이디 입력 유효성 검사
+	var loginForm = $("#loginProc");
 	$("#loginBtn").click(function(e) {
 		if ($("#email").val() == "" || $("#email").val() == null) {
 			alert("ID를 입력해주세요");
@@ -101,6 +101,8 @@
 		}
 		loginForm.submit();
 	});
+	
+	
 	//셀렉트 박스에서 이메일 선택시 email2에 자동 기입
 	function changeEmail() {
 		var select_email = $("#select_email").val();
@@ -112,5 +114,7 @@
 		var select_email2 = $("#select_email2").val();
 		$("#findPwEmail2").val(select_email2);
 	}
+	
+	
 </script>
 
