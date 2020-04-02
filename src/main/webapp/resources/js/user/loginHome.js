@@ -56,7 +56,7 @@ $(document).ready(function(){
 			}
 		})
 		
-		$("#checkEmail").click(function(e){
+		$("#checkEmailBtn").click(function(e){
 			var email1 = $('#userEmail1').val();
 			var email2 = $('#userEmail2').val();
 			if(!email1 || !email2){

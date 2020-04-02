@@ -7,6 +7,15 @@
 #joinModal {
 	background-color: #502228;
 	padding: 5% 5%;
+	width:675px;
+}
+
+#atSign{
+	color: #ECA50E;
+}
+
+#selectEmails{
+	height : 50px;
 }
 
 #modal-title{
@@ -22,6 +31,8 @@
 	border: 2px solid #000000;
 	background-color: #3F1816;
 	color: #E4F7BA;
+	width: 150px;
+	display:inline-block;
 	/* margin-right:15px; */
 }
 
@@ -29,14 +40,16 @@
 	border: 2px solid #000000;
 	background-color: #3F1816;
 	color: #E4F7BA;
-	/* width:160px;
-	display:inline-block; */
+	width:175px;
+	display:inline-block;
 }
 
 #select_email{
 	border: 2px solid #000000;
 	background-color: #3F1816;
 	color: #E4F7BA;
+	margin-right:30px;
+	display:inline-block;
 }
 
 #pw{
@@ -68,5 +81,23 @@
 #nameTitle{
 	color:#ECA50E;
 }
+
+#checkEmailBtn{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#closeModalBtn{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#checkEmailSpan{
+	float:right;
+}
+
+
 
 
