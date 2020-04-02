@@ -2,10 +2,11 @@ package com.deathmatch.genious.service;
 
 import com.deathmatch.genious.domain.LoginDTO;
 import com.deathmatch.genious.domain.UserDTO;
+import com.deathmatch.genious.util.Email;
 
 public interface UserService {
 	// 회원가입
-    public void insertMember(UserDTO userDTO);
+    public int insertMember(UserDTO userDTO);
     // 로그인
     public UserDTO login(LoginDTO loginDTO);
     // 회원 탈퇴
@@ -30,5 +31,7 @@ public interface UserService {
     public boolean checkPw(UserDTO currentUser,String currentPw);
     // 비밀번호 변경
     public int changePw(UserDTO currentUser,String changePw);
+    // 이메일 전송하기
+    public Email sendEmail(UserDTO findPwUser);
 
 }
