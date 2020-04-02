@@ -24,8 +24,8 @@
 
 			<div id="buttonList">
 				<div id="gameBtn">
-					<button type="button" class="btn btn-default" id="btnCreate">방만들기</button>
-					<button type="button" class="btn btn-default" id="btnTuto">튜토리얼</button>
+					<button type="button" class="btn btn-default btn-lg" id="btnCreate">방만들기</button>
+					<button type="button" class="btn btn-default btn-lg" id="btnTuto">튜토리얼</button>
 				</div>
 			</div>
 
