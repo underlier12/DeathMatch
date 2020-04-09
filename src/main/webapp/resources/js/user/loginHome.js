@@ -269,7 +269,7 @@ $(document).ready(function(){
         // ** Cookie*/   
         
     	// 저장된 쿠키값을 가져와서 Email칸에 넣어줌. 없으면 공백
-		/*var inputEmail = getCookie("inputEmail");
+		var inputEmail = getCookie("inputEmail");
 		console.log(inputEmail);
 		$("#email").val(inputEmail);
 		
@@ -327,7 +327,7 @@ $(document).ready(function(){
 			    }
 			    return unescape(cookieValue);
 			}
-        */
+        
  
 });
 

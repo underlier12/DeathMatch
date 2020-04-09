@@ -12,6 +12,7 @@
 		infrastructure -->
 
 	<!-- Enables the Spring MVC @Controller programming model -->
+	
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
@@ -29,8 +30,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<context:component-scan
-		base-package="com.deathmatch.genius.controller" />
+	<context:component-scan base-package="com.deathmatch.genius.controller" />
 
 	<!-- ============= GH ============== -->
 

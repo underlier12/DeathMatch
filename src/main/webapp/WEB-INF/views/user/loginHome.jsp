@@ -44,10 +44,10 @@
 							<button type="submit" id="loginBtn"
 								class="btn btn-default btn-block login-btn">로그인</button>
 						</c:if>
-						<!-- <div id="checkbox">
+						<div id="checkbox">
 							<input type="checkbox" id="checkEmail"><span>이메일
 										저장</span> 
-						</div> -->
+						</div>
 					</div>
 				</div>
 			</form>
