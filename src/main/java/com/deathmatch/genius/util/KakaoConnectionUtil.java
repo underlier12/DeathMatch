@@ -38,7 +38,7 @@ public class KakaoConnectionUtil {
 
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2");
-			sb.append("&redirect_uri=http://localhost:8003/user/kakaoLogin");
+			sb.append("&redirect_uri=http://localhost:8003/user/kakaoLogin"); // need change
 			sb.append("&code=" + code);
 			bw.write(sb.toString());
 			bw.flush();
