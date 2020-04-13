@@ -1,0 +1,161 @@
+#game{
+	width: 800px;
+    height: 1000px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -290px;
+    margin-top: -400px;
+}
+
+#logo{
+	width:300px;
+	height:auto;
+}
+
+.players{
+	margin-top:20px;
+}
+
+#player1{
+	width:200px;
+	height:180px;
+	margin-right:50px;
+}
+
+#player2{
+	width:200px;
+	height:180px;
+	margin-left:50px;
+	margin-right:230px;
+}
+
+#player-flex{
+	display:flex;
+	width: 800px;
+	justify-content: center;
+	overflow: auto;
+}
+
+#card-flex{
+	display:flex;
+	width: 800px;
+	justify-content: center;
+	overflow: auto;
+}
+
+#connectionStatus{
+	width: 375px;
+	height: 40px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+.cards{
+	margin-top: 50px;
+}
+
+#card1{
+	width:200px;
+	height:180px;
+	margin-right:50px;
+}
+
+#card2{
+	width:200px;
+	height:180px;
+	margin-left:50px;
+	margin-right:230px;
+}
+
+/* Message Area */
+#connectionArea{
+	width: 235px;
+	height:30px;
+	color: #CEFBC9;
+	margin-top:5px;
+	font-size:20px;
+	text-align:center;
+}
+
+#infoArea{
+	width: 570px;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+	margin-top:10px;
+}
+
+#chatArea{
+	width: 570px;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+	margin-top:10px;
+}
+
+#leave{
+	width: 570px;
+	height: 60px;
+	font-size: 30px;
+	margin-top: 30px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+.indian-flex{
+	display : flex;
+	width: 570px;
+	justify-content: center;
+	overflow: auto;
+}
+
+.player{
+	width: 95px;
+	height: 40px;
+	margin: 0;
+	padding: 0;
+	color: #CEFBC9;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+.score{
+	width: 95px;
+	height: 88px;
+	margin: 0;
+	padding: 0;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+/* Player Id */
+#playerId1{
+	width :130px;
+	height : 50px;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+	margin-top : 10px;
+	margin-right:180px;
+	color: #E4F7BA;
+}
+
+#playerId2{
+	width :130px;
+	height : 50px;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+	margin-top : 10px;
+	margin-right:230px;
+	color: #E4F7BA;
+}
