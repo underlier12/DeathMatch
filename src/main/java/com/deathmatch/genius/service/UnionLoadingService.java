@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.deathmatch.genius.dao.UnionLoadingDAO;
 import com.deathmatch.genius.domain.GameRoom;
 import com.deathmatch.genius.domain.UnionLoadingDTO;
+import com.deathmatch.genius.domain.UnionPlayerDTO;
 import com.deathmatch.genius.domain.UnionSettingDTO.MessageType;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -25,7 +26,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionLoadingService {
 
-	public final UnionLoadingDAO unionLoadingDAO;
+//	public final UnionLoadingDAO unionLoadingDAO;
 	public final ObjectMapper objectMapper;
 		
 	public Map<String, Object> preprocessing(MessageType type, String roomId) {
@@ -60,16 +61,33 @@ public class UnionLoadingService {
 		Queue<Object> queue = new LinkedList<>();
 
 		if(!gameRoom.getPlaying()) {
-			beforeStart(gameRoom);			
+			queue = beforeStart(gameRoom);			
 		} else {
 			afterStart(gameRoom);
 		}
 		return queue;
 	}
 	
-	private void beforeStart(GameRoom gameRoom) {
-		// TODO Auto-generated method stub
+	private Queue<Object> beforeStart(GameRoom gameRoom) {
+		Queue<Object> queue = new LinkedList<>();
+
+		switch (gameRoom.getEngaged().size()) {
+		case 2:
+			queue.offer(loadPlayer(gameRoom.getEngaged().get(1), gameRoom));
+		case 1:
+			queue.offer(loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
+		}
+		return queue;
+	}
+	
+	public UnionLoadingDTO loadPlayer(UnionPlayerDTO player, GameRoom gameRoom) {
+		Map<String, Object> jsonMap = preprocessing(MessageType.LOAD, gameRoom.getRoomId());
 		
+		jsonMap.put("message", "PLAYER");
+		jsonMap.put("user1", player.getUserId());
+		
+		UnionLoadingDTO unionLoadingDTO = postprocessing(jsonMap);
+		return unionLoadingDTO;
 	}
 
 	private void afterStart(GameRoom gameRoom) {
