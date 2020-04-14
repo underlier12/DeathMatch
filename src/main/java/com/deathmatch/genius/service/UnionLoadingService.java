@@ -84,7 +84,7 @@ public class UnionLoadingService {
 		Map<String, Object> jsonMap = preprocessing(MessageType.LOAD, gameRoom.getRoomId());
 		
 		jsonMap.put("message", "PLAYER");
-		jsonMap.put("user1", player.getUserId());
+		jsonMap.put("user", player.getUserId());
 		
 		UnionLoadingDTO unionLoadingDTO = postprocessing(jsonMap);
 		return unionLoadingDTO;

@@ -96,15 +96,15 @@ public class UnionSettingService {
 		return unionDatabaseDTO;
 	}
 	
-	public UnionSettingDTO loadPlayer(UnionPlayerDTO player, GameRoom gameRoom) {
-		Map<String, Object> jsonMap = preprocessing(MessageType.LOAD, gameRoom.getRoomId());
-		
-		jsonMap.put("message", "PLAYER");
-		jsonMap.put("user1", player.getUserId());
-		
-		UnionSettingDTO unionSettingDTO = postprocessing(jsonMap);
-		return unionSettingDTO;
-	}
+//	public UnionSettingDTO loadPlayer(UnionPlayerDTO player, GameRoom gameRoom) {
+//		Map<String, Object> jsonMap = preprocessing(MessageType.LOAD, gameRoom.getRoomId());
+//		
+//		jsonMap.put("message", "PLAYER");
+//		jsonMap.put("user1", player.getUserId());
+//		
+//		UnionSettingDTO unionSettingDTO = postprocessing(jsonMap);
+//		return unionSettingDTO;
+//	}
 	
 	public UnionSettingDTO join(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
 		Map<String, Object> jsonMap =  preprocessing(MessageType.JOIN, gameRoom.getRoomId());
