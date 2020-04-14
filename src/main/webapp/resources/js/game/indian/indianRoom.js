@@ -11,6 +11,7 @@ $(function(){
 	var playerId2 = $("#playerId2");
 	
 	var readyBtn = $("#readyBtn");
+	var sendBtn = $("#sendBtn");
 	
 	var chatArea = $("#chatArea");
 	var infoArea = $("#infoArea");
@@ -44,6 +45,8 @@ $(function(){
 					  playerId2.val(content.sender);
 				  }
 				  break;
+			case "READY"
+				: infoArea.eq(0).prepend(content.sender + "님이 준비하셨습니다" +"\n");
 			default:
 				console.log("Default!!");
 		}
@@ -68,8 +71,15 @@ $(function(){
 		console.log("success submit");
 	}
 	
-	$("#sendBtn").click(function(){
+	sendBtn.click(function(){
 		sendMessage();
 	});
+	
+	readyBtn.click(function(){
+		var readyData = {type : "READY", sender : member, roomId : roomId};
+		sock.send(JSON.stringify(readyData));
+		console.log("Success submit ReadyData");
+	});
+	
 	
 });

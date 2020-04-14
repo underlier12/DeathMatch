@@ -50,6 +50,12 @@
 			</div>
 		</div>
 		
+		<div id ="player-flex">
+			<div>
+				<button type ="button" id ="readyBtn">Ready</button>
+			</div>
+		</div>
+		
 		<div class ="indian-flex">
 			<div id="connectionArea"></div>
 		</div>
@@ -65,7 +71,6 @@
 		<div class=indian-flex">
 			<input type="text" id="message" /> <input type="button" id="sendBtn"
 				value="submit" />
-			<button type="button" id="readyBtn">Ready</button>
 		</div>
 
 		<div class="indian-flex">
