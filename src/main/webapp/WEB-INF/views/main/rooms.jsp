@@ -54,7 +54,7 @@
 							</c:choose>
 
 							<button type="button" class="gameJoinBtn"
-								onclick="location.href='gameHome/<c:out value="${room.roomId}"/>'">Join</button>
+								onclick="location.href='rooms/<c:out value="${room.roomId}"/>'">Join</button>
 
 						</div>
 					</c:forEach>
@@ -84,7 +84,7 @@
 							</c:choose>
 
 							<button type="button" class="gameJoinBtn"
-								onclick="location.href='gameHome/<c:out value="${room.roomId}"/>'">Join</button>
+								onclick="location.href='rooms/<c:out value="${room.roomId}"/>'">Join</button>
 
 						</div>
 					</c:forEach>
@@ -96,19 +96,19 @@
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev }">
 						<li><a
-							href='<c:url value="/gameHome?page=${pageMaker.startPage-1 }"/>'><i
+							href='<c:url value="/rooms?page=${pageMaker.startPage-1 }"/>'><i
 								class="fa fa-chevron-left"></i></a></li>
 					</c:if>
 					<c:forEach begin="${pageMaker.startPage}"
 						end="${pageMaker.endPage }" var="idx">
 						<li
 							<c:out value ="${pageMaker.cri.page == idx?'class =active':''}"/>>
-							<a id="pageNum" href="gameHome?page=${idx }">${idx }</a>
+							<a id="pageNum" href="rooms?page=${idx }">${idx }</a>
 						</li>
 					</c:forEach>
 					<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
 						<li><a
-							href='<c:url value="/gameHome?page=${pageMaker.endPage+1 }"/>'><i
+							href='<c:url value="/rooms?page=${pageMaker.endPage+1 }"/>'><i
 								class="fa fa-chevron-right"></i></a></li>
 					</c:if>
 				</ul>

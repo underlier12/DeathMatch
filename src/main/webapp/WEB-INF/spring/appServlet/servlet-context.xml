@@ -40,9 +40,8 @@
 		class="com.deathmatch.genius.interceptor.LoginInterceptor" />
 	<interceptors>
 		<interceptor>
-			<mapping path="/user/loginPost" />
-			<mapping path="/user/kakaoLogin" />
-			<mapping path="/user/naverLogin" />
+			<mapping path="/auth/user/local-login" />
+			<mapping path="/auth/user/kakaoLogin" />
 			<beans:ref bean="loginInterceptor" />
 		</interceptor>
 	</interceptors>

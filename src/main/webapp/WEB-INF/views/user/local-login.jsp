@@ -5,7 +5,8 @@
 </head>
 <body>
     <script type ="text/javascript">
-        self.location = "/gameHome";
+        //self.location = "/gameHome";
+        self.location = "/rooms";
     </script>
 </body>
 </html>

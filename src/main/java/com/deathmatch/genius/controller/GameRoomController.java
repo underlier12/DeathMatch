@@ -24,7 +24,8 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/gameHome")
+//@RequestMapping("/gameHome")
+@RequestMapping("/rooms")
 public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
@@ -38,7 +39,7 @@ public class GameRoomController {
     	pageMaker.setTotalCount(gameRoomService.countRoom());	
     	model.addAttribute("rooms",gameRoomService.findRoomList(cri));
     	model.addAttribute("pageMaker",pageMaker);
-    	return "main/gameHome";
+    	return "main/rooms";
     }
 
 	@ResponseBody
@@ -49,7 +50,7 @@ public class GameRoomController {
 		String currentRoomId = newRoom.getRoomId();
 		log.info("makeRoom Id :" + currentRoomId);
 		log.info("gameType: " + newRoom.getGameType() );
-		return "/gameHome/" +currentRoomId; 
+		return "/rooms/" +currentRoomId; 
     }
 	
     @GetMapping("/{roomId}")
@@ -60,7 +61,7 @@ public class GameRoomController {
     	if(room == null) {
     		log.info("null exception");
     		model.addAttribute("msg", "해당 방은 사라졌습니다.");
-    		return "main/gameHome";
+    		return "main/rooms";
     	}
     	
     	model.addAttribute("room", room);
