@@ -78,6 +78,7 @@ $(function () {
     	switch(content.sender){
     	case "Setting":
     	case "Dealer":
+    	case "Loader":
     		fromServer(content);
     		break;
     	default:
@@ -154,9 +155,9 @@ $(function () {
  		switch (content.message) {
 		case "PLAYER":
 			if(!$playerAInput.val()){
-				$playerAInput.val(content.user1);
+				$playerAInput.val(content.user);
 			}else if(!$playerBInput.val()){
-				$playerBInput.val(content.user1);
+				$playerBInput.val(content.user);
 			}
 			break;
 		}
@@ -420,7 +421,7 @@ $(function () {
     });
     
     $leaveBtn.click(function(){
-    	location.href='../gameHome';
+    	location.href='../rooms';
 //    	window.location = document.referrer;
     });
     

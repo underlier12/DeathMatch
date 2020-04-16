@@ -24,7 +24,6 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequiredArgsConstructor
 @Controller
-//@RequestMapping("/gameHome")
 @RequestMapping("/rooms")
 public class GameRoomController {
 
@@ -67,7 +66,7 @@ public class GameRoomController {
     	model.addAttribute("room", room);
     	model.addAttribute("member", currentDTO.getUserId());
 //    	model.addAttribute("httpSession", httpSession);
-    	return "game/union/room";
+    	return "game/union/union";
     }
       
     

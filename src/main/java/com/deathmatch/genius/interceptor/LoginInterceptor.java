@@ -38,8 +38,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			UserDTO currentDTO = (UserDTO)session.getAttribute("login"); 
 			String  sessionUser = currentDTO.getUserEmail();
 			log.info("currentUser: " + sessionUser ); 
-            //response.sendRedirect("/gameHome");
-			response.sendRedirect("/rooms");
+            response.sendRedirect("/rooms");
         }
     }
 

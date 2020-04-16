@@ -27,6 +27,7 @@ public class UnionService {
 	private final ObjectMapper objectMapper;
 	private final UnionDealerService unionDealerService;
 	private final UnionSettingService unionSettingService;
+	private final UnionLoadingService unionLoadingService;
 
 	Queue<Object> queue = new LinkedList<>();
 	
@@ -114,18 +115,20 @@ public class UnionService {
 	}
 	
 	private void loadGame(WebSocketSession session, GameRoom gameRoom) {
-		if(!gameRoom.getPlaying()) {
-			switch (gameRoom.getEngaged().size()) {
-			case 2:
+//		if(!gameRoom.getPlaying()) {
+//			switch (gameRoom.getEngaged().size()) {
+//			case 2:
+////				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
+//				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(1), gameRoom));
+////				break;
+//			case 1:
 //				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
-				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(1), gameRoom));
 //				break;
-			case 1:
-				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
-				break;
-			}
-			load(session, gameRoom);
-		}
+//			}
+//			load(session, gameRoom);
+//		}
+		queue = unionLoadingService.loadOnGame(gameRoom);
+		load(session, gameRoom);
 	}
 	
 	private void startGame(GameRoom gameRoom) {

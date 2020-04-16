@@ -7,7 +7,7 @@
     <%@ include file="../../includes/meta.jsp" %>
     <title>${room.name} 게임방</title>
     <%@ include file="../../includes/header.jsp" %>
-    <link href="/css/game/union/room.css" rel="stylesheet">
+    <link href="/css/game/union/union.css" rel="stylesheet">
 </head>
 
 <body>
@@ -135,6 +135,6 @@
 		<%@ include file="../../includes/footer.jsp" %>
 	</div>
 
-	<script src="/js/game/union/room.js"></script>
+	<script src="/js/game/union/union.js"></script>
 </body>
 </html>

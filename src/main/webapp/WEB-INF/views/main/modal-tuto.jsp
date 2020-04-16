@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Tutorial</title>
-<link rel="stylesheet" href="/css/main/tutoModal.css">
+<link rel="stylesheet" href="/css/main/modal-tuto.css">
 </head>
 <body>
 	<!-- Tutorial Modal -->
