@@ -1,0 +1,45 @@
+#roomModalContent{
+	background-color: #502228;
+}
+
+#modal-title{
+	text-align: center;
+	color: #ECA50E;
+}
+
+#RoomName{
+	width: 200px;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#roomIdTitle{
+	text-align: center;
+	font-size: 16px;
+	color: #ECA50E;
+}
+
+#closeBtn{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
+
+.radioBtn{
+	display: none;
+	margin: 0;
+}
+
+.label{
+	margin: 0;
+	padding: 0;
+}
+
+.typeImg{
+	width: 200px;
+	height: auto;
+}
+
+.boundary{
+	border: 2px solid #EFF482;
+}

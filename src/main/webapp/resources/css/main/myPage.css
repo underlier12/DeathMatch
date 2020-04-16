@@ -1,0 +1,43 @@
+#title{
+	color:#ECA50E;
+}
+
+#userIdTitle{
+	color:#ECA50E;
+}
+
+#userEmailTitle{
+	color:#ECA50E;
+}
+
+#userNameTitle{
+	color:#ECA50E;
+}
+
+#pwTitle{
+	color:#ECA50E;
+}
+
+#userId{
+	color: #E4F7BA;
+}
+
+#userEmail{
+	color: #E4F7BA;
+}
+
+#userName{
+	color: #E4F7BA;
+}
+
+#getInfo{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#changePwBtn{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
