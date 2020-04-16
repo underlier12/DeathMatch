@@ -13,6 +13,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class GameRoomServiceTest {
 	
+	
 	@Test
 	public void testDestroyRoom(String roomId) {
 		GameRoomService gameRoomService = new GameRoomService();

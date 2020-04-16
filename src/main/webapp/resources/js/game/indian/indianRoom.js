@@ -19,7 +19,7 @@ $(function(){
 
 	// WebSocket actions
 	
-	// webSocket이 연결되었을때
+	// websocket Connect
 	sock.onopen = function(){
 		var join = {type :'JOIN', sender: member , roomId:roomId};
 		sock.send(JSON.stringify(join));
@@ -27,58 +27,84 @@ $(function(){
 		console.log("sock.opened");
 	}
 	
-	// 서버로부터 메세지를 받았을때
-	sock.onmessage = function(e){
-		var content = JSON.parse(e.data);
-		var type = content.type;
-		console.log(type);
-		switch(type){
-			case "TALK" 
-				: chatArea.eq(0).prepend(content.sender + " : " + content.message +" " + "\n");
-				break;
-			case "JOIN" 
-				: infoArea.eq(0).prepend(content.sender + " 님이 입장하였습니다 "+"\n");
-				  console.log(playerId1.text());
-				  if(!playerId1.val()){
-					  playerId1.val(content.sender);
-				  }else if(!playerId2.val()){
-					  playerId2.val(content.sender);
-				  }
-				  break;
-			case "READY"
-				: infoArea.eq(0).prepend(content.sender + "님이 준비하셨습니다" +"\n");
-			default:
-				console.log("Default!!");
-		}
-	}
-
-	
-	//서버와 연결을 끊었을때
+	// websocket close
 	sock.onclose = function(){
 		console.log("sock.onclose");
 		connectionArea.text("Server closed");
 	}
 	
-	// webSocket finish
-	
-	/** Message **/
-	
-	function sendMessage(){
-		var message = $("#message").val();
-		console.log(message);
-		var chat = {type :'TALK', sender : member, roomId : roomId,message : message};
-		sock.send(JSON.stringify(chat));
-		console.log("success submit");
+	// message from server
+	sock.onmessage = function(e){
+		var content = JSON.parse(e.data);
+		var type = content.type;
+		console.log(type);
+		switch(type){
+			case "LOAD":
+				loadPlayer(content);
+				break;
+			case "TALK" 
+				: chat(content);
+				break;
+			case "JOIN" 
+				: joinPlayer(content);
+				  break;
+			case "READY"
+				: ready(content);
+				break;
+			default:
+				console.log("Default!!");
+		}
 	}
 	
+	function loadPlayer(content){
+		switch (content.message) {
+		case "PLAYER":
+			if(!playerId1.val()){
+				playerId1.val(content.player);
+			}else if(!playerId2.val()){
+				playerId2.val(content.player);
+			}
+			break;
+		}
+	}
+	
+	function joinPlayer(content){
+		infoArea.eq(0).prepend(content.message +"\n");
+		if(!playerId1.val()){
+			playerId1.val(content.player);
+		}else if(!playerId2.val()){
+			playerId2.val(content.player);
+		}
+	}
+	
+	function chat(content){
+		chatArea.eq(0).prepend(content.sender + " : " + content.message+ " " + "\n");
+	}
+	
+	function ready(content){
+		console.log(content.message);
+		if(content.message.substring(0,4) == '플레이어'){
+			infoArea.eq(0).prepend(content.message + "\n");
+		}else{
+			infoArea.eq(0).prepend(content.message + "\n");
+		}
+	}
+	
+	/** Message **/
+
+	
 	sendBtn.click(function(){
-		sendMessage();
+		var message = $("#message").val();
+		console.log(message);
+		var chatData = {type :'TALK',sender:member,roomId:roomId,message:message};
+		sock.send(JSON.stringify(chatData));
+		console.log("Success submit chatData");
 	});
 	
 	readyBtn.click(function(){
 		var readyData = {type : "READY", sender : member, roomId : roomId};
 		sock.send(JSON.stringify(readyData));
-		console.log("Success submit ReadyData");
+		console.log("Success submit readyData");
 	});
 	
 	
