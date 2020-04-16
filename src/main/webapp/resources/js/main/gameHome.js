@@ -35,7 +35,7 @@ $(function(){
 	function createRoom(data){
 		$.ajax({
 			type : 'post',
-			url :'/gameHome',
+			url :'/rooms',
 			data : JSON.stringify(data),
 			contentType : 'application/json; charset=utf-8',
 			success : function(result){

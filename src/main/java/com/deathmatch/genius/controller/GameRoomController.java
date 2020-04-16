@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/gameHome")
+@RequestMapping("/rooms")
 public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
@@ -49,7 +49,7 @@ public class GameRoomController {
 		String currentRoomId = newRoom.getRoomId();
 		log.info("makeRoom Id :" + currentRoomId);
 		log.info("gameType: " + newRoom.getGameType() );
-		return "/gameHome/" +currentRoomId; 
+		return "/rooms/" +currentRoomId; 
     }
 	
     @GetMapping("/{roomId}")
