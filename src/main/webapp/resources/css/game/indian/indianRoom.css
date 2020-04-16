@@ -146,6 +146,7 @@
 	border: 2px solid #000000;
 	margin-top : 10px;
 	margin-right:180px;
+	font-size: 30px;
 	color: #E4F7BA;
 }
 
@@ -157,5 +158,19 @@
 	border: 2px solid #000000;
 	margin-top : 10px;
 	margin-right:230px;
+	font-size: 30px;
 	color: #E4F7BA;
+}
+
+/* btn */
+#readyBtn{
+	width: 200px;
+	height: 50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	margin-right:220px;
+	font-size: 30px;
+	margin-top:15px;
+	text-align: center;
 }
