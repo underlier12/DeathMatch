@@ -66,7 +66,7 @@ public class GameRoomController {
     	model.addAttribute("room", room);
     	model.addAttribute("member", currentDTO.getUserId());
 //    	model.addAttribute("httpSession", httpSession);
-    	return "game/union/room";
+    	return "game/union/union";
     }
       
     
