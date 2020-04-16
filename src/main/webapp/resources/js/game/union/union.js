@@ -421,7 +421,7 @@ $(function () {
     });
     
     $leaveBtn.click(function(){
-    	location.href='../gameHome';
+    	location.href='../rooms';
 //    	window.location = document.referrer;
     });
     
