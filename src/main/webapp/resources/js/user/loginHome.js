@@ -154,10 +154,10 @@ $(document).ready(function(){
 		});
 		
 		
-		function checkUserEmail(userInfo){
+		function findPw(userInfo){
 			$.ajax({
 				type : 'post',
-				url : '/user/findPw',
+				url : '/auth/user/pw-find',
 				data : JSON.stringify(userInfo),
 				contentType : 'application/json; charset=utf-8',
 				success : function(result){
@@ -169,7 +169,8 @@ $(document).ready(function(){
 		function registerMember(userInfo){
 			$.ajax({
 				type : 'post',
-				url : '/user/join',
+				//url : '/user/join',
+				url:"/auth/user/registration",
 				data : JSON.stringify(userInfo),
 				contentType : 'application/json; charset=utf-8',
 				success : function(result){
@@ -181,7 +182,8 @@ $(document).ready(function(){
         function checkUserEmail(userEmailInfo){
             $.ajax({
                 type : 'post',
-                url : '/user/checkEmail',
+                //url : '/user/checkEmail',
+                url : '/auth/user/check-email',
                 data : JSON.stringify(userEmailInfo),
                 dataType:"json",
                 contentType : 'application/json; charset=utf-8',
@@ -203,7 +205,7 @@ $(document).ready(function(){
         function checkFindPwEmail(userEmailInfo){
             $.ajax({
                 type : 'post',
-                url : '/user/checkEmail',
+                url : '/auth/user/check-email',
                 data : JSON.stringify(userEmailInfo),
                 dataType:"json",
                 contentType : 'application/json; charset=utf-8',
@@ -225,7 +227,7 @@ $(document).ready(function(){
         function findPw(userInfo){
         	$.ajax({
 				type : 'post',
-				url : '/user/findPw',
+				url : '/auth/user/pw-find',
 				data : JSON.stringify(userInfo),
 				contentType : 'application/json; charset=utf-8',
 				success : function(result){
@@ -269,7 +271,7 @@ $(document).ready(function(){
         // ** Cookie*/   
         
     	// 저장된 쿠키값을 가져와서 Email칸에 넣어줌. 없으면 공백
-		/*var inputEmail = getCookie("inputEmail");
+		var inputEmail = getCookie("inputEmail");
 		console.log(inputEmail);
 		$("#email").val(inputEmail);
 		
@@ -327,7 +329,7 @@ $(document).ready(function(){
 			    }
 			    return unescape(cookieValue);
 			}
-        */
+        
  
 });
 

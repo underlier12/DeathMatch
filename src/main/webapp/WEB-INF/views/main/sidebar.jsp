@@ -36,13 +36,13 @@
 		</div>
 
 		<div class="row mypage">
-			<form action ="/user/myPage" method ="get">
+			<form action ="/auth/user/mypage" method ="get">
 				<div class="col-md-12">
 					<button class="btn btn-default btn-block infoBtn">MyPage</button>
 				</div>
 			</form>
 
-			<form action="/user/logout" method="get">
+			<form action="/auth/user/logout" method="get">
 				<div class="col-md-12">
 					<c:if test="${!empty login}">
 						<button type="submit" class="btn btn-default btn-block logoutBtn" id="logout">LogOut</button>
