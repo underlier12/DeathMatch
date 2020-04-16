@@ -116,8 +116,8 @@
 		</div>
 	</div>
 
-	<%@ include file="roomModal.jsp"%>
-	<%@ include file="tutoModal.jsp"%>
+	<%@ include file="modal-room.jsp"%>
+	<%@ include file="modal-tuto.jsp"%>
 	<script src="/js/main/rooms.js?ver=1"></script>
 
 </body>

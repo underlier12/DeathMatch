@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/main/roomModal.css">
+<link rel="stylesheet" href="/css/main/modal-room.css">
 </head>
 <body>
 
