@@ -11,6 +11,8 @@ public class IndianCardDTO {
 	
 	private int cardNum;
 	
+	public IndianCardDTO() {};
+	
 	public IndianCardDTO(int cardNum) {
 		this.cardNum = cardNum;
 	}

@@ -17,5 +17,5 @@ public class UnionSettingDTO {
     private String user1;
     private String user2;
     private String[] cards;
-
+    
 }

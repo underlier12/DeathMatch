@@ -5,15 +5,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class IndianGameDTO {
+public class IndianServiceDTO {
 	
 	public enum MessageType{
-		TALK, JOIN, READY,LOAD;
+		JOIN,READY,LOAD
 	}
-	
 	private MessageType type;
 	private String roomId;
-	private String sender;
+	private String player;
 	private String message;
-	
+	//private String player1;
+	//private String player2;
+	private String[] cards;
+	private int chip;
 }

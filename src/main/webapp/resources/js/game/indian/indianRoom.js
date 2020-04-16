@@ -85,9 +85,14 @@ $(function(){
 		console.log(content.message);
 		if(content.message.substring(0,4) == '플레이어'){
 			infoArea.eq(0).prepend(content.message + "\n");
+			inGame();
 		}else{
 			infoArea.eq(0).prepend(content.message + "\n");
 		}
+	}
+	
+	function inGame(){
+		readyBtn.hide();
 	}
 	
 	/** Message **/
