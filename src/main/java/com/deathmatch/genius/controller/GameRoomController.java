@@ -38,7 +38,7 @@ public class GameRoomController {
     	pageMaker.setTotalCount(gameRoomService.countRoom());	
     	model.addAttribute("rooms",gameRoomService.findRoomList(cri));
     	model.addAttribute("pageMaker",pageMaker);
-    	return "main/gameHome";
+    	return "main/rooms";
     }
 
 	@ResponseBody
@@ -60,7 +60,7 @@ public class GameRoomController {
     	if(room == null) {
     		log.info("null exception");
     		model.addAttribute("msg", "해당 방은 사라졌습니다.");
-    		return "main/gameHome";
+    		return "main/rooms";
     	}
     	
     	model.addAttribute("room", room);
