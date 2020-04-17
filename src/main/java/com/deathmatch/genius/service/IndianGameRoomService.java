@@ -6,10 +6,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.springframework.stereotype.Service;
-import com.deathmatch.genius.domain.IndianGameRoom;
-import lombok.RequiredArgsConstructor;
 
+import org.springframework.stereotype.Service;
+
+import com.deathmatch.genius.domain.IndianGameRoom;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 @Service
 @RequiredArgsConstructor
 public class IndianGameRoomService {
@@ -35,6 +40,7 @@ public class IndianGameRoomService {
                 .roomName(name)
                 .build();
         indianRooms.put(randomId, indianRoom);
+        log.info("create Room");
         return indianRoom;
     }
 
