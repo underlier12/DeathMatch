@@ -116,8 +116,12 @@ public class IndianService {
 	/* Act Ready and Join */
 	
 	public boolean readyCheck(IndianGameRoom indianRoom) {
+		boolean flag = false;
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
-		return players.get(0).getReady() && players.size() == 2;
+		if(players.size() == 2 ) {
+			flag = players.get(1).getReady();
+		}
+		return players.get(0).getReady() && flag;
 	}
 	
 	public IndianServiceDTO readyUser(WebSocketSession session,IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
