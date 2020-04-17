@@ -1,13 +1,10 @@
 package com.deathmatch.genius.dao;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
-
 import com.deathmatch.genius.domain.IndianCardDTO;
-
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -22,9 +19,7 @@ public class IndianSettingDAOImpl implements IndianSettingDAO {
 	}
 
 	@Override
-	public List<IndianCardDTO> problemList() {
-		//List<IndianCardDTO> cardDeck = new ArrayList<>();
-		//cardDeck = sqlSession.selectList(namespace,".cardList");
+	public List<IndianCardDTO> problemList() {;
 		log.info("Access test data ");
 		return sqlSession.selectList(namespace+".cardList");
 	}

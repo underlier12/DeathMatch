@@ -1,6 +1,7 @@
 package com.deathmatch.genius.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,14 +13,14 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+
 import com.deathmatch.genius.dao.IndianSettingDAOImpl;
 import com.deathmatch.genius.domain.IndianCardDTO;
 import com.deathmatch.genius.domain.IndianGameDTO;
+import com.deathmatch.genius.domain.IndianGameDTO.MessageType;
 import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.IndianPlayerDTO;
 import com.deathmatch.genius.domain.IndianServiceDTO;
-import com.deathmatch.genius.domain.UnionPlayerDTO;
-import com.deathmatch.genius.domain.IndianGameDTO.MessageType;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -37,12 +38,11 @@ import lombok.extern.log4j.Log4j;
 public class IndianService {
 
 	private final ObjectMapper objectMapper;
-	private final IndianSettingDAOImpl indianDao;
-	
+	private final IndianDealerService dealService;
 
-	public IndianService(ObjectMapper objectMappper,IndianSettingDAOImpl indianDao) {
+	public IndianService(ObjectMapper objectMappper,IndianDealerService dealService) {
 		this.objectMapper = objectMappper;
-		this.indianDao = indianDao;
+		this.dealService = dealService;
 	}
 	
 	/* Web Socket Handler */
@@ -73,6 +73,15 @@ public class IndianService {
 		return jsonMap;
 	}
 	
+	public Map<String,Object> dbConvertMap(MessageType type, String roomId){
+		Map<String,Object> jsonMap = new HashMap<>();
+		
+		jsonMap.put("type",type.toString());
+		jsonMap.put("roomId",roomId);
+		
+		return jsonMap;
+	}
+	
 	public IndianServiceDTO processing(Map<String,Object> jsonMap) {
 		JSONObject jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();
@@ -90,11 +99,8 @@ public class IndianService {
 		}
 		return indianServiceDTO;
 	}
-		
-	public void quitSession(WebSocketSession session,IndianGameRoom indianRoom) {
-		indianRoom.removeSession(session);
-		log.info("session close");
-	}
+	
+	/* End */
 	
 	/* Act SendMessage */
 	
@@ -139,13 +145,14 @@ public class IndianService {
 		Map<String,Object> jsonMap = convertMap(MessageType.READY, indianRoom.getRoomId());
 		jsonMap.put("message", "플레이어가 모두 준비하였습니다! 게임을 시작합니다 ");
 		IndianServiceDTO indianServiceDTO = processing(jsonMap);
-		List<IndianCardDTO> cardList = getList();
 		return indianServiceDTO;
 	}
 
 	public void readyAct(WebSocketSession session,IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
 		sendMessageAll(indianRoom.getSessions(),readyUser(session,indianGameDTO,indianRoom));
 		if(readyCheck(indianRoom)) {
+			sendMessageAll(indianRoom.getSessions(),dealService.drawAct(indianRoom));
+			//dealService.drawAct(session,indianRoom);
 			sendMessageAll(indianRoom.getSessions(),allReady(indianRoom));
 		}
 	}
@@ -210,13 +217,8 @@ public class IndianService {
 		}
 	}
 	
-	/* Act Make Problem */
-	
-	public List<IndianCardDTO> getList(){
-		List<IndianCardDTO> cardDeck = indianDao.problemList();
-		for(IndianCardDTO card : cardDeck) {
-			log.info("Card: " + card.toString());
-		}
-		return cardDeck;
+	public void quitSession(WebSocketSession session,IndianGameRoom indianRoom) {
+		indianRoom.removeSession(session);
+		log.info("session close");
 	}
 }

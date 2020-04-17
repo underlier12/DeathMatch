@@ -36,9 +36,8 @@ $(function(){
 	// message from server
 	sock.onmessage = function(e){
 		var content = JSON.parse(e.data);
-		var type = content.type;
-		console.log(type);
-		switch(type){
+		console.log(content.type);
+		switch(content.type){
 			case "LOAD":
 				loadPlayer(content);
 				break;
@@ -50,6 +49,9 @@ $(function(){
 				  break;
 			case "READY"
 				: ready(content);
+				break;
+			case "DRAW"
+				: draw(content);
 				break;
 			default:
 				console.log("Default!!");
@@ -89,6 +91,12 @@ $(function(){
 		}else{
 			infoArea.eq(0).prepend(content.message + "\n");
 		}
+	}
+	
+	function draw(content){
+		console.log(content.sender);
+		console.log(content.card1);
+		console.log(content.card2);
 	}
 	
 	function inGame(){
