@@ -18,7 +18,8 @@ public class IndianDealerDTO {
 	private MessageType type;
 	private String roomId;	// roomId로  해당 방에 들어감
 	private String gameId; 
-	private String sender;	
+	private String sender;
+	private String player;
 	private String message;
 	private String card1;
 	private String card2;

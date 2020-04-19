@@ -1,7 +1,6 @@
 package com.deathmatch.genius.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,13 +8,13 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import com.deathmatch.genius.dao.IndianSettingDAOImpl;
-import com.deathmatch.genius.domain.IndianCardDTO;
 import com.deathmatch.genius.domain.IndianGameDTO;
 import com.deathmatch.genius.domain.IndianGameDTO.MessageType;
 import com.deathmatch.genius.domain.IndianGameRoom;
@@ -152,7 +151,6 @@ public class IndianService {
 		sendMessageAll(indianRoom.getSessions(),readyUser(session,indianGameDTO,indianRoom));
 		if(readyCheck(indianRoom)) {
 			sendMessageAll(indianRoom.getSessions(),dealService.drawAct(indianRoom));
-			//dealService.drawAct(session,indianRoom);
 			sendMessageAll(indianRoom.getSessions(),allReady(indianRoom));
 		}
 	}

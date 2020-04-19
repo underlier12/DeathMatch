@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
@@ -16,11 +18,14 @@ import com.deathmatch.genius.dao.IndianSettingDAO;
 import com.deathmatch.genius.domain.IndianCardDTO;
 import com.deathmatch.genius.domain.IndianDealerDTO;
 import com.deathmatch.genius.domain.IndianDealerDTO.MessageType;
+import com.deathmatch.genius.domain.IndianGameDTO;
 import com.deathmatch.genius.domain.IndianGameRoom;
+import com.deathmatch.genius.domain.IndianPlayerDTO;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -77,7 +82,7 @@ public class IndianDealerService {
 		int startIdx = cardIndex;
 		cardIndex += 2;
 		cardArr[0] = cardDeck.get(startIdx).getCardNum();
-		cardArr[1] = cardDeck.get(startIdx+1).getCardNum();
+		cardArr[1] = cardDeck.get(startIdx + 1).getCardNum();
 		return cardArr;
 	}
 
@@ -87,7 +92,16 @@ public class IndianDealerService {
 		cardArr = drawCard(cardDeck);
 		jsonMap.put("card1", cardArr[0]);
 		jsonMap.put("card2", cardArr[1]);
-		
+		/*
+		 * int playerNum = indianRoom.getPlayers().size(); if (playerNum == 1) {
+		 * jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
+		 * log.info("playerId: " + indianRoom.getPlayers().get(0).getUserId()); } else
+		 * if (playerNum == 2) { jsonMap.put("player",
+		 * indianRoom.getPlayers().get(1).getUserId()); log.info("playerId: " +
+		 * indianRoom.getPlayers().get(1).getUserId()); }
+		 */
+		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
+
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}

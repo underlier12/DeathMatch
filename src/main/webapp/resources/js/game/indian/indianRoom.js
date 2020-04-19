@@ -102,8 +102,14 @@ $(function(){
 
 	function draw(content){
 		console.log(content.sender);
-		cardSelect1(content);
-		cardSelect2(content);
+		console.log(content.player);
+		//cardSelect1(content);
+		//cardSelect2(content);
+		if(content.player == member){
+			cardSelect2(content);
+		}else{
+			cardSelect1(content);
+		}
 	}
 	
 	function cardSelect1(content){
