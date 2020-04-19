@@ -17,6 +17,13 @@ $(function(){
 	var infoArea = $("#infoArea");
 	var connectionArea = $("#connectionArea");
 
+	var defaultCardPath = "/resources/images/indiancards/";
+	var defaultPng = ".png";
+	
+	var cardImg1 = $("#card1");
+	var cardImg2 = $("#card2");
+	
+	
 	// WebSocket actions
 	
 	// websocket Connect
@@ -92,11 +99,21 @@ $(function(){
 			infoArea.eq(0).prepend(content.message + "\n");
 		}
 	}
-	
+
 	function draw(content){
 		console.log(content.sender);
+		cardSelect1(content);
+		cardSelect2(content);
+	}
+	
+	function cardSelect1(content){
 		console.log(content.card1);
+		cardImg1.attr("src",defaultCardPath+"card"+content.card1+defaultPng);
+	}
+	
+	function cardSelect2(content){
 		console.log(content.card2);
+		cardImg2.attr("src",defaultCardPath+"card"+content.card2+defaultPng);
 	}
 	
 	function inGame(){
