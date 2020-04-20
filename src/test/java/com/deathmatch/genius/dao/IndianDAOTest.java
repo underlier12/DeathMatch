@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.deathmatch.genius.domain.IndianCardDTO;
+import com.deathmatch.genius.domain.IndianPlayerDTO;
 import com.deathmatch.genius.service.IndianDealerService;
 
 import lombok.extern.log4j.Log4j;
@@ -29,6 +30,7 @@ public class IndianDAOTest {
 	private IndianDealerService indianService;
 	
 	List<IndianCardDTO> cardDeck = new ArrayList<>();
+	
 	String[] cardArr;
 	int cardIndex = 0;
 	
@@ -48,5 +50,5 @@ public class IndianDAOTest {
 		log.info("card1 : " + cardArr[0]);
 		log.info("card2 : " + cardArr[1]);
 	}
-	
+
 }

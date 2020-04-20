@@ -31,6 +31,7 @@ $(function(){
 	var chipScore1 = $("#chipScore1");
 	var chipScore2 = $("#chipScore2");
 	
+	var resultBtn = $("#resultBtn");
 	/** Prev hide **/
 	chip1.hide();
 	chip2.hide();
@@ -74,6 +75,8 @@ $(function(){
 			case "DRAW"
 				: draw(content);
 				break;
+			case "RESULT" :
+				result(content);
 			default:
 				console.log("Default!!");
 		}
@@ -151,6 +154,11 @@ $(function(){
 		readyBtn.hide();
 	}
 	
+	function result(content){
+		infoArea.eq(0).prepend(content.message + "\n");
+		
+	}
+	
 	/** Message **/
 
 	
@@ -159,13 +167,19 @@ $(function(){
 		console.log(message);
 		var chatData = {type :'TALK',sender:member,roomId:roomId,message:message};
 		sock.send(JSON.stringify(chatData));
-		console.log("Success submit chatData");
+		console.log("Success Submit chatData");
 	});
 	
 	readyBtn.click(function(){
 		var readyData = {type : "READY", sender : member, roomId : roomId};
 		sock.send(JSON.stringify(readyData));
-		console.log("Success submit readyData");
+		console.log("Success Submit readyData");
+	});
+	
+	resultBtn.click(function(){
+		var resultData = {type:"RESULT",sender:member,roomId:roomId};
+		sock.send(JSON.stringify(resultData));
+		console.log("Success Submit resultData");
 	});
 	
 	

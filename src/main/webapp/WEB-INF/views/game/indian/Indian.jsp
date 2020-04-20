@@ -66,6 +66,12 @@
 			</div>
 		</div>
 		
+		<div id ="indian-flex">
+			<div>
+				<button type ="button" id ="resultBtn">resultBtn</button>
+			</div>
+		</div>
+		
 		<div class ="indian-flex">
 			<div id="connectionArea"></div>
 		</div>

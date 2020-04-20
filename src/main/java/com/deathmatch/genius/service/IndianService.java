@@ -58,6 +58,9 @@ public class IndianService {
 		case READY:
 			readyAct(session,indianGameDTO,indianRoom);
 			break;
+		case RESULT:
+			resultAct(session,indianGameDTO,indianRoom);
+			break;
 		}
 	}
 	
@@ -178,6 +181,16 @@ public class IndianService {
 		jsonMap.put("player", indianGameDTO.getSender());
 		IndianServiceDTO indianServiceDTO = processing(jsonMap);
 		sendMessageAll(indianRoom.getSessions(),indianServiceDTO);
+	}
+	
+	public void resultAct(WebSocketSession session,IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
+		Map<String,Object> jsonMap = convertMap(MessageType.RESULT,indianRoom.getRoomId());
+		log.info("Sender" + indianGameDTO.getSender());
+		String winner = dealService.endRound(indianRoom);
+		log.info("winner: " + winner);
+		jsonMap.put("message", winner);
+		IndianServiceDTO indianServiceDTO = processing(jsonMap);
+		sendMessageAll(indianRoom.getSessions(), indianServiceDTO);
 	}
 	
 	/* Load Player */

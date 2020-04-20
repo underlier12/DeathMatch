@@ -106,6 +106,23 @@ public class IndianDealerService {
 		return getCard;
 	}
 
+	public String endRound(IndianGameRoom indianRoom) {
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
+		int cardNum1 = Integer.parseInt(cardArr[0]);
+		int cardNum2 = Integer.parseInt(cardArr[1]);
+		log.info(players.get(0)+ " card1 : " + cardArr[0]);
+		log.info(players.get(1)+ " card2 : " + cardArr[1]);
+		if(cardNum1 > cardNum2) {
+			return "승자는 " + players.get(0).getUserId() + " 입니다 ";
+		}else if (cardNum1 < cardNum2) {
+			return "승자는 " + players.get(1).getUserId() + " 입니다 ";
+		}else if(cardNum1 == cardNum2) {
+			return "무승부 입니다 ";
+		}
+		return  "Error";
+	}
+	
+	/* Send Message */
 	public <T> void sendMessageAll(Set<WebSocketSession> sessions, T message) {
 		log.info("sendMessageAll");
 		sessions.parallelStream().forEach(session -> sendMessage(session, message));
