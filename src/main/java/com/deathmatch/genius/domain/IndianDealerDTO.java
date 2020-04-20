@@ -23,6 +23,8 @@ public class IndianDealerDTO {
 	private String message;
 	private String card1;
 	private String card2;
+	private int chip1;
+	private int chip2;
 	private int score;
 
 }

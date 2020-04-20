@@ -92,16 +92,9 @@ public class IndianDealerService {
 		cardArr = drawCard(cardDeck);
 		jsonMap.put("card1", cardArr[0]);
 		jsonMap.put("card2", cardArr[1]);
-		/*
-		 * int playerNum = indianRoom.getPlayers().size(); if (playerNum == 1) {
-		 * jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
-		 * log.info("playerId: " + indianRoom.getPlayers().get(0).getUserId()); } else
-		 * if (playerNum == 2) { jsonMap.put("player",
-		 * indianRoom.getPlayers().get(1).getUserId()); log.info("playerId: " +
-		 * indianRoom.getPlayers().get(1).getUserId()); }
-		 */
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
-
+		jsonMap.put("chip1", indianRoom.getPlayers().get(0).getChip());
+		jsonMap.put("chip2", indianRoom.getPlayers().get(1).getChip());
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}

@@ -28,6 +28,9 @@ $(function(){
 	
 	var players = $(".players");
 	
+	var chipScore1 = $("#chipScore1");
+	var chipScore2 = $("#chipScore2");
+	
 	/** Prev hide **/
 	chip1.hide();
 	chip2.hide();
@@ -121,10 +124,17 @@ $(function(){
 		players.show();
 		if(content.player == member){
 			cardSelect2(content);
+			chipText(content);
 		}else{
 			cardSelect1(content);
+			chipText(content);
 		}
 		
+	}
+	
+	function chipText(content){
+		chipScore1.text(content.chip1);
+		chipScore2.text(content.chip2);
 	}
 	
 	function cardSelect1(content){

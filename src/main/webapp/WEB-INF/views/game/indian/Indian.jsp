@@ -43,7 +43,7 @@
 			<div id ="chip1">
 				<img id ="chip1Img"
 					src="${pageContext.request.contextPath}/images/indiancards/chip.png">
-				<div id ="chipScore1">30</div>
+				<div id ="chipScore1"></div>
 			</div>
 			<div class="players">
 				<img id="player1"
@@ -56,7 +56,7 @@
 			<div id="chip2">
 				<img id ="chip2Img"
 					src="${pageContext.request.contextPath}/images/indiancards/chip.png">
-				<div id ="chipScore2">30</div>
+				<div id ="chipScore2"></div>
 			</div>
 		</div>
 		
