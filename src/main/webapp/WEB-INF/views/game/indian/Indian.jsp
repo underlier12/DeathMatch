@@ -39,7 +39,12 @@
 			</div>
 		</div>
 
-		<div id="player-flex">
+		<div id="game-flex">
+			<div id ="chip1">
+				<img id ="chip1Img"
+					src="${pageContext.request.contextPath}/images/indiancards/chip.png">
+				<div id ="chipScore1">30</div>
+			</div>
 			<div class="players">
 				<img id="player1"
 					src="${pageContext.request.contextPath}/images/player1.png">
@@ -48,9 +53,14 @@
 				<img id="player2"
 					src="${pageContext.request.contextPath}/images/player2.png">
 			</div>
+			<div id="chip2">
+				<img id ="chip2Img"
+					src="${pageContext.request.contextPath}/images/indiancards/chip.png">
+				<div id ="chipScore2">30</div>
+			</div>
 		</div>
 		
-		<div id ="player-flex">
+		<div id ="indian-flex">
 			<div>
 				<button type ="button" id ="readyBtn">Ready</button>
 			</div>

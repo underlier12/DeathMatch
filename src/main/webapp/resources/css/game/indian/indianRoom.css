@@ -1,5 +1,6 @@
 #game{
-	width: 800px;
+	width: 3000px;
+	/*width: 1000px */
     height: 1000px;
     position: absolute;
     left: 50%;
@@ -17,23 +18,36 @@
 	margin-top:20px;
 }
 
-#player1{
+#prev_player1{
 	width:200px;
 	height:180px;
-	margin-right:50px;
+}
+
+#prev_player2{
+	width:200px;
+	heigth:180px;
+}
+
+#player1{
+	width:130px;
+	height:180px;
 }
 
 #player2{
-	width:200px;
+	width:130px;
 	height:180px;
 	margin-left:50px;
-	margin-right:230px;
 }
 
 #player-flex{
 	display:flex;
-	width: 800px;
-	justify-content: center;
+	width: 1600px;
+	overflow: auto;
+}
+
+#game-flex{
+	display:flex;
+	width: 2000px;
 	overflow: auto;
 }
 
@@ -58,14 +72,14 @@
 }
 
 #card1{
-	width:200px;
-	height:180px;
+	width:230px;
+	height:210px;
 	margin-right:50px;
 }
 
 #card2{
-	width:200px;
-	height:180px;
+	width:230px;
+	height:210px;
 	margin-left:50px;
 	margin-right:230px;
 }
@@ -145,7 +159,8 @@
 	text-align: center;
 	border: 2px solid #000000;
 	margin-top : 10px;
-	margin-right:180px;
+	margin-right:175px;
+	margin-left: 70px;
 	font-size: 30px;
 	color: #E4F7BA;
 }
@@ -155,9 +170,9 @@
 	height : 50px;
 	background-color: #6D211C;
 	text-align: center;
+	margin-right:70px;
 	border: 2px solid #000000;
 	margin-top : 10px;
-	margin-right:230px;
 	font-size: 30px;
 	color: #E4F7BA;
 }
@@ -169,8 +184,57 @@
 	background-color: #3F1816;
 	color: #E4F7BA;
 	border: 2px solid #000000;
-	margin-right:220px;
 	font-size: 30px;
 	margin-top:15px;
 	text-align: center;
+	margin-left:190px;
+}
+
+/* chip */
+#chip1{
+	/*margin-right:200px;*/
+}
+
+#chip2{
+}
+
+#chip1Img{
+	width:150px;
+	height:150px;
+}
+
+#chip2Img{
+	width:150px;
+	height:150px;
+}
+
+#chipScore1{
+	width: 95px;
+	height: 68px;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	margin-left:25px;
+	border: 2px solid #000000;
+}
+
+#chipScore2{
+	width: 95px;
+	height: 68px;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	margin-left:25px;
+	border: 2px solid #000000;
+}
+
+#battingArea{
+	width: 350px;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+	margin-top:10px;
+	margin-right:50px;
 }

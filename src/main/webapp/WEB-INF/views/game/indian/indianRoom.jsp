@@ -38,7 +38,7 @@
 				<input id="playerId2" readonly>
 			</div>
 		</div>
-
+		
 		<div id="player-flex">
 			<div class="players">
 				<img id="player1"

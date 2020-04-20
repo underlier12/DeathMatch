@@ -23,11 +23,22 @@ $(function(){
 	var cardImg1 = $("#card1");
 	var cardImg2 = $("#card2");
 	
+	var chip1 = $("#chip1");
+	var chip2 = $("#chip2");
+	
+	var players = $(".players");
+	
+	/** Prev hide **/
+	chip1.hide();
+	chip2.hide();
+	players.hide();
+	
 	
 	// WebSocket actions
 	
 	// websocket Connect
 	sock.onopen = function(){
+		
 		var join = {type :'JOIN', sender: member , roomId:roomId};
 		sock.send(JSON.stringify(join));
 		connectionArea.text("Connecting Server");
@@ -84,6 +95,8 @@ $(function(){
 		}else if(!playerId2.val()){
 			playerId2.val(content.player);
 		}
+		chip1.hide();
+		chip2.hide();
 	}
 	
 	function chat(content){
@@ -103,13 +116,15 @@ $(function(){
 	function draw(content){
 		console.log(content.sender);
 		console.log(content.player);
-		//cardSelect1(content);
-		//cardSelect2(content);
+		chip1.show();
+		chip2.show();
+		players.show();
 		if(content.player == member){
 			cardSelect2(content);
 		}else{
 			cardSelect1(content);
 		}
+		
 	}
 	
 	function cardSelect1(content){
