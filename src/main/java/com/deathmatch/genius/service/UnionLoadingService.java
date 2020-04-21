@@ -106,8 +106,14 @@ public class UnionLoadingService {
 	}
 	
 	private UnionLoadingDTO loadScores(UnionPlayerDTO player, GameRoom gameRoom) {
-
-		return null;
+		Map<String, Object> jsonMap = preprocessing(MessageType.LOAD, gameRoom.getRoomId());
+		
+		jsonMap.put("message", "SCORE");
+		jsonMap.put("user", player.getUserId());
+		jsonMap.put("score", player.getScore());
+		
+		UnionLoadingDTO unionLoadingDTO = postprocessing(jsonMap);
+		return unionLoadingDTO;
 	}
 
 	private UnionLoadingDTO loadProblem(GameRoom gameRoom) {
