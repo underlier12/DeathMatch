@@ -160,6 +160,14 @@ $(function () {
 				$('#playerB').val(content.user);
 			}
 			break;
+			
+		case "SCORE":
+			if($('#playerA').val() == content.user){
+				$('#scoreA').val(content.score);
+			} else {
+				$('#scoreB').val(content.score);
+			}
+			break;
 		}
  	}
  	
