@@ -190,6 +190,40 @@
 	margin-left:190px;
 }
 
+#betting1{
+	width: 200px;
+	height: 50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+	margin-left:190px;
+	margin-top:15px;
+}
+
+#betting2{
+	width: 200px;
+	height: 50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+	margin-left:190px;
+	margin-top:15px;
+}
+
+
+#betting3{
+	width: 200px;
+	height: 50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+	margin-left:190px;
+	margin-top:15px;
+}
+
 /* chip */
 #chip1{
 	/*margin-right:200px;*/
@@ -238,3 +272,7 @@
 	margin-top:10px;
 	margin-right:50px;
 }
+
+
+
+

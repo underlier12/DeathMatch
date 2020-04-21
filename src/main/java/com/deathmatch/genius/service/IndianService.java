@@ -7,19 +7,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-
-import javax.servlet.http.HttpSession;
-
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-
 import com.deathmatch.genius.domain.IndianGameDTO;
-import com.deathmatch.genius.domain.IndianGameDTO.MessageType;
+//import com.deathmatch.genius.domain.IndianGameDTO.MessageType;
 import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.IndianPlayerDTO;
 import com.deathmatch.genius.domain.IndianServiceDTO;
+import com.deathmatch.genius.domain.IndianServiceDTO.MessageType;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -57,6 +54,9 @@ public class IndianService {
 			break;
 		case READY:
 			readyAct(session,indianGameDTO,indianRoom);
+			break;
+		case BETTING:
+			bettingAct(session,indianGameDTO,indianRoom);
 			break;
 		case RESULT:
 			resultAct(session,indianGameDTO,indianRoom);
@@ -101,8 +101,6 @@ public class IndianService {
 		}
 		return indianServiceDTO;
 	}
-	
-	/* End */
 	
 	/* Act SendMessage */
 	
@@ -163,6 +161,7 @@ public class IndianService {
 					.userId(indianGameDTO.getSender())
 					.roomId(indianRoom.getRoomId())
 					.ready(false)
+					.turn(false)
 					.chip(30)
 					.build();
 		log.info("register User: " + player.toString());
@@ -183,12 +182,23 @@ public class IndianService {
 		sendMessageAll(indianRoom.getSessions(),indianServiceDTO);
 	}
 	
+	public void bettingAct(WebSocketSession session, IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
+		String player = indianGameDTO.getSender();
+		log.info("sender: " + player);
+		sendMessageAll(indianRoom.getSessions(),
+				dealService.whoseTurn(indianGameDTO, indianRoom));
+	}
+	
 	public void resultAct(WebSocketSession session,IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
 		Map<String,Object> jsonMap = convertMap(MessageType.RESULT,indianRoom.getRoomId());
-		log.info("Sender" + indianGameDTO.getSender());
+		int [] cardNums = dealService.getCardNum();
 		String winner = dealService.endRound(indianRoom);
-		log.info("winner: " + winner);
+		
+		jsonMap.put("card1",cardNums[0]);
+		jsonMap.put("card2", cardNums[1]);
 		jsonMap.put("message", winner);
+		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
+		
 		IndianServiceDTO indianServiceDTO = processing(jsonMap);
 		sendMessageAll(indianRoom.getSessions(), indianServiceDTO);
 	}

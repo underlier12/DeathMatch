@@ -8,14 +8,13 @@ import lombok.Setter;
 public class IndianServiceDTO {
 	
 	public enum MessageType{
-		JOIN,READY,LOAD,RESULT
+		JOIN,READY,LOAD,RESULT;
 	}
 	private MessageType type;
 	private String roomId;
 	private String player;
 	private String message;
-	//private String player1;
-	//private String player2;
-	private String[] cards;
+	private int card1;
+	private int card2;
 	private int chip;
 }

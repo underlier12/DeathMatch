@@ -11,7 +11,7 @@ import lombok.Setter;
 public class IndianDealerDTO {
 
 	public enum MessageType{
-		DRAW
+		DRAW,TURN
 	}
 	
 	private List<IndianCardDTO> cardDeck;

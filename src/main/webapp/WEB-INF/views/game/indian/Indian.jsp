@@ -68,7 +68,13 @@
 		
 		<div id ="indian-flex">
 			<div>
-				<button type ="button" id ="resultBtn">resultBtn</button>
+				<button type ="button" id ="betting1">BETTING I</button>
+			</div>
+			<div>
+				<button type ="button" id ="betting2">BETTING II</button>
+			</div>
+			<div>
+				<button type ="button" id ="betting3">BETTING III</button>
 			</div>
 		</div>
 		

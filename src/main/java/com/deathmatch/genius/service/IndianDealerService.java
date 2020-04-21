@@ -108,10 +108,11 @@ public class IndianDealerService {
 
 	public String endRound(IndianGameRoom indianRoom) {
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
-		int cardNum1 = Integer.parseInt(cardArr[0]);
-		int cardNum2 = Integer.parseInt(cardArr[1]);
-		log.info(players.get(0)+ " card1 : " + cardArr[0]);
-		log.info(players.get(1)+ " card2 : " + cardArr[1]);
+		int [] cardNums = getCardNum();
+		int cardNum1 = cardNums[0];
+		int cardNum2 = cardNums[1];
+		log.info("player: " + players.get(0).getUserId() + " " + cardNum1);
+		log.info("player: " + players.get(1).getUserId() + " " + cardNum2);
 		if(cardNum1 > cardNum2) {
 			return "승자는 " + players.get(0).getUserId() + " 입니다 ";
 		}else if (cardNum1 < cardNum2) {
@@ -120,6 +121,42 @@ public class IndianDealerService {
 			return "무승부 입니다 ";
 		}
 		return  "Error";
+	}
+
+	
+	public int[] getCardNum() {
+		int [] cardNums = new int[2];
+		cardNums[0] = Integer.parseInt(cardArr[0]);
+		cardNums[1] = Integer.parseInt(cardArr[1]);
+		return cardNums;
+	}
+	
+	public IndianDealerDTO whoseTurn(IndianGameDTO gameDTO,IndianGameRoom indianRoom) {
+		Map<String,Object> jsonMap = convertMap(MessageType.TURN,indianRoom.getRoomId());
+		String whoseTurn = nextTurn(indianRoom);
+		jsonMap.put("message", whoseTurn + " 님의 차례입니다 ");
+		IndianDealerDTO indianDealerDTO = processing(jsonMap);
+		log.info("whose Turn? Method");
+		return indianDealerDTO;
+	}
+	
+	public String nextTurn(IndianGameRoom indianRoom) {
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
+		String myTurn;
+		log.info("nextTurn Method");
+		if(!players.get(0).getTurn()) {
+			myTurn = players.get(0).getUserId();
+			players.get(0).setTurn(true);
+			players.get(1).setTurn(false);
+		} else {
+			myTurn = players.get(1).getUserId();
+			players.get(1).setTurn(true);
+			players.get(0).setTurn(false);
+		}
+		log.info(players.get(0).getTurn());
+		log.info(players.get(1).getTurn());
+		log.info(myTurn);
+		return myTurn;
 	}
 	
 	/* Send Message */

@@ -31,8 +31,18 @@ $(function(){
 	var chipScore1 = $("#chipScore1");
 	var chipScore2 = $("#chipScore2");
 	
-	var resultBtn = $("#resultBtn");
+	
+	var betting1Btn = $("#betting1");
+	var betting2Btn = $("#betting2");
+	var betting3Btn = $("#betting3");
+	
+	var card1;
+	var card2;
+	
 	/** Prev hide **/
+	betting1Btn.hide();
+	betting2Btn.hide();
+	betting3Btn.hide();
 	chip1.hide();
 	chip2.hide();
 	players.hide();
@@ -74,6 +84,9 @@ $(function(){
 				break;
 			case "DRAW"
 				: draw(content);
+				break;
+			case "TURN"
+				: whoseTurn(content);
 				break;
 			case "RESULT" :
 				result(content);
@@ -142,25 +155,51 @@ $(function(){
 	
 	function cardSelect1(content){
 		console.log(content.card1);
-		cardImg1.attr("src",defaultCardPath+"card"+content.card1+defaultPng);
+		card1 = content.card1;
+		cardImg1.attr("src",defaultCardPath+"card"+card1+defaultPng);
 	}
 	
 	function cardSelect2(content){
 		console.log(content.card2);
-		cardImg2.attr("src",defaultCardPath+"card"+content.card2+defaultPng);
+		card2 = content.card2;
+		cardImg2.attr("src",defaultCardPath+"card"+card2+defaultPng);
 	}
 	
 	function inGame(){
 		readyBtn.hide();
+		showBettingBtn();
+	}
+	
+	function showBettingBtn(){
+		betting1Btn.show();
+		betting2Btn.show();
+		betting3Btn.show();
 	}
 	
 	function result(content){
 		infoArea.eq(0).prepend(content.message + "\n");
-		
+		console.log(content.card1);
+		console.log(content.card2);
+		if(content.player == member){
+			cardSelect1(content);
+		}else{
+			cardSelect2(content);
+		}
 	}
 	
+	function whoseTurn(content){
+		console.log(content.message);
+		infoArea.eq(0).prepend(content.message + "\n");
+	}
+	
+	/*function myCardIsTen(content){
+		infoArea.eq(0).prepend(content.message + "\n");
+		if(content.player == member){
+			
+		}
+	}*/
+	
 	/** Message **/
-
 	
 	sendBtn.click(function(){
 		var message = $("#message").val();
@@ -176,7 +215,19 @@ $(function(){
 		console.log("Success Submit readyData");
 	});
 	
-	resultBtn.click(function(){
+	betting1Btn.click(function(){
+		var betting1Data = {type : "BETTING",sender:member, roomId:roomId};
+		sock.send(JSON.stringify(betting1Data));
+		console.log("Success submit betting1Data");
+	});
+	
+	betting2Btn.click(function(){
+		var betting2Data = {type: "BETTING", sender:member, roomId:roomId};
+		sock.send(JSON.stringify(betting2Data));
+		console.log("Success submit betting2Data");
+	});
+	
+	betting3Btn.click(function(){
 		var resultData = {type:"RESULT",sender:member,roomId:roomId};
 		sock.send(JSON.stringify(resultData));
 		console.log("Success Submit resultData");
