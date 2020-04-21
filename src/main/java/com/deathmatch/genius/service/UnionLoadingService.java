@@ -3,6 +3,7 @@ package com.deathmatch.genius.service;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
@@ -58,25 +59,39 @@ public class UnionLoadingService {
 	}
 	
 	public Queue<Object> loadOnGame(GameRoom gameRoom){
-		Queue<Object> queue = new LinkedList<>();
+		Queue<Object> queue = null;
+		List<UnionPlayerDTO> engaged = gameRoom.getEngaged();
 
 		if(!gameRoom.getPlaying()) {
-			queue = beforeStart(gameRoom);			
+			queue = beforeStart(engaged, gameRoom);			
 		} else {
-			afterStart(gameRoom);
+			queue = afterStart(engaged, gameRoom);
 		}
 		return queue;
 	}
 	
-	private Queue<Object> beforeStart(GameRoom gameRoom) {
+	private Queue<Object> beforeStart(List<UnionPlayerDTO> engaged, GameRoom gameRoom) {
 		Queue<Object> queue = new LinkedList<>();
 
 		switch (gameRoom.getEngaged().size()) {
 		case 2:
-			queue.offer(loadPlayer(gameRoom.getEngaged().get(1), gameRoom));
+			queue.offer(loadPlayer(engaged.get(1), gameRoom));
 		case 1:
-			queue.offer(loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
+			queue.offer(loadPlayer(engaged.get(0), gameRoom));
 		}
+		return queue;
+	}
+
+	private Queue<Object> afterStart(List<UnionPlayerDTO> engaged, GameRoom gameRoom) {
+		Queue<Object> queue = new LinkedList<>();
+		queue = beforeStart(engaged, gameRoom);
+		
+		for(UnionPlayerDTO player : engaged) {
+			queue.offer(loadScores(player, gameRoom));			
+		}
+		queue.offer(loadProblem(gameRoom));
+		queue.offer(loadAnswersheet(gameRoom));
+		
 		return queue;
 	}
 	
@@ -89,10 +104,20 @@ public class UnionLoadingService {
 		UnionLoadingDTO unionLoadingDTO = postprocessing(jsonMap);
 		return unionLoadingDTO;
 	}
+	
+	private UnionLoadingDTO loadScores(UnionPlayerDTO player, GameRoom gameRoom) {
 
-	private void afterStart(GameRoom gameRoom) {
+		return null;
+	}
+
+	private UnionLoadingDTO loadProblem(GameRoom gameRoom) {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+	private UnionLoadingDTO loadAnswersheet(GameRoom gameRoom) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public Queue<Object> loadOnHistory(){
