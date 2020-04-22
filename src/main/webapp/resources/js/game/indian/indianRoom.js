@@ -200,6 +200,7 @@ $(function(){
 		infoArea.eq(0).prepend(content.message + "\n");
 		console.log(content.card1);
 		console.log(content.card2);
+		console.log(content.chipNums);
 		if(content.player == member){
 			cardSelect1(content);
 		}else{

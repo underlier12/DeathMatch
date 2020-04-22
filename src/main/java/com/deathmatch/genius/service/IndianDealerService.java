@@ -82,7 +82,8 @@ public class IndianDealerService {
 		int startIdx = cardIndex;
 		cardIndex += 2;
 		cardArr[0] = cardDeck.get(startIdx).getCardNum();
-		cardArr[1] = cardDeck.get(startIdx + 1).getCardNum();
+		//cardArr[1] = cardDeck.get(startIdx + 1).getCardNum();
+		cardArr[1] = "10";
 		return cardArr;
 	}
 
@@ -111,8 +112,8 @@ public class IndianDealerService {
 		int [] cardNums = getCardNum();
 		int cardNum1 = cardNums[0];
 		int cardNum2 = cardNums[1];
-		log.info("player: " + players.get(0).getUserId() + " " + cardNum1);
-		log.info("player: " + players.get(1).getUserId() + " " + cardNum2);
+		log.info("player: " + players.get(0).getUserId() + " 카드는 : " + cardNum1);
+		log.info("player: " + players.get(1).getUserId() + " 카드는 : " + cardNum2);
 		if(cardNum1 > cardNum2) {
 			return "승자는 " + players.get(0).getUserId() + " 입니다 ";
 		}else if (cardNum1 < cardNum2) {
@@ -122,7 +123,40 @@ public class IndianDealerService {
 		}
 		return  "Error";
 	}
-
+	
+	public String loseTenCard(IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
+		int [] cardNums = getCardNum();
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
+		//String message = " ";
+		int cardNum1 = cardNums[0]; //player1 의 카드
+		int cardNum2 = cardNums[1]; //player2의 카드
+		int chip1 = players.get(0).getChip();
+		int chip2 = players.get(1).getChip();
+		String player = indianGameDTO.getSender();
+		log.info("lose Ten card request Player: " + player);
+		
+		// 클라이언트에서 요청한 사람이 첫번째 플레이어라면
+		if(player.equals(players.get(0).getUserId()) 
+				&& cardNum1 == 10) {
+			chip1-=10;
+			log.info(players.get(0).getUserId() + " 님의 칩의 개수는: "
+					+ chip1 + "입니다");
+			return players.get(0).getUserId() + " 님이 칩 10개를 잃었습니다";
+		}else if(player.equals(players.get(1).getUserId())
+				&& cardNum2 == 10) {
+			chip2-=10;
+			log.info(players.get(1).getUserId() + " 님의 칩의 개수는: "
+					+ chip2 + "입니다");
+			return players.get(1).getUserId() + " 님이 칩 10개를 잃었습니다 ";
+		}
+		
+		log.info(players.get(0).getUserId() + " 님의 칩의 개수는: "
+				+ chip1 + "입니다");
+		log.info(players.get(1).getUserId() + " 님의 칩의 개수는: "
+				+ chip2 + "입니다");
+		
+		return "Card is Ten but not betting3" ;
+	}
 	
 	public int[] getCardNum() {
 		int [] cardNums = new int[2];
@@ -158,21 +192,4 @@ public class IndianDealerService {
 		log.info(myTurn);
 		return myTurn;
 	}
-	
-	/* Send Message */
-	public <T> void sendMessageAll(Set<WebSocketSession> sessions, T message) {
-		log.info("sendMessageAll");
-		sessions.parallelStream().forEach(session -> sendMessage(session, message));
-	}
-
-	public <T> void sendMessage(WebSocketSession session, T message) {
-		try {
-			session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

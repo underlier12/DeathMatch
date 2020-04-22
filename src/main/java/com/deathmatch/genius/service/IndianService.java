@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import com.deathmatch.genius.domain.IndianGameDTO;
-//import com.deathmatch.genius.domain.IndianGameDTO.MessageType;
 import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.IndianPlayerDTO;
 import com.deathmatch.genius.domain.IndianServiceDTO;
@@ -196,10 +195,16 @@ public class IndianService {
 		Map<String,Object> jsonMap = convertMap(MessageType.RESULT,indianRoom.getRoomId());
 		int [] cardNums = dealService.getCardNum();
 		String winner = dealService.endRound(indianRoom);
-		
+		String turnPlayer = indianGameDTO.getSender();
+		log.info("Turn player: " + turnPlayer);
 		jsonMap.put("card1",cardNums[0]);
 		jsonMap.put("card2", cardNums[1]);
+		if(cardNums[0] == 10 || cardNums[1] == 10) {
+			jsonMap.put("chipNums", dealService.loseTenCard(indianGameDTO, indianRoom));
+		}
 		jsonMap.put("message", winner);
+		
+		// Turn 종료후 클라이언트와 비교후 플레이어의 카드를 보여주기 위해 
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
 		
 		IndianServiceDTO indianServiceDTO = processing(jsonMap);
