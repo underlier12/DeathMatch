@@ -141,9 +141,12 @@ public class IndianService {
 		return indianServiceDTO;
 	}
 	
-	public IndianServiceDTO allReady(IndianGameRoom indianRoom) {
+	public IndianServiceDTO allReady(IndianGameRoom indianRoom,IndianGameDTO indianGameDTO) {
 		Map<String,Object> jsonMap = convertMap(MessageType.READY, indianRoom.getRoomId());
+		log.info("allReady Sender : " + indianGameDTO.getSender());
 		jsonMap.put("message", "플레이어가 모두 준비하였습니다! 게임을 시작합니다 ");
+		jsonMap.put("firstTurn", dealService.nextTurn(indianRoom) +" 님의 차례입니다 ");
+		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
 		IndianServiceDTO indianServiceDTO = processing(jsonMap);
 		return indianServiceDTO;
 	}
@@ -152,7 +155,7 @@ public class IndianService {
 		sendMessageAll(indianRoom.getSessions(),readyUser(session,indianGameDTO,indianRoom));
 		if(readyCheck(indianRoom)) {
 			sendMessageAll(indianRoom.getSessions(),dealService.drawAct(indianRoom));
-			sendMessageAll(indianRoom.getSessions(),allReady(indianRoom));
+			sendMessageAll(indianRoom.getSessions(),allReady(indianRoom,indianGameDTO));
 		}
 	}
 	
@@ -186,7 +189,7 @@ public class IndianService {
 		String player = indianGameDTO.getSender();
 		log.info("sender: " + player);
 		sendMessageAll(indianRoom.getSessions(),
-				dealService.whoseTurn(indianGameDTO, indianRoom));
+				dealService.whoseTurn(indianRoom));
 	}
 	
 	public void resultAct(WebSocketSession session,IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {

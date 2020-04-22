@@ -14,6 +14,7 @@ public class IndianServiceDTO {
 	private String roomId;
 	private String player;
 	private String message;
+	private String firstTurn;
 	private int card1;
 	private int card2;
 	private int chip;

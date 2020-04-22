@@ -122,16 +122,47 @@ $(function(){
 		chatArea.eq(0).prepend(content.sender + " : " + content.message+ " " + "\n");
 	}
 	
+	// 초기 firstTurn은 먼저 입장한 플레이어 이다.
 	function ready(content){
 		console.log(content.message);
+		console.log(content.player);
 		if(content.message.substring(0,4) == '플레이어'){
 			infoArea.eq(0).prepend(content.message + "\n");
+			infoArea.eq(0).prepend(content.firstTurn + "\n");
 			inGame();
+			disableBtn(content);
 		}else{
 			infoArea.eq(0).prepend(content.message + "\n");
 		}
 	}
-
+	
+	function disableBtn(content){
+		console.log(content.player);
+		console.log(member);
+		if(content.player!= member){
+			betting1Btn.prop("disabled",true);
+			betting2Btn.prop("disabled",true);
+			betting3Btn.prop("disabled",true);
+			console.log("btn disabled!!");
+		}else if(content.player == member){
+			betting1Btn.prop("disabled",false);
+			betting2Btn.prop("disabled",false);
+			betting3Btn.prop("disabled",false);
+			console.log("btn abled!!");
+		}
+	};
+	
+	function inGame(){
+		readyBtn.hide();
+		showBettingBtn();
+	}
+	
+	function showBettingBtn(){
+		betting1Btn.show();
+		betting2Btn.show();
+		betting3Btn.show();
+	}
+	
 	function draw(content){
 		console.log(content.sender);
 		console.log(content.player);
@@ -165,17 +196,6 @@ $(function(){
 		cardImg2.attr("src",defaultCardPath+"card"+card2+defaultPng);
 	}
 	
-	function inGame(){
-		readyBtn.hide();
-		showBettingBtn();
-	}
-	
-	function showBettingBtn(){
-		betting1Btn.show();
-		betting2Btn.show();
-		betting3Btn.show();
-	}
-	
 	function result(content){
 		infoArea.eq(0).prepend(content.message + "\n");
 		console.log(content.card1);
@@ -189,15 +209,11 @@ $(function(){
 	
 	function whoseTurn(content){
 		console.log(content.message);
+		console.log(content.player);
 		infoArea.eq(0).prepend(content.message + "\n");
+		disableBtn(content);
 	}
 	
-	/*function myCardIsTen(content){
-		infoArea.eq(0).prepend(content.message + "\n");
-		if(content.player == member){
-			
-		}
-	}*/
 	
 	/** Message **/
 	
@@ -206,7 +222,6 @@ $(function(){
 		console.log(message);
 		var chatData = {type :'TALK',sender:member,roomId:roomId,message:message};
 		sock.send(JSON.stringify(chatData));
-		console.log("Success Submit chatData");
 	});
 	
 	readyBtn.click(function(){

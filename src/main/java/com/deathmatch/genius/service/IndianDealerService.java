@@ -131,12 +131,12 @@ public class IndianDealerService {
 		return cardNums;
 	}
 	
-	public IndianDealerDTO whoseTurn(IndianGameDTO gameDTO,IndianGameRoom indianRoom) {
+	public IndianDealerDTO whoseTurn(IndianGameRoom indianRoom) {
 		Map<String,Object> jsonMap = convertMap(MessageType.TURN,indianRoom.getRoomId());
 		String whoseTurn = nextTurn(indianRoom);
 		jsonMap.put("message", whoseTurn + " 님의 차례입니다 ");
+		jsonMap.put("player",whoseTurn);
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
-		log.info("whose Turn? Method");
 		return indianDealerDTO;
 	}
 	
