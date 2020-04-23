@@ -68,13 +68,18 @@
 		
 		<div id ="indian-flex">
 			<div>
-				<button type ="button" id ="betting1">BETTING I</button>
+				<button type ="button" id ="betBtn">BETTING</button>
 			</div>
+
 			<div>
-				<button type ="button" id ="betting2">BETTING II</button>
+				<input type ="text" id="chipBetting" readonly="readonly" value="0">
+				<button type ="button" id ="chipUpBtn">+</button>
+				<button type ="button" id ="chipDownBtn">-</button>
+				<button type ="button" id ="chipResetBtn">C</button>
 			</div>
+			
 			<div>
-				<button type ="button" id ="betting3">BETTING III</button>
+				<button type ="button" id ="betGiveUpBtn">포기</button>
 			</div>
 		</div>
 		

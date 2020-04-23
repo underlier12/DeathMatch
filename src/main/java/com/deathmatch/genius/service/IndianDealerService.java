@@ -115,47 +115,75 @@ public class IndianDealerService {
 		log.info("player: " + players.get(0).getUserId() + " 카드는 : " + cardNum1);
 		log.info("player: " + players.get(1).getUserId() + " 카드는 : " + cardNum2);
 		if(cardNum1 > cardNum2) {
-			return "승자는 " + players.get(0).getUserId() + " 입니다 ";
+			return players.get(0).getUserId() + " 님이 승자 입니다 ";
 		}else if (cardNum1 < cardNum2) {
-			return "승자는 " + players.get(1).getUserId() + " 입니다 ";
+			return players.get(1).getUserId() + " 님이 승자 입니다 ";
 		}else if(cardNum1 == cardNum2) {
 			return "무승부 입니다 ";
 		}
 		return  "Error";
 	}
 	
-	public String loseTenCard(IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
+	public IndianDealerDTO giveUpRound(IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
+		Map<String,String> infoMap = loseTenCard(indianGameDTO,indianRoom);
+		Map<String,Object> jsonMap = convertMap(MessageType.GIVEUP,indianRoom.getRoomId());
 		int [] cardNums = getCardNum();
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
-		//String message = " ";
+		// Turn 종료후 상대 플레이어의 보여주기 위해 카드 번호 전송 
+		jsonMap.put("card1", cardNums[0]);
+		jsonMap.put("card2", cardNums[1]);
+		
+		jsonMap.put("chipMessage", infoMap.get("message"));
+		jsonMap.put("winner", infoMap.get("winner"));
+		jsonMap.put("chip1", players.get(0).getChip());
+		jsonMap.put("chip2", players.get(1).getChip());
+		// Turn 종료후 플레이어를 비교하기 위해 플레이어 아이디 전송
+		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
+		
+		IndianDealerDTO indianDealerDTO = processing(jsonMap);
+		return indianDealerDTO;
+	}
+	
+	
+	public Map<String,String> loseTenCard(IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
+		int [] cardNums = getCardNum();
+		Map<String,String> infoMap = new HashMap<>();
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
+		String player = indianGameDTO.getSender();
 		int cardNum1 = cardNums[0]; //player1 의 카드
 		int cardNum2 = cardNums[1]; //player2의 카드
 		int chip1 = players.get(0).getChip();
 		int chip2 = players.get(1).getChip();
-		String player = indianGameDTO.getSender();
 		log.info("lose Ten card request Player: " + player);
 		
 		// 클라이언트에서 요청한 사람이 첫번째 플레이어라면
 		if(player.equals(players.get(0).getUserId()) 
 				&& cardNum1 == 10) {
 			chip1-=10;
+			chip2+=10;
+			players.get(0).setChip(chip1);
+			players.get(1).setChip(chip2);
 			log.info(players.get(0).getUserId() + " 님의 칩의 개수는: "
-					+ chip1 + "입니다");
-			return players.get(0).getUserId() + " 님이 칩 10개를 잃었습니다";
+					+ players.get(0).getChip() + "입니다");
+			infoMap.put("message","카드가 10이 나왔습니다! 그러나 포기하셨습니다 "+players.get(0).getUserId()+ " 님이 칩 10개를 잃었습니다");
+			infoMap.put("winner", players.get(1).getUserId()+ " 님이 승자 입니다");
 		}else if(player.equals(players.get(1).getUserId())
 				&& cardNum2 == 10) {
 			chip2-=10;
+			chip1+=10;
+			players.get(0).setChip(chip1);
+			players.get(1).setChip(chip2);
 			log.info(players.get(1).getUserId() + " 님의 칩의 개수는: "
-					+ chip2 + "입니다");
-			return players.get(1).getUserId() + " 님이 칩 10개를 잃었습니다 ";
+					+  players.get(1).getChip() + "입니다");
+			infoMap.put("message","카드가 10이 나왔습니다! 그러나 포기하셨습니다 "+players.get(1).getUserId()+ " 님이 칩 10개를 잃었습니다");
+			infoMap.put("winner",players.get(0).getUserId()+ " 님이 승자 입니다");
+		}else {		// 내 카드가 10이지만 상대가 배팅 포기를 누른경우
+			String winner = endRound(indianRoom);
+			log.info("내 카드는 10이지만 상대가 배팅 포기: " + winner);
+			infoMap.put("message","카드가 10이 나왔습니다 !");
+			infoMap.put("winner", winner);
 		}
-		
-		log.info(players.get(0).getUserId() + " 님의 칩의 개수는: "
-				+ chip1 + "입니다");
-		log.info(players.get(1).getUserId() + " 님의 칩의 개수는: "
-				+ chip2 + "입니다");
-		
-		return "Card is Ten but not betting3" ;
+		return infoMap;
 	}
 	
 	public int[] getCardNum() {
@@ -192,4 +220,5 @@ public class IndianDealerService {
 		log.info(myTurn);
 		return myTurn;
 	}
+	
 }

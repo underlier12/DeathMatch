@@ -32,20 +32,30 @@ $(function(){
 	var chipScore2 = $("#chipScore2");
 	
 	
-	var betting1Btn = $("#betting1");
-	var betting2Btn = $("#betting2");
-	var betting3Btn = $("#betting3");
+	var betBtn = $("#betBtn");
+	var betGiveUpBtn = $("#betGiveUpBtn");
 	
 	var card1;
 	var card2;
 	
+	// chip calculator
+	var chipBetting = $("#chipBetting");
+	var upBtn = $("#chipUpBtn");
+	var downBtn = $("#chipDownBtn");
+	var clearBtn = $("#chipResetBtn");
+	var count = chipBetting.val();
+	
 	/** Prev hide **/
-	betting1Btn.hide();
-	betting2Btn.hide();
-	betting3Btn.hide();
+	betBtn.hide();
+	betGiveUpBtn.hide();
+	
 	chip1.hide();
 	chip2.hide();
 	players.hide();
+	chipBetting.hide();
+	upBtn.hide();
+	downBtn.hide();
+	clearBtn.hide();
 	
 	
 	// WebSocket actions
@@ -88,12 +98,51 @@ $(function(){
 			case "TURN"
 				: whoseTurn(content);
 				break;
-			case "RESULT" :
-				result(content);
+			//case "RESULT" :
+			//	resultRound(content);
+			case "GIVEUP" 
+				:giveUpRound(content);
+				break;		
 			default:
 				console.log("Default!!");
 		}
 	}
+	
+	/* chip calculator */
+	// 이후 정보를 불러와서 처리할 필요가 있음 /
+	
+	upBtn.bind("click", function upChip() {
+		count++;
+		if(count>30){
+			alert("칩을 30개이상 걸 수 없습니다");
+		}else{
+			chipBetting.val(count);
+			console.log("Chip count: " + count);
+			//count = 0;
+		}
+	});
+	
+	downBtn.bind("click",function downChip(){
+		count--;
+		console.log("Chip count : " + count);
+		if(count < 0 ){
+			alert("칩을 1개이상 걸어주세요!")
+			count = 0;
+		}else{
+			chipBetting.val(count);
+			console.log("Chip count: " + count);
+			//count = 0;
+		}
+	});
+	
+	clearBtn.bind("click",function clearChip(){
+		count = 0;
+		chipBetting.val(count);
+	});
+	
+	// end
+	
+	
 	
 	function loadPlayer(content){
 		switch (content.message) {
@@ -131,6 +180,7 @@ $(function(){
 			infoArea.eq(0).prepend(content.firstTurn + "\n");
 			inGame();
 			disableBtn(content);
+			//chipCalculator();
 		}else{
 			infoArea.eq(0).prepend(content.message + "\n");
 		}
@@ -140,14 +190,12 @@ $(function(){
 		console.log(content.player);
 		console.log(member);
 		if(content.player!= member){
-			betting1Btn.prop("disabled",true);
-			betting2Btn.prop("disabled",true);
-			betting3Btn.prop("disabled",true);
+			betBtn.prop("disabled",true);
+			betGiveUpBtn.prop("disabled",true);
 			console.log("btn disabled!!");
 		}else if(content.player == member){
-			betting1Btn.prop("disabled",false);
-			betting2Btn.prop("disabled",false);
-			betting3Btn.prop("disabled",false);
+			betBtn.prop("disabled",false);
+			betGiveUpBtn.prop("disabled",false);
 			console.log("btn abled!!");
 		}
 	};
@@ -155,12 +203,19 @@ $(function(){
 	function inGame(){
 		readyBtn.hide();
 		showBettingBtn();
+		chipCalculatorShow();
 	}
 	
 	function showBettingBtn(){
-		betting1Btn.show();
-		betting2Btn.show();
-		betting3Btn.show();
+		betBtn.show();
+		betGiveUpBtn.show();
+	}
+	
+	function chipCalculatorShow(){
+		chipBetting.show();
+		upBtn.show();
+		downBtn.show();
+		clearBtn.show();
 	}
 	
 	function draw(content){
@@ -196,7 +251,7 @@ $(function(){
 		cardImg2.attr("src",defaultCardPath+"card"+card2+defaultPng);
 	}
 	
-	function result(content){
+	/*function resultRound(content){
 		infoArea.eq(0).prepend(content.message + "\n");
 		console.log(content.card1);
 		console.log(content.card2);
@@ -206,7 +261,25 @@ $(function(){
 		}else{
 			cardSelect2(content);
 		}
+	}*/
+	
+	function giveUpRound(content){
+		infoArea.eq(0).prepend(content.chipMessage + "\n");
+		infoArea.eq(0).prepend(content.winner + "\n");
+		console.log(content.card1);
+		console.log(content.card2);
+		console.log(content.chip1);
+		console.log(content.chip2);
+		console.log(content.chipMessage)
+		console.log(content.chipNums);
+		console.log(content.winner);
+		if(content.player == member){
+			cardSelect1(content);
+		}else{
+			cardSelect2(content);
+		}
 	}
+	
 	
 	function whoseTurn(content){
 		console.log(content.message);
@@ -231,22 +304,16 @@ $(function(){
 		console.log("Success Submit readyData");
 	});
 	
-	betting1Btn.click(function(){
-		var betting1Data = {type : "BETTING",sender:member, roomId:roomId};
-		sock.send(JSON.stringify(betting1Data));
-		console.log("Success submit betting1Data");
+	betBtn.click(function(){
+		var bettingData = {type : "BETTING",sender:member, roomId:roomId};
+		sock.send(JSON.stringify(bettingData));
+		console.log("Success submit bettingData");
 	});
 	
-	betting2Btn.click(function(){
-		var betting2Data = {type: "BETTING", sender:member, roomId:roomId};
-		sock.send(JSON.stringify(betting2Data));
-		console.log("Success submit betting2Data");
-	});
-	
-	betting3Btn.click(function(){
-		var resultData = {type:"RESULT",sender:member,roomId:roomId};
+	betGiveUpBtn.click(function(){
+		var resultData = {type:"GIVEUP",sender:member,roomId:roomId};
 		sock.send(JSON.stringify(resultData));
-		console.log("Success Submit resultData");
+		console.log("Success Submit betting resultData");
 	});
 	
 	

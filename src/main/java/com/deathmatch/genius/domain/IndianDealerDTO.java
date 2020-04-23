@@ -11,10 +11,9 @@ import lombok.Setter;
 public class IndianDealerDTO {
 
 	public enum MessageType{
-		DRAW,TURN
+		DRAW,TURN,GIVEUP
 	}
 	
-	private List<IndianCardDTO> cardDeck;
 	private MessageType type;
 	private String roomId;	// roomId로  해당 방에 들어감
 	private String gameId; 

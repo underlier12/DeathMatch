@@ -190,7 +190,7 @@
 	margin-left:190px;
 }
 
-#betting1{
+#betBtn{
 	width: 200px;
 	height: 50px;
 	background-color: #3F1816;
@@ -201,19 +201,7 @@
 	margin-top:15px;
 }
 
-#betting2{
-	width: 200px;
-	height: 50px;
-	background-color: #3F1816;
-	color: #E4F7BA;
-	border: 2px solid #000000;
-	font-size: 30px;
-	margin-left:190px;
-	margin-top:15px;
-}
-
-
-#betting3{
+#betGiveUpBtn{
 	width: 200px;
 	height: 50px;
 	background-color: #3F1816;
@@ -225,12 +213,45 @@
 }
 
 /* chip */
-#chip1{
-	/*margin-right:200px;*/
+
+#chipBetting{
+	width:150px;
+	height: 50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+	margin-left:190px;
+	margin-top:15px;
+	text-align:center;
 }
 
-#chip2{
+#chipUpBtn{
+	width:40px;
+	heigth:50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
 }
+#chipDownBtn{
+	width:40px;
+	heigth:50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+}
+
+#chipResetBtn{
+	width:40px;
+	heigth:50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+}
+
 
 #chip1Img{
 	width:150px;
