@@ -1,8 +1,5 @@
 package com.deathmatch.genius.domain;
 
-import java.util.List;
-
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +17,9 @@ public class IndianDealerDTO {
 	private String sender;
 	private String player;
 	private String message;
+	private String winner;
+	//private String chipNums;
+	private String chipMessage;
 	private String card1;
 	private String card2;
 	private int chip1;

@@ -251,33 +251,20 @@ $(function(){
 		cardImg2.attr("src",defaultCardPath+"card"+card2+defaultPng);
 	}
 	
-	/*function resultRound(content){
-		infoArea.eq(0).prepend(content.message + "\n");
-		console.log(content.card1);
-		console.log(content.card2);
-		console.log(content.chipNums);
-		if(content.player == member){
-			cardSelect1(content);
-		}else{
-			cardSelect2(content);
-		}
-	}*/
-	
 	function giveUpRound(content){
 		infoArea.eq(0).prepend(content.chipMessage + "\n");
 		infoArea.eq(0).prepend(content.winner + "\n");
-		console.log(content.card1);
-		console.log(content.card2);
 		console.log(content.chip1);
 		console.log(content.chip2);
 		console.log(content.chipMessage)
-		console.log(content.chipNums);
 		console.log(content.winner);
+		
 		if(content.player == member){
 			cardSelect1(content);
 		}else{
 			cardSelect2(content);
 		}
+		chipText(content);
 	}
 	
 	
