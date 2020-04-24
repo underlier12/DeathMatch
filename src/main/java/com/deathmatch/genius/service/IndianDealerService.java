@@ -77,8 +77,8 @@ public class IndianDealerService {
 		return cardArr;
 	}
 
-	public IndianDealerDTO draw(IndianGameRoom indianRoom) {
-		Map<String, Object> jsonMap = processingMap(MessageType.DRAW, indianRoom.getRoomId());
+	public IndianDealerDTO startRound(IndianGameRoom indianRoom) {
+		Map<String, Object> jsonMap = processingMap(MessageType.START, indianRoom.getRoomId());
 		cardArr = drawCard(cardDeck);
 		int[] chipArr = upAndDownChip(indianRoom, -1, -1);
 		jsonMap.put("card1", cardArr[0]);

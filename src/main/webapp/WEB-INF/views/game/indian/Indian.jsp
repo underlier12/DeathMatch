@@ -76,6 +76,7 @@
 				<button type ="button" id ="chipUpBtn">+</button>
 				<button type ="button" id ="chipDownBtn">-</button>
 				<button type ="button" id ="chipResetBtn">C</button>
+				<button type ="button" id ="chipAllInBtn">All in</button>
 			</div>
 			
 			<div>

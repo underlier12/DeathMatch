@@ -252,6 +252,14 @@
 	font-size: 30px;
 }
 
+#chipAllInBtn{
+	width:120px;
+	heigth:50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+}
 
 #chip1Img{
 	width:150px;

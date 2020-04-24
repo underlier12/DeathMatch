@@ -138,7 +138,7 @@ public class IndianService {
 		sendMessageAll(indianRoom.getSessions(),readyUser(session,indianGameDTO,indianRoom));
 		if(readyCheck(indianRoom)) {
 			dealService.makeCardDeck();
-			sendMessageAll(indianRoom.getSessions(),dealService.draw(indianRoom));
+			sendMessageAll(indianRoom.getSessions(),dealService.startRound(indianRoom));
 			sendMessageAll(indianRoom.getSessions(),allReady(indianRoom,indianGameDTO));
 		}
 	}

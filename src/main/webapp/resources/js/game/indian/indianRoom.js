@@ -43,6 +43,7 @@ $(function(){
 	var upBtn = $("#chipUpBtn");
 	var downBtn = $("#chipDownBtn");
 	var clearBtn = $("#chipResetBtn");
+	var allInBtn = $("#chipAllInBtn");
 	var count = chipBetting.val();
 	
 	/** Prev hide **/
@@ -56,6 +57,7 @@ $(function(){
 	upBtn.hide();
 	downBtn.hide();
 	clearBtn.hide();
+	allInBtn.hide();
 	
 	
 	// WebSocket actions
@@ -92,8 +94,8 @@ $(function(){
 			case "READY"
 				: ready(content);
 				break;
-			case "DRAW"
-				: draw(content);
+			case "START"
+				: startRound(content);
 				break;
 			case "TURN"
 				: whoseTurn(content);
@@ -156,7 +158,6 @@ $(function(){
 			infoArea.eq(0).prepend(content.firstTurn + "\n");
 			inGame();
 			disableBtn(content);
-			//chipCalculator();
 		}else{
 			infoArea.eq(0).prepend(content.message + "\n");
 		}
@@ -192,15 +193,16 @@ $(function(){
 		upBtn.show();
 		downBtn.show();
 		clearBtn.show();
+		allInBtn.show();
 	}
 	
-	function draw(content){
+	function startRound(content){
 		console.log(content.sender);
 		console.log(content.player);
 		chip1.show();
 		chip2.show();
 		players.show();
-		upChip(content);
+		bettingChip(content);
 		if(content.player == member){
 			cardSelect2(content);
 			chipText(content);
@@ -209,50 +211,45 @@ $(function(){
 			chipText(content);
 		}
 	}
-	function upChip(content){
-		upBtn.click(function(content){
-			var maxCnt = 0;
+	
+	// betting Chip
+	function bettingChip(content){
+		console.log(content.player);
+		console.log(content.chip1);
+		console.log(content.chip2);
+		var maxCnt = 0;
+		if(content.player == member){
+			maxCnt = content.chip1;
+		}else{
+			maxCnt = content.chip2;
+		}
+		upBtn.click(function(){
 			if(content.player == member){
-				console.log(maxCnt);
-				console.log(content.chip1);
 				maxCnt = content.chip1;
 			}else{
-				console.log(maxCnt);
 				maxCnt = content.chip2;
-				console.log(content.chip2);
 			}
 			count++;
-			if(maxCnt>count){
+			if(count>maxCnt){
 				alert("칩을 " + maxCnt +" 이상 걸 수 없습니다");
 			}else{
 				chipBetting.val(count);
 				console.log("Chip count: " + count);
-				//count = 0;
 			}
+		});
+		
+		allInBtn.click(function(){
+			alert("칩을 모두 다 거시겠습니까?");
+			if(content.player == member){
+				maxCnt = content.chip1;
+			}else{
+				maxCnt = content.chip2;
+			}
+			chipBetting.val(maxCnt);
+			count = maxCnt;
 		})
 	}
-	
-	
-	/*upBtn.bind("click", function upChip(content) {
-		var maxCnt = 0;
-		if(content.player == member){
-			console.log(maxCnt);
-			console.log(content.chip1);
-			maxCnt = content.chip1;
-		}else{
-			console.log(maxCnt);
-			maxCnt = content.chip2;
-			console.log(content.chip2);
-		}
-		count++;
-		if(maxCnt>count){
-			alert("칩을 " + maxCnt +" 이상 걸 수 없습니다");
-		}else{
-			chipBetting.val(count);
-			console.log("Chip count: " + count);
-			//count = 0;
-		}
-	});*/
+	// end
 	
 	downBtn.bind("click",function downChip(){
 		count--;
