@@ -20,13 +20,11 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/root-context.xml" })
-public class IndianDAOTest {
+public class IndianGameTest {
 
 	@Autowired
 	private IndianSettingDAO indianDAO;
-	/*
-	 * @Autowired private IndianDealerService indianService;
-	 */
+
 	List<IndianCardDTO> cardDeck = new ArrayList<>();
 
 	String[] cardArr = new String[2];
@@ -36,11 +34,9 @@ public class IndianDAOTest {
 	@Before
 	public void getCardDeck() {
 		cardDeck = indianDAO.problemList();
-
 		for (IndianCardDTO card : cardDeck) {
 			log.info(card);
 		}
-
 	}
 
 	@Test

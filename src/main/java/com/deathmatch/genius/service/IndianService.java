@@ -57,9 +57,6 @@ public class IndianService {
 		case BETTING:
 			bettingAct(session,indianGameDTO,indianRoom);
 			break;
-		/*
-		 * case RESULT: resultAct(session,indianGameDTO,indianRoom); break;
-		 */
 		case GIVEUP:
 			giveUpAct(session,indianGameDTO,indianRoom);
 			break;
@@ -140,7 +137,8 @@ public class IndianService {
 	public void readyAct(WebSocketSession session,IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
 		sendMessageAll(indianRoom.getSessions(),readyUser(session,indianGameDTO,indianRoom));
 		if(readyCheck(indianRoom)) {
-			sendMessageAll(indianRoom.getSessions(),dealService.drawAct(indianRoom));
+			dealService.makeCardDeck();
+			sendMessageAll(indianRoom.getSessions(),dealService.draw(indianRoom));
 			sendMessageAll(indianRoom.getSessions(),allReady(indianRoom,indianGameDTO));
 		}
 	}
@@ -179,29 +177,9 @@ public class IndianService {
 	}
 	
 	public void giveUpAct(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
-		int[] cardNums = dealService.getCardNum();
-		if(cardNums[0] == 10 || cardNums[1] == 10) {
-			sendMessageAll(indianRoom.getSessions(),dealService.giveUpRound(indianGameDTO, indianRoom));
-		}
+		sendMessageAll(indianRoom.getSessions(),dealService.giveUpRound(indianGameDTO, indianRoom));
 	}
-	
-	/*
-	 * public void giveUpAct(WebSocketSession session,IndianGameDTO
-	 * indianGameDTO,IndianGameRoom indianRoom) { Map<String,Object> jsonMap =
-	 * convertMap(MessageType.GIVEUP,indianRoom.getRoomId()); int [] cardNums =
-	 * dealService.getCardNum(); // 턴 종료후 상대 카드를 보여주기 위해 카드 번호 전송
-	 * jsonMap.put("card1",cardNums[0]); jsonMap.put("card2", cardNums[1]); //카드가
-	 * 10인 경우라면 if(cardNums[0] == 10 || cardNums[1] == 10) { Map<String,String>
-	 * infoMap = dealService.loseTenCard(indianGameDTO, indianRoom);
-	 * jsonMap.put("chipMessage",infoMap.get("message")); jsonMap.put("winner",
-	 * infoMap.get("winner")); jsonMap.put("chipNums", value) } // Turn 종료후 클라이언트와
-	 * 비교후 플레이어의 카드를 보여주기 위해 jsonMap.put("player",
-	 * indianRoom.getPlayers().get(0).getUserId());
-	 * 
-	 * IndianServiceDTO indianServiceDTO = processing(jsonMap);
-	 * sendMessageAll(indianRoom.getSessions(), indianServiceDTO); }
-	 */
-	
+		
 	/* Load Player */
 	
 	Queue<Object> playerQueue = new LinkedList<>();

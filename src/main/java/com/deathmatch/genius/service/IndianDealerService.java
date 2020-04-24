@@ -40,7 +40,7 @@ public class IndianDealerService {
 		this.objectMapper = objectMapper;
 	}
 
-	public Map<String, Object> convertMap(MessageType type, String roomId) {
+	public Map<String, Object> processingMap(MessageType type, String roomId) {
 		Map<String, Object> jsonMap = new HashMap<>();
 		jsonMap.put("type", type.toString());
 		jsonMap.put("roomId", roomId);
@@ -70,7 +70,7 @@ public class IndianDealerService {
 	/* Make Problem */
 
 	List<IndianCardDTO> cardDeck = new ArrayList<>();
-	String[] cardArr;
+	String[] cardArr = new String[2];
 	int cardIndex = 0;
 
 	public void makeCardDeck() {
@@ -78,18 +78,15 @@ public class IndianDealerService {
 	}
 
 	public String[] drawCard(List<IndianCardDTO> cardDeck) {
-		cardArr = new String[2];
-		int startIdx = cardIndex;
-		cardIndex += 2;
-		cardArr[0] = cardDeck.get(startIdx).getCardNum();
-		//cardArr[1] = cardDeck.get(startIdx + 1).getCardNum();
-		cardArr[1] = "10";
+		//cardArr[0] = cardDeck.get(cardIndex++).getCardNum();
+		cardArr[0] = "10";
+		cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
+		// cardArr[1] = "10";
 		return cardArr;
 	}
 
-	public IndianDealerDTO draw(String[] cardArr, IndianGameRoom indianRoom) {
-		Map<String, Object> jsonMap = convertMap(MessageType.DRAW, indianRoom.getRoomId());
-		makeCardDeck();
+	public IndianDealerDTO draw(IndianGameRoom indianRoom) {
+		Map<String, Object> jsonMap = processingMap(MessageType.DRAW, indianRoom.getRoomId());
 		cardArr = drawCard(cardDeck);
 		jsonMap.put("card1", cardArr[0]);
 		jsonMap.put("card2", cardArr[1]);
@@ -100,113 +97,110 @@ public class IndianDealerService {
 		return indianDealerDTO;
 	}
 
-	public IndianDealerDTO drawAct(IndianGameRoom indianRoom) {
-		makeCardDeck();
-		IndianDealerDTO getCard = draw(cardArr, indianRoom);
-		log.info("drawAct");
-		return getCard;
+	public int[] parsingCard() {
+		int[] cardNums = new int[2];
+		cardNums[0] = Integer.parseInt(cardArr[0]);
+		cardNums[1] = Integer.parseInt(cardArr[1]);
+		return cardNums;
 	}
 
 	public String endRound(IndianGameRoom indianRoom) {
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
-		int [] cardNums = getCardNum();
+		int[] cardNums = parsingCard();
 		int cardNum1 = cardNums[0];
 		int cardNum2 = cardNums[1];
 		log.info("player: " + players.get(0).getUserId() + " 카드는 : " + cardNum1);
 		log.info("player: " + players.get(1).getUserId() + " 카드는 : " + cardNum2);
-		if(cardNum1 > cardNum2) {
+		if (cardNum1 > cardNum2) {
 			return players.get(0).getUserId() + " 님이 승자 입니다 ";
-		}else if (cardNum1 < cardNum2) {
+		} else if (cardNum1 < cardNum2) {
 			return players.get(1).getUserId() + " 님이 승자 입니다 ";
-		}else if(cardNum1 == cardNum2) {
+		} else if (cardNum1 == cardNum2) {
 			return "무승부 입니다 ";
 		}
-		return  "Error";
+		return "Error";
 	}
-	
-	public IndianDealerDTO giveUpRound(IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
-		Map<String,String> infoMap = loseTenCard(indianGameDTO,indianRoom);
-		Map<String,Object> jsonMap = convertMap(MessageType.GIVEUP,indianRoom.getRoomId());
-		int [] cardNums = getCardNum();
+
+	public IndianDealerDTO giveUpRound(IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
+		int[] cardNums = parsingCard();
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
-		// Turn 종료후 상대 플레이어의 보여주기 위해 카드 번호 전송 
+		String currentPlayer = indianGameDTO.getSender();
+		Map<String, Object> jsonMap = processingMap(MessageType.GIVEUP, indianRoom.getRoomId());
+		
+		// Turn 종료후 상대 플레이어의 보여주기 위해 카드 번호 전송
 		jsonMap.put("card1", cardNums[0]);
 		jsonMap.put("card2", cardNums[1]);
-		
-		jsonMap.put("chipMessage", infoMap.get("message"));
-		jsonMap.put("winner", infoMap.get("winner"));
 		jsonMap.put("chip1", players.get(0).getChip());
 		jsonMap.put("chip2", players.get(1).getChip());
 		// Turn 종료후 플레이어를 비교하기 위해 플레이어 아이디 전송
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
 		
+		loseChip(indianGameDTO,indianRoom);
+
+		if (currentPlayer.equals(players.get(0).getUserId())) {
+			jsonMap.put("chipMessage", "포기하셨습니다 ! " + players.get(0).getUserId() + " 님이 칩을 잃었습니다 ");
+			jsonMap.put("winner", players.get(1).getUserId() + " 님이 승자 입니다");
+		} else if (currentPlayer.equals(players.get(1).getUserId())) {
+			jsonMap.put("chipMessage", "포기 하셨습니다 ! " + players.get(1).getUserId() + " 님이 칩을 잃었습니다 ");
+			jsonMap.put("winner", players.get(0).getUserId() + " 님이 승자 입니다");
+		}
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}
-	
-	
-	public Map<String,String> loseTenCard(IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
-		int [] cardNums = getCardNum();
-		Map<String,String> infoMap = new HashMap<>();
+
+	public Map<String, String> loseChip(IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
+		int[] cardNums = parsingCard();
+		Map<String, String> infoMap = new HashMap<>();
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
 		String player = indianGameDTO.getSender();
-		int cardNum1 = cardNums[0]; //player1 의 카드
-		int cardNum2 = cardNums[1]; //player2의 카드
+		int cardNum1 = cardNums[0]; // player1 의 카드
+		int cardNum2 = cardNums[1]; // player2의 카드
 		int chip1 = players.get(0).getChip();
 		int chip2 = players.get(1).getChip();
 		log.info("lose Ten card request Player: " + player);
-		
-		// 클라이언트에서 요청한 사람이 첫번째 플레이어라면
-		if(player.equals(players.get(0).getUserId()) 
-				&& cardNum1 == 10) {
-			chip1-=10;
-			chip2+=10;
+
+		if (player.equals(players.get(0).getUserId()) && cardNum1 == 10) {
+			// 클라이언트에서 요청한 사람이 첫번째 플레이어라면
+			chip1 -= 10;
+			chip2 += 10;
 			players.get(0).setChip(chip1);
 			players.get(1).setChip(chip2);
-			log.info(players.get(0).getUserId() + " 님의 칩의 개수는: "
-					+ players.get(0).getChip() + "입니다");
-			infoMap.put("message","카드가 10이 나왔습니다! 그러나 포기하셨습니다 "+players.get(0).getUserId()+ " 님이 칩 10개를 잃었습니다");
-			infoMap.put("winner", players.get(1).getUserId()+ " 님이 승자 입니다");
-		}else if(player.equals(players.get(1).getUserId())
-				&& cardNum2 == 10) {
-			chip2-=10;
-			chip1+=10;
+			log.info(players.get(0).getUserId() + " 님의 칩의 개수는: " + players.get(0).getChip() + "입니다");
+			/*
+			 * infoMap.put("message", "카드가 10이 나왔습니다! 그러나 포기하셨습니다 " +
+			 * players.get(0).getUserId() + " 님이 칩 10개를 잃었습니다"); infoMap.put("winner",
+			 * players.get(1).getUserId() + " 님이 승자 입니다");
+			 */
+		} else if (player.equals(players.get(1).getUserId()) && cardNum2 == 10) {
+			// 클라이언트에서 요청한 사람이 두번째 플레이어라면
+			chip2 -= 10;
+			chip1 += 10;
 			players.get(0).setChip(chip1);
 			players.get(1).setChip(chip2);
-			log.info(players.get(1).getUserId() + " 님의 칩의 개수는: "
-					+  players.get(1).getChip() + "입니다");
-			infoMap.put("message","카드가 10이 나왔습니다! 그러나 포기하셨습니다 "+players.get(1).getUserId()+ " 님이 칩 10개를 잃었습니다");
-			infoMap.put("winner",players.get(0).getUserId()+ " 님이 승자 입니다");
-		}else {		// 내 카드가 10이지만 상대가 배팅 포기를 누른경우
-			String winner = endRound(indianRoom);
-			log.info("내 카드는 10이지만 상대가 배팅 포기: " + winner);
-			infoMap.put("message","카드가 10이 나왔습니다 !");
-			infoMap.put("winner", winner);
+			log.info(players.get(1).getUserId() + " 님의 칩의 개수는: " + players.get(1).getChip() + "입니다");
+			/*
+			 * infoMap.put("message", "카드가 10이 나왔습니다! 그러나 포기하셨습니다 " +
+			 * players.get(1).getUserId() + " 님이 칩 10개를 잃었습니다"); infoMap.put("winner",
+			 * players.get(0).getUserId() + " 님이 승자 입니다");
+			 */
 		}
 		return infoMap;
 	}
-	
-	public int[] getCardNum() {
-		int [] cardNums = new int[2];
-		cardNums[0] = Integer.parseInt(cardArr[0]);
-		cardNums[1] = Integer.parseInt(cardArr[1]);
-		return cardNums;
-	}
-	
+
 	public IndianDealerDTO whoseTurn(IndianGameRoom indianRoom) {
-		Map<String,Object> jsonMap = convertMap(MessageType.TURN,indianRoom.getRoomId());
+		Map<String, Object> jsonMap = processingMap(MessageType.TURN, indianRoom.getRoomId());
 		String whoseTurn = nextTurn(indianRoom);
 		jsonMap.put("message", whoseTurn + " 님의 차례입니다 ");
-		jsonMap.put("player",whoseTurn);
+		jsonMap.put("player", whoseTurn);
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}
-	
+
 	public String nextTurn(IndianGameRoom indianRoom) {
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
 		String myTurn;
 		log.info("nextTurn Method");
-		if(!players.get(0).getTurn()) {
+		if (!players.get(0).getTurn()) {
 			myTurn = players.get(0).getUserId();
 			players.get(0).setTurn(true);
 			players.get(1).setTurn(false);
@@ -220,5 +214,5 @@ public class IndianDealerService {
 		log.info(myTurn);
 		return myTurn;
 	}
-	
+
 }

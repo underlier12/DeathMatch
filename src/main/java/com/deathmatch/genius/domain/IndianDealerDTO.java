@@ -18,7 +18,6 @@ public class IndianDealerDTO {
 	private String player;
 	private String message;
 	private String winner;
-	//private String chipNums;
 	private String chipMessage;
 	private String card1;
 	private String card2;
