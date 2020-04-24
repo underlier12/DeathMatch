@@ -111,30 +111,6 @@ $(function(){
 	/* chip calculator */
 	// 이후 정보를 불러와서 처리할 필요가 있음 /
 	
-	upBtn.bind("click", function upChip() {
-		count++;
-		if(count>30){
-			alert("칩을 30개이상 걸 수 없습니다");
-		}else{
-			chipBetting.val(count);
-			console.log("Chip count: " + count);
-			//count = 0;
-		}
-	});
-	
-	downBtn.bind("click",function downChip(){
-		count--;
-		console.log("Chip count : " + count);
-		if(count < 0 ){
-			alert("칩을 1개이상 걸어주세요!")
-			count = 0;
-		}else{
-			chipBetting.val(count);
-			console.log("Chip count: " + count);
-			//count = 0;
-		}
-	});
-	
 	clearBtn.bind("click",function clearChip(){
 		count = 0;
 		chipBetting.val(count);
@@ -224,6 +200,7 @@ $(function(){
 		chip1.show();
 		chip2.show();
 		players.show();
+		upChip(content);
 		if(content.player == member){
 			cardSelect2(content);
 			chipText(content);
@@ -231,8 +208,65 @@ $(function(){
 			cardSelect1(content);
 			chipText(content);
 		}
-		
 	}
+	function upChip(content){
+		upBtn.click(function(content){
+			var maxCnt = 0;
+			if(content.player == member){
+				console.log(maxCnt);
+				console.log(content.chip1);
+				maxCnt = content.chip1;
+			}else{
+				console.log(maxCnt);
+				maxCnt = content.chip2;
+				console.log(content.chip2);
+			}
+			count++;
+			if(maxCnt>count){
+				alert("칩을 " + maxCnt +" 이상 걸 수 없습니다");
+			}else{
+				chipBetting.val(count);
+				console.log("Chip count: " + count);
+				//count = 0;
+			}
+		})
+	}
+	
+	
+	/*upBtn.bind("click", function upChip(content) {
+		var maxCnt = 0;
+		if(content.player == member){
+			console.log(maxCnt);
+			console.log(content.chip1);
+			maxCnt = content.chip1;
+		}else{
+			console.log(maxCnt);
+			maxCnt = content.chip2;
+			console.log(content.chip2);
+		}
+		count++;
+		if(maxCnt>count){
+			alert("칩을 " + maxCnt +" 이상 걸 수 없습니다");
+		}else{
+			chipBetting.val(count);
+			console.log("Chip count: " + count);
+			//count = 0;
+		}
+	});*/
+	
+	downBtn.bind("click",function downChip(){
+		count--;
+		console.log("Chip count : " + count);
+		if(count < 0 ){
+			alert("칩을 1개이상 걸어주세요!")
+			count = 0;
+		}else{
+			chipBetting.val(count);
+			console.log("Chip count: " + count);
+			//count = 0;
+		}
+	});
+	
 	
 	function chipText(content){
 		chipScore1.text(content.chip1);
