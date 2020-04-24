@@ -5,15 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpSession;
-
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
-
 import com.deathmatch.genius.dao.IndianSettingDAO;
 import com.deathmatch.genius.domain.IndianCardDTO;
 import com.deathmatch.genius.domain.IndianDealerDTO;
@@ -22,7 +15,6 @@ import com.deathmatch.genius.domain.IndianGameDTO;
 import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.IndianPlayerDTO;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -88,11 +80,20 @@ public class IndianDealerService {
 	public IndianDealerDTO draw(IndianGameRoom indianRoom) {
 		Map<String, Object> jsonMap = processingMap(MessageType.DRAW, indianRoom.getRoomId());
 		cardArr = drawCard(cardDeck);
+		int chip1 = indianRoom.getPlayers().get(0).getChip() -1;
+		int chip2 = indianRoom.getPlayers().get(1).getChip() -1;
+		indianRoom.getPlayers().get(0).setChip(chip1);
+		indianRoom.getPlayers().get(1).setChip(chip2);
+		log.info("Player : " + indianRoom.getPlayers().get(0).getUserId() + "님의 칩은 " 
+				+ indianRoom.getPlayers().get(0).getChip());
+		log.info("Player : " + indianRoom.getPlayers().get(1).getUserId() + "님의 칩은 "
+				+ indianRoom.getPlayers().get(1).getChip());
+		
 		jsonMap.put("card1", cardArr[0]);
 		jsonMap.put("card2", cardArr[1]);
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
-		jsonMap.put("chip1", indianRoom.getPlayers().get(0).getChip());
-		jsonMap.put("chip2", indianRoom.getPlayers().get(1).getChip());
+		jsonMap.put("chip1", chip1);
+		jsonMap.put("chip2", chip2);
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}
