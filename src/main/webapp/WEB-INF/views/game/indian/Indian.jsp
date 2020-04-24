@@ -29,7 +29,7 @@
 					src="${pageContext.request.contextPath}/images/indiancards/card.png">
 			</div>
 		</div>
-		
+
 		<div id="player-flex">
 			<div>
 				<input id="playerId1" readonly>
@@ -40,10 +40,10 @@
 		</div>
 
 		<div id="game-flex">
-			<div id ="chip1">
-				<img id ="chip1Img"
+			<div id="chip1">
+				<img id="chip1Img"
 					src="${pageContext.request.contextPath}/images/indiancards/chip.png">
-				<div id ="chipScore1"></div>
+				<div id="chipScore1"></div>
 			</div>
 			<div class="players">
 				<img id="player1"
@@ -54,46 +54,59 @@
 					src="${pageContext.request.contextPath}/images/player2.png">
 			</div>
 			<div id="chip2">
-				<img id ="chip2Img"
+				<img id="chip2Img"
 					src="${pageContext.request.contextPath}/images/indiancards/chip.png">
-				<div id ="chipScore2"></div>
+				<div id="chipScore2"></div>
 			</div>
-		</div>
-		
-		<div id ="indian-flex">
-			<div>
-				<button type ="button" id ="readyBtn">Ready</button>
-			</div>
-		</div>
-		
-		<div id ="indian-flex">
-			<div>
-				<button type ="button" id ="betBtn">BETTING</button>
-			</div>
-
-			<div>
-				<input type ="text" id="chipBetting" readonly="readonly" value="0">
-				<button type ="button" id ="chipUpBtn">+</button>
-				<button type ="button" id ="chipDownBtn">-</button>
-				<button type ="button" id ="chipResetBtn">C</button>
-				<button type ="button" id ="chipAllInBtn">All in</button>
-			</div>
-			
-			<div>
-				<button type ="button" id ="betGiveUpBtn">포기</button>
-			</div>
-		</div>
-		
-		<div class ="indian-flex">
-			<div id="connectionArea"></div>
-		</div>
-		
-		<div class ="indian-flex">
-			<textarea id="infoArea" rows="4" cols="30" readonly></textarea><p>
 		</div>
 
 		<div class="indian-flex">
-			<textarea id="chatArea" rows="4" cols="70" readonly></textarea><p>
+			<div>
+				<button type="button" id="readyBtn">Ready</button>
+			</div>
+		</div>
+		
+		<div class="indian-flex">
+			<div>
+				<button type="button" id="betBtn">BETTING</button>
+			</div>
+		</div>
+
+		<div class="indian-flex">
+			<div id="chipBettingArea">
+				<input type="text" id="chipBetting" readonly="readonly" value="0">
+			</div>
+			<div>
+				<button type="button" id="chipUpBtn">▲</button><br>
+				<button type="button" id="chipDownBtn">▼</button>
+			</div>
+		</div>
+		
+		<div class="indian-flex">
+			<div>
+				<button type="button" id="chipAllInBtn">All in</button>
+				<button type="button" id="betSendBtn">배팅</button>
+			</div>
+		</div>
+		
+		<div class ="indian-flex">
+			<div>
+				<button type="button" id="betGiveUpBtn">포기</button>
+			</div>
+		</div>
+
+		<div class="indian-flex">
+			<div id="connectionArea"></div>
+		</div>
+
+		<div class="indian-flex">
+			<textarea id="infoArea" rows="4" cols="30" readonly></textarea>
+			<p>
+		</div>
+
+		<div class="indian-flex">
+			<textarea id="chatArea" rows="4" cols="70" readonly></textarea>
+			<p>
 		</div>
 
 		<div class=indian-flex">
@@ -107,8 +120,7 @@
 
 		<div class="indian-flex">
 			<div class="content" data-room-id="${room.roomId}"
-				data-member="${member}">
-			</div>
+				data-member="${member}"></div>
 			<%@ include file="../../includes/footer.jsp"%>
 		</div>
 

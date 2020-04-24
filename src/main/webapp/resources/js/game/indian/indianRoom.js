@@ -34,6 +34,7 @@ $(function(){
 	
 	var betBtn = $("#betBtn");
 	var betGiveUpBtn = $("#betGiveUpBtn");
+	var betSendBtn = $("#betSendBtn");
 	
 	var card1;
 	var card2;
@@ -42,12 +43,12 @@ $(function(){
 	var chipBetting = $("#chipBetting");
 	var upBtn = $("#chipUpBtn");
 	var downBtn = $("#chipDownBtn");
-	var clearBtn = $("#chipResetBtn");
+	//var clearBtn = $("#chipResetBtn");
 	var allInBtn = $("#chipAllInBtn");
 	var count = chipBetting.val();
 	
 	/** Prev hide **/
-	betBtn.hide();
+	//betBtn.hide();
 	betGiveUpBtn.hide();
 	
 	chip1.hide();
@@ -56,9 +57,8 @@ $(function(){
 	chipBetting.hide();
 	upBtn.hide();
 	downBtn.hide();
-	clearBtn.hide();
 	allInBtn.hide();
-	
+	betSendBtn.hide();
 	
 	// WebSocket actions
 	
@@ -113,14 +113,12 @@ $(function(){
 	/* chip calculator */
 	// 이후 정보를 불러와서 처리할 필요가 있음 /
 	
-	clearBtn.bind("click",function clearChip(){
+	/*clearBtn.bind("click",function clearChip(){
 		count = 0;
 		chipBetting.val(count);
-	});
+	});*/
 	
 	// end
-	
-	
 	
 	function loadPlayer(content){
 		switch (content.message) {
@@ -180,7 +178,7 @@ $(function(){
 	function inGame(){
 		readyBtn.hide();
 		showBettingBtn();
-		chipCalculatorShow();
+		//chipCalculatorShow();
 	}
 	
 	function showBettingBtn(){
@@ -192,8 +190,8 @@ $(function(){
 		chipBetting.show();
 		upBtn.show();
 		downBtn.show();
-		clearBtn.show();
 		allInBtn.show();
+		betSendBtn.show();
 	}
 	
 	function startRound(content){
@@ -306,6 +304,9 @@ $(function(){
 		disableBtn(content);
 	}
 	
+	betBtn.click(function(){
+		chipCalculatorShow();
+	});
 	
 	/** Message **/
 	
@@ -322,7 +323,7 @@ $(function(){
 		console.log("Success Submit readyData");
 	});
 	
-	betBtn.click(function(){
+	betSendBtn.click(function(){
 		var bettingData = {type : "BETTING",sender:member, roomId:roomId};
 		sock.send(JSON.stringify(bettingData));
 		console.log("Success submit bettingData");
