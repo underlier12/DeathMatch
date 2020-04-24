@@ -1,6 +1,5 @@
 package com.deathmatch.genius.dao;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,35 +19,42 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/root-context.xml" })
 public class IndianDAOTest {
-	
+
 	@Autowired
 	private IndianSettingDAO indianDAO;
-	@Autowired
-	private IndianDealerService indianService;
-	
+	/*
+	 * @Autowired private IndianDealerService indianService;
+	 */
 	List<IndianCardDTO> cardDeck = new ArrayList<>();
-	
-	String[] cardArr;
+
+	String[] cardArr = new String[2];
 	int cardIndex = 0;
-	
+	int cnt = 0;
+
 	@Before
 	public void getCardDeck() {
 		cardDeck = indianDAO.problemList();
-		log.info("cardDeck size() : " + cardDeck.size());
-		for(IndianCardDTO card : cardDeck) {
+
+		for (IndianCardDTO card : cardDeck) {
 			log.info(card);
 		}
+
 	}
-	
+
 	@Test
 	public void draw() {
-		cardArr = new String[2];
-		cardArr = indianService.drawCard(cardDeck);
-		log.info("card1 : " + cardArr[0]);
-		log.info("card2 : " + cardArr[1]);
+		log.info("cardIndex() : " + cardIndex);
+		log.info("cardSize() : " + cardDeck.size());
+		while (cardIndex != cardDeck.size()) {
+			log.info("first Index: " + cardIndex);
+			cardArr[0] = cardDeck.get(cardIndex++).getCardNum();
+			log.info("first Card : " + cardArr[0]);
+			log.info("two index: " + cardIndex);
+			cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
+			log.info("second Card : " + cardArr[1]);
+		}
 	}
 
 }
