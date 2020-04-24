@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.deathmatch.genius.mapper.UnionLoadingMapper">
+    
+    <select id="selectAnswerSheet" resultType="UnionCardDTO">
+    	select *
+    	from tbl_union_card
+    	order by rand()
+    	limit 9;
+    </select>
+    
+    <select id ="selectProblemEach" resultType="UnionCardDTO">
+        select *
+        from tbl_union_card
+        where name = (
+        	select card
+        	from tbl_union_problem
+        	where gameId = #{gameId} and round = #{round} and idx = #{idx}
+        );
+    </select>
+    
+</mapper>
