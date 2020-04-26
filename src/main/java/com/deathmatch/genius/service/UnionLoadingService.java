@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.deathmatch.genius.dao.UnionLoadingDAO;
 import com.deathmatch.genius.domain.GameRoom;
+import com.deathmatch.genius.domain.UnionDatabaseDTO;
 import com.deathmatch.genius.domain.UnionLoadingDTO;
 import com.deathmatch.genius.domain.UnionPlayerDTO;
 import com.deathmatch.genius.domain.UnionSettingDTO.MessageType;
@@ -27,7 +28,7 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class UnionLoadingService {
 
-//	public final UnionLoadingDAO unionLoadingDAO;
+	public final UnionLoadingDAO unionLoadingDAO;
 	public final ObjectMapper objectMapper;
 		
 	public Map<String, Object> preprocessing(MessageType type, String roomId) {
@@ -56,6 +57,29 @@ public class UnionLoadingService {
 			e.printStackTrace();
 		}
 		return unionLoadingDTO;
+	}
+	
+	public UnionDatabaseDTO dbprocessing(GameRoom gameRoom){
+		Map<String, Object> jsonMap = new HashMap<>();
+		
+		jsonMap.put("gameId", gameRoom.getGameId());
+		jsonMap.put("round", gameRoom.getRound());
+		
+		JSONObject jsonObject = new JSONObject(jsonMap);
+		String jsonString = jsonObject.toJSONString();
+		UnionDatabaseDTO unionDatabaseDTO = null;		
+		log.info("jsonString : " + jsonString);
+		
+		try {
+			unionDatabaseDTO = objectMapper.readValue(jsonString, UnionDatabaseDTO.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return unionDatabaseDTO;
 	}
 	
 	public Queue<Object> loadOnGame(GameRoom gameRoom){
@@ -117,8 +141,18 @@ public class UnionLoadingService {
 	}
 
 	private UnionLoadingDTO loadProblem(GameRoom gameRoom) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> jsonMap;
+		UnionDatabaseDTO dbDTO = dbprocessing(gameRoom);		
+		List<String> problem = unionLoadingDAO.selectUnionProblemCardNames(dbDTO);
+		
+		jsonMap = preprocessing(MessageType.LOAD, gameRoom.getRoomId());
+		
+		jsonMap.put("message", "PROBLEM");
+		jsonMap.put("set", problem);
+		
+		UnionLoadingDTO unionLoadingDTO = postprocessing(jsonMap);
+		
+		return unionLoadingDTO;
 	}
 
 	private UnionLoadingDTO loadAnswersheet(GameRoom gameRoom) {
