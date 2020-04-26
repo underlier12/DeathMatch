@@ -4,13 +4,13 @@
 
 <mapper namespace="com.deathmatch.genius.mapper.UnionLoadingMapper">
     
-    <select id ="selectProblem" resultType="String">
+    <select id ="selectProblem" resultType="string">
         select card
         from tbl_union_problem
         where gameId = #{gameId} and round = #{round};
     </select>
     
-    <select id="selectAnswerSheet" resultType="String">
+    <select id="selectAnswerSheet" resultType="string">
     	select answer
     	from tbl_union_submitted_answer
     	where gameId = #{gameId} and round = #{round} and score = 1;

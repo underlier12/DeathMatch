@@ -23,9 +23,9 @@ public class UnionLoadingDAOImpl implements UnionLoadingDAO {
 
 	@Override
 	public List<String> selectUnionProblemCardNames(UnionDatabaseDTO dbDTO) {
-		List<String> problem = new ArrayList<>();
+		List<String> problem; // = new ArrayList<>();
 		
-		problem = sqlSession.selectList(namespace + ".selectProblem");
+		problem = sqlSession.selectList(namespace + ".selectProblem", dbDTO);
 //		for(int i = 0; i < 9; i++) {
 //			dbDTO.setIdx(i);
 //			String cardName

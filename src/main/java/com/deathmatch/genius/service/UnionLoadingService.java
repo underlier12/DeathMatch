@@ -114,7 +114,7 @@ public class UnionLoadingService {
 			queue.offer(loadScores(player, gameRoom));			
 		}
 		queue.offer(loadProblem(gameRoom));
-		queue.offer(loadAnswersheet(gameRoom));
+//		queue.offer(loadAnswersheet(gameRoom));
 		
 		return queue;
 	}
