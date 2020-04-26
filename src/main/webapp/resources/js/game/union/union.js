@@ -168,6 +168,12 @@ $(function () {
 				$('#scoreB').val(content.score);
 			}
 			break;
+			
+		case "PROBLEM":
+			for(var i=0; i < content.set.length; i++){
+				$(".card:eq("+i+")").attr("src", defaultCardPath + content.set[i] + defaultJpg);
+			}
+			break;
 		}
  	}
  	
