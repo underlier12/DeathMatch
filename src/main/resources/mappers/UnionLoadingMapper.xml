@@ -4,21 +4,16 @@
 
 <mapper namespace="com.deathmatch.genius.mapper.UnionLoadingMapper">
     
-    <select id="selectAnswerSheet" resultType="UnionCardDTO">
-    	select *
-    	from tbl_union_card
-    	order by rand()
-    	limit 9;
+    <select id ="selectProblem" resultType="String">
+        select card
+        from tbl_union_problem
+        where gameId = #{gameId} and round = #{round};
     </select>
     
-    <select id ="selectProblemEach" resultType="UnionCardDTO">
-        select *
-        from tbl_union_card
-        where name = (
-        	select card
-        	from tbl_union_problem
-        	where gameId = #{gameId} and round = #{round} and idx = #{idx}
-        );
+    <select id="selectAnswerSheet" resultType="String">
+    	select answer
+    	from tbl_union_submitted_answer
+    	where gameId = #{gameId} and round = #{round} and score = 1;
     </select>
     
 </mapper>
