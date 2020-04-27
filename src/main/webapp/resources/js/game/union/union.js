@@ -176,6 +176,13 @@ $(function () {
 				$(".card:eq("+i+")").attr("src", defaultCardPath + content.set[i] + defaultJpg);
 			}
 			break;
+			
+		case "ANSWER":
+			console.log("answer loading");
+			console.log("length : " + content.set.length);
+			for(var i=0; i < content.set.length; i++){
+	        	$('#answer').append('<li>' + content.answer + '</li>');
+			}
 		}
  	}
  	

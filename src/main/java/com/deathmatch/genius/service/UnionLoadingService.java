@@ -158,7 +158,7 @@ public class UnionLoadingService {
 	private UnionLoadingDTO loadAnswersheet(GameRoom gameRoom) {
 		Map<String, Object> jsonMap;
 		UnionDatabaseDTO dbDTO = dbprocessing(gameRoom);		
-		List<String> answerSheet = unionLoadingDAO.selectUnionProblemCardNames(dbDTO);
+		List<String> answerSheet = unionLoadingDAO.selectUnionAnswerSheet(dbDTO);
 		
 		jsonMap = preprocessing(MessageType.LOAD, gameRoom.getRoomId());
 		
