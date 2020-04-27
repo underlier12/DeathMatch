@@ -114,7 +114,7 @@ public class UnionLoadingService {
 			queue.offer(loadScores(player, gameRoom));			
 		}
 		queue.offer(loadProblem(gameRoom));
-//		queue.offer(loadAnswersheet(gameRoom));
+		queue.offer(loadAnswersheet(gameRoom));
 		
 		return queue;
 	}
@@ -156,13 +156,17 @@ public class UnionLoadingService {
 	}
 
 	private UnionLoadingDTO loadAnswersheet(GameRoom gameRoom) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Queue<Object> loadOnHistory(){
-		Queue<Object> queue = new LinkedList<>();
-
-		return queue;
+		Map<String, Object> jsonMap;
+		UnionDatabaseDTO dbDTO = dbprocessing(gameRoom);		
+		List<String> answerSheet = unionLoadingDAO.selectUnionProblemCardNames(dbDTO);
+		
+		jsonMap = preprocessing(MessageType.LOAD, gameRoom.getRoomId());
+		
+		jsonMap.put("message", "ANSWER");
+		jsonMap.put("set", answerSheet);
+		
+		UnionLoadingDTO unionLoadingDTO = postprocessing(jsonMap);
+		
+		return unionLoadingDTO;
 	}
 }

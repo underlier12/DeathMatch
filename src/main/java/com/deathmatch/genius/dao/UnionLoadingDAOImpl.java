@@ -41,7 +41,7 @@ public class UnionLoadingDAOImpl implements UnionLoadingDAO {
 	public List<String> selectUnionAnswerSheet(UnionDatabaseDTO dbDTO) {
 		List<String> answerSheet = new ArrayList<>();
 		
-		answerSheet = sqlSession.selectList(namespace + ".selectAnswerSheet");
+		answerSheet = sqlSession.selectList(namespace + ".selectAnswerSheet", dbDTO);
 		log.info("answerSheet : " + answerSheet.toString());
 		
 		return answerSheet;
