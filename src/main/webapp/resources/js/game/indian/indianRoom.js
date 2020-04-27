@@ -7,8 +7,12 @@ $(function(){
 	
 	var roomId = $('.content').data('room-id');
 	var member = $('.content').data('member');
+	
 	var playerId1 = $("#playerId1");
 	var playerId2 = $("#playerId2");
+	
+	var infocard1 = $("#infocard1");
+	var infocard2 = $("#infocard2");
 	
 	var readyBtn = $("#readyBtn");
 	var sendBtn = $("#sendBtn");
@@ -30,6 +34,8 @@ $(function(){
 	
 	var chipScore1 = $("#chipScore1");
 	var chipScore2 = $("#chipScore2");
+	var betchip1Score = $("#betchip1Score");
+	var betchip2Score = $("#betchip2Score");
 	
 	
 	var betBtn = $("#betBtn");
@@ -43,12 +49,11 @@ $(function(){
 	var chipBetting = $("#chipBetting");
 	var upBtn = $("#chipUpBtn");
 	var downBtn = $("#chipDownBtn");
-	//var clearBtn = $("#chipResetBtn");
 	var allInBtn = $("#chipAllInBtn");
 	var count = chipBetting.val();
 	
 	/** Prev hide **/
-	//betBtn.hide();
+	/*betBtn.hide();
 	betGiveUpBtn.hide();
 	
 	chip1.hide();
@@ -58,7 +63,7 @@ $(function(){
 	upBtn.hide();
 	downBtn.hide();
 	allInBtn.hide();
-	betSendBtn.hide();
+	betSendBtn.hide();*/
 	
 	// WebSocket actions
 	
@@ -110,14 +115,6 @@ $(function(){
 		}
 	}
 	
-	/* chip calculator */
-	// 이후 정보를 불러와서 처리할 필요가 있음 /
-	
-	/*clearBtn.bind("click",function clearChip(){
-		count = 0;
-		chipBetting.val(count);
-	});*/
-	
 	// end
 	
 	function loadPlayer(content){
@@ -139,8 +136,15 @@ $(function(){
 		}else if(!playerId2.val()){
 			playerId2.val(content.player);
 		}
-		chip1.hide();
-		chip2.hide();
+		/*chip1.hide();
+		chip2.hide();*/
+	}
+	
+	function infoCard(content){
+		console.log(content.checkPlayer);
+		if(content.checkPlayer == member){
+			infocard1.val("내 카드 입니다");
+		}
 	}
 	
 	function chat(content){

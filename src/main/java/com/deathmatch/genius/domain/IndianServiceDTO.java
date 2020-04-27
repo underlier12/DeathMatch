@@ -13,6 +13,7 @@ public class IndianServiceDTO {
 	private MessageType type;
 	private String roomId;
 	private String player;
+	private String checkPlayer;
 	private String message;
 	private String firstTurn;
 	private int card1;

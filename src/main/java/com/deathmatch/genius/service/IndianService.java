@@ -165,6 +165,7 @@ public class IndianService {
 		register(session,indianGameDTO,indianRoom);
 		jsonMap.put("message", indianGameDTO.getSender() +"님이 방에 입장하셨습니다! ");
 		jsonMap.put("player", indianGameDTO.getSender());
+		jsonMap.put("checkPlayer", indianRoom.getPlayers().get(0).getUserId());
 		IndianServiceDTO indianServiceDTO = processing(jsonMap);
 		sendMessageAll(indianRoom.getSessions(),indianServiceDTO);
 	}
