@@ -181,7 +181,7 @@ $(function () {
 			console.log("answer loading");
 			console.log("length : " + content.set.length);
 			for(var i=0; i < content.set.length; i++){
-	        	$('#answer').append('<li>' + content.answer + '</li>');
+	        	$('#answer').append('<li>' + content.set[i] + '</li>');
 			}
 		}
  	}
