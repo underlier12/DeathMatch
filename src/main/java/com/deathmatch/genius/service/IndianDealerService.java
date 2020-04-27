@@ -80,7 +80,7 @@ public class IndianDealerService {
 	public IndianDealerDTO startRound(IndianGameRoom indianRoom) {
 		Map<String, Object> jsonMap = processingMap(MessageType.START, indianRoom.getRoomId());
 		cardArr = drawCard(cardDeck);
-		int[] chipArr = upAndDownChip(indianRoom, -1, -1);
+		int[] chipArr = upAndDownChip(indianRoom, 0,0);
 		jsonMap.put("card1", cardArr[0]);
 		jsonMap.put("card2", cardArr[1]);
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
