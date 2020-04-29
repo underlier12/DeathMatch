@@ -16,13 +16,17 @@ public class IndianDealerDTO {
 	private String gameId; 
 	private String sender;
 	private String player;
+	private String checkPlayer;
 	private String message;
 	private String winner;
 	private String chipMessage;
 	private String card1;
 	private String card2;
-	private int chip1;
-	private int chip2;
+	private int player1Chip;
+	private int player2Chip;
+	//private int chip1;
+	//private int chip2;
+	private int betChip1;
+	private int betChip2;
 	private int score;
-
 }

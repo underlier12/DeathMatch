@@ -129,28 +129,21 @@ public class UserServiceImpl implements UserService {
 	 * 네이버 회원이 없으면 새로 등록, 있으면 해당 정보 값을 가져온다 cnt로 유저체크하는 것이 아닌, DB에서 유저 체크를 할 경우 새로
 	 * 회원 가입시 NULL 값이 발생할 수 있다
 	 */
-	@Override
-	public UserDTO naverLogin(UserDTO naverUser) {
-		int userCnt = userDAO.countMember(naverUser);
-		String userEmail = naverUser.getUserEmail();
-		String userId = userEmail.substring(0, userEmail.indexOf('@'));
-		log.info("현재 아이디 : " + userEmail);
-		log.info("현재 아이디 : " + userId);
-		if (userCnt > 0) {
-			naverUser = userDAO.selectNaverMember(naverUser);
-			log.info("이미 등록된 회원 입니다!");
-		} else {
-			naverUser.setUserId(userId);
-			userDAO.insertKakaoMember(naverUser);
-			log.info("Naver 회원 가입 성공!");
-		}
-		return naverUser;
-	}
+	/*
+	 * @Override public UserDTO naverLogin(UserDTO naverUser) { int userCnt =
+	 * userDAO.countMember(naverUser); String userEmail = naverUser.getUserEmail();
+	 * String userId = userEmail.substring(0, userEmail.indexOf('@'));
+	 * log.info("현재 아이디 : " + userEmail); log.info("현재 아이디 : " + userId); if
+	 * (userCnt > 0) { naverUser = userDAO.selectNaverMember(naverUser);
+	 * log.info("이미 등록된 회원 입니다!"); } else { naverUser.setUserId(userId);
+	 * userDAO.insertKakaoMember(naverUser); log.info("Naver 회원 가입 성공!"); } return
+	 * naverUser; }
+	 */
 
-	@Override
-	public UserDTO selectNaverMember(UserDTO userDTO) {
-		return userDAO.selectNaverMember(userDTO);
-	}
+	/*
+	 * @Override public UserDTO selectNaverMember(UserDTO userDTO) { return
+	 * userDAO.selectNaverMember(userDTO); }
+	 */
 
 	@Override
 	public int checkUserEmail(UserDTO userDTO) {

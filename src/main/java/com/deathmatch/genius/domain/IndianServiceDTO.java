@@ -17,5 +17,4 @@ public class IndianServiceDTO {
 	private String firstTurn;
 	private int card1;
 	private int card2;
-	private int chip;
 }

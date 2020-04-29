@@ -20,11 +20,11 @@ public interface UserService {
     // 카카오 로그인
     public UserDTO kakaoLogin(UserDTO userDTO);
     // 네이버 로그인
-    public UserDTO naverLogin(UserDTO userDTO);
+    //public UserDTO naverLogin(UserDTO userDTO);
     // 카카오 회원 조회
     public UserDTO selectKakaoMember(UserDTO userDTO);
     // 네이버 회원 조회
-    public UserDTO selectNaverMember(UserDTO userDTO);
+    //public UserDTO selectNaverMember(UserDTO userDTO);
     // 아이디 조회
     public int checkUserEmail(UserDTO userDTO);
     // 비밀번호 확인

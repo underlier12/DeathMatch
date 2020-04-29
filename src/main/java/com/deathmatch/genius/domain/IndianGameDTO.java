@@ -15,5 +15,8 @@ public class IndianGameDTO {
 	private String roomId;
 	private String sender;
 	private String message;
+	private int player1Chip;
+	private int player2Chip;
+	private int betChip;
 	
 }

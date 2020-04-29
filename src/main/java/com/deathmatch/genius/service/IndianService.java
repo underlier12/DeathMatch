@@ -173,8 +173,8 @@ public class IndianService {
 	public void bettingAct(WebSocketSession session, IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
 		String player = indianGameDTO.getSender();
 		log.info("sender: " + player);
-		sendMessageAll(indianRoom.getSessions(),
-				dealService.whoseTurn(indianRoom));
+		
+		sendMessageAll(indianRoom.getSessions(), dealService.whoseTurn(indianRoom,indianGameDTO));
 	}
 	
 	public void giveUpAct(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {

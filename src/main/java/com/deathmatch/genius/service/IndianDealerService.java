@@ -84,8 +84,8 @@ public class IndianDealerService {
 		jsonMap.put("card1", cardArr[0]);
 		jsonMap.put("card2", cardArr[1]);
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
-		jsonMap.put("chip1", chipArr[0]);
-		jsonMap.put("chip2", chipArr[1]);
+		jsonMap.put("player1Chip", chipArr[0]);
+		jsonMap.put("player2Chip", chipArr[1]);
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}
@@ -136,8 +136,8 @@ public class IndianDealerService {
 		// Turn 종료후 상대 플레이어의 보여주기 위해 카드 번호 전송
 		jsonMap.put("card1", cardNums[0]);
 		jsonMap.put("card2", cardNums[1]);
-		jsonMap.put("chip1", players.get(0).getChip());
-		jsonMap.put("chip2", players.get(1).getChip());
+		jsonMap.put("player1Chip", players.get(0).getChip());
+		jsonMap.put("player2Chip", players.get(1).getChip());
 		// Turn 종료후 플레이어를 비교하기 위해 플레이어 아이디 전송
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
 
@@ -166,14 +166,54 @@ public class IndianDealerService {
 		}
 	}
 
-	public IndianDealerDTO whoseTurn(IndianGameRoom indianRoom) {
+	public IndianDealerDTO whoseTurn(IndianGameRoom indianRoom,IndianGameDTO indianGameDTO) {
 		Map<String, Object> jsonMap = processingMap(MessageType.TURN, indianRoom.getRoomId());
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
 		String whoseTurn = nextTurn(indianRoom);
+		int [] betChipArr = betChip(indianRoom, indianGameDTO);
+		int [] maxChipArr = modifyMaxChip(indianRoom, indianGameDTO);
+		jsonMap.put("betChip1",betChipArr[0]);
+		jsonMap.put("betChip2",betChipArr[1]);
+		jsonMap.put("player1Chip", maxChipArr[0]);
+		jsonMap.put("player2Chip", maxChipArr[1]);
 		jsonMap.put("message", whoseTurn + " 님의 차례입니다 ");
 		jsonMap.put("player", whoseTurn);
+		jsonMap.put("checkPlayer", players.get(0).getUserId());
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}
+	
+	public int[] modifyMaxChip(IndianGameRoom indianRoom,IndianGameDTO indianGameDTO) {
+		int [] maxChipArr = new int[2];
+		int betChip = indianGameDTO.getBetChip();
+		String currentPlayer = indianGameDTO.getSender();
+		log.info("maxChip1 : " + indianGameDTO.getPlayer1Chip());
+		log.info("maxChip2 : " + indianGameDTO.getPlayer2Chip());
+		if(indianRoom.getPlayers().get(0).getUserId().equals(currentPlayer)) {
+			maxChipArr[0] = indianGameDTO.getPlayer1Chip() - betChip;
+			maxChipArr[1] = indianGameDTO.getPlayer2Chip();
+		}else if(indianRoom.getPlayers().get(1).getUserId().equals(currentPlayer)) {
+			maxChipArr[0] = indianGameDTO.getPlayer1Chip();
+			maxChipArr[1] = indianGameDTO.getPlayer2Chip() - betChip;
+		}
+		
+		return maxChipArr;
+	}
+	
+	public int[] betChip(IndianGameRoom indianRoom,IndianGameDTO indianGameDTO) {
+		int [] betChipArr = new int[2];
+		String currentPlayer = indianGameDTO.getSender();
+		log.info("CurrentPlayer: " + currentPlayer);
+		if(indianRoom.getPlayers().get(0).getUserId().equals(currentPlayer)) {
+			betChipArr[0] = indianGameDTO.getBetChip();
+			betChipArr[1] = 0;
+		}else if(indianRoom.getPlayers().get(1).getUserId().equals(currentPlayer)) {
+			betChipArr[0] = 0;
+			betChipArr[1] = indianGameDTO.getBetChip();
+		}
+		return betChipArr;
+	}
+	
 
 	public String nextTurn(IndianGameRoom indianRoom) {
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
