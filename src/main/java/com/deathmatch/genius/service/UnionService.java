@@ -115,18 +115,6 @@ public class UnionService {
 	}
 	
 	private void loadGame(WebSocketSession session, GameRoom gameRoom) {
-//		if(!gameRoom.getPlaying()) {
-//			switch (gameRoom.getEngaged().size()) {
-//			case 2:
-////				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
-//				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(1), gameRoom));
-////				break;
-//			case 1:
-//				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
-//				break;
-//			}
-//			load(session, gameRoom);
-//		}
 		queue = unionLoadingService.loadOnGame(gameRoom);
 		load(session, gameRoom);
 	}
@@ -140,7 +128,6 @@ public class UnionService {
 		queue.offer(unionDealerService.decideRound(gameRoom));
 		queue.offer(unionSettingService.setUnionProblem(gameRoom));
 		unionSettingService.setUnionAnswer(gameRoom);
-//		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
 	}
 
 	private void endRound(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {

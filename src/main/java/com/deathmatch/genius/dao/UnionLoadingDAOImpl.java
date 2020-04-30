@@ -1,6 +1,5 @@
 package com.deathmatch.genius.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -23,15 +22,9 @@ public class UnionLoadingDAOImpl implements UnionLoadingDAO {
 
 	@Override
 	public List<String> selectUnionProblemCardNames(UnionDatabaseDTO dbDTO) {
-		List<String> problem; // = new ArrayList<>();
+		List<String> problem; 
 		
 		problem = sqlSession.selectList(namespace + ".selectProblem", dbDTO);
-//		for(int i = 0; i < 9; i++) {
-//			dbDTO.setIdx(i);
-//			String cardName
-//					= sqlSession.selectOne(namespace + ".selectProblemEach");
-//			problem.add(cardName);
-//		}
 		log.info("problem : " + problem.toString());
 		
 		return problem;
@@ -39,7 +32,7 @@ public class UnionLoadingDAOImpl implements UnionLoadingDAO {
 
 	@Override
 	public List<String> selectUnionAnswerSheet(UnionDatabaseDTO dbDTO) {
-		List<String> answerSheet = new ArrayList<>();
+		List<String> answerSheet;
 		
 		answerSheet = sqlSession.selectList(namespace + ".selectAnswerSheet", dbDTO);
 		log.info("answerSheet : " + answerSheet.toString());

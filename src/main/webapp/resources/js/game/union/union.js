@@ -3,15 +3,6 @@ $(function () {
 // websocket variables
 	
 	var url = window.location.host;//웹브라우저의 주소창의 포트까지 가져옴
-//	var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
-//	var appCtx = pathname.substring(0, pathname.indexOf("/",1));
-//	var root = url+appCtx;
-//	
-//	console.log("url : " + url);
-//	console.log("pathname : " + pathname);
-//	console.log("appCtx : " + appCtx);
-//	console.log("root : " + root);
-	
 	var sock = new SockJS("http://"+url+"/ws/chat");	
 	
 // variables
@@ -25,37 +16,6 @@ $(function () {
 	var defaultJpg = ".jpg";
 	var defaultPng = ".png";
 	
-//    // button tag
-//	var $uniBtn = $('#uni');
-//	var $onBtn = $('#on');
-//	var $readyBtn = $('#ready');
-//	var $leaveBtn = $('#leave');
-//	
-//	// input tag
-//	var $selectBox = $('.selectbox');
-//	
-//	var $playerAInput = $('#playerA');
-//	var $playerBInput = $('#playerB');
-//	var $scoreAInput = $('#scoreA');
-//	var $scoreBInput = $('#scoreB');
-//
-//	// div tag
-//	var $exclaimA = $('#exclaimA');
-//	var $exclaimB = $('#exclaimB');
-//	var $pass = $('#pass');
-//	var $connectionStatus = $('#connectionStatus');
-//	
-//	// textarea tag
-//	var $gameBroadcast = $('#broadcast');
-//	
-//	// ul tag
-//    var $answerList = $('#answer');
-//    
-//    // p tag
-//    var $roundP = $('#round');
-//    var $statePA = $('#statementA');
-//    var $statePB = $('#statementB');
-
 // timer variables
     
     const FULL_DASH_ARRAY = 283; // 2*pi*r
@@ -445,7 +405,6 @@ $(function () {
     
     $('#leave').click(function(){
     	location.href='../rooms';
-//    	window.location = document.referrer;
     });
     
     $('.selectbox').change(function(){	
@@ -496,8 +455,6 @@ $(function () {
     	var passText = "PASS<br>";
     	var passTotal = passText.repeat(content.pass);
     	$('#pass').html(passTotal);
-//    	console.log("pass : " + content.pass);
-//    	console.log("passTotal : " + passTotal);
     	
     	if(content.user1 == member){
     		switch (content.message.substring(0, 1)) {
