@@ -25,6 +25,9 @@
 					src="${pageContext.request.contextPath}/images/indiancards/card.png">
 				<input id="playerId1" readonly>
 			</div>
+			<div class="timer-wrapper">
+				<div class="timer" id="timer"></div>
+			</div>
 			<div class="cards">
 				<img id="card2"
 					src="${pageContext.request.contextPath}/images/indiancards/card.png">
@@ -51,7 +54,7 @@
 			</div>
 			<div class="chipDiv">
 				<div id="betChip2">배팅칩</div>
-				<div id = "betDiv2">
+				<div id="betDiv2">
 					<img id="betchip2Img"
 						src="${pageContext.request.contextPath}/images/indiancards/chipImg.png">
 					<div id="betchip2Score"></div>
@@ -59,7 +62,7 @@
 			</div>
 			<div class="chipDiv">
 				<div id="chip2">보유칩</div>
-				<div id ="chipDiv2">
+				<div id="chipDiv2">
 					<img id="chip2Img"
 						src="${pageContext.request.contextPath}/images/indiancards/chip.png">
 					<div id="chipScore2"></div>

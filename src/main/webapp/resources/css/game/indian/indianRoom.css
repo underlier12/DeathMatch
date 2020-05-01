@@ -39,12 +39,12 @@
 
 .cards{
 	margin-top: 50px;
+	width:300px;
 }
 
 #card1{
 	width:210px;
 	height:220px;
-	margin-right:250px;
 }
 
 #card2{
@@ -414,5 +414,64 @@
 	overflow: auto;
 }
 
+/* timer */
+/* Sets the containers height and width */
+
+.timer-wrapper{
+	position: relative;
+	width: 150px;
+	height: 150px;
+	margin-top:150px;
+}
+
+.base-timer {
+  position: relative;
+  height: 150px;
+  width: 150px;
+}
+
+.base-timer__svg {
+  transform: scaleX(-1);
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: grey;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+  color: #ECA50E;
+}
+
+.base-timer__label {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  color: #ECA50E; 
+}
+
+.timer{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
 
 

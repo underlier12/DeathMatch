@@ -177,8 +177,12 @@ public class IndianService {
 	public void bettingAct(WebSocketSession session, IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
 		String player = indianGameDTO.getSender();
 		log.info("sender: " + player);
-		dealService.resultRound(indianGameDTO,indianRoom);
 		sendMessageAll(indianRoom.getSessions(), dealService.whoseTurn(indianRoom,indianGameDTO));
+		if(indianGameDTO.getPlayer1BetChip() == indianGameDTO.getPlayer2BetChip()) {
+			sendMessageAll(indianRoom.getSessions(),dealService.resultRound(indianGameDTO, indianRoom));
+			log.info("Result Round sendMessageAll");
+			
+		}
 	}
 	
 	/*

@@ -1,7 +1,7 @@
 $(function(){
 	
-	//WebSocket 연결하기
-	var url = window.location.host; //웹 브라우저의 주소창의 포트까지 가져옴
+	// WebSocket 연결하기
+	var url = window.location.host; // 웹 브라우저의 주소창의 포트까지 가져옴
 	console.log("host url : " + url);
 	var sock = new SockJS("http://"+url+"/ws/indian");
 	
@@ -52,18 +52,13 @@ $(function(){
 	var allInBtn = $("#chipAllInBtn");
 	var count = chipBetting.val();
 	
-	/** Prev hide **/
-	/*betBtn.hide();
-	betGiveUpBtn.hide();
-	
-	chip1.hide();
-	chip2.hide();
-	players.hide();
-	chipBetting.hide();
-	upBtn.hide();
-	downBtn.hide();
-	allInBtn.hide();
-	betSendBtn.hide();*/
+	/** Prev hide * */
+	/*
+	 * betBtn.hide(); betGiveUpBtn.hide();
+	 * 
+	 * chip1.hide(); chip2.hide(); players.hide(); chipBetting.hide();
+	 * upBtn.hide(); downBtn.hide(); allInBtn.hide(); betSendBtn.hide();
+	 */
 	
 	// WebSocket actions
 	
@@ -136,8 +131,9 @@ $(function(){
 		}else if(!playerId2.val()){
 			playerId2.val(content.player);
 		}
-		/*chip1.hide();
-		chip2.hide();*/
+		/*
+		 * chip1.hide(); chip2.hide();
+		 */
 	}
 	
 	function infoCard(content){
@@ -279,7 +275,7 @@ $(function(){
 	
 	function maxChipValidation(){
 		alert("칩을 " + checkMaxChip +" 초과해서 걸 수 없습니다");
-		//player1Chip = player1Chip-chipCount-1;
+		// player1Chip = player1Chip-chipCount-1;
 		chipCount--;
 	}
 	
@@ -436,6 +432,30 @@ $(function(){
 		}
 	}
 	
+	function resultRound(content){
+		console.log("Resultround!!");
+		console.log(content.message);
+		console.log(content.card1);
+		console.log(content.card2);
+		console.log(content.player);
+		console.log(content.player1Chip);
+		console.log(content.player2Chip);
+		
+		infoArea.eq(0).prepend(content.message + "\n");
+		
+		player1Chip = content.player1Chip;
+		player2Chip = content.player2Chip;
+		
+		chipScore1.text("X"+player1Chip);
+		chipScore2.text("X"+player2Chip);
+		
+		if(content.player == member){
+			cardSelect1(content);
+		}else{
+			cardSelect2(content);
+		}
+	}
+		
 	function bettingAct(content){
 		console.log(content.message);
 		console.log(content.player);
@@ -466,26 +486,108 @@ $(function(){
 	var player2BetChip;
 	
 	function decideBetChip(content){
-		/*console.log(content.checkPlayer);
-		if(content.checkPlayer == member){
-			playerBetChip = parseInt(betchip1Score.text().substr(1));
-			console.log("content.currentPlayer == member");
-		}else if(content.checkPlayer != member){
-			playerBetChip =  parseInt(betchip2Score.text().substr(1));
-			console.log("content.currentPlayer != member");
-		}*/
+		/*
+		 * console.log(content.checkPlayer); if(content.checkPlayer == member){
+		 * playerBetChip = parseInt(betchip1Score.text().substr(1));
+		 * console.log("content.currentPlayer == member"); }else
+		 * if(content.checkPlayer != member){ playerBetChip =
+		 * parseInt(betchip2Score.text().substr(1));
+		 * console.log("content.currentPlayer != member"); }
+		 */
 		player1BetChip = parseInt(betchip1Score.text().substr(1));
 		player2BetChip = parseInt(betchip2Score.text().substr(1));
 		console.log("player1BetChip " + player1BetChip);
 		console.log("player2BetChip " + player2BetChip);
-		//console.log(playerBetChip);
+		// console.log(playerBetChip);
 	}
 	
-	function resultRound(content){
-		console.log(content.message);
-	}
 	
-	/** Message **/
+	// timer
+	
+	// timer variables
+    
+    let timeLeft = 5;
+    var timer = $("#timer");
+	
+    document.getElementById("timer").innerHTML = `
+    	<div class="base-timer">
+    	<svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    	<g class="base-timer__circle">
+    	<circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+    	<path
+        id="base-timer-path-remaining"
+        stroke-dasharray="283"
+        class="base-timer__path-remaining"
+        d="
+          M 50, 50
+          m -45, 0
+          a 45,45 0 1,0 90,0
+          a 45,45 0 1,0 -90,0
+        "
+    	></path>
+    	</g>
+    	</svg>
+    	<span id="base-timer-label" class="base-timer__label">
+    	 ${formatTimeLeft(timeLeft)}</span>
+    	</div>
+    	`;
+    
+    const COLOR_CODES = {
+    		  info: {
+    		    color: "green"
+    		  }
+    		};
+
+    let remainingPathColor = COLOR_CODES.info.color;
+    
+    function formatTimeLeft(time) {
+ 
+    	  const minutes = Math.floor(time / 60);
+    	  let seconds = time % 60;
+    	  if (seconds < 10) {
+    	    seconds = `${seconds}`;
+    	  }
+    	  //return `${minutes}:${seconds}`;
+    	  return `${seconds}`;
+    }
+	
+    function startTimer() {
+    	let timePassed = 0;
+    	let timeLimit = 5;
+    	let timeLeft = timeLimit;
+    	
+    	timerInterval = setInterval(() => {
+        timePassed = timePassed += 1;
+        timeLeft = timeLimit - timePassed;
+    	document.getElementById("base-timer-label").innerHTML = formatTimeLeft(timeLeft);
+    	  
+    	if(timeLeft == 0){
+    		clearInterval(timerInterval);
+    		timerInterval = null;
+    		timer.hide();
+    	}
+ 
+    	}, 1000);
+    }
+    
+    function calculateTimeFraction(timeLimit, timeLeft) {
+   	  const rawTimeFraction = timeLeft / timeLimit;
+   	  return rawTimeFraction - (1 / timeLimit) * (1 - rawTimeFraction);
+   	}
+
+   	function setCircleDasharray(timeLimit, timeLeft) {
+   	  const circleDasharray = `${(
+   	    calculateTimeFraction(timeLimit, timeLeft) * FULL_DASH_ARRAY
+   	  ).toFixed(0)} 283`;
+   	  document
+   	    .getElementById("base-timer-path-remaining")
+   	    .setAttribute("stroke-dasharray", circleDasharray);
+   	}
+   	
+   	startTimer();
+	
+	
+	/** Message * */
 	
 	sendBtn.click(function(){
 		var message = $("#message").val();
