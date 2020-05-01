@@ -105,8 +105,9 @@ $(function(){
 			case "TURN"
 				: bettingAct(content);
 				break;
-			//case "RESULT" :
-			//	resultRound(content);
+			case "BETRESULT" :
+				resultRound(content);
+				break;
 			case "GIVEUP" 
 				:giveUpRound(content);
 				break;		
@@ -250,6 +251,7 @@ $(function(){
 		}
 	}
 	
+	// 기본 세팅 showChipText
 	function showChipText(content){
 		chipScore1.text("X"+player1Chip);
 		chipScore2.text("X"+player2Chip);
@@ -262,19 +264,22 @@ $(function(){
 		chipCount = chipBetting.val();
 		chipCount++;
 		console.log("upBtn chipCount: " + chipCount);
+		console.log("CheckMaxChip :" + checkMaxChip);
 		if(chipCount>checkMaxChip){
 			maxChipValidation();
 		}else if(currentPlayer == member){
 			player1ChipUp();
+			player1BetChipUp();
 		}else if(currentPlayer !=member){
 			player2ChipUp();
+			player2BetChipUp();
 		}
 		console.log("Result Chip count: " + chipCount);
 	});
 	
 	function maxChipValidation(){
 		alert("칩을 " + checkMaxChip +" 초과해서 걸 수 없습니다");
-		player1Chip = player1Chip-chipCount-1;
+		//player1Chip = player1Chip-chipCount-1;
 		chipCount--;
 	}
 	
@@ -287,6 +292,14 @@ $(function(){
 		chipScore1.text("X"+ chip1Max);
 	}
 	
+	function player1BetChipUp(){
+		var getBetChip1 = betchip1Score.text().substr(1,2);
+		getBetChip1 = Number(getBetChip1)+1;
+		console.log("getBetChip1Up" + getBetChip1);
+		betchip1Score.text("X"+getBetChip1);
+	}
+	
+	
 	function player2ChipUp(){
 		var chip2Max = checkMaxChip;
 		chipBetting.val(chipCount);
@@ -294,6 +307,13 @@ $(function(){
 		chip2Max -=chipCount;
 		console.log(chip2Max);
 		chipScore2.text("X"+chip2Max);
+	}
+	
+	function player2BetChipUp(){
+		var getBetChip2 = betchip2Score.text().substr(1,2);
+		getBetChip2 = Number(getBetChip2)+1;
+		console.log("getBetChip1Up" + getBetChip2);
+		betchip2Score.text("X"+getBetChip2);
 	}
 	
 	
@@ -307,8 +327,10 @@ $(function(){
 		console.log("Chip count : " + chipCount);
 		if(currentPlayer == member){
 			player1DownChip();
+			player1BetChipDown();
 		}else if(currentPlayer !=member){
 			player2DownChip();
+			player2BetChipDown();
 		}
 		console.log("Chip count: " + chipCount);
 	});
@@ -326,6 +348,13 @@ $(function(){
 		console.log("chip1Score: " + chip1);
 	}
 	
+	function player1BetChipDown(){
+		var getBetChip1 = betchip1Score.text().substr(1,2);
+		getBetChip1 = Number(getBetChip1)-1;
+		console.log("getBetChip1Up" + getBetChip1);
+		betchip1Score.text("X"+getBetChip1);
+	}
+	
 	function player2DownChip(){
 		var chip2 = chipScore2.text().substr(1,2);
 		chip2 = Number(chip2)+1;
@@ -334,12 +363,21 @@ $(function(){
 		console.log("chip2Score: " + chip2);	
 	}
 	
+	function player2BetChipDown(){
+		var getBetChip2 = betchip2Score.text().substr(1,2);
+		getBetChip2 = Number(getBetChip2)-1;
+		console.log("getBetChip1Up" + getBetChip2);
+		betchip2Score.text("X"+getBetChip2);
+	}
+	
 	allInBtn.click(function(){
 		alert("칩을 모두 다 거시겠습니까?");
 		if(currentPlayer == member){
 			chipScore1.text("X"+ 0);
+			betchip1Score.text("X"+checkMaxChip);
 		}else if(currentPlayer !=member){
 			chipScore2.text("X"+ 0);
+			betchip2Score.text("X"+checkMaxChip);
 		}
 		chipBetting.val(checkMaxChip);
 		chipCount = checkMaxChip;
@@ -348,12 +386,19 @@ $(function(){
 	function betChipScore(content){
 		player1Chip = content.player1Chip;
 		player2Chip = content.player2Chip;
+		getBetChip1 = content.betChip1;
+		getBetChip2 = content.betChip2;
 		console.log("player1Chip: " + player1Chip);
 		console.log("player2Chip: " + player2Chip);
-		getBetChip1 = betchip1Score.text().substr(1,2);
-		getBetChip2 = betchip2Score.text().substr(1,2);
-		getBetChip1 = Number(getBetChip1)+content.betChip1;
-		getBetChip2 = Number(getBetChip2)+content.betChip2;
+		console.log("Content Betchip1: " + content.betChip1);
+		console.log("Content Betchip2: " + content.betChip2);
+		//getBetChip1 = betchip1Score.text().substr(1,2);
+		//getBetChip2 = betchip2Score.text().substr(1,2);
+		//getBetChip1 = Number(getBetChip1)+content.betChip1;
+		
+		//getBetChip1 = content.betChip1;
+		//getBetChip2 = Number(getBetChip2)+content.betChip2;
+		//getBetChip1 = content.betChip2;
 		betChipText();
 	}
 	
@@ -395,13 +440,15 @@ $(function(){
 	function bettingAct(content){
 		console.log(content.message);
 		console.log(content.player);
+		console.log("bettingAct betChip1: " + content.betChip1);
+		console.log("bettingAct betChip2: " + content.betChip2);
 		chipBetting.val(0);
 		infoArea.eq(0).prepend(content.message + "\n");
 		betChipScore(content);
 		maxChipModify(content);
 		disableBtn(content);
 	}
-	
+		
 	function maxChipModify(content){
 		console.log(content.checkPlayer);
 		if(content.checkPlayer == member){
@@ -415,6 +462,29 @@ $(function(){
 	betBtn.click(function(){
 		chipCalculatorShow();
 	});
+	
+	var player1BetChip;
+	var player2BetChip;
+	
+	function decideBetChip(content){
+		/*console.log(content.checkPlayer);
+		if(content.checkPlayer == member){
+			playerBetChip = parseInt(betchip1Score.text().substr(1));
+			console.log("content.currentPlayer == member");
+		}else if(content.checkPlayer != member){
+			playerBetChip =  parseInt(betchip2Score.text().substr(1));
+			console.log("content.currentPlayer != member");
+		}*/
+		player1BetChip = parseInt(betchip1Score.text().substr(1));
+		player2BetChip = parseInt(betchip2Score.text().substr(1));
+		console.log("player1BetChip " + player1BetChip);
+		console.log("player2BetChip " + player2BetChip);
+		//console.log(playerBetChip);
+	}
+	
+	function resultRound(content){
+		console.log(content.message);
+	}
 	
 	/** Message **/
 	
@@ -432,9 +502,14 @@ $(function(){
 	});
 	
 	betSendBtn.click(function(){
+		var player1BetChip = parseInt(betchip1Score.text().substr(1));
+		var player2BetChip = parseInt(betchip2Score.text().substr(1));
+		console.log("player1BetChip send " +  parseInt(betchip1Score.text().substr(1)));
+		console.log("player2BetChip send " + parseInt(betchip2Score.text().substr(1)));
 		var betChip = chipBetting.val();
-		console.log("sendBetChip: " +betChip);
-		var bettingData = {type : "BETTING",sender:member, roomId:roomId,betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip};
+		var bettingData = {type : "BETTING", sender:member, roomId:roomId,
+				betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
+				,player2BetChip:player2BetChip};
 		sock.send(JSON.stringify(bettingData));
 		console.log("Success submit bettingData");
 	});

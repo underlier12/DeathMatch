@@ -15,14 +15,16 @@ public class IndianPlayerDTO {
 	private Boolean ready;
 	private Boolean turn;
 	private int chip;
+	private int betChip;
 	
 	@Builder
-	public IndianPlayerDTO(String userId,String roomId,Boolean ready,Boolean turn,int chip) {
+	public IndianPlayerDTO(String userId,String roomId,Boolean ready,Boolean turn,int chip,int betChip) {
 		this.userId = userId;
 		this.roomId = roomId;
 		this.ready = ready;
 		this.turn = turn;
 		this.chip = chip;
+		this.betChip = betChip;
 	}
 
 }

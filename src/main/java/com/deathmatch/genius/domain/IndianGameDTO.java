@@ -8,7 +8,7 @@ import lombok.Setter;
 public class IndianGameDTO {
 	
 	public enum MessageType{
-		TALK, JOIN,READY,LOAD,RESULT,BETTING,GIVEUP;
+		TALK, JOIN,READY,LOAD,BETTING,GIVEUP,SAMECHIP
 	}
 	
 	private MessageType type;
@@ -17,6 +17,11 @@ public class IndianGameDTO {
 	private String message;
 	private int player1Chip;
 	private int player2Chip;
-	private int betChip;
+	private int betChip;	// 배팅한 칩의 개수
+	//private int playerBetChip;	// 플레이어 각각의 배팅 칩 개수
+	
+	// result시 betChip
+	private int player1BetChip;
+	private int player2BetChip;
 	
 }

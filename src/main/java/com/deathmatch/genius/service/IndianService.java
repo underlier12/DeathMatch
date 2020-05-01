@@ -60,6 +60,9 @@ public class IndianService {
 		case GIVEUP:
 			giveUpAct(session,indianGameDTO,indianRoom);
 			break;
+		/*
+		 * case SAMECHIP: sameChipAct(session,indianGameDTO,indianRoom); break;
+		 */
 		}
 	}
 	
@@ -150,6 +153,7 @@ public class IndianService {
 					.ready(false)
 					.turn(false)
 					.chip(30)
+					.betChip(0)
 					.build();
 		log.info("register User: " + player.toString());
 		
@@ -173,9 +177,17 @@ public class IndianService {
 	public void bettingAct(WebSocketSession session, IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
 		String player = indianGameDTO.getSender();
 		log.info("sender: " + player);
-		
+		dealService.resultRound(indianGameDTO,indianRoom);
 		sendMessageAll(indianRoom.getSessions(), dealService.whoseTurn(indianRoom,indianGameDTO));
 	}
+	
+	/*
+	 * public void sameChipAct(WebSocketSession session, IndianGameDTO
+	 * indianGameDTO,IndianGameRoom indianRoom) { //log.info("player1Chip: " +
+	 * indianGameDTO.getplayerBetChip()); log.info("Player :" +
+	 * indianGameDTO.getSender());
+	 * dealService.resultRound(indianGameDTO,indianRoom); }
+	 */
 	
 	public void giveUpAct(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		sendMessageAll(indianRoom.getSessions(),dealService.giveUpRound(indianGameDTO, indianRoom));
