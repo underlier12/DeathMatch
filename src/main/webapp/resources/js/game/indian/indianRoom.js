@@ -373,11 +373,17 @@ $(function(){
 	allInBtn.click(function(){
 		alert("칩을 모두 다 거시겠습니까?");
 		if(currentPlayer == member){
+			var chip1 = chipScore1.text().substr(1, 2);
+			var getBetChip1 = betchip1Score.text().substr(1,2);
+			getBetChip1 = Number(getBetChip1)+Number(chip1);
 			chipScore1.text("X"+ 0);
-			betchip1Score.text("X"+checkMaxChip);
+			betchip1Score.text("X"+getBetChip1);
 		}else if(currentPlayer !=member){
+			var chip2 = chipScore2.text().substr(1,2);
+			var getBetChip2 = betchip2Score.text().substr(1,2);
+			getBetChip2 = Number(getBetChip2)+Number(chip2);
 			chipScore2.text("X"+ 0);
-			betchip2Score.text("X"+checkMaxChip);
+			betchip2Score.text("X"+getBetChip2);
 		}
 		chipBetting.val(checkMaxChip);
 		chipCount = checkMaxChip;
@@ -392,13 +398,6 @@ $(function(){
 		console.log("player2Chip: " + player2Chip);
 		console.log("Content Betchip1: " + content.betChip1);
 		console.log("Content Betchip2: " + content.betChip2);
-		//getBetChip1 = betchip1Score.text().substr(1,2);
-		//getBetChip2 = betchip2Score.text().substr(1,2);
-		//getBetChip1 = Number(getBetChip1)+content.betChip1;
-		
-		//getBetChip1 = content.betChip1;
-		//getBetChip2 = Number(getBetChip2)+content.betChip2;
-		//getBetChip1 = content.betChip2;
 		betChipText();
 	}
 	
