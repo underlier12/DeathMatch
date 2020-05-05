@@ -260,9 +260,11 @@ public class UnionDealerService {
 		if(engaged.get(0).getScore() > engaged.get(1).getScore()) {
 			winner = engaged.get(0).getUserId();
 			engaged.get(0).setWinLose(WinLoseType.WIN);
+			engaged.get(1).setWinLose(WinLoseType.LOSE);
 		} else if(engaged.get(0).getScore() < engaged.get(1).getScore()) {
 			winner = engaged.get(1).getUserId();
-			engaged.get(1).setWinLose(WinLoseType.LOSE);
+			engaged.get(1).setWinLose(WinLoseType.WIN);
+			engaged.get(0).setWinLose(WinLoseType.LOSE);
 		} else {
 			engaged.get(0).setWinLose(WinLoseType.DRAW);
 			engaged.get(1).setWinLose(WinLoseType.DRAW);

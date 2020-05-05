@@ -139,8 +139,8 @@ public class UnionService {
 	private void isGameOver(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
 			queue.offer(unionDealerService.endGame(gameRoom));
-			unionSettingService.resetGame(gameRoom);
 			recordService.recordHistory(gameRoom);
+			unionSettingService.resetGame(gameRoom);
 		} else {
 			startRound(gameDTO, gameRoom);
 		}

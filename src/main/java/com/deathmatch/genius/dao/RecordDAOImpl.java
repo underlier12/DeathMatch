@@ -3,9 +3,11 @@ package com.deathmatch.genius.dao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
 import com.deathmatch.genius.domain.RecordDTO;
 
+@Repository
 public class RecordDAOImpl implements RecordDAO {
 	
 	private String namespace = "com.deathmatch.genius.mapper.RecordMapper";

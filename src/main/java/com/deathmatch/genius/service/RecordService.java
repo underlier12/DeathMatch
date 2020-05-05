@@ -61,7 +61,7 @@ public class RecordService {
 			Map<String, Object> jsonMap = preprocessing(gameRoom);
 			
 			jsonMap.put("userId", player.getUserId());
-			jsonMap.put("winLose", player.getWinLose());
+			jsonMap.put("winLose", player.getWinLose().toString());
 			jsonMap.put("score", player.getScore());
 			
 			RecordDTO recordDTO = postprocessing(jsonMap);
