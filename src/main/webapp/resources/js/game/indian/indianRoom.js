@@ -52,6 +52,13 @@ $(function(){
 	var allInBtn = $("#chipAllInBtn");
 	var count = chipBetting.val();
 	
+	var player1BetChip;
+	var player2BetChip;
+	var betChip;
+   	var betCheck = true;
+	var betCheck2 = true;
+   	
+	
 	/** Prev hide * */
 	/*
 	 * betBtn.hide(); betGiveUpBtn.hide();
@@ -215,7 +222,7 @@ $(function(){
 		chip1.show();
 		chip2.show();
 		players.show();
-		defaultBetting(content);
+		player2MaxChip(content);
 		if(content.player == member){
 			cardSelect2(content);
 		}else{
@@ -229,11 +236,15 @@ $(function(){
 	var checkMaxChip = 0;
 	var player1Chip = 0;
 	var player2Chip = 0;
+	var p1MaxChipCheck;
+	var p2MaxChipCheck;
 	var getBetChip1;
 	var getBetChip2;
 	var currentPlayer;
 	
-	function defaultBetting(content){
+	function player2MaxChip(content){
+		p1MaxChipCheck = content.player1Chip;
+		p2MaxChipCheck = content.player2Chip;
 		player1Chip = content.player1Chip-1;
 		player2Chip = content.player2Chip-1;
 		currentPlayer = content.player;
@@ -434,13 +445,6 @@ $(function(){
 	
 	function resultRound(content){
 		console.log("Resultround!!");
-		console.log(content.message);
-		console.log(content.card1);
-		console.log(content.card2);
-		console.log(content.player);
-		console.log(content.player1Chip);
-		console.log(content.player2Chip);
-		
 		infoArea.eq(0).prepend(content.message + "\n");
 		
 		player1Chip = content.player1Chip;
@@ -454,6 +458,8 @@ $(function(){
 		}else{
 			cardSelect2(content);
 		}
+		setTimer();
+		startTimer();
 	}
 		
 	function bettingAct(content){
@@ -482,10 +488,7 @@ $(function(){
 		chipCalculatorShow();
 	});
 	
-	var player1BetChip;
-	var player2BetChip;
-	
-	function decideBetChip(content){
+	//function decideBetChip(content){
 		/*
 		 * console.log(content.checkPlayer); if(content.checkPlayer == member){
 		 * playerBetChip = parseInt(betchip1Score.text().substr(1));
@@ -494,12 +497,12 @@ $(function(){
 		 * parseInt(betchip2Score.text().substr(1));
 		 * console.log("content.currentPlayer != member"); }
 		 */
-		player1BetChip = parseInt(betchip1Score.text().substr(1));
-		player2BetChip = parseInt(betchip2Score.text().substr(1));
-		console.log("player1BetChip " + player1BetChip);
-		console.log("player2BetChip " + player2BetChip);
+		//player1BetChip = parseInt(betchip1Score.text().substr(1));
+		//player2BetChip = parseInt(betchip2Score.text().substr(1));
+		//console.log("player1BetChip " + player1BetChip);
+		//console.log("player2BetChip " + player2BetChip);
 		// console.log(playerBetChip);
-	}
+	//}
 	
 	
 	// timer
@@ -509,6 +512,7 @@ $(function(){
     let timeLeft = 5;
     var timer = $("#timer");
 	
+    function setTimer(){
     document.getElementById("timer").innerHTML = `
     	<div class="base-timer">
     	<svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -531,6 +535,7 @@ $(function(){
     	 ${formatTimeLeft(timeLeft)}</span>
     	</div>
     	`;
+    }
     
     const COLOR_CODES = {
     		  info: {
@@ -583,11 +588,51 @@ $(function(){
    	    .getElementById("base-timer-path-remaining")
    	    .setAttribute("stroke-dasharray", circleDasharray);
    	}
-   	
-   	startTimer();
 	
+	function betChipMinLimit(){
+		console.log("betChip current Player:" + currentPlayer);
+		if(currentPlayer == member){
+			if(player1BetChip < player2BetChip){
+				//alert("상대보다 같거나 많은 칩을 걸어주세요");
+				return betCheck = false;
+			}
+		}else if(currentPlayer!= member){
+			if(player1BetChip > player2BetChip){
+				//alert("상대보다 같거나 많은 칩을 걸어주세요");
+				return betCheck = false;
+			}
+		}
+	}
 	
-	/** Message * */
+	function betChipMaxLimit(){
+		console.log("betChip current Player:" + currentPlayer);
+		console.log("Player1MaxChip " + p1MaxChipCheck);
+		console.log("Player2MaxChip " + p2MaxChipCheck);
+		console.log("BetChip" + betChip);
+		if(currentPlayer == member){
+			if(p2MaxChipCheck < betChip){
+				//alert("상대의 칩보다 많은 칩을 배팅할 수 없습니다")
+				return betCheck2 = false;
+			}
+		}else if(currentPlayer != member){
+			if(p1MaxChipCheck < betChip){
+				//alert("상대의 칩보다 많은 칩을 배팅할 수 없습니다")
+				return betCheck2 = false;
+			}
+		}
+	}
+	
+	function betChipValidation(){
+		betChipMinLimit();
+		betChipMaxLimit();
+		if(betCheck == false){
+			alert("상대보다 같거나 많은 칩을 걸어주세요");
+		}else if(betCheck2 == false){
+			alert("상대보다 많은 칩을 배팅할 수 없습니다");
+		}
+	}
+	
+   	/** Message * */
 	
 	sendBtn.click(function(){
 		var message = $("#message").val();
@@ -603,11 +648,18 @@ $(function(){
 	});
 	
 	betSendBtn.click(function(){
-		var player1BetChip = parseInt(betchip1Score.text().substr(1));
-		var player2BetChip = parseInt(betchip2Score.text().substr(1));
-		console.log("player1BetChip send " +  parseInt(betchip1Score.text().substr(1)));
-		console.log("player2BetChip send " + parseInt(betchip2Score.text().substr(1)));
-		var betChip = chipBetting.val();
+		player1BetChip = parseInt(betchip1Score.text().substr(1));
+		player2BetChip = parseInt(betchip2Score.text().substr(1));
+		betChip = chipBetting.val();
+		betCheck = true;
+		betCheck2 = true;
+		console.log("player1BetChip send " +  player1BetChip);
+		console.log("player2BetChip send " + player2BetChip);
+		console.log("BetChip " + betChip);
+		betChipValidation();
+		if(betCheck == false || betCheck2 == false){
+			return;
+		}
 		var bettingData = {type : "BETTING", sender:member, roomId:roomId,
 				betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
 				,player2BetChip:player2BetChip};

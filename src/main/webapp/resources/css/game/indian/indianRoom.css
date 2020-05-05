@@ -419,15 +419,15 @@
 
 .timer-wrapper{
 	position: relative;
-	width: 150px;
-	height: 150px;
-	margin-top:150px;
+	width: 125px;
+	height: 125px;
+	margin-top:130px;
 }
 
 .base-timer {
   position: relative;
-  height: 150px;
-  width: 150px;
+  height: 125px;
+  width: 125px;
 }
 
 .base-timer__svg {
@@ -457,8 +457,8 @@
 
 .base-timer__label {
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: 125px;
+  height: 125px;
   top: 0;
   display: flex;
   align-items: center;

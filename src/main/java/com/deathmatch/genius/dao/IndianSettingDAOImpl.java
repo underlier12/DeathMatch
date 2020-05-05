@@ -19,7 +19,7 @@ public class IndianSettingDAOImpl implements IndianSettingDAO {
 	}
 
 	@Override
-	public List<IndianCardDTO> problemList() {;
+	public List<IndianCardDTO> problemList() {
 		log.info("Access test data ");
 		return sqlSession.selectList(namespace+".cardList");
 	}

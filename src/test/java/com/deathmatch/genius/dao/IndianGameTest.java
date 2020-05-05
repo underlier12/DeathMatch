@@ -51,6 +51,18 @@ public class IndianGameTest {
 			cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
 			log.info("second Card : " + cardArr[1]);
 		}
+		if(cardIndex >=20) {
+			getCardDeck();
+			cardIndex = 0;
+		}
+		while (cardIndex != cardDeck.size()) {
+			log.info("first Index: " + cardIndex);
+			cardArr[0] = cardDeck.get(cardIndex++).getCardNum();
+			log.info("first Card : " + cardArr[0]);
+			log.info("two index: " + cardIndex);
+			cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
+			log.info("second Card : " + cardArr[1]);
+		}
 	}
 
 }
