@@ -25,6 +25,7 @@ import lombok.extern.log4j.Log4j;
 public class UnionService {
 
 	private final ObjectMapper objectMapper;
+	private final RecordService recordService;
 	private final UnionDealerService unionDealerService;
 	private final UnionSettingService unionSettingService;
 	private final UnionLoadingService unionLoadingService;
@@ -139,6 +140,7 @@ public class UnionService {
 		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
 			queue.offer(unionDealerService.endGame(gameRoom));
 			unionSettingService.resetGame(gameRoom);
+			recordService.recordHistory(gameRoom);
 		} else {
 			startRound(gameDTO, gameRoom);
 		}
