@@ -5,7 +5,7 @@
 <mapper namespace="com.deathmatch.genius.mapper.RecordMapper">
     
     <insert id="insertHistory">
-    	insert into tbl_union_problem(gameId,gameType,userId,winLose,score)
+    	insert into tbl_game(gameId,gameType,userId,winLose,score)
         values (#{gameId},#{gameType},#{userId},#{winLose},#{score});
     </insert>
     
