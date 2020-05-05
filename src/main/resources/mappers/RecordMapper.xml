@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.deathmatch.genius.mapper.RecordMapper">
+    
+    <insert id="insertHistory">
+    	insert into tbl_union_problem(gameId,gameType,userId,winLose,score)
+        values (#{gameId},#{gameType},#{userId},#{winLose},#{score});
+    </insert>
+    
+</mapper>
