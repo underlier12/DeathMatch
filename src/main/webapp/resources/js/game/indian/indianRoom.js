@@ -229,7 +229,7 @@ $(function(){
 			cardSelect1(content);
 		}
 	}
-	
+		
 	// betting Chip javascript
 	
 	var chipCount =1;
@@ -460,6 +460,8 @@ $(function(){
 		}
 		setTimer();
 		startTimer();
+		timer.show();
+		console.log("timer...?");
 	}
 		
 	function bettingAct(content){
@@ -488,32 +490,13 @@ $(function(){
 		chipCalculatorShow();
 	});
 	
-	//function decideBetChip(content){
-		/*
-		 * console.log(content.checkPlayer); if(content.checkPlayer == member){
-		 * playerBetChip = parseInt(betchip1Score.text().substr(1));
-		 * console.log("content.currentPlayer == member"); }else
-		 * if(content.checkPlayer != member){ playerBetChip =
-		 * parseInt(betchip2Score.text().substr(1));
-		 * console.log("content.currentPlayer != member"); }
-		 */
-		//player1BetChip = parseInt(betchip1Score.text().substr(1));
-		//player2BetChip = parseInt(betchip2Score.text().substr(1));
-		//console.log("player1BetChip " + player1BetChip);
-		//console.log("player2BetChip " + player2BetChip);
-		// console.log(playerBetChip);
-	//}
-	
-	
 	// timer
-	
 	// timer variables
-    
-    let timeLeft = 5;
+   
     var timer = $("#timer");
 	
     function setTimer(){
-    document.getElementById("timer").innerHTML = `
+    	document.getElementById("timer").innerHTML = `
     	<div class="base-timer">
     	<svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     	<g class="base-timer__circle">
@@ -537,14 +520,6 @@ $(function(){
     	`;
     }
     
-    const COLOR_CODES = {
-    		  info: {
-    		    color: "green"
-    		  }
-    		};
-
-    let remainingPathColor = COLOR_CODES.info.color;
-    
     function formatTimeLeft(time) {
  
     	  const minutes = Math.floor(time / 60);
@@ -552,9 +527,9 @@ $(function(){
     	  if (seconds < 10) {
     	    seconds = `${seconds}`;
     	  }
-    	  //return `${minutes}:${seconds}`;
     	  return `${seconds}`;
     }
+    let timeLeft =5;
 	
     function startTimer() {
     	let timePassed = 0;
@@ -564,31 +539,40 @@ $(function(){
     	timerInterval = setInterval(() => {
         timePassed = timePassed += 1;
         timeLeft = timeLimit - timePassed;
-    	document.getElementById("base-timer-label").innerHTML = formatTimeLeft(timeLeft);
-    	  
+    	document.getElementById("base-timer-label").innerHTML = formatTimeLeft(timeLeft);	
     	if(timeLeft == 0){
-    		clearInterval(timerInterval);
-    		timerInterval = null;
-    		timer.hide();
+    		onTimesUp();
     	}
  
     	}, 1000);
     }
     
-    function calculateTimeFraction(timeLimit, timeLeft) {
-   	  const rawTimeFraction = timeLeft / timeLimit;
-   	  return rawTimeFraction - (1 / timeLimit) * (1 - rawTimeFraction);
+    function onTimesUp(){
+    	clearInterval(timerInterval);
+		timerInterval = null;
+		timer.hide();
+		endRound();
+    }
+    
+   	// timer 종료후 서버로 요청 -> draw는 따로 또 구현해야함
+   	function endRound(){
+   		console.log(" endRound " );
+   		if(currentPlayer == member){
+   			var roundData = {type : "ROUND", sender:member, roomId:roomId,
+   					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
+   					,player2BetChip:player2BetChip};
+   			sock.send(JSON.stringify(roundData));
+   		}
+   		roundSetting();
    	}
-
-   	function setCircleDasharray(timeLimit, timeLeft) {
-   	  const circleDasharray = `${(
-   	    calculateTimeFraction(timeLimit, timeLeft) * FULL_DASH_ARRAY
-   	  ).toFixed(0)} 283`;
-   	  document
-   	    .getElementById("base-timer-path-remaining")
-   	    .setAttribute("stroke-dasharray", circleDasharray);
-   	}
-	
+   	
+   	function roundSetting(){
+		console.log("Next Round");
+		cardImg1.attr("src",defaultCardPath+"card"+defaultPng);
+		cardImg2.attr("src",defaultCardPath+"card"+defaultPng);
+		nextAbleBtn();
+	}
+   	
 	function betChipMinLimit(){
 		console.log("betChip current Player:" + currentPlayer);
 		if(currentPlayer == member){
@@ -631,6 +615,15 @@ $(function(){
 			alert("상대보다 많은 칩을 배팅할 수 없습니다");
 		}
 	}
+	
+	function nextAbleBtn(){
+		console.log("currentPlayer: " + currentPlayer);
+		if(currentPlayer!= member){
+			disableAll();
+		}else if(currentPlayer == member){
+			enableAll();
+		}
+	};
 	
    	/** Message * */
 	

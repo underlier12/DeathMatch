@@ -11,6 +11,8 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.config.WebSocketMessageBrokerStats;
+
 import com.deathmatch.genius.domain.IndianGameDTO;
 import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.IndianPlayerDTO;
@@ -60,9 +62,9 @@ public class IndianService {
 		case GIVEUP:
 			giveUpAct(session,indianGameDTO,indianRoom);
 			break;
-		/*
-		 * case SAMECHIP: sameChipAct(session,indianGameDTO,indianRoom); break;
-		 */
+		case ROUND:
+			nextRound(session,indianGameDTO,indianRoom);
+			break;
 		}
 	}
 	
@@ -181,17 +183,13 @@ public class IndianService {
 		if(indianGameDTO.getPlayer1BetChip() == indianGameDTO.getPlayer2BetChip()) {
 			sendMessageAll(indianRoom.getSessions(),dealService.resultRound(indianGameDTO, indianRoom));
 			log.info("Result Round sendMessageAll");
-			
 		}
 	}
 	
-	/*
-	 * public void sameChipAct(WebSocketSession session, IndianGameDTO
-	 * indianGameDTO,IndianGameRoom indianRoom) { //log.info("player1Chip: " +
-	 * indianGameDTO.getplayerBetChip()); log.info("Player :" +
-	 * indianGameDTO.getSender());
-	 * dealService.resultRound(indianGameDTO,indianRoom); }
-	 */
+	public void nextRound(WebSocketSession session, IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
+		sendMessageAll(indianRoom.getSessions(),dealService.startRound(indianRoom));
+	}
+	
 	
 	public void giveUpAct(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		sendMessageAll(indianRoom.getSessions(),dealService.giveUpRound(indianGameDTO, indianRoom));
