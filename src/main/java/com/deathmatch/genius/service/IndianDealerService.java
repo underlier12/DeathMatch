@@ -69,10 +69,8 @@ public class IndianDealerService {
 	}
 
 	public String[] drawCard(List<IndianCardDTO> cardDeck) {
-		// cardArr[0] = cardDeck.get(cardIndex++).getCardNum();
-		cardArr[0] = "7";
-		// cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
-		cardArr[1] = "7";
+		cardArr[0] = cardDeck.get(cardIndex++).getCardNum();	
+		cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
 		if (cardIndex >= 20) {
 			makeCardDeck();
 			cardIndex = 0;
@@ -207,6 +205,17 @@ public class IndianDealerService {
 			return players.get(1).getUserId() + "님이 승자 입니다 ";
 		}
 		return "Error";
+	}
+	
+	public String finalWinner(IndianGameRoom indianRoom) {
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
+		String winner = "";
+		if(players.get(0).getChip()>0 && players.get(1).getChip() == 0) {
+			winner = "인디언 게임 승자는 " + players.get(0).getUserId() + "입니다 ";
+		}else if(players.get(1).getChip()>0 && players.get(0).getChip() == 0) {
+			winner = "인디언 게임 승자는 " + players.get(1).getUserId() + "입니다 ";
+		}
+		return winner;
 	}
 
 	public int[] upAndDownChip(IndianGameRoom indianRoom, int chipNums1, int chipNums2) {
@@ -376,6 +385,7 @@ public class IndianDealerService {
 		jsonMap.put("player1Chip", players.get(0).getChip());
 		jsonMap.put("player2Chip", players.get(1).getChip());
 		jsonMap.put("message", "게임을 종료합니다");
+		jsonMap.put("winner", finalWinner(indianRoom));
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}

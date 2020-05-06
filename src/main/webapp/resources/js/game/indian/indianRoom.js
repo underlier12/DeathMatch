@@ -124,6 +124,9 @@ $(function(){
 			case "NEXTDRAW"
 				: nextDrawRound(content);
 				break;
+			case "END"
+				: endGame(content);
+				break;
 			default:
 				console.log("Default!!");
 		}
@@ -177,6 +180,14 @@ $(function(){
 		}else{
 			infoArea.eq(0).prepend(content.message + "\n");
 		}
+	}
+	
+	function endGame(content){
+		infoArea.eq(0).prepend(content.message + "\n");
+		infoArea.eq(0).prepend(content.winner + "\n");
+		//openCard(content);
+		endGameChipText(content);
+		disableAll();
 	}
 	
 	// 처음 게임 시작 disableBtn
@@ -337,6 +348,14 @@ $(function(){
 		chipScore2.text("X"+player2Chip);
 		betchip1Score.text("X"+content.betChip1);
 		betchip2Score.text("X"+content.betChip2);
+	}
+	
+	//end game showChipText
+	function endGameChipText(content){
+		chipScore1.text("X"+player1Chip);
+		chipScore2.text("X"+player2Chip);
+		betchip1Score.text("X"+0);
+		betchip2Score.text("X"+0);
 	}
 	
 	upBtn.click(function(){
@@ -769,6 +788,5 @@ $(function(){
 		sock.send(JSON.stringify(giveUpData));
 		console.log("Success Submit betting resultData");
 	});
-	
 	
 });
