@@ -97,6 +97,7 @@ public class IndianDealerService {
 
 	public IndianDealerDTO nextRound(IndianGameRoom indianRoom) {
 		Map<String, Object> jsonMap = processingMap(MessageType.NEXT, indianRoom.getRoomId());
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
 		cardArr = drawCard(cardDeck);
 		int[] chipArr = upAndDownChip(indianRoom, 0, 0);
 		jsonMap.put("card1", cardArr[0]);
@@ -105,26 +106,9 @@ public class IndianDealerService {
 		jsonMap.put("player1Chip", chipArr[0]);
 		jsonMap.put("player2Chip", chipArr[1]);
 		jsonMap.put("message", nextTurn(indianRoom) + "님의 차례입니다 ");
-		IndianDealerDTO indianDealerDTO = processing(jsonMap);
-		return indianDealerDTO;
-	}
-	
-	public IndianDealerDTO drawNextRound(IndianGameRoom indianRoom,IndianGameDTO indianGameDTO) {
-		Map<String, Object> jsonMap = processingMap(MessageType.NEXTDRAW, indianRoom.getRoomId());
-		cardArr = drawCard(cardDeck);
-		List<IndianPlayerDTO> players = indianRoom.getPlayers();
-		int betChip1 = indianGameDTO.getPlayer1BetChip();
-		int betChip2 = indianGameDTO.getPlayer2BetChip();
-		log.info("BetChip1 " + betChip1);
-		log.info("BetChip2 " + betChip2);
-		jsonMap.put("card1", cardArr[0]);
-		jsonMap.put("card2", cardArr[1]);
-		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
-		jsonMap.put("player1Chip", players.get(0).getChip()-betChip1);
-		jsonMap.put("player2Chip", players.get(1).getChip()-betChip2);
-		jsonMap.put("betChip1", betChip1);
-		jsonMap.put("betChip2", betChip2);
-		jsonMap.put("message", nextTurn(indianRoom) + "님의 차례입니다 ");
+		if(players.get(0).getChip() == 0 || players.get(1).getChip() == 0) {
+			return endGame(indianRoom);
+		}
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}
@@ -133,8 +117,8 @@ public class IndianDealerService {
 		Map<String, Object> jsonMap = processingMap(MessageType.BETRESULT, indianRoom.getRoomId());
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
 		int[] cardNums = parsingCard();
-		if(cardNums[0] == cardNums[1]) {
-			return draw(indianGameDTO,indianRoom);
+		if (cardNums[0] == cardNums[1]) {
+			return draw(indianGameDTO, indianRoom);
 		}
 		log.info("drawCheck");
 		roundChipSetting(indianGameDTO, indianRoom);
@@ -145,6 +129,26 @@ public class IndianDealerService {
 		jsonMap.put("player2Chip", players.get(1).getChip());
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
 		jsonMap.put("message", roundWinner(indianRoom));
+		IndianDealerDTO indianDealerDTO = processing(jsonMap);
+		return indianDealerDTO;
+	}
+	
+	public IndianDealerDTO drawNextRound(IndianGameRoom indianRoom,IndianGameDTO indianGameDTO) {
+		Map<String, Object> jsonMap = processingMap(MessageType.NEXTDRAW, indianRoom.getRoomId());
+		cardArr = drawCard(cardDeck);
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
+		int betChip1 = indianGameDTO.getPlayer1BetChip();
+		int betChip2 = indianGameDTO.getPlayer2BetChip();
+		log.info("DRAW BetChip1 " + betChip1);
+		log.info("DRAW BetChip2 " + betChip2);
+		jsonMap.put("card1", cardArr[0]);
+		jsonMap.put("card2", cardArr[1]);
+		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
+		jsonMap.put("player1Chip", players.get(0).getChip()-betChip1);
+		jsonMap.put("player2Chip", players.get(1).getChip()-betChip2);
+		jsonMap.put("betChip1", betChip1);
+		jsonMap.put("betChip2", betChip2);
+		jsonMap.put("message", nextTurn(indianRoom) + "님의 차례입니다 ");
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}
@@ -160,8 +164,8 @@ public class IndianDealerService {
 		log.info("BetChip2 " + betChip2);
 		jsonMap.put("card1", cardNums[0]);
 		jsonMap.put("card2", cardNums[1]);
-		jsonMap.put("player1Chip", players.get(0).getChip()-betChip1);
-		jsonMap.put("player2Chip", players.get(1).getChip()-betChip2);
+		jsonMap.put("player1Chip", players.get(0).getChip() - betChip1);
+		jsonMap.put("player2Chip", players.get(1).getChip() - betChip2);
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
 		jsonMap.put("betChip1", betChip1);
 		jsonMap.put("betChip2", betChip2);
@@ -361,6 +365,19 @@ public class IndianDealerService {
 		log.info(players.get(1).getTurn());
 		log.info(myTurn);
 		return myTurn;
+	}
+	
+	public IndianDealerDTO endGame(IndianGameRoom indianRoom) {
+		Map<String, Object> jsonMap = processingMap(MessageType.END, indianRoom.getRoomId());
+		int[] cardNums = parsingCard();
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
+		jsonMap.put("card1", cardNums[0]);
+		jsonMap.put("card2", cardNums[1]);
+		jsonMap.put("player1Chip", players.get(0).getChip());
+		jsonMap.put("player2Chip", players.get(1).getChip());
+		jsonMap.put("message", "게임을 종료합니다");
+		IndianDealerDTO indianDealerDTO = processing(jsonMap);
+		return indianDealerDTO;
 	}
 
 }

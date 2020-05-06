@@ -268,6 +268,17 @@ $(function(){
 		}
 	}
 	
+	function draw(content){
+		console.log("Draw");
+		drawCheck++;
+		infoArea.eq(0).prepend(content.message + "\n");
+		betChipScore(content)
+		openCard(content);
+		setTimer();
+		startTimer();
+		timer.show();
+	}
+	
 	// betting Chip javascript
 	
 	var chipCount =1;
@@ -534,17 +545,6 @@ $(function(){
 		timer.show();
 		console.log("timer...?");
 	}
-	
-	function draw(content){
-		console.log("Draw");
-		drawCheck++;
-		infoArea.eq(0).prepend(content.message + "\n");
-		betChipScore(content)
-		openCard(content);
-		setTimer();
-		startTimer();
-		timer.show();
-	}
 		
 	function bettingAct(content){
 		console.log(content.message);
@@ -657,6 +657,13 @@ $(function(){
    	
    	function endDrawRound(){
    		console.log("drawRound" );
+   		/*console.log("Draw p1chip " + player1Chip);
+   		console.log("Draw p2chip " + player2Chip);
+   		console.log("Draw p1chip " + player1BetChip);
+   		console.log("Draw p2chip " + player2BetChip);*/
+   		player1BetChip = parseInt(betchip1Score.text().substr(1));
+		player2BetChip = parseInt(betchip2Score.text().substr(1));
+		console.log("Draw p2chip " + player2BetChip);
    		if(currentPlayer == member){
    			var roundData = {type : "NEXTDRAW", sender:member, roomId:roomId,
    					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip

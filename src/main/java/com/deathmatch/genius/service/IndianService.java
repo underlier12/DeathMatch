@@ -200,6 +200,10 @@ public class IndianService {
 	public void giveUpAct(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		sendMessageAll(indianRoom.getSessions(),dealService.giveUpRound(indianGameDTO, indianRoom));
 	}
+	
+	public void endGame(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
+		sendMessageAll(indianRoom.getSessions(),dealService.endGame(indianRoom));
+	}
 		
 	/* Load Player */
 	
