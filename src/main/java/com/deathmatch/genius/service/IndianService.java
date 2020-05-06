@@ -187,7 +187,7 @@ public class IndianService {
 	}
 	
 	public void nextRound(WebSocketSession session, IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
-		sendMessageAll(indianRoom.getSessions(),dealService.startRound(indianRoom));
+		sendMessageAll(indianRoom.getSessions(),dealService.nextRound(indianRoom));
 	}
 	
 	

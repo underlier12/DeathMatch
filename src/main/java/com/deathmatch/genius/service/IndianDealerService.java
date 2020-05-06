@@ -92,6 +92,21 @@ public class IndianDealerService {
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
 		return indianDealerDTO;
 	}
+	
+	public IndianDealerDTO nextRound(IndianGameRoom indianRoom) {
+		Map<String, Object> jsonMap = processingMap(MessageType.NEXT, indianRoom.getRoomId());
+		cardArr = drawCard(cardDeck);
+		int[] chipArr = upAndDownChip(indianRoom, 0, 0);
+		jsonMap.put("card1", cardArr[0]);
+		jsonMap.put("card2", cardArr[1]);
+		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
+		jsonMap.put("player1Chip", chipArr[0]);
+		jsonMap.put("player2Chip", chipArr[1]);
+		jsonMap.put("message", nextTurn(indianRoom) +"님의 차례입니다 ");
+		//jsonMap.put("firstTurn", )
+		IndianDealerDTO indianDealerDTO = processing(jsonMap);
+		return indianDealerDTO;
+	}
 
 	public IndianDealerDTO resultRound(IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		Map<String, Object> jsonMap = processingMap(MessageType.BETRESULT, indianRoom.getRoomId());

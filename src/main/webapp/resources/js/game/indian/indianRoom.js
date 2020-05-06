@@ -113,6 +113,9 @@ $(function(){
 			case "GIVEUP" 
 				:giveUpRound(content);
 				break;		
+			case "NEXT"
+				:nextRound(content);
+				break;
 			default:
 				console.log("Default!!");
 		}
@@ -168,6 +171,7 @@ $(function(){
 		}
 	}
 	
+	// 처음 게임 시작 disableBtn
 	function disableBtn(content){
 		console.log(content.player);
 		console.log(member);
@@ -223,13 +227,31 @@ $(function(){
 		chip2.show();
 		players.show();
 		player2MaxChip(content);
+		cardSelect(content);
+	}
+	
+	function nextRound(content){
+		var message = content.message;
+		var turnPlayer = message.substring(0,message.indexOf("님"));
+		console.log(content.player);
+		console.log("TurnPlayer " + turnPlayer);
+		infoArea.eq(0).prepend(message + "\n");
+		player2MaxChip(content);
+		cardSelect(content);
+		if(turnPlayer != member){
+			disableAll();
+		}else if(turnPlayer == member){
+			enableAll();
+		}
+	}
+	
+	function cardSelect(content){
 		if(content.player == member){
 			cardSelect2(content);
 		}else{
 			cardSelect1(content);
 		}
-	}
-		
+	}	
 	// betting Chip javascript
 	
 	var chipCount =1;
@@ -570,7 +592,7 @@ $(function(){
 		console.log("Next Round");
 		cardImg1.attr("src",defaultCardPath+"card"+defaultPng);
 		cardImg2.attr("src",defaultCardPath+"card"+defaultPng);
-		nextAbleBtn();
+		//enableAll();
 	}
    	
 	function betChipMinLimit(){
@@ -615,15 +637,6 @@ $(function(){
 			alert("상대보다 많은 칩을 배팅할 수 없습니다");
 		}
 	}
-	
-	function nextAbleBtn(){
-		console.log("currentPlayer: " + currentPlayer);
-		if(currentPlayer!= member){
-			disableAll();
-		}else if(currentPlayer == member){
-			enableAll();
-		}
-	};
 	
    	/** Message * */
 	
