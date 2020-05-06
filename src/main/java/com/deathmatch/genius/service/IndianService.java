@@ -65,6 +65,9 @@ public class IndianService {
 		case ROUND:
 			nextRound(session,indianGameDTO,indianRoom);
 			break;
+		case NEXTDRAW:
+			drawNextRound(session, indianGameDTO, indianRoom);
+			break;
 		}
 	}
 	
@@ -190,6 +193,9 @@ public class IndianService {
 		sendMessageAll(indianRoom.getSessions(),dealService.nextRound(indianRoom));
 	}
 	
+	public void drawNextRound(WebSocketSession session, IndianGameDTO indianGameDTO,IndianGameRoom indianRoom) {
+		sendMessageAll(indianRoom.getSessions(),dealService.drawNextRound(indianRoom,indianGameDTO));
+	}
 	
 	public void giveUpAct(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		sendMessageAll(indianRoom.getSessions(),dealService.giveUpRound(indianGameDTO, indianRoom));

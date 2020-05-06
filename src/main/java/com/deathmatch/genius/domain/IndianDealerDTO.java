@@ -8,7 +8,7 @@ import lombok.Setter;
 public class IndianDealerDTO {
 
 	public enum MessageType{
-		START,TURN,GIVEUP,BETRESULT,NEXT
+		START,TURN,GIVEUP,BETRESULT,NEXT,DRAW,NEXTDRAW
 	}
 	
 	private MessageType type;
@@ -25,9 +25,6 @@ public class IndianDealerDTO {
 	private String firstTurn;
 	private int player1Chip;
 	private int player2Chip;
-	//private int chip1;
-	//private int chip2;
 	private int betChip1;
 	private int betChip2;
-	//private int score;
 }

@@ -8,7 +8,7 @@ import lombok.Setter;
 public class IndianGameDTO {
 	
 	public enum MessageType{
-		TALK,JOIN,READY,BETTING,GIVEUP,ROUND
+		TALK,JOIN,READY,BETTING,GIVEUP,ROUND,NEXTDRAW
 	}
 	
 	private MessageType type;
