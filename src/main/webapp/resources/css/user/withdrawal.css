@@ -37,3 +37,21 @@
 	color: #E4F7BA
 }
 
+#deleteBtn{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA
+}
+
+#checkPw1{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#checkPw2{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.deathmatch.genius.domain.LoginDTO;
 import com.deathmatch.genius.domain.UserDTO;
 import com.deathmatch.genius.service.UserService;
@@ -63,6 +65,10 @@ public class UserController {
 		return "/user/info-modify";
 	}
 	
+	@GetMapping("/withdrawal")
+	public String withdrawl() {
+		return "/user/withdrawal";
+	}
 	
 	@ResponseBody
 	@PostMapping("/registration")
@@ -146,9 +152,17 @@ public class UserController {
 	
 	// 회원 탈퇴하기
 	@PostMapping("/delete")
-	public String deleteMember() {
-		
-		return "redirect:/";
+	public String deleteMember(UserDTO userDTO,HttpSession session,RedirectAttributes rttr) {
+		UserDTO currentUser = (UserDTO)session.getAttribute("login");
+		userDTO.setUserEmail(currentUser.getUserEmail());
+		if(userService.checkPw(currentUser, userDTO.getPw())){
+			log.info("회원 탈퇴 성공");
+			userService.deleteMember(userDTO);
+		}else {
+			rttr.addFlashAttribute("msg", "비밀번호가 일치하지 않습니다");
+			return "redirect:/auth/user/withdrawal";
+		}
+		session.invalidate();
+		return "redirect:/auth/user/login";
 	}
-
 }
