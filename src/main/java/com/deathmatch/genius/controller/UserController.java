@@ -143,5 +143,12 @@ public class UserController {
 			return new ResponseEntity<>("Error",HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	// 회원 탈퇴하기
+	@PostMapping("/delete")
+	public String deleteMember() {
+		
+		return "redirect:/";
+	}
 
 }

@@ -15,6 +15,10 @@ public class IndianGameRoom {
 
 	private String roomId;
 	private String roomName;
+	private String gameType;
+	private String gameId;
+    private Boolean playing = false;
+	 
 	private Set<WebSocketSession> sessions = new HashSet<>(); // 입장한 클라이언트의 정보 보관
 	private List<IndianPlayerDTO> players = new LinkedList<>(); //유저 정보를 보관
 	

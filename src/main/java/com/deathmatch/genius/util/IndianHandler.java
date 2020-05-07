@@ -45,8 +45,7 @@ public class IndianHandler extends TextWebSocketHandler {
 	// 클라이언트가 연결을 끊을때 사용
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		//ChatRoom chatRoom = chatRoomService.findRoomById;
-		//chatService.quitSession(session, chatRoom);
+		
 		super.afterConnectionClosed(session, status);
 	}
 	

@@ -8,7 +8,7 @@ import lombok.Setter;
 public class IndianServiceDTO {
 	
 	public enum MessageType{
-		JOIN,READY,LOAD,RESULT
+		JOIN,READY,LOAD,RESULT,LEAVE
 	}
 	private MessageType type;
 	private String roomId;

@@ -9,20 +9,19 @@ import java.util.Queue;
 import java.util.Set;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.config.WebSocketMessageBrokerStats;
-
 import com.deathmatch.genius.domain.IndianGameDTO;
 import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.IndianPlayerDTO;
+import com.deathmatch.genius.domain.IndianPlayerDTO.StatusType;
 import com.deathmatch.genius.domain.IndianServiceDTO;
 import com.deathmatch.genius.domain.IndianServiceDTO.MessageType;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.extern.log4j.Log4j;
 
 /**
@@ -152,11 +151,14 @@ public class IndianService {
 	}
 	
 	public void register(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
+		StatusType status = decideStatus(indianRoom);
+		
 		IndianPlayerDTO player = IndianPlayerDTO.builder()
 					.userId(indianGameDTO.getSender())
 					.roomId(indianRoom.getRoomId())
 					.ready(false)
 					.turn(false)
+					.status(status)
 					.chip(30)
 					.betChip(0)
 					.build();
@@ -165,6 +167,16 @@ public class IndianService {
 		Map<String,Object> map = session.getAttributes();
 		map.put("player",player);
 		indianRoom.addPlayer(player);
+	}
+	
+	public StatusType decideStatus(IndianGameRoom indianRoom) {
+		StatusType status;
+		
+		if(indianRoom.getPlayers().size() == 0) status = StatusType.HOST;
+		else if(indianRoom.getPlayers().size() == 1) status = StatusType.OPPONENT;
+		else status = StatusType.GUEST;
+		
+		return status;
 	}
 	
 	public void joinUser(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
@@ -241,11 +253,34 @@ public class IndianService {
 		}
 	}
 	
-	public void quitSession(WebSocketSession session,IndianGameRoom indianRoom) {
+	public void quitSession(WebSocketSession session,IndianGameRoom indianRoom,CloseStatus status) {
 		indianRoom.removeSession(session);
 		log.info("session close");
 	}
 	
+	public void afterConnectionClosed(WebSocketSession session, IndianPlayerDTO player,
+			IndianGameRoom indianRoom,CloseStatus status) {
+		quitSession(session, indianRoom,status);
+		
+	}
+	
+	public Boolean isGuest(IndianPlayerDTO player) {
+		return player.getStatus() == StatusType.GUEST;
+	}
+	
+	public IndianServiceDTO quitPlayer(IndianPlayerDTO player, IndianGameRoom indianRoom ) {
+		Map<String,Object> jsonMap = convertMap(MessageType.LEAVE,indianRoom.getRoomId());
+		indianRoom.removePlayer(player);
+		
+		jsonMap.put("message", player.getUserId() + "님이 퇴장했습니다");
+		jsonMap.put("player", player.getUserId());
+		IndianServiceDTO indianServiceDTO = processing(jsonMap);
+		return indianServiceDTO;
+	}
+	
+	public Boolean isEmptyRoom(IndianGameRoom indianRoom) {
+		return indianRoom.getSessions().size() == 0;
+	}
 	
 	/* Act SendMessage */
 	
