@@ -676,10 +676,6 @@ $(function(){
    	
    	function endDrawRound(){
    		console.log("drawRound" );
-   		/*console.log("Draw p1chip " + player1Chip);
-   		console.log("Draw p2chip " + player2Chip);
-   		console.log("Draw p1chip " + player1BetChip);
-   		console.log("Draw p2chip " + player2BetChip);*/
    		player1BetChip = parseInt(betchip1Score.text().substr(1));
 		player2BetChip = parseInt(betchip2Score.text().substr(1));
 		console.log("Draw p2chip " + player2BetChip);
@@ -702,13 +698,11 @@ $(function(){
 	function betChipMinLimit(){
 		console.log("betChip current Player:" + currentPlayer);
 		if(currentPlayer == member){
-			if(player1BetChip < player2BetChip){
-				//alert("상대보다 같거나 많은 칩을 걸어주세요");
+			if(player1BetChip < player2BetChip || player1BetChip == 1){
 				return betCheck = false;
 			}
 		}else if(currentPlayer!= member){
-			if(player1BetChip > player2BetChip){
-				//alert("상대보다 같거나 많은 칩을 걸어주세요");
+			if(player1BetChip > player2BetChip || player2BetChip == 1){
 				return betCheck = false;
 			}
 		}
@@ -716,17 +710,14 @@ $(function(){
 	
 	function betChipMaxLimit(){
 		console.log("betChip current Player:" + currentPlayer);
-		console.log("Player1MaxChip " + p1MaxChipCheck);
-		console.log("Player2MaxChip " + p2MaxChipCheck);
-		console.log("BetChip" + betChip);
+		var p1MaxChip = player1BetChip+player1Chip;
+		var p2MaxChip = player2BetChip+player2Chip;
 		if(currentPlayer == member){
-			if(p2MaxChipCheck < betChip){
-				//alert("상대의 칩보다 많은 칩을 배팅할 수 없습니다")
+			if(player1BetChip > p2MaxChip){
 				return betCheck2 = false;
 			}
 		}else if(currentPlayer != member){
-			if(p1MaxChipCheck < betChip){
-				//alert("상대의 칩보다 많은 칩을 배팅할 수 없습니다")
+			if(player2BetChip > p1MaxChip){
 				return betCheck2 = false;
 			}
 		}
