@@ -1,5 +1,7 @@
 package com.deathmatch.genius.domain;
 
+
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +16,14 @@ public class IndianPlayerDTO {
 		HOST, OPPONENT, GUEST
 	}
 	
+	public enum WinLoseType{
+		WIN, LOSE
+	}
+	
 	private String userId;
 	private String roomId;
 	private StatusType status;
+	private WinLoseType winLose;
 	private Boolean ready;
 	private Boolean turn;
 	private int chip;

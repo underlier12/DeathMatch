@@ -43,5 +43,13 @@ public class IndianGameRoomService {
         log.info("create Room");
         return indianRoom;
     }
+    
+    public void destroyRoom(String roomId) {
+    	indianRooms.remove(roomId);
+    }
+    
+    public int countRoom() {
+    	return indianRooms.size();
+    }
 
 }

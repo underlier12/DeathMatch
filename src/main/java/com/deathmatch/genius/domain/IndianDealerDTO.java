@@ -8,7 +8,7 @@ import lombok.Setter;
 public class IndianDealerDTO {
 
 	public enum MessageType{
-		START,TURN,GIVEUP,BETRESULT,NEXT,DRAW,NEXTDRAW,END
+		START,TURN,GIVEUP,BETRESULT,NEXT,DRAW,NEXTDRAW,END,STOP
 	}
 	
 	private MessageType type;

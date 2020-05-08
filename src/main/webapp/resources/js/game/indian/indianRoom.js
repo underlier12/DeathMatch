@@ -127,12 +127,26 @@ $(function(){
 			case "END"
 				: endGame(content);
 				break;
+			case "LEAVE"
+				: leavePlayer(content);
+				break;
 			default:
 				console.log("Default!!");
 		}
 	}
 	
-	// end
+	function leavePlayer(content){
+		if(content.player == playerId1.val()){
+			playerId1.val('');
+		}else{
+			playerId2.val('');
+		}
+		infoArea.eq(0).prepend(content.message + "\n");
+	}
+	
+	$("#leave").click(function(){
+		location.href='../indianHome'
+	});
 	
 	function loadPlayer(content){
 		switch (content.message) {
@@ -668,12 +682,11 @@ $(function(){
    		roundSetting();
    		if(currentPlayer == member){
    			console.log("....");
-   		}
-   		var roundData = {type : "ROUND", sender:member, roomId:roomId,
+   			var roundData = {type : "ROUND", sender:member, roomId:roomId,
 					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
 					,player2BetChip:player2BetChip};
 			sock.send(JSON.stringify(roundData));
-   		
+   		}
    	}
    	
    	function endDrawRound(){
@@ -684,11 +697,11 @@ $(function(){
 		roundSetting();
    		if(currentPlayer == member){
    			console.log("....");
-   		}
-   		var roundData = {type : "NEXTDRAW", sender:member, roomId:roomId,
+   			var roundData = {type : "NEXTDRAW", sender:member, roomId:roomId,
 					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
 					,player2BetChip:player2BetChip};
 			sock.send(JSON.stringify(roundData));
+   		}
    		
    	}
    	

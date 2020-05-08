@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.deathmatch.genius.dao.RecordDAO;
 import com.deathmatch.genius.domain.GameRoom;
+import com.deathmatch.genius.domain.IndianGameRoom;
+import com.deathmatch.genius.domain.IndianPlayerDTO;
 import com.deathmatch.genius.domain.RecordDTO;
 import com.deathmatch.genius.domain.UnionPlayerDTO;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -32,6 +34,15 @@ public class RecordService {
 		
 		jsonMap.put("gameId", gameRoom.getGameId());
 		jsonMap.put("gameType", gameRoom.getGameType());
+		
+		return jsonMap;
+	}
+	
+	public Map<String, Object> indianPreprocessing(IndianGameRoom indianRoom) {
+		Map<String, Object> jsonMap = new HashMap<>();
+		
+		jsonMap.put("gameId", indianRoom.getGameId());
+		jsonMap.put("gameType", indianRoom.getGameType());
 		
 		return jsonMap;
 	}
@@ -63,6 +74,21 @@ public class RecordService {
 			jsonMap.put("userId", player.getUserId());
 			jsonMap.put("winLose", player.getWinLose().toString());
 			jsonMap.put("score", player.getScore());
+			
+			RecordDTO recordDTO = postprocessing(jsonMap);
+			recordDAO.insertHistory(recordDTO);
+		}
+	}
+	
+	public void IndianRecordHistory(IndianGameRoom indianRoom) {
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
+		
+		for(IndianPlayerDTO player : players) {
+			Map<String, Object> jsonMap = indianPreprocessing(indianRoom);
+			
+			jsonMap.put("userId", player.getUserId());
+			jsonMap.put("winLose", player.getWinLose().toString());
+			log.info("IndianRecoredHistory ");
 			
 			RecordDTO recordDTO = postprocessing(jsonMap);
 			recordDAO.insertHistory(recordDTO);
