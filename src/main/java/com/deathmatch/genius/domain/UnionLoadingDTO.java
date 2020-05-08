@@ -15,9 +15,7 @@ public class UnionLoadingDTO {
     private String sender; 
     private String message;
     private String user;
-//    private String user2;
-    private String[] cards;
-    private String[] answers;
+    private String[] set;
     private int score;
 
 }

@@ -3,15 +3,6 @@ $(function () {
 // websocket variables
 	
 	var url = window.location.host;//웹브라우저의 주소창의 포트까지 가져옴
-//	var pathname = window.location.pathname; /* '/'부터 오른쪽에 있는 모든 경로*/
-//	var appCtx = pathname.substring(0, pathname.indexOf("/",1));
-//	var root = url+appCtx;
-//	
-//	console.log("url : " + url);
-//	console.log("pathname : " + pathname);
-//	console.log("appCtx : " + appCtx);
-//	console.log("root : " + root);
-	
 	var sock = new SockJS("http://"+url+"/ws/chat");	
 	
 // variables
@@ -25,37 +16,6 @@ $(function () {
 	var defaultJpg = ".jpg";
 	var defaultPng = ".png";
 	
-    // button tag
-	var $uniBtn = $('#uni');
-	var $onBtn = $('#on');
-	var $readyBtn = $('#ready');
-	var $leaveBtn = $('#leave');
-	
-	// input tag
-	var $selectBox = $('.selectbox');
-	
-	var $playerAInput = $('#playerA');
-	var $playerBInput = $('#playerB');
-	var $scoreAInput = $('#scoreA');
-	var $scoreBInput = $('#scoreB');
-
-	// div tag
-	var $exclaimA = $('#exclaimA');
-	var $exclaimB = $('#exclaimB');
-	var $pass = $('#pass');
-	var $connectionStatus = $('#connectionStatus');
-	
-	// textarea tag
-	var $gameBroadcast = $('#broadcast');
-	
-	// ul tag
-    var $answerList = $('#answer');
-    
-    // p tag
-    var $roundP = $('#round');
-    var $statePA = $('#statementA');
-    var $statePB = $('#statementB');
-
 // timer variables
     
     const FULL_DASH_ARRAY = 283; // 2*pi*r
@@ -67,7 +27,7 @@ $(function () {
     
     sock.onopen = function () {
         sock.send(JSON.stringify({type: 'JOIN', roomId: roomId, sender: member}));
-        $connectionStatus.text('connection opened');
+        $('#connectionStatus').text('connection opened');
         notInGame();
         disableAll();
     }
@@ -88,7 +48,7 @@ $(function () {
     
  	sock.onclose = function(event){
  		console.log("sock.onclose");
- 		$connectionStatus.text('connection closed');
+ 		$('#connectionStatus').text('connection closed');
  	}
 
 // websocket functions
@@ -96,7 +56,7 @@ $(function () {
  	function fromServer(content){ 	
  		
  		if(content.message){
- 			$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 			$('#broadcast').eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		}
  		
  		switch(content.type){
@@ -137,7 +97,7 @@ $(function () {
  	
  	function fromUser(content){
  		
- 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+ 		$('#broadcast').eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
  		switch(content.type){
  		case "UNI":
@@ -154,37 +114,60 @@ $(function () {
  	function notifyLoad(content){
  		switch (content.message) {
 		case "PLAYER":
-			if(!$playerAInput.val()){
-				$playerAInput.val(content.user);
-			}else if(!$playerBInput.val()){
-				$playerBInput.val(content.user);
+			if(!$('#playerA').val()){
+				$('#playerA').val(content.user);
+			}else if(!$('#playerB').val()){
+				$('#playerB').val(content.user);
 			}
 			break;
+			
+		case "SCORE":
+			if($('#playerA').val() == content.user){
+				$('#scoreA').val(content.score);
+			} else {
+				$('#scoreB').val(content.score);
+			}
+			break;
+			
+		case "PROBLEM":
+			console.log("problem loading");
+			console.log("length : " + content.set.length);
+			for(var i=0; i < content.set.length; i++){
+				$(".card:eq("+i+")").attr("src", defaultCardPath + content.set[i] + defaultJpg);
+			}
+			break;
+			
+		case "ANSWER":
+			console.log("answer loading");
+			console.log("length : " + content.set.length);
+			for(var i=0; i < content.set.length; i++){
+	        	$('#answer').append('<li>' + content.set[i] + '</li>');
+			}
 		}
  	}
  	
  	function notifyJoin(content){		
-		if(!$playerAInput.val()){
-			$playerAInput.val(content.user1);
-		}else if(!$playerBInput.val()){
-			$playerBInput.val(content.user1);
+		if(!$('#playerA').val()){
+			$('#playerA').val(content.user1);
+		}else if(!$('#playerB').val()){
+			$('#playerB').val(content.user1);
 		}
 		toastMessage("info", content.message);
  	}
  	
  	function notifyReady(content){
 		if(content.message.substring(0, 3) == '참가자'){
-			$scoreAInput.val(0);
-			$scoreBInput.val(0);
+			$('#scoreA').val(0);
+			$('#scoreB').val(0);
 			inGame();
 		}
 		toastMessage("info", content.message);
  	}
 
  	function notifyRound(content){
-        $roundP.text(content.round + ' ROUND');
+        $('#round').text(content.round + ' ROUND');
 		countDown(content);
-		$pass.html('');
+		$('#pass').html('');
  	}
  	
  	function notifyProblem(content){
@@ -203,7 +186,7 @@ $(function () {
  		}
 		
 		if(parseInt(content.score) > 0){
-        	$answerList.append('<li>' + content.answer + '</li>');
+        	$('#answer').append('<li>' + content.answer + '</li>');
 		}
  	}
  	
@@ -226,10 +209,10 @@ $(function () {
  	}
  	
  	function notifyLeave(content){
- 		if(content.user1 == $playerAInput.val()){
- 			$playerAInput.val('');
+ 		if(content.user1 == $('#playerA').val()){
+ 			$('#playerA').val('');
  		} else {
- 			$playerBInput.val('');
+ 			$('#playerB').val('');
  		}
  		toastMessage("info", content.message);
  	}
@@ -238,12 +221,12 @@ $(function () {
  		var existingScore;
 		var score = parseInt(content.score);
  		
- 		if(content.user1 == $playerAInput.val()){
-			existingScore = parseInt($scoreAInput.val()); 
-			$scoreAInput.val(existingScore + score);
+ 		if(content.user1 == $('#playerA').val()){
+			existingScore = parseInt($('#scoreA').val()); 
+			$('#scoreA').val(existingScore + score);
 		}else{
-			existingScore = parseInt($scoreBInput.val()); 
-			$scoreBInput.val(existingScore + score);
+			existingScore = parseInt($('#scoreB').val()); 
+			$('#scoreB').val(existingScore + score);
 		}
  		
  		if(content.score > 0){
@@ -260,14 +243,14 @@ $(function () {
  		} else {
  			message = '승자는 ' + content.user1 + '입니다. 축하합니다.\n';
  		}
- 		$gameBroadcast.eq(0).prepend(content.sender + ' : ' + message);
+ 		$('#broadcast').eq(0).prepend(content.sender + ' : ' + message);
  		toastMessage("info", message);
  		
  		notInGame();
  		disableAll();
  		resetRound();
  		resetScore();
- 		$pass.html('');
+ 		$('#pass').html('');
  	}
  	
  	function countDown(content){
@@ -275,11 +258,11 @@ $(function () {
  			onTimesUp();
  		}
  		switch (content.user1) {
-		case $playerAInput.val():
+		case $('#playerA').val():
 			timer = "timerA";
 			setTimer(content.countDown);
 			break;
-		case $playerBInput.val():
+		case $('#playerB').val():
 			timer = "timerB";
 			setTimer(content.countDown);
 			break;
@@ -288,14 +271,14 @@ $(function () {
  	}
  	
  	function resetRound(){
- 		$roundP.text('');
- 		$answerList.empty();
+ 		$('#round').text('');
+ 		$('#answer').empty();
  	}
  	
  	function resetScore(){
  		setTimeout(function(){
- 			$scoreAInput.val('');
- 			$scoreBInput.val(''); 			
+ 			$('#scoreA').val('');
+ 			$('#scoreB').val(''); 			
  		}, 5000);
  	}
  	
@@ -308,14 +291,14 @@ $(function () {
  	}
  	
  	function exclaim(content){
- 		if(content.sender == $playerAInput.val()){
- 			$exclaimA.show();
- 	    	$exclaimB.hide();
- 			$statePA.text(content.message); 			
+ 		if(content.sender == $('#playerA').val()){
+ 			$('#exclaimA').show();
+ 	    	$('#exclaimB').hide();
+ 			$('#statementA').text(content.message); 			
  		}else{
- 			$exclaimA.hide();
- 	    	$exclaimB.show();
- 			$statePB.text(content.message);
+ 			$('#exclaimA').hide();
+ 	    	$('#exclaimB').show();
+ 			$('#statementB').text(content.message);
  		} 		
  	}
  	
@@ -405,27 +388,26 @@ $(function () {
  	
 // button/checkbox actions
  	
-    $uniBtn.click(function(){
+    $('#uni').click(function(){
     	sock.send(JSON.stringify(
     			{type: 'UNI', roomId: roomId, sender: member, message: "결!"}));
     });
     
-    $onBtn.click(function(){
+    $('#on').click(function(){
     	sock.send(JSON.stringify(
     			{type: 'ON', roomId: roomId, sender: member, message: "합!"}));
     });
     
-    $readyBtn.click(function(){
+    $('#ready').click(function(){
     	sock.send(JSON.stringify(
     			{type: 'READY', roomId: roomId, sender: member, message: "READY"}));
     });
     
-    $leaveBtn.click(function(){
+    $('#leave').click(function(){
     	location.href='../rooms';
-//    	window.location = document.referrer;
     });
     
-    $selectBox.change(function(){	
+    $('.selectbox').change(function(){	
     	$(this).next().children().toggleClass("boundary");
     	var $checkedBox = $('input[type="checkbox"]:checked');
     	
@@ -450,17 +432,17 @@ $(function () {
 // setting functions
     
     function inGame(){
-    	$readyBtn.hide();
-    	$uniBtn.show();
-    	$onBtn.show();
+    	$('#ready').hide();
+    	$('#uni').show();
+    	$('#on').show();
     }
     
     function notInGame(){
-    	$uniBtn.hide();
-    	$onBtn.hide();
-    	$exclaimA.hide();
-    	$exclaimB.hide();
-    	$readyBtn.show();
+    	$('#uni').hide();
+    	$('#on').hide();
+    	$('#exclaimA').hide();
+    	$('#exclaimB').hide();
+    	$('#ready').show();
     	for(var i=0; i < 9; i++){
     		$(".card:eq("+i+")").attr("src", defaultCardPath + (i+1) + defaultPng);
 		}
@@ -472,9 +454,7 @@ $(function () {
 
     	var passText = "PASS<br>";
     	var passTotal = passText.repeat(content.pass);
-    	$pass.html(passTotal);
-//    	console.log("pass : " + content.pass);
-//    	console.log("passTotal : " + passTotal);
+    	$('#pass').html(passTotal);
     	
     	if(content.user1 == member){
     		switch (content.message.substring(0, 1)) {
@@ -503,12 +483,12 @@ $(function () {
     
     function enableUni(){
     	console.log("enUni");
-    	$uniBtn.prop("disabled", false);
+    	$('#uni').prop("disabled", false);
     }
     
     function enableOn(){
     	console.log("enOn");
-    	$onBtn.prop("disabled", false);
+    	$('#on').prop("disabled", false);
     }
     
     function disableAll(){
@@ -516,8 +496,8 @@ $(function () {
     	for(var i=0; i < 9; i++){
     		$(".selectbox:eq("+i+")").prop("disabled", true);
     	}
-    	$uniBtn.prop('disabled', true);
-    	$onBtn.prop('disabled', true);
+    	$('#uni').prop('disabled', true);
+    	$('#on').prop('disabled', true);
     }
     
     function toastMessage(type, message){

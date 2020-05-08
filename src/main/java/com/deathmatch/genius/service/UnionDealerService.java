@@ -14,6 +14,7 @@ import com.deathmatch.genius.domain.GameRoom;
 import com.deathmatch.genius.domain.UnionDealerDTO;
 import com.deathmatch.genius.domain.UnionGameDTO;
 import com.deathmatch.genius.domain.UnionPlayerDTO;
+import com.deathmatch.genius.domain.UnionPlayerDTO.WinLoseType;
 import com.deathmatch.genius.domain.UnionDealerDTO.MessageType;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -249,6 +250,7 @@ public class UnionDealerService {
 	public String announceWinner(GameRoom gameRoom) {
 		log.info("engaged size : " + gameRoom.getEngaged().size());
 		if(gameRoom.getEngaged().size() < 2) {
+			gameRoom.getEngaged().get(0).setWinLose(WinLoseType.WIN);
 			return gameRoom.getEngaged().get(0).getUserId();
 		}
 		
@@ -257,8 +259,15 @@ public class UnionDealerService {
 		
 		if(engaged.get(0).getScore() > engaged.get(1).getScore()) {
 			winner = engaged.get(0).getUserId();
+			engaged.get(0).setWinLose(WinLoseType.WIN);
+			engaged.get(1).setWinLose(WinLoseType.LOSE);
 		} else if(engaged.get(0).getScore() < engaged.get(1).getScore()) {
 			winner = engaged.get(1).getUserId();
+			engaged.get(1).setWinLose(WinLoseType.WIN);
+			engaged.get(0).setWinLose(WinLoseType.LOSE);
+		} else {
+			engaged.get(0).setWinLose(WinLoseType.DRAW);
+			engaged.get(1).setWinLose(WinLoseType.DRAW);
 		}
 		return winner;
 	}
