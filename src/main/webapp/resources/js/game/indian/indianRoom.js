@@ -665,13 +665,15 @@ $(function(){
    	// timer 종료후 서버로 요청 -> draw는 따로 또 구현해야함
    	function endRound(){
    		console.log(" endRound " );
-   		if(currentPlayer == member){
-   			var roundData = {type : "ROUND", sender:member, roomId:roomId,
-   					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
-   					,player2BetChip:player2BetChip};
-   			sock.send(JSON.stringify(roundData));
-   		}
    		roundSetting();
+   		if(currentPlayer == member){
+   			console.log("....");
+   		}
+   		var roundData = {type : "ROUND", sender:member, roomId:roomId,
+					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
+					,player2BetChip:player2BetChip};
+			sock.send(JSON.stringify(roundData));
+   		
    	}
    	
    	function endDrawRound(){
@@ -679,13 +681,15 @@ $(function(){
    		player1BetChip = parseInt(betchip1Score.text().substr(1));
 		player2BetChip = parseInt(betchip2Score.text().substr(1));
 		console.log("Draw p2chip " + player2BetChip);
+		roundSetting();
    		if(currentPlayer == member){
-   			var roundData = {type : "NEXTDRAW", sender:member, roomId:roomId,
-   					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
-   					,player2BetChip:player2BetChip};
-   			sock.send(JSON.stringify(roundData));
+   			console.log("....");
    		}
-   		roundSetting();
+   		var roundData = {type : "NEXTDRAW", sender:member, roomId:roomId,
+					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
+					,player2BetChip:player2BetChip};
+			sock.send(JSON.stringify(roundData));
+   		
    	}
    	
    	

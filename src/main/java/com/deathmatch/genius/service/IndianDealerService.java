@@ -69,13 +69,12 @@ public class IndianDealerService {
 	}
 
 	public String[] drawCard(List<IndianCardDTO> cardDeck) {
-		cardArr[0] = cardDeck.get(cardIndex++).getCardNum();	
-		cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
-		if (cardIndex >= 20) {
+		if (cardIndex >= 20) {	//// 카드 인덱스가 20 이상이 되면 ReShuffle
 			makeCardDeck();
 			cardIndex = 0;
 		}
-		// 카드 인덱스가 20 이상이 되면 ReShuffle
+		cardArr[0] = cardDeck.get(cardIndex++).getCardNum();	
+		cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
 		log.info("CardIndex " + cardIndex);
 		return cardArr;
 	}
