@@ -25,6 +25,7 @@ import lombok.extern.log4j.Log4j;
 public class UnionService {
 
 	private final ObjectMapper objectMapper;
+	private final RecordService recordService;
 	private final UnionDealerService unionDealerService;
 	private final UnionSettingService unionSettingService;
 	private final UnionLoadingService unionLoadingService;
@@ -115,18 +116,6 @@ public class UnionService {
 	}
 	
 	private void loadGame(WebSocketSession session, GameRoom gameRoom) {
-//		if(!gameRoom.getPlaying()) {
-//			switch (gameRoom.getEngaged().size()) {
-//			case 2:
-////				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
-//				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(1), gameRoom));
-////				break;
-//			case 1:
-//				queue.offer(unionSettingService.loadPlayer(gameRoom.getEngaged().get(0), gameRoom));
-//				break;
-//			}
-//			load(session, gameRoom);
-//		}
 		queue = unionLoadingService.loadOnGame(gameRoom);
 		load(session, gameRoom);
 	}
@@ -140,7 +129,6 @@ public class UnionService {
 		queue.offer(unionDealerService.decideRound(gameRoom));
 		queue.offer(unionSettingService.setUnionProblem(gameRoom));
 		unionSettingService.setUnionAnswer(gameRoom);
-//		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
 	}
 
 	private void endRound(WebSocketSession session, UnionGameDTO gameDTO, GameRoom gameRoom) {
@@ -151,6 +139,7 @@ public class UnionService {
 	private void isGameOver(UnionGameDTO gameDTO, GameRoom gameRoom) {
 		if(gameRoom.getTotalRound() == gameRoom.getRound()) {
 			queue.offer(unionDealerService.endGame(gameRoom));
+			recordService.recordHistory(gameRoom);
 			unionSettingService.resetGame(gameRoom);
 		} else {
 			startRound(gameDTO, gameRoom);
