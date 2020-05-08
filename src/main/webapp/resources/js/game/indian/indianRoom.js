@@ -127,12 +127,26 @@ $(function(){
 			case "END"
 				: endGame(content);
 				break;
+			case "LEAVE"
+				: leavePlayer(content);
+				break;
 			default:
 				console.log("Default!!");
 		}
 	}
 	
-	// end
+	function leavePlayer(content){
+		if(content.player == playerId1.val()){
+			playerId1.val('');
+		}else{
+			playerId2.val('');
+		}
+		infoArea.eq(0).prepend(content.message + "\n");
+	}
+	
+	$("#leave").click(function(){
+		location.href='../indianHome'
+	});
 	
 	function loadPlayer(content){
 		switch (content.message) {
@@ -665,13 +679,14 @@ $(function(){
    	// timer 종료후 서버로 요청 -> draw는 따로 또 구현해야함
    	function endRound(){
    		console.log(" endRound " );
-   		if(currentPlayer == member){
-   			var roundData = {type : "ROUND", sender:member, roomId:roomId,
-   					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
-   					,player2BetChip:player2BetChip};
-   			sock.send(JSON.stringify(roundData));
-   		}
    		roundSetting();
+   		if(currentPlayer == member){
+   			console.log("....");
+   			var roundData = {type : "ROUND", sender:member, roomId:roomId,
+					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
+					,player2BetChip:player2BetChip};
+			sock.send(JSON.stringify(roundData));
+   		}
    	}
    	
    	function endDrawRound(){
@@ -679,13 +694,15 @@ $(function(){
    		player1BetChip = parseInt(betchip1Score.text().substr(1));
 		player2BetChip = parseInt(betchip2Score.text().substr(1));
 		console.log("Draw p2chip " + player2BetChip);
+		roundSetting();
    		if(currentPlayer == member){
+   			console.log("....");
    			var roundData = {type : "NEXTDRAW", sender:member, roomId:roomId,
-   					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
-   					,player2BetChip:player2BetChip};
-   			sock.send(JSON.stringify(roundData));
+					betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
+					,player2BetChip:player2BetChip};
+			sock.send(JSON.stringify(roundData));
    		}
-   		roundSetting();
+   		
    	}
    	
    	

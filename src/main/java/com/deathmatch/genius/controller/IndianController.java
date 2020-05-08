@@ -48,7 +48,6 @@ public class IndianController {
     	log.info(roomId);
     	model.addAttribute("room", room);
     	model.addAttribute("member",currentDTO.getUserId());
-    	//return "game/indian/indianRoom";
     	return "game/indian/indian";
     }
 	
