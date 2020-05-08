@@ -24,6 +24,13 @@
 					<button type="button" class="btn btn-lg" id="changePwBtn" onclick ="location.href='/auth/user/pw-change'">수정</button>
 			</c:if>
 		</div>
+		
+		<div class ="col-md-6" style ="margin-top :80px">
+			<c:if test = "${login.auth ne 1}">
+				<h3 id="deleteTitle">회원 탈퇴</h3>
+					<button type="button" class="btn btn-lg" id="changePwBtn" onclick ="location.href='/auth/user/withdrawal'">탈퇴</button>
+			</c:if>
+		</div>
 	</div>
 	
 	

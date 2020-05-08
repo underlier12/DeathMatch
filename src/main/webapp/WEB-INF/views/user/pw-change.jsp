@@ -16,7 +16,7 @@
 		</div>
 	</div>
 
-	<form action="/auth/user/pw-change" method="post" id="changePw">
+	<form action="/auth/user/delete" method="post" id="changePw">
 		<div class="row changePw-row" style="margin-top: 80px">
 			<div class="col-md-4 col-md-offset-4" style="margin-top: 80px;">
 				<p id="safeTitle">안전한 비밀번호로 내 정보를 보호하세요</p>

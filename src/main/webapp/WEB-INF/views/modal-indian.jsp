@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/main/roomModal.css">
+<link rel="stylesheet" href="/css/main/modal-room.css">
 </head>
 <body>
 
@@ -23,14 +23,6 @@
 							<td><p id ="roomIdTitle">방 이름 :</p></td>
 							<td><input type ="email" name ="name" id="RoomName"></td>
 						</tr>
-						<!-- <tr>
-							<td>
-								<input type="radio" id="union" value="union" class="radioBtn" name="type" checked>
-								<label for="union" class="label">
-									<img class="typeImg boundary" src="/resources/images/UnionLogo.png">
-								</label>
-							</td>
-						</tr> -->
 
 					</table>
 				</div>

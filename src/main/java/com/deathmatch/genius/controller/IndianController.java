@@ -28,7 +28,7 @@ public class IndianController {
 	@GetMapping
 	public String roomList(Model model) {
 		model.addAttribute("indianRooms",indianRoomService.findAllRoom());
-		return "indianHome";
+		return "main/indianHome";
 	}
 
 	@ResponseBody
@@ -48,7 +48,8 @@ public class IndianController {
     	log.info(roomId);
     	model.addAttribute("room", room);
     	model.addAttribute("member",currentDTO.getUserId());
-    	return "game/indian/indianRoom";
+    	//return "game/indian/indianRoom";
+    	return "game/indian/indian";
     }
 	
 	

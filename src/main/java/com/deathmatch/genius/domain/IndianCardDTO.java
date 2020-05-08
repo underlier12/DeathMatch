@@ -9,11 +9,11 @@ import lombok.ToString;
 @ToString
 public class IndianCardDTO {
 	
-	private int cardNum;
+	String cardNum;
 	
 	public IndianCardDTO() {};
 	
-	public IndianCardDTO(int cardNum) {
+	public IndianCardDTO(String cardNum) {
 		this.cardNum = cardNum;
 	}
 	

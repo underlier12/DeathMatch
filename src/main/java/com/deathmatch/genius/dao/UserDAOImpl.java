@@ -28,8 +28,10 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public int deleteMember() {
-		return 0;
+	public int deleteMember(UserDTO userDTO) {
+		int result = 0;
+		sqlSession.insert(namespace + ".delete", userDTO);
+		return result = 1;
 	}
 
 	@Override

@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%@ include file="includes/meta.jsp" %>
+	<%@ include file="../includes/meta.jsp" %>
     <title>ChatRoom List</title>
-    <%@ include file="includes/header.jsp" %>
+    <%@ include file="../includes/header.jsp" %>
 </head>
 <body>
 	<div>
@@ -22,7 +22,7 @@
 		</c:forEach>
 	</DIV>
 	
-	<%@ include file="chatModal.jsp"%>
+	<%@ include file="../modal-indian.jsp"%>
 	<script src="/js/chatHome.js"></script>
 </body>
 <script type="text/javascript">

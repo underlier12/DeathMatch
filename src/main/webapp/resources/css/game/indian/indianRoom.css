@@ -2,14 +2,14 @@
 	width: 800px;
     height: 1000px;
     position: absolute;
-    left: 50%;
-    top: 50%;
-    margin-left: -290px;
+    left:50%;
+    top: 45%;
+    margin-left: -400px;
     margin-top: -400px;
 }
 
 #logo{
-	width:300px;
+	width:400px;
 	height:auto;
 }
 
@@ -18,34 +18,18 @@
 }
 
 #player1{
-	width:200px;
+	width:140px;
 	height:180px;
-	margin-right:50px;
 }
 
 #player2{
-	width:200px;
+	width:140px;
 	height:180px;
 	margin-left:50px;
-	margin-right:230px;
-}
-
-#player-flex{
-	display:flex;
-	width: 800px;
-	justify-content: center;
-	overflow: auto;
-}
-
-#card-flex{
-	display:flex;
-	width: 800px;
-	justify-content: center;
-	overflow: auto;
 }
 
 #connectionStatus{
-	width: 375px;
+	width: 800px;
 	height: 40px;
 	color: #ECA50E;
 	background-color: #3F1816;
@@ -55,24 +39,23 @@
 
 .cards{
 	margin-top: 50px;
+	width:300px;
 }
 
 #card1{
-	width:200px;
-	height:180px;
-	margin-right:50px;
+	width:210px;
+	height:220px;
 }
 
 #card2{
-	width:200px;
-	height:180px;
-	margin-left:50px;
-	margin-right:230px;
+	margin-left:100px;
+	width:210px;
+	height:220px;
 }
 
 /* Message Area */
 #connectionArea{
-	width: 235px;
+	width: 800px;
 	height:30px;
 	color: #CEFBC9;
 	margin-top:5px;
@@ -81,7 +64,8 @@
 }
 
 #infoArea{
-	width: 570px;
+	width: 800px;
+	heigth:100px;
 	color: #CEFBC9;
 	background-color: #6D211C;
 	border: 2px solid #000000;
@@ -89,7 +73,7 @@
 }
 
 #chatArea{
-	width: 570px;
+	width: 800px;
 	color: #CEFBC9;
 	background-color: #6D211C;
 	border: 2px solid #000000;
@@ -97,7 +81,7 @@
 }
 
 #leave{
-	width: 570px;
+	width: 800px;
 	height: 60px;
 	font-size: 30px;
 	margin-top: 30px;
@@ -105,13 +89,6 @@
 	background-color: #3F1816;
 	text-align: center;
 	border: 2px solid #000000;
-}
-
-.indian-flex{
-	display : flex;
-	width: 570px;
-	justify-content: center;
-	overflow: auto;
 }
 
 .player{
@@ -139,38 +116,362 @@
 
 /* Player Id */
 #playerId1{
-	width :130px;
+	width :210px;
 	height : 50px;
-	background-color: #6D211C;
 	text-align: center;
 	border: 2px solid #000000;
+	font-size: 40px;
 	margin-top : 10px;
-	margin-right:180px;
-	font-size: 30px;
+	margin-right:250px;
+	background-color: #6D211C;
 	color: #E4F7BA;
 }
 
 #playerId2{
-	width :130px;
+	width :210px;
 	height : 50px;
-	background-color: #6D211C;
 	text-align: center;
 	border: 2px solid #000000;
 	margin-top : 10px;
-	margin-right:230px;
-	font-size: 30px;
+	font-size: 40px;
+	margin-left:100px;
+	background-color: #6D211C;
 	color: #E4F7BA;
 }
 
 /* btn */
 #readyBtn{
-	width: 200px;
+	width: 800px;
 	height: 50px;
 	background-color: #3F1816;
 	color: #E4F7BA;
 	border: 2px solid #000000;
-	margin-right:220px;
 	font-size: 30px;
 	margin-top:15px;
 	text-align: center;
 }
+
+#betBtn{
+	width: 800px;
+	height: 50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+	margin-top:15px;
+}
+
+
+/* chip */
+
+#chipBetting{
+	width:125px;
+	height: 100px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+	font-size: 50px;
+	margin-top:15px;
+	text-align:center;
+}
+
+#chipUpBtn{
+	width:100px;
+	heigth:10px;
+	margin-left:10px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+	margin-top:15px;
+}
+#chipDownBtn{
+	width:100px;
+	heigth:10px;
+	margin-top:5px;
+	margin-left:10px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+}
+
+#chipAllInBtn{
+	width: 250px;
+	heigth:50px;
+	margin-right:50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+	margin-top:15px;
+}
+
+#betGiveUpBtn{
+	width: 250px;
+	height: 50px;
+	margin-right:50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+	margin-top:5px;
+}
+
+#betSendBtn{
+	margin-left:60px;
+	width: 200px;
+	height:100px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+	margin-top:15px;
+}
+
+#chip2{
+	margin-right:100px;
+	margin-left:50px;
+}
+
+#chipScore1{
+	width: 120px;
+	height: 68px;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	margin-left:25px;
+	border: 2px solid #000000;
+}
+
+#chipScore2{
+	width: 120px;
+	height: 68px;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+/* betting */
+
+#betchip1Score{
+	width: 120px;
+	height: 68px;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	margin-top:15px;
+	border: 2px solid #000000;
+	margin-right:150px;
+	margin-top:30px;
+}
+
+#betchip2Score{
+	width: 120px;
+	height: 68px;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	margin-top:15px;
+	border: 2px solid #000000;
+	margin-top:30px;
+}
+
+#betPlayerId1{
+	width :170px;
+	height : 50px;
+	text-align: center;
+	border: 2px solid #000000;
+	margin-top : 10px;
+	font-size: 40px;
+	margin-right:190px;
+	background-color: #6D211C;
+	color: #E4F7BA;
+}
+
+#betPlayerId2{
+	width :170px;
+	height : 50px;
+	text-align: center;
+	border: 2px solid #000000;
+	margin-top : 10px;
+	font-size: 40px;
+	background-color: #6D211C;
+	color: #E4F7BA;
+	margin-right:80px;
+}
+
+/* chip div */
+
+#chip1{
+	width :150px;
+	height : 50px;
+	text-align: center;
+	border: 2px solid #000000;
+	margin-top : 10px;
+	font-size: 30px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+#betChip1{
+	width :150px;
+	height : 50px;
+	text-align: center;
+	border: 2px solid #000000;
+	margin-top : 10px;
+	font-size: 30px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+#betChip2{
+	width :150px;
+	height : 50px;
+	text-align: center;
+	border: 2px solid #000000;
+	margin-top : 10px;
+	font-size: 30px;
+	margin-left:50px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#chip2{
+	width :150px;
+	height : 50px;
+	text-align: center;
+	border: 2px solid #000000;
+	margin-top : 10px;
+	font-size: 30px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+#chipDiv2{
+	margin-left:50px;
+}
+
+#betDiv2{
+	margin-left:50px;
+}
+
+.chipDiv{
+	width:200px;
+	margin-top:20px;
+}
+/*Img */
+
+#chip1Img{
+	width:150px;
+	height:150px;
+}
+
+#chip2Img{
+	width:150px;
+	height:150px;
+}
+
+#betchip1Img{
+	width:120px;
+	height:120px;
+}
+#betchip2Img{
+	width:120px;
+	height:120px;
+}
+
+
+/* flex - box */
+
+#player-flex{
+	display:flex;
+	width: 800px;
+	overflow: auto;
+	justify-content: center;
+}
+
+#game-flex{
+	display:flex;
+	width: 680px;
+	justify-content: center;
+	overflow: auto;
+}
+
+.card-flex{
+	display: flex;
+	width: 800px;
+	justify-content: center;
+	overflow: auto;
+}
+
+.indian-flex{
+	display : flex;
+	width: 800px;
+	justify-content: center;
+	overflow: auto;
+}
+
+/* timer */
+/* Sets the containers height and width */
+
+.timer-wrapper{
+	position: relative;
+	width: 125px;
+	height: 125px;
+	margin-top:130px;
+}
+
+.base-timer {
+  position: relative;
+  height: 125px;
+  width: 125px;
+}
+
+.base-timer__svg {
+  transform: scaleX(-1);
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: grey;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+  color: #ECA50E;
+}
+
+.base-timer__label {
+  position: absolute;
+  width: 125px;
+  height: 125px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  color: #ECA50E; 
+}
+
+.timer{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+

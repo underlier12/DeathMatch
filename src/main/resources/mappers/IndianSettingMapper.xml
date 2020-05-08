@@ -6,7 +6,7 @@
 	
 	<!-- 카드 가져 오기 -->
 	<select id ="cardList" resultType ="IndianCardDTO">
-		select * from tbl_IndianCard limit 1;
+		select * from tbl_IndianCard order by rand();
 	</select>
 	
 	
