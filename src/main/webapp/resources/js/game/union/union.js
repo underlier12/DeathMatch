@@ -151,6 +151,9 @@ $(function () {
 			$('#playerA').val(content.user1);
 		}else if(!$('#playerB').val()){
 			$('#playerB').val(content.user1);
+		}else{
+			inGame();
+			disableAll();
 		}
 		toastMessage("info", content.message);
  	}
