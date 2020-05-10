@@ -23,7 +23,7 @@ public class GameRoom {
     private int pass;
     private Boolean playing = false;
     
-    private UnionGameDTO lastGameDTO;
+//    private UnionGameDTO lastGameDTO;
     private List<UnionPlayerDTO> engaged = new ArrayList<>();
     private Set<WebSocketSession> sessions = new HashSet<>();
     

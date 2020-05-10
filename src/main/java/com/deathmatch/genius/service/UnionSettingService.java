@@ -240,7 +240,8 @@ public class UnionSettingService {
 	}
 	
 	public Boolean isPlaying(GameRoom gameRoom) {
-		return gameRoom.getPlaying() && !gameRoom.getLastGameDTO().equals(null);
+//		return gameRoom.getPlaying() && !gameRoom.getLastGameDTO().equals(null);
+		return gameRoom.getPlaying();
 	}
 	
 	public Boolean isGuest(UnionPlayerDTO player) {
