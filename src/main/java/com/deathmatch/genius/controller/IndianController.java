@@ -18,7 +18,7 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @RequestMapping("/indianHome")
 public class IndianController {
-
+	
 	private final IndianGameRoomService indianRoomService;
 
 	public IndianController(IndianGameRoomService indianRoomService) {

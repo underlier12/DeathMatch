@@ -57,6 +57,7 @@ $(function(){
 	var betChip;
    	var betCheck = true;
 	var betCheck2 = true;
+	var betCheck3 = true;
 	
 	var drawCheck = 0;
    	
@@ -702,9 +703,7 @@ $(function(){
 					,player2BetChip:player2BetChip};
 			sock.send(JSON.stringify(roundData));
    		}
-   		
    	}
-   	
    	
    	function roundSetting(){
 		console.log("Next Round");
@@ -740,18 +739,55 @@ $(function(){
 		}
 	}
 	
+	function oneChipStock(){
+		console.log("oneChipStock : "  + player1BetChip + " " + player1Chip);
+		if(currentPlayer == member){
+			if(player2BetChip == 1 && player2Chip == 0){
+				betCheck = true;
+				betCheck2 = true;
+				chipBetting.val(1);
+				if(player1BetChip>1){
+					betCheck3 = false;
+				}
+			}else if(player1BetChip == 1 && player1Chip ==0){
+				betCheck = true;
+				betCheck2 = true;
+				if(player2BetChip>1){
+					betCheck3 = false;
+				}	
+			}
+		}else if(currentPlayer != member){
+			if(player1BetChip == 1 && player1Chip == 0){
+				betCheck = true;
+				betCheck2 = true;
+				chipBetting.val(1);
+				if(player2BetChip>1){
+					betCheck3 = false;
+				}
+			}else if(player2BetChip ==1 && player2Chip == 0){
+				betCheck = true;
+				betCheck2 = true;
+				if(player1BetChip>1){
+					betCheck3 = false;
+				}	
+			}
+		}
+	}
+	
 	function betChipValidation(){
 		betChipMinLimit();
 		betChipMaxLimit();
+		oneChipStock();
 		if(betCheck == false){
 			alert("상대보다 같거나 많은 칩을 걸어주세요");
 		}else if(betCheck2 == false){
 			alert("상대보다 많은 칩을 배팅할 수 없습니다");
+		}else if(betCheck3 == false){
+			alert("상대칩이 1개일떄는 배팅은 한개입니다");
 		}
 	}
-	
+
    	/** Message * */
-	
 	sendBtn.click(function(){
 		var message = $("#message").val();
 		console.log(message);
@@ -775,7 +811,7 @@ $(function(){
 		console.log("player2BetChip send " + player2BetChip);
 		console.log("BetChip " + betChip);
 		betChipValidation();
-		if(betCheck == false || betCheck2 == false){
+		if(betCheck == false || betCheck2 == false || betCheck3 == false){
 			return;
 		}
 		var bettingData = {type : "BETTING", sender:member, roomId:roomId,
