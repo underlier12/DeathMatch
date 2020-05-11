@@ -146,7 +146,7 @@ $(function(){
 	}
 	
 	$("#leave").click(function(){
-		location.href='../indianHome'
+		location.href='../../rooms'
 	});
 	
 	function loadPlayer(content){

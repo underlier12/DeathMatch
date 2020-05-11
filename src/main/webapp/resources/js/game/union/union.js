@@ -407,7 +407,7 @@ $(function () {
     });
     
     $('#leave').click(function(){
-    	location.href='../rooms';
+    	location.href='../../rooms';
     });
     
     $('.selectbox').change(function(){	

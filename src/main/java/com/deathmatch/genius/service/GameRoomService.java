@@ -52,22 +52,24 @@ public class GameRoomService {
 	}
 
 	public Object createRoom(String gameType, String name) {
-		String randomId = UUID.randomUUID().toString();
 		Object gameRoom;
+		String randomId = UUID.randomUUID().toString();
+		
 		if(gameType.equals("union")) {
 			gameRoom = GameRoom.builder()
 					.gameType(gameType)
 					.roomId(randomId)
 					.name(name)
 					.build();
-			gameRooms.put(randomId, gameRoom);			
 		} else {
 			gameRoom = IndianGameRoom.builder()
+					.gameType(gameType)
 					.roomId(randomId)
-					.roomName(name)
+					.name(name)
 					.build();
-			gameRooms.put(randomId, gameRoom);
 		}
+		
+		gameRooms.put(randomId, gameRoom);
 		return gameRoom;
 	}
 
