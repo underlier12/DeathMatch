@@ -1,5 +1,5 @@
 package com.deathmatch.genius.service;
 
-public interface SuggestBoardService {
+public interface SuggestionBoardService {
 
 }

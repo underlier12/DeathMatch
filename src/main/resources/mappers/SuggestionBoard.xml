@@ -4,6 +4,10 @@
 
 <mapper namespace="com.deathmatch.genius.mapper.SuggestBoard">
 
+	<insert id ="insert">
+		insert into tbl_suggestion_boar(userId,title,content,ref,step,depth,pno,secret)
+		values(#{userId},#{title},#{content},#{ref},#{depth},#{step},#{pno},#{secret})
+	</insert>
 	
-
+	
 </mapper>

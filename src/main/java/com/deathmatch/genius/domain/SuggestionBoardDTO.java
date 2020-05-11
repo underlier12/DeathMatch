@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class SuggestBoardDTO {
+public class SuggestionBoardDTO {
 	
 	private int bno;
 	private String userId;
@@ -24,7 +24,7 @@ public class SuggestBoardDTO {
 	private int pw; // 비밀 번호
 	
 	@Builder
-	public SuggestBoardDTO(int bno,String userId,String title,String content,Date regdate,
+	public SuggestionBoardDTO(int bno,String userId,String title,String content,Date regdate,
 			int hit,int ref,int step,int depth,int pno, int pw){
 		this.bno = bno;
 		this.userId = userId;

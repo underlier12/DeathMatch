@@ -1,5 +1,5 @@
 package com.deathmatch.genius.dao;
 
-public interface SuggestBoardDAO {
+public interface SuggstionBoardDAO {
 
 }

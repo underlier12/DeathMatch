@@ -1,5 +1,5 @@
 package com.deathmatch.genius.dao;
 
-public class SuggestBoardDAOImpl {
+public class SuggestionBoardDAOImpl {
 
 }
