@@ -37,7 +37,7 @@ public class IndianGameRoomService {
         String randomId = UUID.randomUUID().toString();
         IndianGameRoom indianRoom = IndianGameRoom.builder()
                 .roomId(randomId)
-                .roomName(name)
+                .name(name)
                 .build();
         indianRooms.put(randomId, indianRoom);
         log.info("create Room");

@@ -14,7 +14,8 @@ import lombok.Setter;
 public class IndianGameRoom {
 
 	private String roomId;
-	private String roomName;
+	//private String roomName;
+	private String name;
 	private String gameType;
 	private String gameId;
     private Boolean playing = false;
@@ -22,10 +23,17 @@ public class IndianGameRoom {
 	private Set<WebSocketSession> sessions = new HashSet<>(); // 입장한 클라이언트의 정보 보관
 	private List<IndianPlayerDTO> players = new LinkedList<>(); //유저 정보를 보관
 	
+	//@Builder
+	//public IndianGameRoom(String roomId, String roomName) {
+	//	this.roomId = roomId;
+	//	this.roomName = roomName;
+	//}
+	
 	@Builder
-	public IndianGameRoom(String roomId, String roomName) {
+	public IndianGameRoom(String gameType,String roomId,String name) {
+		this.gameType = gameType;
 		this.roomId = roomId;
-		this.roomName = roomName;
+		this.name = name;
 	}
 	
 	public void addSession(WebSocketSession session) {
