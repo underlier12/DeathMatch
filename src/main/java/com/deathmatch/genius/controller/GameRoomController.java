@@ -60,7 +60,7 @@ public class GameRoomController {
 		log.info("makeRoom Id :" + currentRoomId);
 //		log.info("gameType: " + newRoom.getGameType() );
 		
-		return "/rooms/" + currentRoomId; 
+		return "/rooms/" + gameType + "/" + currentRoomId; 
     }
 	
     @GetMapping("/{gameType}/{roomId}")
