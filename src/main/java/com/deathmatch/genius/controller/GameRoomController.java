@@ -49,13 +49,16 @@ public class GameRoomController {
 		String currentRoomId;
 		
 		if(gameType.equals("union")) {
-			GameRoom newRoom = gameRoomService.createRoom(json.get("gameType"), json.get("roomName"));
+			GameRoom newRoom = (GameRoom) 
+					gameRoomService.createRoom(json.get("gameType"), json.get("roomName"));
 			currentRoomId = newRoom.getRoomId();			
-			log.info("makeRoom Id :" + currentRoomId);
-			log.info("gameType: " + newRoom.getGameType() );
 		} else {
-//			IndianGameRoom newRoom = 
+			IndianGameRoom newRoom = (IndianGameRoom) 
+					gameRoomService.createRoom(json.get("gameType"), json.get("roomName"));
+			currentRoomId = newRoom.getRoomId();			
 		}
+		log.info("makeRoom Id :" + currentRoomId);
+//		log.info("gameType: " + newRoom.getGameType() );
 		
 		return "/rooms/" + currentRoomId; 
     }
@@ -64,26 +67,20 @@ public class GameRoomController {
     public String room(@PathVariable String gameType, @PathVariable String roomId
     								, Model model, HttpSession httpSession) {
     	
-    	if(gameType.equals("union")) {
-    		GameRoom room = gameRoomService.findRoomById(roomId);
-    		
-    		if(room == null) {
-    			log.info("null exception");
-    			model.addAttribute("msg", "해당 방은 사라졌습니다.");
-    			return "main/rooms";
-    		}
-    		
-    		UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
-    		
-    		model.addAttribute("room", room);
-    		model.addAttribute("member", currentDTO.getUserId());
-    		return "game/union/union";
-    		
-    	} else {
-//    		IndianGameRoom room = 
+    	Object room = gameRoomService.findRoomById(roomId);
+    	
+    	if(room == null) {
+    		log.info("null exception");
+    		model.addAttribute("msg", "해당 방은 사라졌습니다.");
+    		return "main/rooms";
     	}
     	
-    	return null;
+    	UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
+    	
+    	model.addAttribute("room", room);
+    	model.addAttribute("member", currentDTO.getUserId());
+    	
+    	return "game/" + gameType + "/" + gameType;
     }
       
     
