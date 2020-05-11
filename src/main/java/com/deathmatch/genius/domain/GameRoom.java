@@ -18,12 +18,11 @@ public class GameRoom {
     private String name;
     private String gameType;
     private String gameId;
-    private int totalRound = 3;
+    private Boolean playing; // = false;
+    private int totalRound; // = 3;
     private int round;
     private int pass;
-    private Boolean playing = false;
     
-    private UnionGameDTO lastGameDTO;
     private List<UnionPlayerDTO> engaged = new ArrayList<>();
     private Set<WebSocketSession> sessions = new HashSet<>();
     
@@ -32,6 +31,9 @@ public class GameRoom {
     	this.gameType = gameType;
         this.roomId = roomId;
         this.name = name;
+        
+        playing = false;
+        totalRound = 3;
     }
     
     public void addSession(WebSocketSession session) {

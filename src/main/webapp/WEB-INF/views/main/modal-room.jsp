@@ -31,12 +31,12 @@
 									<img class="typeImg boundary" src="/resources/images/UnionLogo.png">
 								</label>
 							</td>
-							<!-- <td>
+							<td>
 								<input type="radio" id="indian" value="indian" class="radioBtn" name="type">
 								<label for="indian" class="label">
-									<img class="typeImg" src="">
+									<img class="typeImg" src="/resources/images/indianLogo.png">
 								</label>
-							</td> -->
+							</td>
 						</tr>
 
 					</table>

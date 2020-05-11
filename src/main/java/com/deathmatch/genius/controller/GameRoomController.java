@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.deathmatch.genius.domain.GameRoom;
+import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.UserDTO;
 import com.deathmatch.genius.service.GameRoomService;
 import com.deathmatch.genius.util.Criteria;
@@ -44,29 +45,45 @@ public class GameRoomController {
 	@ResponseBody
     @PostMapping
     public String createRoom(@RequestBody Map<String, String> json, Model model) {
-		GameRoom newRoom = gameRoomService.createRoom(
-				json.get("gameType"), json.get("roomName"));
-		String currentRoomId = newRoom.getRoomId();
-		log.info("makeRoom Id :" + currentRoomId);
-		log.info("gameType: " + newRoom.getGameType() );
-		return "/rooms/" +currentRoomId; 
+		String gameType = json.get("gameType");
+		String currentRoomId;
+		
+		if(gameType.equals("union")) {
+			GameRoom newRoom = gameRoomService.createRoom(json.get("gameType"), json.get("roomName"));
+			currentRoomId = newRoom.getRoomId();			
+			log.info("makeRoom Id :" + currentRoomId);
+			log.info("gameType: " + newRoom.getGameType() );
+		} else {
+//			IndianGameRoom newRoom = 
+		}
+		
+		return "/rooms/" + currentRoomId; 
     }
 	
-    @GetMapping("/{roomId}")
-    public String room(@PathVariable String roomId, Model model, HttpSession httpSession) {    	
-    	GameRoom room = gameRoomService.findRoomById(roomId);
-    	UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
+    @GetMapping("/{gameType}/{roomId}")
+    public String room(@PathVariable String gameType, @PathVariable String roomId
+    								, Model model, HttpSession httpSession) {
     	
-    	if(room == null) {
-    		log.info("null exception");
-    		model.addAttribute("msg", "해당 방은 사라졌습니다.");
-    		return "main/rooms";
+    	if(gameType.equals("union")) {
+    		GameRoom room = gameRoomService.findRoomById(roomId);
+    		
+    		if(room == null) {
+    			log.info("null exception");
+    			model.addAttribute("msg", "해당 방은 사라졌습니다.");
+    			return "main/rooms";
+    		}
+    		
+    		UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
+    		
+    		model.addAttribute("room", room);
+    		model.addAttribute("member", currentDTO.getUserId());
+    		return "game/union/union";
+    		
+    	} else {
+//    		IndianGameRoom room = 
     	}
     	
-    	model.addAttribute("room", room);
-    	model.addAttribute("member", currentDTO.getUserId());
-//    	model.addAttribute("httpSession", httpSession);
-    	return "game/union/union";
+    	return null;
     }
       
     

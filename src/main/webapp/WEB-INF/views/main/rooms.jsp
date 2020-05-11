@@ -34,6 +34,14 @@
 					<c:forEach var="room" items="${rooms }" begin="0" end="4">
 						<div class="oneRoom">
 							<c:choose>
+								<c:when test="${room.gameType eq 'indian' }">
+									<div id ="imageDiv">
+									<img
+										src="${pageContext.request.contextPath}/images/indianLogo.png"
+										width="130px" height="50px">
+									</div>
+								</c:when>
+								
 								<c:when test="${room.gameType eq 'union' }">
 									<div id ="imageDiv">
 									<img
@@ -54,7 +62,7 @@
 							</c:choose>
 
 							<button type="button" class="gameJoinBtn"
-								onclick="location.href='rooms/<c:out value="${room.roomId}"/>'">Join</button>
+								onclick="location.href='rooms/<c:out value="${room.gameType }/${room.roomId}"/>'">Join</button>
 
 						</div>
 					</c:forEach>
