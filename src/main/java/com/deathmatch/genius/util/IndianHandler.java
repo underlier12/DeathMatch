@@ -11,7 +11,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.deathmatch.genius.domain.IndianGameDTO;
 import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.IndianPlayerDTO;
-import com.deathmatch.genius.service.IndianGameRoomService;
+import com.deathmatch.genius.service.GameRoomService;
 import com.deathmatch.genius.service.IndianService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,12 +21,14 @@ import lombok.extern.log4j.Log4j;
 @Component
 public class IndianHandler extends TextWebSocketHandler {
 
-	private final IndianGameRoomService indianGameRoomService;
+//	private final IndianGameRoomService indianGameRoomService;
+	private final GameRoomService gameRoomService;
 	private final ObjectMapper objectMapper;
 	private final IndianService indianService;
 	
-	public IndianHandler(IndianGameRoomService indianGameRoomService,ObjectMapper objectMapper,IndianService indianService) {
-		this.indianGameRoomService = indianGameRoomService;
+	public IndianHandler(GameRoomService gameRoomService,ObjectMapper objectMapper,IndianService indianService) {
+//		this.indianGameRoomService = indianGameRoomService;
+		this.gameRoomService = gameRoomService;
 		this.objectMapper = objectMapper;
 		this.indianService = indianService;
 	}
@@ -41,9 +43,10 @@ public class IndianHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		IndianGameDTO indianGameDTO = objectMapper.readValue(message.getPayload(), IndianGameDTO.class);
-		IndianGameRoom indianRoom = indianGameRoomService.findRoomById(indianGameDTO.getRoomId());
-		log.info("indianRoom: " + indianRoom.getRoomId());
-		indianService.handleActions(session, indianGameDTO, indianRoom);
+//		IndianGameRoom indianRoom = indianGameRoomService.findRoomById(indianGameDTO.getRoomId());
+		IndianGameRoom gameRoom = (IndianGameRoom) gameRoomService.findRoomById(indianGameDTO.getRoomId());
+		log.info("indianRoom: " + gameRoom.getRoomId());
+		indianService.handleActions(session, indianGameDTO, gameRoom);
         log.info("message submit success");
 	}
 
@@ -55,13 +58,20 @@ public class IndianHandler extends TextWebSocketHandler {
 		Map<String,Object> map = session.getAttributes();
 		IndianPlayerDTO player = (IndianPlayerDTO)map.get("player");
 		log.info("player " + player.toString());
-		IndianGameRoom indianRoom = indianGameRoomService.findRoomById(player.getRoomId());
-		indianService.afterConnectionClosed(session, player, indianRoom, status);
+//		IndianGameRoom indianRoom = indianGameRoomService.findRoomById(player.getRoomId());
+		IndianGameRoom gameRoom = (IndianGameRoom) gameRoomService.findRoomById(player.getRoomId());
+//		indianService.afterConnectionClosed(session, player, indianRoom, status);
+		indianService.afterConnectionClosed(session, player, gameRoom, status);
 		
-		if(indianService.isEmptyRoom(indianRoom)) {
-			log.info("isEmptyRoom session: " + indianRoom.getSessions());
-			indianGameRoomService.destroyRoom(indianRoom.getRoomId());
+		if(indianService.isEmptyRoom(gameRoom)) {
+			log.info("isEmptyRoom session: " + gameRoom.getSessions());
+			gameRoomService.destroyRoom(gameRoom.getRoomId());
 		}
+		
+//		if(indianService.isEmptyRoom(indianRoom)) {
+//			log.info("isEmptyRoom session: " + indianRoom.getSessions());
+//			indianGameRoomService.destroyRoom(indianRoom.getRoomId());
+//		}
 		//super.afterConnectionClosed(session, status);
 	}
 	
