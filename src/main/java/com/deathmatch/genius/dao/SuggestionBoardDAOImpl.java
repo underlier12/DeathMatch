@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
+import com.deathmatch.genius.util.Criteria;
 
 import lombok.extern.log4j.Log4j;
 
@@ -42,9 +43,22 @@ public class SuggestionBoardDAOImpl implements SuggestionBoardDAO {
 		return sqlSession.selectOne(namespace + ".read",bno);
 	}
 	
+	
+	@Override
+	public int totalCount(Criteria cri) {
+		return sqlSession.selectOne(namespace + ".countList",cri);
+	}
+
 	@Override
 	public List<SuggestionBoardDTO> getList(){
 		return sqlSession.selectList(namespace + ".listAll");
 	}
+
+	@Override
+	public List<SuggestionBoardDTO> getListWithPaging(Criteria cri) {
+		return sqlSession.selectList(namespace + ".getListWithPaging",cri);
+	}
+	
+	
 
 }

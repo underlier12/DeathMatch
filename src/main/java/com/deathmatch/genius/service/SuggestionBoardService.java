@@ -14,8 +14,10 @@ public interface SuggestionBoardService {
 	
 	public SuggestionBoardDTO read(int num);
 	
-	public List<SuggestionBoardDTO> list();
-	
 	public int totalCount(Criteria cri);
 	
+	public List<SuggestionBoardDTO> list();
+	
+	public List<SuggestionBoardDTO> getListWithPaging(Criteria cri);
+
 }

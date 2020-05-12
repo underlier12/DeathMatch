@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
 import com.deathmatch.genius.service.SuggestionBoardService;
+import com.deathmatch.genius.util.Criteria;
+import com.deathmatch.genius.util.PageMaker;
+
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -36,13 +39,6 @@ public class SuggestionBoardController {
 		sugService.insert(suggestionBoardDTO);
 		rttr.addFlashAttribute("msg", "건의글이 등록 되었습니다");
 		return "redirect:/suggestion/suggestionBoard";
-	}
-	
-	@GetMapping("/suggestionBoard")
-	public String listAll(Model model) {
-		log.info("SuggestionBoard List" );
-		model.addAttribute("list", sugService.list());
-		return "/suggestion/suggestionBoard";
 	}
 	
 	@GetMapping("/content")
@@ -72,6 +68,17 @@ public class SuggestionBoardController {
 		sugService.delete(bno);
 		rttr.addFlashAttribute("msg", "SUC");
 		return "redirect:/suggestion/suggestionBoard";
+	}
+
+	@GetMapping("/suggestionBoard")
+	public String listAll(Criteria cri,Model model) {
+		log.info("GetListWith Paging");
+		model.addAttribute("list", sugService.getListWithPaging(cri));
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(sugService.totalCount(cri));
+		model.addAttribute("pageMaker",pageMaker);
+		return "/suggestion/suggestionBoard";
 	}
 	
 }

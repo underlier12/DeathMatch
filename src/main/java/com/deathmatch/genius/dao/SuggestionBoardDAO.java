@@ -15,6 +15,10 @@ public interface SuggestionBoardDAO {
 	
 	public SuggestionBoardDTO read(int bno);
 	
+	public int totalCount(Criteria cri);
+	
 	public List<SuggestionBoardDTO> getList();
+	
+	public List<SuggestionBoardDTO> getListWithPaging(Criteria cri);
 	
 }

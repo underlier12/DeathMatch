@@ -53,9 +53,9 @@
 					<button type="button" class="btn btn-default btn-sm" id="cancleBtn"
 						onclick="history.back()">취소</button>
 				</c:if>
-				<c:if test ="${login.auth eq 1}">
+				<%-- <c:if test ="${login.auth eq 1}">
 					<button type="button" class="btn btn-default btn-sm" id="answerBtn">삭제</button>
-				</c:if>
+				</c:if> --%>
 			</div>
 		</div>
 		

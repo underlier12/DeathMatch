@@ -17,7 +17,7 @@
 <body>
 
 	<div class="container">
-		<!-- QnA Start -->
+		
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1 qnaLabel-row">
 				<p>건의 게시판</p>
@@ -63,6 +63,28 @@
 						</c:forEach>
 					</tbody>
 				</table>
+
+				<div class="text-center" id="pageBtn">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev }">
+							<li><a
+								href='<c:url value="/suggestionBoard?page=${pageMaker.startPage-1 }"/>'><i
+									class="fa fa-chevron-left"></i></a></li>
+						</c:if>
+						<c:forEach begin="${pageMaker.startPage}"
+							end="${pageMaker.endPage }" var="idx">
+							<li
+								<c:out value ="${pageMaker.cri.page == idx?'class =active':''}"/>>
+								<a id="pageNum" href="suggestionBoard?page=${idx }">${idx }</a>
+							</li>
+						</c:forEach>
+						<c:if test="${pageMaker.next && pageMaker.endPage >0 }">
+							<li><a
+								href='<c:url value="/suggesionBoard?page=${pageMaker.endPage+1 }"/>'><i
+									class="fa fa-chevron-right"></i></a></li>
+						</c:if>
+					</ul>
+				</div>
 			</div>
 		</div>
 
@@ -72,7 +94,7 @@
 			</c:if>
 		</div>
 	</div>
-	</body>
-	<script src="/js/suggestion/suggestionBoard.js"></script>
-	<%@ include file="../includes/footer.jsp"%>
+</body>
+<script src="/js/suggestion/suggestionBoard.js"></script>
+<%@ include file="../includes/footer.jsp"%>
 </html>

@@ -47,11 +47,15 @@ public class SuggestionBoardServiceImpl implements SuggestionBoardService {
 	public List<SuggestionBoardDTO> list() {
 		return dao.getList();
 	}
-
+	
 	@Override
 	public int totalCount(Criteria cri) {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.totalCount(cri);
+	}
+	
+	@Override
+	public List<SuggestionBoardDTO> getListWithPaging(Criteria cri) {
+		return dao.getListWithPaging(cri);
 	}
 
 }

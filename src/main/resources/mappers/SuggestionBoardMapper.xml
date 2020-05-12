@@ -43,4 +43,26 @@
 		order by bno desc, regdate desc
 	</select>
 	
+	<select id ="getListWithPaging" resultType ="SuggestionBoardDTO">
+		<![CDATA[
+		select
+			bno,title,content,regdate,hit
+		from
+			tbl_suggestion_board
+		where 
+			bno > 0
+		order by bno desc, regdate desc
+		limit #{pageStart}, #{perPageNum}
+		]]>
+	</select>
+	
+	<select id="countList" resultType ="int">
+		select 
+			count(*)
+		from
+			tbl_suggestion_board
+		where
+			bno > 0
+	</select>
+	
 </mapper>
