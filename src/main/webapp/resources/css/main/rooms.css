@@ -23,17 +23,22 @@ body{
 }
 
 #buttonList{
-	margin-left:auto;
-	width:200px;
+	float:right;
 	height:50px;
 }
 
 #leftRooms{
+	margin-top:75px;
 	margin-right : 150px;
+}
+
+#rightRooms{
+	margin-top:75px;
 }
 
 #gameBtn{
 	margin-top : 25px;
+	float:right;
 }
 
 #btnCreate{
@@ -46,6 +51,15 @@ body{
 	background-color : #6D211C;
 }
 
+#btnNotice{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
+
+#btnSuggestion{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
 
 #gameRooms{
 	justify-content : center;

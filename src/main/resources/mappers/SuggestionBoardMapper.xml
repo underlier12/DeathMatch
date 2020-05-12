@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.deathmatch.genius.mapper.SuggestionBoardMapper">
+
+	<insert id ="insert">
+		insert into tbl_suggestion_board(userId,title,content,ref,pw)
+		values(#{userId},#{title},#{content},#{ref},#{pw})
+	</insert>
+	
+	<delete id ="delete">
+		delete from tbl_suggestion_board
+		where bno = #{bno}
+	</delete>
+	
+	<update id ="update">
+		update 
+			tbl_suggestion_board
+		set
+			title = #{title},
+			content = #{content},
+			pw = #{pw}
+		where 
+			bno = #{bno}
+	</update>
+	
+	<select id ="read" resultType ="SuggestionBoardDTO">
+		select
+			bno,userId,title,content,regdate,hit,depth,step,pno,pw
+		from 
+			tbl_suggestion_board
+		where
+			bno = #{bno}
+	</select>
+	
+	<select id="listAll" resultType="SuggestionBoardDTO">
+		select 
+			bno,userId,title,content,regdate,hit
+		from
+			tbl_suggestion_board
+		where bno > 0
+		order by bno desc, regdate desc
+	</select>
+	
+</mapper>

@@ -20,13 +20,9 @@
 			</div>
 
 			<div class="col-md-10 col-md-offset-1 register">
-				<form id="registForm" method="post">
-					<input type="hidden" name="userId">
-					<table class="table req">
-						<!-- <colgroup>
-							<col width="200">
-							<col width="800">
-						</colgroup> -->
+				<form id="registForm" action ="/suggestion/registration" method="post">
+					<input type ="hidden" name ="userId" value ='<c:out value = "${login.userId }"/>'>
+					<table class="table table-bordered req" id="req">
 						<tr>
 							<td id="tdTitle">제목</td>
 							<td><input type="text" class="title" name="title"></td>
@@ -39,10 +35,11 @@
 						<tr>
 							<td id="tdSecret">비밀글</td>
 							<td><input type="radio" id="public" class="secret"
-								name="secret" value="0" checked> <label for="public">공개글</label>&nbsp;
-								<input type="radio" id="secret" class="secret" name="secret"
+								name="pw" value="0" checked> <label for="public">공개글</label>&nbsp;
+								<input type="radio" id="secret" class="secret" name="pw"
 								value="1"> <label for="secret">비밀글</label></td>
 						</tr>
+						
 					</table>
 				</form>
 			</div>
@@ -54,6 +51,7 @@
 			</div>
 		</div>
 	</div>
-
 	<%@ include file="../includes/footer.jsp"%>
+</body>
+<script src="/js/suggestion/registration.js"></script>
 </html>

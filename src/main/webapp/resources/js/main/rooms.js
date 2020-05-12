@@ -4,7 +4,15 @@ $(function(){
 	
 	$("#btnCreate").click(function() {
 		$("#roomModal").modal();
-	}); 
+	});
+	
+	$("#btnNotice").click(function(){
+		
+	});
+	
+	$("#btnSuggestion").click(function(){
+		$(location).attr("href","/suggestion/suggestionBoard");
+	});
 	
 	$("#createRoomBtn").click(function(){
 		var gameType = $('input[name="type"]:checked').val();
