@@ -21,6 +21,8 @@
 
 			<div class="col-md-10 col-md-offset-1 register">
 				<form id="modifyForm" action="/suggestion/post-edit" method="post">
+					<input type="hidden" name ="page" value ="${cri.page }">
+					<input type="hidden" name ="perPageNum" value ="${cri.perPageNum}">
 					<input type="hidden" name ="bno" value ="${Suggestion.bno }">
 					<input type="hidden" name="userId" value ="${Suggestion.userId }">
 					<table class="table table-bordered req" id="req">

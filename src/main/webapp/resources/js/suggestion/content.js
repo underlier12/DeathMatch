@@ -7,6 +7,24 @@ $(function(){
 		contentForm.submit();
 	});
 	
+	$("#goListBtn").click(function(){
+		contentForm.attr("action","/suggestion/suggestionBoard");
+		contentForm.submit();
+	});
+	
+	$("#deleteBtn").click(function(){
+		
+		var c = confirm("건의글을 삭제하시겠습니까?");
+		
+		if(c){
+			contentForm.attr("action","/suggestion/delete");
+			contentForm.attr("method","post");
+			contentForm.submit();
+		}else{
+			return false;
+		}
+	});
+	
 	
 	/*$("#answerBtn").click(function(){
 		alert("구현이 필요함");

@@ -12,7 +12,6 @@ import com.deathmatch.genius.domain.SuggestionBoardDTO;
 import com.deathmatch.genius.service.SuggestionBoardService;
 import com.deathmatch.genius.util.Criteria;
 import com.deathmatch.genius.util.PageMaker;
-
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -42,7 +41,8 @@ public class SuggestionBoardController {
 	}
 	
 	@GetMapping("/content")
-	public void read(@RequestParam("bno") int bno, Model model) {
+	public void read(@RequestParam("bno") int bno, @ModelAttribute("cri")
+			Criteria cri,Model model) {
 		log.info("게시글 번호 : " + bno);
 		model.addAttribute("Suggestion",sugService.read(bno));
 	}
@@ -53,8 +53,8 @@ public class SuggestionBoardController {
 	}
 	
 	@PostMapping("/post-edit")
-	public String modifyPost(SuggestionBoardDTO suggestionBoardDTO,
-			RedirectAttributes rttr) {
+	public String modifyPost(SuggestionBoardDTO suggestionBoardDTO,@ModelAttribute("cri")
+			Criteria cri,RedirectAttributes rttr) {
 		sugService.update(suggestionBoardDTO);
 		log.info("ModifyPost");
 		log.info(suggestionBoardDTO.toString());
@@ -63,10 +63,13 @@ public class SuggestionBoardController {
 	}
 	
 	@PostMapping("/delete")
-	public String delete(@RequestParam("bno") int bno,
+	public String delete(@RequestParam("bno") int bno,Criteria cri,
 				RedirectAttributes rttr) {
 		sugService.delete(bno);
 		rttr.addFlashAttribute("msg", "SUC");
+		rttr.addFlashAttribute("page", cri.getPage());
+		rttr.addFlashAttribute("perPageNum", cri.getPerPageNum());
+		
 		return "redirect:/suggestion/suggestionBoard";
 	}
 
