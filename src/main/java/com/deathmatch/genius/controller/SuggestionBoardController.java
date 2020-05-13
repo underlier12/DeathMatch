@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
 import com.deathmatch.genius.service.SuggestionBoardService;
 import com.deathmatch.genius.util.Criteria;
-import com.deathmatch.genius.util.PageMaker;
+import com.deathmatch.genius.util.PageDTO;
+
 import lombok.extern.log4j.Log4j;
 
 @Controller
@@ -37,7 +39,7 @@ public class SuggestionBoardController {
 		log.info("regist Post " + suggestionBoardDTO.toString());
 		sugService.insert(suggestionBoardDTO);
 		rttr.addFlashAttribute("msg", "건의글이 등록 되었습니다");
-		return "redirect:/suggestion/suggestionBoard";
+		return "redirect:/suggestion/suggestionboard";
 	}
 	
 	@GetMapping("/content")
@@ -59,7 +61,7 @@ public class SuggestionBoardController {
 		log.info("ModifyPost");
 		log.info(suggestionBoardDTO.toString());
 		rttr.addFlashAttribute("msg","글이 수정 되었습니다");
-		return "redirect:/suggestion/suggestionBoard";
+		return "redirect:/suggestion/suggestionboard";
 	}
 	
 	@PostMapping("/delete")
@@ -70,18 +72,21 @@ public class SuggestionBoardController {
 		rttr.addFlashAttribute("page", cri.getPage());
 		rttr.addFlashAttribute("perPageNum", cri.getPerPageNum());
 		
-		return "redirect:/suggestion/suggestionBoard";
+		return "redirect:/suggestion/suggestionboard";
 	}
 
-	@GetMapping("/suggestionBoard")
+	@GetMapping("/suggestionboard")
 	public String listAll(Criteria cri,Model model) {
-		log.info("GetListWith Paging");
+		
+		log.info("GetListWith Paging" + cri.toString());
+		
 		model.addAttribute("list", sugService.getListWithPaging(cri));
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(sugService.totalCount(cri));
-		model.addAttribute("pageMaker",pageMaker);
-		return "/suggestion/suggestionBoard";
+		model.addAttribute("pageMaker", new PageDTO(cri,sugService.totalCount(cri)));
+		//PageMaker pageMaker = new PageMaker();
+		//pageMaker.setCri(cri);
+		//pageMaker.setTotalCount(sugService.totalCount(cri));
+		//model.addAttribute("pageMaker",pageMaker);
+		return "/suggestion/suggestionboard";
 	}
 	
 }

@@ -43,7 +43,6 @@ public class SuggestionBoardDAOImpl implements SuggestionBoardDAO {
 		return sqlSession.selectOne(namespace + ".read",bno);
 	}
 	
-	
 	@Override
 	public int totalCount(Criteria cri) {
 		return sqlSession.selectOne(namespace + ".countList",cri);

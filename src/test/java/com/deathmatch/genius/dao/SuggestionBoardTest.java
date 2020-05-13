@@ -24,7 +24,7 @@ public class SuggestionBoardTest {
 	@Test
 	public void testListCriteria() {
 		Criteria cri = new Criteria();
-		cri.setPage(1);
+		cri.setPage(2);
 		cri.setPerPageNum(10);
 		
 		List<SuggestionBoardDTO> pageList = dao.getListWithPaging(cri);

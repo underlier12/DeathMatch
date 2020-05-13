@@ -8,7 +8,10 @@ $(function(){
 	});
 	
 	$("#goListBtn").click(function(){
-		contentForm.attr("action","/suggestion/suggestionBoard");
+		
+		//contentForm.find($("#bno")).remove();
+		
+		contentForm.attr("action","/suggestion/suggestionboard");
 		contentForm.submit();
 	});
 	
@@ -24,10 +27,5 @@ $(function(){
 			return false;
 		}
 	});
-	
-	
-	/*$("#answerBtn").click(function(){
-		alert("구현이 필요함");
-	})*/
 	
 })

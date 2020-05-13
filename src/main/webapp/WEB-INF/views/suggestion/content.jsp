@@ -50,8 +50,7 @@
 				<c:if test="${login.userId eq Suggestion.userId || login.auth eq 1}">
 					<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
 					<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
-					<button type="button" class="btn btn-default btn-sm" id="goListBtn" 
-					onclick = "location.href ='/suggestion/suggestionBoard'">목록</button>
+					<button type="button" class="btn btn-default btn-sm" id="goListBtn">목록</button>
 				</c:if>
 			</div>
 		</div>
@@ -59,8 +58,6 @@
 		<form id ="contentForm" action ="/suggestion/post-edit" method ="get">
 			<input type="hidden" name="bno" value='<c:out value = "${Suggestion.bno}"/>'>
 			<input type="hidden" name="page" value='<c:out value = "${cri.page}"/>'>
-			<input type="text" name="page" value='<c:out value = "${cri.page}"/>'>
-			<input type="text" name="page" value='<c:out value = "${cri.perPageNum}"/>'>
 			<input type="hidden" name="perPageNum" value='<c:out value = "${cri.perPageNum}"/>'>
 		</form>
 	</div>

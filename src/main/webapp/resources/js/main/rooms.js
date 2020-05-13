@@ -7,11 +7,12 @@ $(function(){
 	});
 	
 	$("#btnNotice").click(function(){
-		
+		// TODO : 공지게시판 경로 설정
+		//$(location).attr("href","/suggestion/suggestionboard");
 	});
 	
 	$("#btnSuggestion").click(function(){
-		$(location).attr("href","/suggestion/suggestionBoard");
+		$(location).attr("href","/suggestion/suggestionboard");
 	});
 	
 	$("#createRoomBtn").click(function(){
