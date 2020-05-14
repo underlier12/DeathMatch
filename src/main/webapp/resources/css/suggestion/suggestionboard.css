@@ -13,7 +13,6 @@
 
 #pageBtn{
 	justify-content : center;
-	margin-right : 70px;
 }
 
 #pageNum{
@@ -21,3 +20,17 @@
 	background-color: #3F1816;
 	border: 2px solid #000000;
 }
+
+#prevBtn{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#nextBtn{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+
