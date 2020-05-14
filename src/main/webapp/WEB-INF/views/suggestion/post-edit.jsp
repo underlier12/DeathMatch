@@ -21,21 +21,27 @@
 
 			<div class="col-md-10 col-md-offset-1 register">
 				<form id="modifyForm" action="/suggestion/post-edit" method="post">
-					<input type="hidden" name ="page" value='<c:out value="${cri.page }" />'>
-					<input type="hidden" name ="perPageNum" value ='<c:out value="${cri.perPageNum}" />'>
-					<input type="hidden" name ="bno" value ="${Suggestion.bno }">
-					<input type="hidden" name="userId" value ="${Suggestion.userId }">
+					<input type="hidden" name="page"
+						value='<c:out value="${cri.page }" />'> <input
+						type="hidden" name="perPageNum"
+						value='<c:out value="${cri.perPageNum}" />'> <input
+						type="hidden" name="bno" value="${Suggestion.bno }"> <input
+						type="hidden" name="userId" value="${Suggestion.userId }">
+					<input type="hidden" name="type"
+						value='<c:out value = "${pageMaker.cri.type }"/>'> <input
+						type="hidden" name="keyword"
+						value='<c:out value = "${pageMaker.cri.keyword }"/>'>
 					<table class="table table-bordered req" id="req">
 						<tr>
 							<td id="tdTitle">제목</td>
-							<td><input type="text" class="title" name="title" value ="${Suggestion.title }"></td>
+							<td><input type="text" class="title" name="title"
+								value="${Suggestion.title }"></td>
 						</tr>
 						<tr>
 							<td id="tdContent">내용</td>
 							<td><textarea class="content" name="content" cols="110">
 								"${Suggestion.content}"
-							</textarea>
-							</td>
+							</textarea></td>
 						</tr>
 						<tr>
 							<td id="tdSecret">비밀글</td>

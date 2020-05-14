@@ -59,6 +59,8 @@
 			<input type="hidden" name="bno" value='<c:out value = "${Suggestion.bno}"/>'>
 			<input type="hidden" name="page" value='<c:out value = "${cri.page}"/>'>
 			<input type="hidden" name="perPageNum" value='<c:out value = "${cri.perPageNum}"/>'>
+			<input type="hidden" name="type" value ='<c:out value = "${pageMaker.cri.type }"/>'>
+			<input type="hidden" name="keyword" value ='<c:out value = "${pageMaker.cri.keyword }"/>'>
 		</form>
 	</div>
 

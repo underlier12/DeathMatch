@@ -51,6 +51,9 @@
 			tbl_suggestion_board
 		where 
 			bno > 0
+		]]>
+			<include refid="search"/>
+		<![CDATA[
 		order by bno desc, regdate desc
 		limit #{pageStart}, #{perPageNum}
 		]]>
@@ -63,6 +66,7 @@
 			tbl_suggestion_board
 		where
 			bno > 0
+		<include refid="search"/>
 	</select>
 	
 	<update id ="increaseViews">
@@ -73,5 +77,40 @@
 		where
 			bno = #{bno}
 	</update>
+	
+	<sql id ="search">
+		<if test ="type != null">
+			<if test="type == 'T'.toString()">
+				AND title LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="type == 'C'.toString()">
+				AND content LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test ="type == 'W'.toString()">
+				AND userId LIKE CONCAT('%',#{keyword},'%')
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="criteria">	
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+			<foreach item="type" collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title LIKE CONCAT('%',#{keyword},'%')
+						</when>
+						<when test="type == 'C'.toString()">
+							content LIKE CONCAT('%',#{keyword},'%')
+							<!-- content like '%' || #{keyword} || '%'  -->
+						</when>
+						<when test="type == 'W'.toString()">
+							userId LIKE CONCAT('%',#{keyword},'%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
 	
 </mapper>

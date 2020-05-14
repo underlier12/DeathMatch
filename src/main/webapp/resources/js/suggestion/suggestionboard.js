@@ -1,9 +1,14 @@
 $(function(){
 	
 	var actionForm = $("#actionForm");
+	var searchForm = $("#searchForm");
 	
 	$("#writeBtn").click(function(){
 		$(location).attr("href","/suggestion/registration");
+	});
+	
+	$(".listBtn").click(function(){
+		$(location).attr("href","/suggestion/suggestionboard");
 	});
 	
 	$('.paginate_button a').on("click",function(e){
@@ -29,5 +34,20 @@ $(function(){
 		actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
 		actionForm.submit();
 		
+	});
+	
+	$('#searchForm button').on('click', function(e) {
+		
+		if(!searchForm.find('input[name=keyword]').val()) {
+			/*alert("키워드를 입력하세요.");
+			return false;*/
+			$(location).attr("href","/suggestion/suggestionboard");
+		}
+		
+		// 페이지번호 1로 초기화
+		searchForm.find('input[name=pageNum]').val("1");
+		e.preventDefault();
+		
+		searchForm.submit();
 	});
 })

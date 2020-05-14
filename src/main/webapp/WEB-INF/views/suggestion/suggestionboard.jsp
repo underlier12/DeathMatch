@@ -53,9 +53,8 @@
 						<c:forEach items="${list}" var="sugBoard">
 							<tr>
 								<td><c:out value="${sugBoard.bno }"></c:out></td>
-								<td><a href= "<c:out value ="${sugBoard.bno}"/>" 
-								class="title">
-										<c:out value="${sugBoard.title }"></c:out>
+								<td><a href="<c:out value ="${sugBoard.bno}"/>"
+									class="title"> <c:out value="${sugBoard.title }"></c:out>
 								</a></td>
 								<td><c:out value="${sugBoard.userId }"></c:out></td>
 								<td><c:out value="${sugBoard.regdate }"></c:out></td>
@@ -65,36 +64,70 @@
 					</tbody>
 				</table>
 
-				<div class="text-center" id="pageBtn">
+				<div class="text-center" id="pageDiv">
 					<ul class="pagination">
 						<c:if test="${pageMaker.prev }">
-							<li class="paginate_button previous">
-							<a id="prevBtn"	href="${pageMaker.startPage-1 }">◀</a></li>
+							<li class="paginate_button previous"><a id="prevBtn"
+								href="${pageMaker.startPage-1 }">◀</a></li>
 						</c:if>
-						<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}" >
-							<li class="paginate_button ${pageMaker.cri.page == num ? 'active' : '' }">
+						<c:forEach var="num" begin="${pageMaker.startPage}"
+							end="${pageMaker.endPage}">
+							<li
+								class="paginate_button ${pageMaker.cri.page == num ? 'active' : '' }">
 								<a id="pageNum" href="${num }">${num }</a>
 							</li>
 						</c:forEach>
 						<c:if test="${pageMaker.next}">
-							<li class="paginate_button next"><a
-								id="nextBtn" href="${pageMaker.endPage+1 }">▶</a></li>
+							<li class="paginate_button next"><a id="nextBtn"
+								href="${pageMaker.endPage+1 }">▶</a></li>
 						</c:if>
 					</ul>
+					<c:if test="${login ne null }">
+						<button type="button" class="btn btn-default btn-sm" id="writeBtn">글쓰기</button>
+					</c:if>
+				</div>
+
+				<div class="col-md-5 col-md-offset-4 search_area">
+					<form id="searchForm" action="/suggestion/suggestionboard"
+						method="get">
+						<div id="search_div">
+							<div>
+								<select class="form-control search_type" name="type">
+									<option value="T"
+										<c:out value="${pageMaker.cri.type eq 'T' ? 'selected' : '' }" />>제목</option>
+									<option value="C"
+										<c:out value="${pageMaker.cri.type eq 'C' ? 'selected' : '' }" />>내용</option>
+									<option value="W"
+										<c:out value="${pageMaker.cri.type eq 'W' ? 'selected' : '' }" />>작성자</option>
+								</select>
+							</div>
+							<div>
+								<input type="text" class="form-control search_keyword"
+									name="keyword"
+									value='<c:out value="${pageMaker.cri.keyword }" />'
+									autocomplete="off" placeholder="검색어"> <input
+									type="hidden" name="page" value="${pageMaker.cri.page }">
+								<input type="hidden" name="perPageNum"
+									value="${pageMaker.cri.perPageNum }">
+							</div>
+							<div>
+								<button class="btn btn-default btn-sm search_btn">검색</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 
-		<form id="actionForm" action="/suggestion/suggestionboard" method="get">
+		<form id="actionForm" action="/suggestion/suggestionboard"
+			method="get">
 			<input type="hidden" name="page" value="${pageMaker.cri.page }">
-			<input type="hidden" name="perPageNum" value="${pageMaker.cri.perPageNum }">
+			<input type="hidden" name="perPageNum"
+				value="${pageMaker.cri.perPageNum }"> <input type="hidden"
+				name="type" value='<c:out value = "${pageMaker.cri.type }"/>'>
+			<input type="hidden" name="keyword"
+				value='<c:out value = "${pageMaker.cri.keyword }"/>'>
 		</form>
-
-		<div class="col-md-10 col-md-offset-1">
-			<c:if test="${login ne null }">
-				<button type="button" class="btn btn-default btn-sm" id="writeBtn">글쓰기</button>
-			</c:if>
-		</div>
 	</div>
 </body>
 <script src="/js/suggestion/suggestionboard.js"></script>

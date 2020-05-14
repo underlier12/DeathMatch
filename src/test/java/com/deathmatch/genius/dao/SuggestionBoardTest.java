@@ -33,4 +33,16 @@ public class SuggestionBoardTest {
 			log.info(board.getBno() + " : " + board.getTitle() );
 		}
 	}
+	
+	@Test
+	public void testSearch() {
+		Criteria cri = new Criteria();
+		cri.setKeyword("p1234"); 
+		cri.setType("W");
+		//cri.setPerPageNum(5);
+		
+		List<SuggestionBoardDTO> list = dao.getListWithPaging(cri);
+		list.forEach(SuggestionBoardDTO -> log.info(SuggestionBoardDTO));
+		
+	}
 }

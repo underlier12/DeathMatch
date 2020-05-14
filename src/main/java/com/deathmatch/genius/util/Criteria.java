@@ -13,6 +13,8 @@ public class Criteria {
 	
 	private int page;
 	private int perPageNum; 
+	private String type;
+	private String keyword;
 	
 	public Criteria(){
 		this.page = 1;
@@ -57,5 +59,9 @@ public class Criteria {
 	public String toString() {
 		return "Criteria [page =" + page + ", " + "perPageNum= "+ perPageNum +"]";
 	}
+	
+	public String[] getTypeArr() {
+		return type == null ? new String[] {}: type.split("");
+	} 
 	
 }
