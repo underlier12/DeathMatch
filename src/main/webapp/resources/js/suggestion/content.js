@@ -3,6 +3,9 @@ $(function(){
 	var contentForm = $("#contentForm");
 	
 	$("#modifyBtn").click(function(){
+		alert("page " + page);
+		console.log("perPageNum " + perPageNum);
+
 		contentForm.attr("action","/suggestion/post-edit");
 		contentForm.submit();
 	});

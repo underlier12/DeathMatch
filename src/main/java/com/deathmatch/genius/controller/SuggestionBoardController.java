@@ -50,7 +50,9 @@ public class SuggestionBoardController {
 	}
 	
 	@GetMapping("/post-edit")
-	public void modifyGet(int bno, Model model) {
+	public void modifyGet(@RequestParam("bno") int bno, @ModelAttribute("cri")
+				Criteria cri,Model model) {
+		log.info("수정 게시글 번호 " + bno);
 		model.addAttribute("Suggestion", sugService.read(bno));
 	}
 	
@@ -60,8 +62,14 @@ public class SuggestionBoardController {
 		sugService.update(suggestionBoardDTO);
 		log.info("ModifyPost");
 		log.info(suggestionBoardDTO.toString());
+		log.info(suggestionBoardDTO.getBno());
+		log.info("cri " + cri.getPage());
+		log.info("cri " + cri.getPerPageNum());
 		rttr.addFlashAttribute("msg","글이 수정 되었습니다");
-		return "redirect:/suggestion/suggestionboard";
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("bno",suggestionBoardDTO.getBno());
+		return "redirect:/suggestion/content";
 	}
 	
 	@PostMapping("/delete")
@@ -69,8 +77,8 @@ public class SuggestionBoardController {
 				RedirectAttributes rttr) {
 		sugService.delete(bno);
 		rttr.addFlashAttribute("msg", "SUC");
-		rttr.addFlashAttribute("page", cri.getPage());
-		rttr.addFlashAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
 		
 		return "redirect:/suggestion/suggestionboard";
 	}
@@ -82,10 +90,6 @@ public class SuggestionBoardController {
 		
 		model.addAttribute("list", sugService.getListWithPaging(cri));
 		model.addAttribute("pageMaker", new PageDTO(cri,sugService.totalCount(cri)));
-		//PageMaker pageMaker = new PageMaker();
-		//pageMaker.setCri(cri);
-		//pageMaker.setTotalCount(sugService.totalCount(cri));
-		//model.addAttribute("pageMaker",pageMaker);
 		return "/suggestion/suggestionboard";
 	}
 	

@@ -4,6 +4,12 @@ $(function(){
 	
 	$("#modifyBtn").click(function(){
 		
+		var page = $('input[name="page"]').val();
+		var perPageNum = $('input[name="perPageNum"]').val();
+		
+		console.log("page" + page);
+		console.log("perPageNum" + perPageNum);
+		
 		var title = $('input[name=title]').val();
 		var content = $('.content').val();
 		
