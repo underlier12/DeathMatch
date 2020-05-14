@@ -1,0 +1,107 @@
+.container{
+	color: #ECA50E;
+}
+
+.title {
+    width: 800px;
+    height: 30px;
+    font-size: 15px;
+    background-color: #502228;
+    border: 2px solid #3F1816;
+}
+
+.content{
+	font-size: 15px;
+    background-color: #502228;
+    height: 500px;
+    border: 2px solid #3F1816;
+}
+
+#suggestTitle{
+	 font-size: 30px;
+	 margin-top:20px;
+}
+
+.req body{
+	border: 2px solid #3F1816
+}
+
+#hr{
+	border: 2px solid #3F1816;
+}
+
+#tableBorder{
+	border: 2px solid #3F1816;
+}
+
+#modifyBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:100px;
+	font-size: 25px;
+	height:50px;
+}
+
+#deleteBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:100px;
+	font-size: 25px;
+	height:50px;
+}
+
+.secret{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+}
+
+.reg tr td {
+    vertical-align: middle;
+    border: 2px solid #3F1816;
+}
+
+#req{
+     border: 2px solid #3F1816;
+}
+
+#goListBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:100px;
+	font-size: 25px;
+	height:50px;
+}
+
+#answerBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:100px;
+	font-size: 25px;
+	height:50px;
+}
+
+.public{
+	border: 2px solid #3F1816;
+}
+
+#tdTitle{
+	font-size: 25px;
+	width:100px;
+}
+
+#tdContent{
+	font-size: 25px;
+	width:200px;
+}
+
+#tdSecret{
+	font-size: 25px;
+}
+
+#trTitle{
+	border: 2px solid #3F1816
+}

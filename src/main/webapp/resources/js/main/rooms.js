@@ -4,7 +4,16 @@ $(function(){
 	
 	$("#btnCreate").click(function() {
 		$("#roomModal").modal();
-	}); 
+	});
+	
+	$("#btnNotice").click(function(){
+		// TODO : 공지게시판 경로 설정
+		//$(location).attr("href","/suggestion/suggestionboard");
+	});
+	
+	$("#btnSuggestion").click(function(){
+		$(location).attr("href","/suggestion/suggestionboard");
+	});
 	
 	$("#createRoomBtn").click(function(){
 		var gameType = $('input[name="type"]:checked').val();

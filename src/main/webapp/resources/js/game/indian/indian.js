@@ -1,8 +1,7 @@
 $(function(){
 	
 	// WebSocket 연결하기
-	var url = window.location.host; // 웹 브라우저의 주소창의 포트까지 가져옴
-	console.log("host url : " + url);
+	var url = window.location.host; // 웹 브라우저의 주소창의 포트까지 가져옴;
 	var sock = new SockJS("http://"+url+"/ws/indian");
 	
 	var roomId = $('.content').data('room-id');
@@ -50,7 +49,7 @@ $(function(){
 	var upBtn = $("#chipUpBtn");
 	var downBtn = $("#chipDownBtn");
 	var allInBtn = $("#chipAllInBtn");
-	var count = chipBetting.val();
+	//var count = chipBetting.val();
 	
 	var player1BetChip;
 	var player2BetChip;
@@ -200,7 +199,6 @@ $(function(){
 	function endGame(content){
 		infoArea.eq(0).prepend(content.message + "\n");
 		infoArea.eq(0).prepend(content.winner + "\n");
-		//openCard(content);
 		endGameChipText(content);
 		disableAll();
 	}
@@ -531,7 +529,7 @@ $(function(){
 	}
 	
 	function openCard(content){
-		if(content.player == member){
+		if(currentPlayer == member){
 			cardSelect1(content);
 		}else{
 			cardSelect2(content);
@@ -741,30 +739,30 @@ $(function(){
 	
 	function oneChipStock(){
 		console.log("oneChipStock : "  + player1BetChip + " " + player1Chip);
-		if(currentPlayer == member){
-			if(player2BetChip == 1 && player2Chip == 0){
+		// 첫번째 플레이어 일때
+		if(currentPlayer == member){	
+			if(player2BetChip == 1 && player2Chip == 0){	// 첫번째 플레이어의 칩이 더 많을때
 				betCheck = true;
 				betCheck2 = true;
-				chipBetting.val(1);
 				if(player1BetChip>1){
 					betCheck3 = false;
 				}
-			}else if(player1BetChip == 1 && player1Chip ==0){
+			}else if(player1BetChip == 1 && player1Chip ==0){	//	두번째 플레이어의 칩이 더 많을때
 				betCheck = true;
 				betCheck2 = true;
 				if(player2BetChip>1){
 					betCheck3 = false;
 				}	
 			}
-		}else if(currentPlayer != member){
-			if(player1BetChip == 1 && player1Chip == 0){
+		}else if(currentPlayer != member){		//두번째 플레이어 일때
+			if(player1BetChip == 1 && player1Chip == 0){	//	두번째 플레이어의 칩이 더 많을때
 				betCheck = true;
 				betCheck2 = true;
-				chipBetting.val(1);
-				if(player2BetChip>1){
+				if(player2BetChip!=1){
+					console.log("player2BetChip != 1");
 					betCheck3 = false;
 				}
-			}else if(player2BetChip ==1 && player2Chip == 0){
+			}else if(player2BetChip == 1 && player2Chip == 0){	//첫번째 플레이어의 칩이 더 많을때
 				betCheck = true;
 				betCheck2 = true;
 				if(player1BetChip>1){
@@ -787,7 +785,6 @@ $(function(){
 		}
 	}
 
-   	/** Message * */
 	sendBtn.click(function(){
 		var message = $("#message").val();
 		console.log(message);
@@ -807,6 +804,7 @@ $(function(){
 		betChip = chipBetting.val();
 		betCheck = true;
 		betCheck2 = true;
+		betCheck3 = true;
 		console.log("player1BetChip send " +  player1BetChip);
 		console.log("player2BetChip send " + player2BetChip);
 		console.log("BetChip " + betChip);
@@ -818,7 +816,8 @@ $(function(){
 				betChip:betChip,player1Chip:player1Chip,player2Chip:player2Chip,player1BetChip:player1BetChip
 				,player2BetChip:player2BetChip};
 		sock.send(JSON.stringify(bettingData));
-		console.log("Success submit bettingData");
+		betchip1Score.text("X"+1);
+		betchip2Score.text("X"+1);
 	});
 	
 	betGiveUpBtn.click(function(){

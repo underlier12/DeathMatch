@@ -20,33 +20,35 @@
 				<div>
 					<h1>Room List</h1>
 				</div>
-			</div>
-
-			<div id="buttonList">
-				<div id="gameBtn">
+				
+				<div id="buttonList">
 					<button type="button" class="btn btn-default btn-lg" id="btnCreate">방만들기</button>
 					<button type="button" class="btn btn-default btn-lg" id="btnTuto">튜토리얼</button>
+					<button type="button" class="btn btn-default btn-lg" id="btnNotice">공지사항</button>
+					<button type="button" class="btn btn-default btn-lg"
+						id="btnSuggestion">건의사항</button>
 				</div>
 			</div>
 
 			<div class="row">
+				
 				<div class="col-md-3" id="leftRooms">
 					<c:forEach var="room" items="${rooms }" begin="0" end="4">
 						<div class="oneRoom">
 							<c:choose>
 								<c:when test="${room.gameType eq 'indian' }">
-									<div id ="imageDiv">
-									<img
-										src="${pageContext.request.contextPath}/images/indianLogo.png"
-										width="130px" height="50px">
+									<div id="imageDiv">
+										<img
+											src="${pageContext.request.contextPath}/images/indianLogo.png"
+											width="130px" height="50px">
 									</div>
 								</c:when>
-								
+
 								<c:when test="${room.gameType eq 'union' }">
-									<div id ="imageDiv">
-									<img
-										src="${pageContext.request.contextPath}/images/UnionLogo.png"
-										width="130px" height="50px">
+									<div id="imageDiv">
+										<img
+											src="${pageContext.request.contextPath}/images/UnionLogo.png"
+											width="130px" height="50px">
 									</div>
 								</c:when>
 							</c:choose>
@@ -68,15 +70,15 @@
 					</c:forEach>
 				</div>
 
-				<div class="col-md-4 rightRooms">
+				<div class="col-md-4" id ="rightRooms">
 					<c:forEach var="room" items="${rooms }" begin="5" end="9">
 						<div class="oneRoom">
 							<c:choose>
 								<c:when test="${room.gameType eq null }">
-									<div id ="imageDiv">
-									<img
-										src="${pageContext.request.contextPath}/images/UnionLogo.png"
-										width="130px" height="50px">
+									<div id="imageDiv">
+										<img
+											src="${pageContext.request.contextPath}/images/UnionLogo.png"
+											width="130px" height="50px">
 									</div>
 								</c:when>
 							</c:choose>

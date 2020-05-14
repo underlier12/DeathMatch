@@ -1,0 +1,82 @@
+#suggest_body{
+	color: #ECA50E;
+}
+
+#writeBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:100px;
+	font-size: 25px;
+	height:50px;
+	float:right;
+	margin-top:10px;
+}
+
+#pageDiv{
+	margin-left:170px;
+	justify-content : center;
+}
+
+#pageNum{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#prevBtn{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#nextBtn{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+.search_btn{
+	width:50px;
+	height:35px;
+	margin-left:5px;
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+.listBtn{
+	margin-top:10px;
+	width:70px;
+	height:50px;
+	font-size: 15px;
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+.search_keyword{
+	color: #E4F7BA;
+	width:250px;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+.search_area{
+	justify-content : center;
+}
+
+.search_type{
+	color: #E4F7BA;
+	margin-right:5px;
+	width:80px;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#search_div{
+	display:flex;
+	justify-content : center;
+}
+
+

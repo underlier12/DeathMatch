@@ -7,7 +7,7 @@
 <%@ include file="../../includes/meta.jsp"%>
 <title>Genius Death Match</title>
 <%@ include file="../../includes/header.jsp"%>
-<link href="/css/game/indian/indianRoom.css" rel="stylesheet">
+<link href="/css/game/indian/indian.css" rel="stylesheet">
 </head>
 <body>
 
@@ -118,7 +118,7 @@
 
 	</div>
 
-	<script src="/js/game/indian/indianRoom.js"></script>
+	<script src="/js/game/indian/indian.js"></script>
 
 </body>
 </html>

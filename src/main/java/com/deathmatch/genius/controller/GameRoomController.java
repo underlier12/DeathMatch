@@ -3,6 +3,7 @@ package com.deathmatch.genius.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.UserDTO;
 import com.deathmatch.genius.service.GameRoomService;
 import com.deathmatch.genius.util.Criteria;
-import com.deathmatch.genius.util.PageMaker;
+import com.deathmatch.genius.util.PageDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -34,9 +35,9 @@ public class GameRoomController {
     @GetMapping
     public String RoomList(Criteria cri,Model model) {
     	log.info(cri.toString());
-    	PageMaker pageMaker = new PageMaker();
-    	pageMaker.setCri(cri);
-    	pageMaker.setTotalCount(gameRoomService.countRoom());	
+    	PageDTO pageMaker = new PageDTO(cri,gameRoomService.countRoom());
+    	//pageMaker.setCri(cri);
+    	//pageMaker.setTotalCount(gameRoomService.countRoom());	
     	model.addAttribute("rooms",gameRoomService.findRoomList(cri));
     	model.addAttribute("pageMaker",pageMaker);
     	return "main/rooms";

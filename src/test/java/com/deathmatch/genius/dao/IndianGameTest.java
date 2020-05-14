@@ -34,6 +34,7 @@ public class IndianGameTest {
 	@Before
 	public void getCardDeck() {
 		cardDeck = indianDAO.problemList();
+		log.info("cardSize() !!!: " + cardDeck.size());
 		for (IndianCardDTO card : cardDeck) {
 			log.info(card);
 		}

@@ -26,23 +26,16 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j;
 
-/**
- * 
- * IndianService 실제 내용을 구현한다
- *
- */
 @Log4j
 @Service
 public class IndianService {
 
 	private final ObjectMapper objectMapper;
 	private final IndianDealerService dealService;
-	private final RecordService recordService;
 
-	public IndianService(ObjectMapper objectMappper, IndianDealerService dealService, RecordService recordService) {
+	public IndianService(ObjectMapper objectMappper, IndianDealerService dealService) {
 		this.objectMapper = objectMappper;
 		this.dealService = dealService;
-		this.recordService = recordService;
 	}
 
 	/* Web Socket Handler */
@@ -217,9 +210,6 @@ public class IndianService {
 
 	public void endGame(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		sendMessageAll(indianRoom.getSessions(), dealService.endGame(indianRoom));
-		/*
-		 * log.info("EndGame"); recordService.IndianRecordHistory(indianRoom);
-		 */
 	}
 
 	/* Load Player */
@@ -299,14 +289,7 @@ public class IndianService {
 	public Boolean isEmptyRoom(IndianGameRoom indianRoom) {
 		return indianRoom.getSessions().size() == 0;
 	}
-
-	/*
-	 * public void isGameOver(IndianGameDTO indianGameDTO, IndianGameRoom
-	 * indianRoom) { sendMessageAll(indianRoom.getSessions(),
-	 * dealService.endGame(indianRoom));
-	 * recordService.IndianRecordHistory(indianRoom); }
-	 */
-
+	
 	/* Act SendMessage */
 
 	public <T> void sendMessageAll(Set<WebSocketSession> sessions, T message) {
