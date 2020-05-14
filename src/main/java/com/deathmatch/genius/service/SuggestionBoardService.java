@@ -16,6 +16,8 @@ public interface SuggestionBoardService {
 	
 	public int totalCount(Criteria cri);
 	
+	public void increaseViews(int bno);
+	
 	public List<SuggestionBoardDTO> list();
 	
 	public List<SuggestionBoardDTO> getListWithPaging(Criteria cri);

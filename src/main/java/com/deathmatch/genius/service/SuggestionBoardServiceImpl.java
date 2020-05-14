@@ -44,6 +44,11 @@ public class SuggestionBoardServiceImpl implements SuggestionBoardService {
 	}
 
 	@Override
+	public void increaseViews(int bno) {
+		dao.increaseViews(bno);
+	}
+
+	@Override
 	public List<SuggestionBoardDTO> list() {
 		return dao.getList();
 	}

@@ -50,16 +50,16 @@
 					</thead>
 
 					<tbody>
-						<c:forEach items="${list}" var="Suggestion">
+						<c:forEach items="${list}" var="sugBoard">
 							<tr>
-								<td><c:out value="${Suggestion.bno }"></c:out></td>
-								<td><a href= "<c:out value ="${Suggestion.bno}"/>" 
+								<td><c:out value="${sugBoard.bno }"></c:out></td>
+								<td><a href= "<c:out value ="${sugBoard.bno}"/>" 
 								class="title">
-										<c:out value="${Suggestion.title }"></c:out>
+										<c:out value="${sugBoard.title }"></c:out>
 								</a></td>
-								<td><c:out value="${Suggestion.userId }"></c:out></td>
-								<td><c:out value="${Suggestion.regdate }"></c:out></td>
-								<td><c:out value="${Suggestion.hit }"></c:out></td>
+								<td><c:out value="${sugBoard.userId }"></c:out></td>
+								<td><c:out value="${sugBoard.regdate }"></c:out></td>
+								<td><c:out value="${sugBoard.hit }"></c:out></td>
 							</tr>
 						</c:forEach>
 					</tbody>

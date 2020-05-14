@@ -3,16 +3,12 @@ $(function(){
 	var contentForm = $("#contentForm");
 	
 	$("#modifyBtn").click(function(){
-		alert("page " + page);
-		console.log("perPageNum " + perPageNum);
 
 		contentForm.attr("action","/suggestion/post-edit");
 		contentForm.submit();
 	});
 	
 	$("#goListBtn").click(function(){
-		
-		//contentForm.find($("#bno")).remove();
 		
 		contentForm.attr("action","/suggestion/suggestionboard");
 		contentForm.submit();

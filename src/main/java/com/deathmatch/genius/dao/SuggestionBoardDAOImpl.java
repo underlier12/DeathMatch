@@ -49,6 +49,12 @@ public class SuggestionBoardDAOImpl implements SuggestionBoardDAO {
 	}
 
 	@Override
+	public void increaseViews(int bno) {
+		log.info("increse Views " );
+		sqlSession.update(namespace + ".increaseViews",bno);
+	}
+
+	@Override
 	public List<SuggestionBoardDTO> getList(){
 		return sqlSession.selectList(namespace + ".listAll");
 	}

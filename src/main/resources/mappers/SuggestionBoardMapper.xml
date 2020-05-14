@@ -46,7 +46,7 @@
 	<select id ="getListWithPaging" resultType ="SuggestionBoardDTO">
 		<![CDATA[
 		select
-			bno,title,content,regdate,hit
+			bno,userId,title,content,regdate,hit
 		from
 			tbl_suggestion_board
 		where 
@@ -64,5 +64,14 @@
 		where
 			bno > 0
 	</select>
+	
+	<update id ="increaseViews">
+		update
+			tbl_suggestion_board
+		set
+			hit = hit + 1
+		where
+			bno = #{bno}
+	</update>
 	
 </mapper>

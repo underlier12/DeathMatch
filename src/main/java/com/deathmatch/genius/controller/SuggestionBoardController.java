@@ -46,6 +46,7 @@ public class SuggestionBoardController {
 	public void read(@RequestParam("bno") int bno, @ModelAttribute("cri")
 			Criteria cri,Model model) {
 		log.info("게시글 번호 : " + bno);
+		sugService.increaseViews(bno);
 		model.addAttribute("Suggestion",sugService.read(bno));
 	}
 	
@@ -60,15 +61,11 @@ public class SuggestionBoardController {
 	public String modifyPost(SuggestionBoardDTO suggestionBoardDTO,@ModelAttribute("cri")
 			Criteria cri,RedirectAttributes rttr) {
 		sugService.update(suggestionBoardDTO);
-		log.info("ModifyPost");
-		log.info(suggestionBoardDTO.toString());
-		log.info(suggestionBoardDTO.getBno());
-		log.info("cri " + cri.getPage());
-		log.info("cri " + cri.getPerPageNum());
 		rttr.addFlashAttribute("msg","글이 수정 되었습니다");
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
 		rttr.addAttribute("bno",suggestionBoardDTO.getBno());
+		
 		return "redirect:/suggestion/content";
 	}
 	

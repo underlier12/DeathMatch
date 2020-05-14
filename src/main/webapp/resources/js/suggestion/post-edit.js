@@ -4,17 +4,8 @@ $(function(){
 	
 	$("#modifyBtn").click(function(){
 		
-		var page = $('input[name="page"]').val();
-		var perPageNum = $('input[name="perPageNum"]').val();
-		
-		console.log("page" + page);
-		console.log("perPageNum" + perPageNum);
-		
 		var title = $('input[name=title]').val();
 		var content = $('.content').val();
-		
-		console.log("Title " + title);
-		console.log("Content " + content);
 		
 		if(title == "" || title == null){
 			alert("제목을 입력해 주세요");
@@ -25,7 +16,12 @@ $(function(){
 			return false;
 		}
 		
-		modifyForm.submit();
+		var c = confirm("건의글을 수정하시겠습니까?");
+		if(c){
+			modifyForm.submit();
+		}else{
+			return false;
+		}
 	})
 	
 	$("#deleteBtn").click(function(){
