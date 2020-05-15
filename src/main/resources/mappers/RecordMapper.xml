@@ -9,4 +9,15 @@
         values (#{gameId},#{gameType},#{userId},#{winLose},#{score});
     </insert>
     
+    <select id="selectBattleByUserId" resultType="RecordDTO">
+    	select * from tbl_game
+    	where userId = #{userId}
+    	order by no
+    </select>
+    
+    <select id="selectOpponentByGameId" resultType="RecordDTO">
+    	select * from tbl_game
+    	where gameId = #{gameId} and not userId = #{userId}
+    </select>
+    
 </mapper>
