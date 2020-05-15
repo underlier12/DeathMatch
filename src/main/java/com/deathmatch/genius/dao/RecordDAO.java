@@ -13,7 +13,7 @@ public interface RecordDAO {
 	public List<RecordDTO> selectAllRecord();
 	
 	// select record by game type
-	public List<RecordDTO> selectRecordByGameId(String gameType);
+	public List<RecordDTO> selectRecordByGameType(String gameType);
 	
 	// select record of opponent related to gameId
 	public RecordDTO selectOpponentRecord(RecordDTO recordDTO);
