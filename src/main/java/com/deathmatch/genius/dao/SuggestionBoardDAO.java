@@ -28,6 +28,12 @@ public interface SuggestionBoardDAO {
 	
 	public void deleteReply(int rno);
 	
+	public void deleteAllReply(int bno);
+	
 	public List<SuggestionReplyDTO> getReplyList(int bno);
+	
+	public void insertAnswer(SuggestionBoardDTO suggestionBoardDTO);
+	
+	public void increaseGroupStep(int ref, int step);
 	
 }

@@ -120,7 +120,7 @@
 	
 	<delete id ="deleteReply">
 		delete from tbl_suggestion_reply_board
-		where bno = #{bno}
+		where rno = #{rno}
 	</delete>
 	
 	<select id ="getReplyList" resultType ="SuggestionReplyDTO">
@@ -129,4 +129,20 @@
 		where bno = #{bno}
 		order by rno desc
 	</select>
+	
+	<delete id ="deleteAllReply">
+		delete from tbl_suggestion_reply_board
+		where bno = #{bno}
+	</delete>
+	
+	<insert id ="insertAnswer">
+		insert into tbl_suggestion_board(userId,title,content,ref,depth,pno,pw)
+		values(#{userId},#{title},#{content},#{ref},#{depth},#{pno},#{pw})
+	</insert>
+	
+	<update id ="increaseGroup" parameterType ="map">
+		update tbl_suggestion_board
+		set step = step+1
+		where ref = #{ref} and step > #{step}
+	</update>
 </mapper>

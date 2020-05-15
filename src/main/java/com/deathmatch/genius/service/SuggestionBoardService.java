@@ -28,5 +28,7 @@ public interface SuggestionBoardService {
 	public void deleteReply(int rno);
 	
 	public List<SuggestionReplyDTO> getReplyList(int bno);
+	
+	public void registerAnswer(SuggestionBoardDTO suggestionBoardDTO);
 
 }

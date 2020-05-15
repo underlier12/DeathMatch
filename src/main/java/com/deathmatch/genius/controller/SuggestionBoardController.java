@@ -79,10 +79,10 @@ public class SuggestionBoardController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/reply")
+	@GetMapping("/reply/{bno}" )
 	public ResponseEntity<List<SuggestionReplyDTO>> getReplyList(@PathVariable("bno") int bno){
 		log.info("getReplyList " + bno);
-		return new ResponseEntity<>(sugService.getReplyList(bno),HttpStatus.OK);
+		return new ResponseEntity<List<SuggestionReplyDTO>>(sugService.getReplyList(bno),HttpStatus.OK);
 	}
 	
 	@GetMapping("/post-edit")
@@ -116,8 +116,9 @@ public class SuggestionBoardController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/deletion/reply")
-	public ResponseEntity<String> deleteReply(@RequestBody int rno){
+	@PostMapping("/deletion/reply/{rno}")
+	public ResponseEntity<String> deleteReply(@PathVariable("rno") int rno){
+		log.info("Delete Reply" + rno);
 		sugService.deleteReply(rno);
 		return new ResponseEntity<>("Success",HttpStatus.OK);
 	}

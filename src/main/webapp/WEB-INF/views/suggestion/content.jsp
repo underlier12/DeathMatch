@@ -51,6 +51,7 @@
 					<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
 					<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
 					<button type="button" class="btn btn-default btn-sm" id="goListBtn">목록</button>
+					<button type="button" class="btn btn-default btn-sm" id="answerBtn">답변</button>
 				</c:if>
 			</div>
 		</div>
@@ -76,15 +77,8 @@
 	        	</c:if>
 	        	</table>
 	        	
-	        	<table class="table get_reply_tbl" id="getReply">
-	        		<colgroup>
-	        			<col width="10%">
-	        			<col width="30%">
-	        			<col width="60%">
-	        		</colgroup>
-	        		<tbody>
-	        		</tbody>
-	        	</table>
+	        	<div id="getReply">
+	        	</div>
 	        </div>
 	        
 	    </div>

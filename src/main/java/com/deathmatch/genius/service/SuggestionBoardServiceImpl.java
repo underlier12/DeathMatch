@@ -3,6 +3,7 @@ package com.deathmatch.genius.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.deathmatch.genius.dao.SuggestionBoardDAO;
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
@@ -33,9 +34,11 @@ public class SuggestionBoardServiceImpl implements SuggestionBoardService {
 		return 1;
 	}
 
+	@Transactional
 	@Override
-	public int delete(int num) {
-		dao.delete(num);
+	public int delete(int bno) {
+		dao.delete(bno);
+		dao.deleteAllReply(bno);
 		return 1;
 	}
 
@@ -79,4 +82,16 @@ public class SuggestionBoardServiceImpl implements SuggestionBoardService {
 		return dao.getReplyList(bno);
 	}
 
+	@Override
+	public void registerAnswer(SuggestionBoardDTO suggestionBoardDTO) {
+		
+		// 
+		SuggestionBoardDTO answerBoard = dao.read(suggestionBoardDTO.getPno());
+		
+		
+		
+		dao.increaseGroupStep(suggestionBoardDTO.getRef(), suggestionBoardDTO.getStep());
+		dao.insertAnswer(suggestionBoardDTO);
+	}
+	
 }

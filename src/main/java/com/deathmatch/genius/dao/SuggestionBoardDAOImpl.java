@@ -1,6 +1,8 @@
 package com.deathmatch.genius.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -74,14 +76,28 @@ public class SuggestionBoardDAOImpl implements SuggestionBoardDAO {
 	public void deleteReply(int rno) {
 		sqlSession.delete(namespace + ".deleteReply",rno);
 	}
+	
+	@Override
+	public void deleteAllReply(int bno) {
+		sqlSession.delete(namespace + ".deleteAllReply",bno);
+	}
 
 	@Override
 	public List<SuggestionReplyDTO> getReplyList(int bno) {
-		return sqlSession.selectList(namespace + ".getReplyList");
+		return sqlSession.selectList(namespace + ".getReplyList",bno);
 	}
-	
-	
-	
-	
+
+	@Override
+	public void insertAnswer(SuggestionBoardDTO suggestionBoardDTO) {
+		sqlSession.insert(namespace + ".insertAnswer",suggestionBoardDTO);
+	}
+
+	@Override
+	public void increaseGroupStep(int ref, int step) {
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("ref", ref);
+		map.put("step",step);
+		sqlSession.update(namespace + ".increaseGroup",map);
+	}
 
 }
