@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.deathmatch.genius.dao.SuggestionBoardDAO;
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
+import com.deathmatch.genius.domain.SuggestionReplyDTO;
 import com.deathmatch.genius.util.Criteria;
 
 import lombok.extern.log4j.Log4j;
@@ -61,6 +62,21 @@ public class SuggestionBoardServiceImpl implements SuggestionBoardService {
 	@Override
 	public List<SuggestionBoardDTO> getListWithPaging(Criteria cri) {
 		return dao.getListWithPaging(cri);
+	}
+
+	@Override
+	public void insertReply(SuggestionReplyDTO suggestionReplyDTO) {
+		dao.insertReply(suggestionReplyDTO);
+	}
+
+	@Override
+	public void deleteReply(int rno) {
+		dao.deleteReply(rno);
+	}
+
+	@Override
+	public List<SuggestionReplyDTO> getReplyList(int bno) {
+		return dao.getReplyList(bno);
 	}
 
 }

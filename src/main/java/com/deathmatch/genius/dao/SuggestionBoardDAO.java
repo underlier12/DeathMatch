@@ -3,6 +3,7 @@ package com.deathmatch.genius.dao;
 import java.util.List;
 
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
+import com.deathmatch.genius.domain.SuggestionReplyDTO;
 import com.deathmatch.genius.util.Criteria;
 
 public interface SuggestionBoardDAO {
@@ -22,5 +23,11 @@ public interface SuggestionBoardDAO {
 	public List<SuggestionBoardDTO> getList();
 	
 	public List<SuggestionBoardDTO> getListWithPaging(Criteria cri);
+	
+	public void insertReply(SuggestionReplyDTO suggestionReplyDTO);
+	
+	public void deleteReply(int rno);
+	
+	public List<SuggestionReplyDTO> getReplyList(int bno);
 	
 }

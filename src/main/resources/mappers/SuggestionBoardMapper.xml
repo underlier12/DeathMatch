@@ -113,4 +113,20 @@
 		</trim>
 	</sql>
 	
+	<insert id ="insertReply">
+		insert into tbl_suggestion_reply_board
+		values(#{bno},#{userId},#{content})
+	</insert>
+	
+	<delete id ="deleteReply">
+		delete from tbl_suggestion_reply_board
+		where bno = #{bno}
+	</delete>
+	
+	<select id ="getReplyList" resultType ="SuggestionReplyDTO">
+		select rno,bno,userId,content,regdate
+		from tbl_suggestion_reply_board
+		where bno = #{bno}
+		order by rno desc
+	</select>
 </mapper>
