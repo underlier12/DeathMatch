@@ -10,7 +10,7 @@ public interface RecordDAO {
 	public void insertHistory(RecordDTO recordDTO);
 	
 	// select all record by user id
-	public List<RecordDTO> selectAllRecord();
+	public List<RecordDTO> selectAllRecord(String userId);
 	
 	// select record by game type
 	public List<RecordDTO> selectRecordByGameType(String gameType);
