@@ -1,15 +1,23 @@
 package com.deathmatch.genius.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
+import com.deathmatch.genius.domain.SuggestionReplyDTO;
 import com.deathmatch.genius.service.SuggestionBoardService;
 import com.deathmatch.genius.util.Criteria;
 import com.deathmatch.genius.util.PageDTO;
@@ -26,6 +34,18 @@ public class SuggestionBoardController {
 	public SuggestionBoardController(SuggestionBoardService sugService) {
 		this.sugService = sugService;
 	}
+	
+	@GetMapping
+	public String listAll(Criteria cri,Model model) {
+		
+		log.info("GetListWith Paging" + cri.toString());
+		
+		model.addAttribute("list", sugService.getListWithPaging(cri));
+		model.addAttribute("pageMaker", new PageDTO(cri,sugService.totalCount(cri)));
+		
+		return "/suggestion/suggestionboard";
+	}
+	
 
 	@GetMapping("/registration")
 	public String registGet() {
@@ -39,7 +59,15 @@ public class SuggestionBoardController {
 		log.info("regist Post " + suggestionBoardDTO.toString());
 		sugService.insert(suggestionBoardDTO);
 		rttr.addFlashAttribute("msg", "건의글이 등록 되었습니다");
-		return "redirect:/suggestion/suggestionboard";
+		return "redirect:/suggestion";
+	}
+	
+	@ResponseBody
+	@PostMapping("/registration/reply")
+	public ResponseEntity<String> registerReply(@RequestBody SuggestionReplyDTO suggestionReplyDTO){
+		log.info("insertReply ");
+		sugService.insertReply(suggestionReplyDTO);
+		return new ResponseEntity<>("Success",HttpStatus.OK);
 	}
 	
 	@GetMapping("/content")
@@ -48,6 +76,13 @@ public class SuggestionBoardController {
 		log.info("게시글 번호 : " + bno);
 		sugService.increaseViews(bno);
 		model.addAttribute("Suggestion",sugService.read(bno));
+	}
+	
+	@ResponseBody
+	@GetMapping("/reply")
+	public ResponseEntity<List<SuggestionReplyDTO>> getReplyList(@PathVariable("bno") int bno){
+		log.info("getReplyList " + bno);
+		return new ResponseEntity<>(sugService.getReplyList(bno),HttpStatus.OK);
 	}
 	
 	@GetMapping("/post-edit")
@@ -69,7 +104,7 @@ public class SuggestionBoardController {
 		return "redirect:/suggestion/content";
 	}
 	
-	@PostMapping("/delete")
+	@PostMapping("/deleteion")
 	public String delete(@RequestParam("bno") int bno,Criteria cri,
 				RedirectAttributes rttr) {
 		sugService.delete(bno);
@@ -77,17 +112,14 @@ public class SuggestionBoardController {
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
 		
-		return "redirect:/suggestion/suggestionboard";
-	}
-
-	@GetMapping("/suggestionboard")
-	public String listAll(Criteria cri,Model model) {
-		
-		log.info("GetListWith Paging" + cri.toString());
-		
-		model.addAttribute("list", sugService.getListWithPaging(cri));
-		model.addAttribute("pageMaker", new PageDTO(cri,sugService.totalCount(cri)));
-		return "/suggestion/suggestionboard";
+		return "redirect:/suggestion";
 	}
 	
+	@ResponseBody
+	@PostMapping("/deletion/reply")
+	public ResponseEntity<String> deleteReply(@RequestBody int rno){
+		sugService.deleteReply(rno);
+		return new ResponseEntity<>("Success",HttpStatus.OK);
+	}
+		
 }

@@ -12,7 +12,7 @@ $(function(){
 	});
 	
 	$("#btnSuggestion").click(function(){
-		$(location).attr("href","/suggestion/suggestionboard");
+		$(location).attr("href","/suggestion");
 	});
 	
 	$("#createRoomBtn").click(function(){

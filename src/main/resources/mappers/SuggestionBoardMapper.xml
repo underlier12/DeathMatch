@@ -114,7 +114,7 @@
 	</sql>
 	
 	<insert id ="insertReply">
-		insert into tbl_suggestion_reply_board
+		insert into tbl_suggestion_reply_board(bno,userId,content)
 		values(#{bno},#{userId},#{content})
 	</insert>
 	

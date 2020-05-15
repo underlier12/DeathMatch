@@ -8,7 +8,8 @@ $(function(){
 	});
 	
 	$(".listBtn").click(function(){
-		$(location).attr("href","/suggestion/suggestionboard");
+		//$(location).attr("href","/suggestion/suggestionboard");
+		$(location).attr("href","/suggestion");
 	});
 	
 	$('.paginate_button a').on("click",function(e){
@@ -39,9 +40,8 @@ $(function(){
 	$('#searchForm button').on('click', function(e) {
 		
 		if(!searchForm.find('input[name=keyword]').val()) {
-			/*alert("키워드를 입력하세요.");
-			return false;*/
-			$(location).attr("href","/suggestion/suggestionboard");
+			//$(location).attr("href","/suggestion/suggestionboard");
+			$(location).attr("href","/suggestion");
 		}
 		
 		// 페이지번호 1로 초기화

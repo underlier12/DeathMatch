@@ -10,9 +10,6 @@
 <link href="/css/suggestion/suggestionboard.css" rel="stylesheet">
 </head>
 <script>
-	/* if(${msg} != null){
-		alert(${msg});
-	} */
 </script>
 <body>
 
@@ -88,7 +85,7 @@
 				</div>
 
 				<div class="col-md-5 col-md-offset-4 search_area">
-					<form id="searchForm" action="/suggestion/suggestionboard"
+					<form id="searchForm" action="/suggestion"
 						method="get">
 						<div id="search_div">
 							<div>
@@ -116,13 +113,11 @@
 						</div>
 					</form>
 				</div>
-				<div>
-					<button class="btn btn-default btn-sm search_btn">검색</button>
-				</div>
+
 			</div>
 		</div>
 
-		<form id="actionForm" action="/suggestion/suggestionboard"
+		<form id="actionForm" action="/suggestion"
 			method="get">
 			<input type="hidden" name="page" value="${pageMaker.cri.page }">
 			<input type="hidden" name="perPageNum"

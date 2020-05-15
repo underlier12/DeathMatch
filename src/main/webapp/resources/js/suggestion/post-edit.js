@@ -29,7 +29,8 @@ $(function(){
 		var c = confirm("건의글을 삭제하시겠습니까?");
 		
 		if(c){
-			modifyForm.attr("action","/suggestion/delete");
+			//modifyForm.attr("action","/suggestion/delete");
+			modifyForm.attr("action","/suggestion/deletion");
 			modifyForm.attr("method","post");
 			modifyForm.submit();
 		}else{

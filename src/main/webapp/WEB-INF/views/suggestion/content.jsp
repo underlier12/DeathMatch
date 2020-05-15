@@ -55,6 +55,40 @@
 			</div>
 		</div>
 		
+		 <div class="col-md-10 col-md-offset-1 reply_area">
+	        	<table class="table table-bordered reg_reply_tbl">
+	        	<c:if test="${login eq null }">
+	        		<tr>
+	        			<td>회원에게만 댓글 작성 권한이 있습니다.</td>
+	        		</tr>
+	        	</c:if>
+	        	<c:if test="${login ne null }">
+	        		<!-- 등록 부분 -->
+					<tr>
+						<td>댓글 달기</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="text" id="reply_content" class="form-control" name="reply_content" autocomplete="off">
+							<button type="button" id="writeReply" class="btn btn-default btn-sm reg_reply">댓글 등록</button>
+						</td>
+					</tr>
+	        	</c:if>
+	        	</table>
+	        	
+	        	<table class="table get_reply_tbl" id="getReply">
+	        		<colgroup>
+	        			<col width="10%">
+	        			<col width="30%">
+	        			<col width="60%">
+	        		</colgroup>
+	        		<tbody>
+	        		</tbody>
+	        	</table>
+	        </div>
+	        
+	    </div>
+		
 		<form id ="contentForm" action ="/suggestion/post-edit" method ="get">
 			<input type="hidden" name="bno" value='<c:out value = "${Suggestion.bno}"/>'>
 			<input type="hidden" name="page" value='<c:out value = "${cri.page}"/>'>
@@ -62,8 +96,7 @@
 			<input type="hidden" name="type" value ='<c:out value = "${pageMaker.cri.type }"/>'>
 			<input type="hidden" name="keyword" value ='<c:out value = "${pageMaker.cri.keyword }"/>'>
 		</form>
-	</div>
-
+	
 	<%@ include file="../includes/footer.jsp"%>
 </body>
 <script src="/js/suggestion/content.js"></script>
