@@ -116,6 +116,9 @@
 						</div>
 					</form>
 				</div>
+				<div>
+					<button class="btn btn-default btn-sm search_btn">검색</button>
+				</div>
 			</div>
 		</div>
 
