@@ -31,6 +31,6 @@ public class RecordController {
 		model.addAttribute("record", recordService.findRecordList(criteria, userId));
 		model.addAttribute("pageMaker", pageDTO);
 		
-		return "record/record-history";
+		return "record/record";
 	}
 }

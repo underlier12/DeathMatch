@@ -6,7 +6,7 @@
     <%@ include file="../includes/meta.jsp" %>
     <title>Genius Death Match</title>
     <%@ include file="../includes/header.jsp" %>
-    <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/record/record.css" rel="stylesheet">
 </head>
 
 <body>	
@@ -22,15 +22,6 @@
 			
 			<div class="body">
 				<table>
-					<!-- <colgroup>
-						<col class="no">
-						<col class="gameType">
-						<col class="userId">
-						<col class="opponentId">
-						<col class="userScore">
-						<col class="opponentScore">
-						<col class="winLose">
-					</colgroup> -->
 					<thead>
 						<tr>
 							<td>No</td>
@@ -81,10 +72,9 @@
 			</div>
 			
 		</div>
-		
 	    <%@ include file="../includes/footer.jsp" %>
     </div>
     
 </body>
-
+<script src="/js/record/record.js"></script>
 </html>
