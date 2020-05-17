@@ -14,6 +14,7 @@ import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.IndianPlayerDTO;
 import com.deathmatch.genius.domain.RecordDTO;
 import com.deathmatch.genius.domain.UnionPlayerDTO;
+import com.deathmatch.genius.util.Criteria;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -93,6 +94,15 @@ public class RecordService {
 			RecordDTO recordDTO = postprocessing(jsonMap);
 			recordDAO.insertHistory(recordDTO);
 		}
+	}
+
+	public int countRecord(String userId) {
+		return recordDAO.countRecord(userId);
+	}
+
+	public Object findRecordList(Criteria criteria, String userId) {
+		criteria.setKeyword(userId);
+		return recordDAO.selectAllRecord(criteria);
 	}
 
 }
