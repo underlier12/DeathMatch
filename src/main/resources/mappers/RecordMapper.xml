@@ -9,10 +9,11 @@
         values (#{gameId},#{gameType},#{userId},#{winLose},#{score});
     </insert>
     
-    <select id="selectBattleByUserId" resultType="RecordDTO">
+    <select id="selectAllRecord" resultType="RecordDTO">
     	select * from tbl_game
-    	where userId = #{userId}
-    	order by no
+    	where userId = #{keyword}
+    	order by no desc
+    	limit #{pageStart}, #{perPageNum}
     </select>
     
     <select id="selectOpponentByGameId" resultType="RecordDTO">
