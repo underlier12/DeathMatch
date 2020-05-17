@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.deathmatch.genius.domain.RecordDTO;
+import com.deathmatch.genius.util.Criteria;
 
 @Repository
 public class RecordDAOImpl implements RecordDAO {
@@ -23,8 +24,8 @@ public class RecordDAOImpl implements RecordDAO {
 	}
 
 	@Override
-	public List<RecordDTO> selectAllRecord(String userId) {
-		return sqlSession.selectList(namespace + ".selectBattleByUserId", userId);
+	public List<RecordDTO> selectAllRecord(Criteria criteria) {
+		return sqlSession.selectList(namespace + ".selectAllRecord", criteria);
 	}
 	
 	@Override
@@ -36,6 +37,11 @@ public class RecordDAOImpl implements RecordDAO {
 	@Override
 	public RecordDTO selectOpponentRecord(RecordDTO recordDTO) {
 		return sqlSession.selectOne(namespace + ".selectOpponentByGameId", recordDTO);
+	}
+
+	@Override
+	public int countRecord(String userId) {
+		return sqlSession.selectOne(namespace + ".countRecord", userId);
 	}
 
 }
