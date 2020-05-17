@@ -52,12 +52,14 @@
 				</div>
 			</form>
 
-			<div class="col-md-12">
-				<c:if test="${!empty login}">
-					<button type="submit" class="btn btn-default btn-block entireyBtn"
-						id="entireyBtn">전적</button>
-				</c:if>
-			</div>
+			<form action="/record" method="get">
+				<div class="col-md-12">
+					<c:if test="${!empty login}">
+						<button type="submit" class="btn btn-default btn-block entireyBtn"
+							id="entireyBtn">Record</button>
+					</c:if>
+				</div>			
+			</form>
 		</div>
 	</div>
 </body>

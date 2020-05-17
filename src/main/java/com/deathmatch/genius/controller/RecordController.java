@@ -19,18 +19,18 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/record")
 public class RecordController {
 
-		private final RecordService recordService;
+	private final RecordService recordService;
+	
+	@GetMapping
+	public String showHistory(Criteria criteria, Model model, HttpSession httpSession) {
+		UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
+		String userId = currentDTO.getUserId();
 		
-		@GetMapping
-		public String showHistory(Criteria criteria, Model model, HttpSession httpSession) {
-			UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
-			String userId = currentDTO.getUserId();
-			
-			PageDTO pageDTO = new PageDTO(criteria, recordService.countRecord(userId));
-			
-			model.addAttribute("record", recordService.findRecordList(criteria, userId));
-			model.addAttribute("pageMaker", pageDTO);
-			
-			return "record/record-history";
-		}
+		PageDTO pageDTO = new PageDTO(criteria, recordService.countRecord(userId));
+		
+		model.addAttribute("record", recordService.findRecordList(criteria, userId));
+		model.addAttribute("pageMaker", pageDTO);
+		
+		return "record/record-history";
+	}
 }
