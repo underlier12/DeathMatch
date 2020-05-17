@@ -20,4 +20,9 @@
     	where gameId = #{gameId} and not userId = #{userId}
     </select>
     
+    <select id="countRecord" resultType="int">
+    	select count(*) from tbl_game
+    	where userId = #{userId}
+    </select>
+    
 </mapper>
