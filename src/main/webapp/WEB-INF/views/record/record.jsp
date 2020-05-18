@@ -24,7 +24,6 @@
 				<table>
 					<thead>
 						<tr>
-							<td>No</td>
 							<td>Game Type</td>
 							<td>User Id</td>
 							<td>Opponent Id</td>
@@ -37,12 +36,11 @@
 					<tbody>
 						<c:forEach items="${record}" var="record">
 							<tr>
-								<%-- <td><c:out value="${record.no }"></c:out></td> --%>
 								<td><c:out value="${record.gameType }"></c:out></td>
 								<td><c:out value="${record.userId }"></c:out></td>
-								<%-- <td><c:out value="${record.opponentId }"></c:out></td> --%>
-								<td><c:out value="${record.score }"></c:out></td>
-								<%-- <td><c:out value="${record.opponentScore }"></c:out></td> --%>
+								<td><c:out value="${record.opponentId }"></c:out></td>
+								<td><c:out value="${record.userScore }"></c:out></td>
+								<td><c:out value="${record.opponentScore }"></c:out></td>
 								<td><c:out value="${record.winLose }"></c:out></td>
 							</tr>
 						</c:forEach>
