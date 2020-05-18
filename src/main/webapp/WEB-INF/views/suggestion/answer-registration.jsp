@@ -27,17 +27,17 @@
 					<input type ="hidden" name ="perPageNum" value ='<c:out value = "${cri.perPageNum }"/>'>
 					<table class="table table-bordered req" id="req">
 						<tr>
-							<td id="tdTitle">제목</td>
-							<td><input type="text" class="title" name="title"></td>
+							<td class="tdTitle">제목</td>
+							<td class="tdTitle"><input type="text" class="title" name="title"></td>
 						</tr>
 						<tr>
-							<td id="tdContent">내용</td>
-							<td><textarea class="content" name="content" cols="110"></textarea>
+							<td class="tdContent">내용</td>
+							<td class="tdContent"><textarea class="content" name="content" cols="110"></textarea>
 							</td>
 						</tr>
 						<tr>
-							<td id="tdSecret">비밀글</td>
-							<td><input type="radio" id="public" class="secret"
+							<td class="tdSecret">비밀글</td>
+							<td class="tdSecret"><input type="radio" id="public" class="secret"
 								name="pw" value="0" checked> <label for="public">공개글</label>&nbsp;
 								<input type="radio" id="secret" class="secret" name="pw"
 								value="1"> <label for="secret">비밀글</label></td>

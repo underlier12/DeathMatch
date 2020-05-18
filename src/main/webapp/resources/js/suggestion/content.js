@@ -125,14 +125,12 @@ $(function(){
 	  	  		  	
 	  	  		  	var regdate = dateFormat(this.regdate);
 	  	  		  	list += '<div class="reply_item">'
-	  	  		  		+ '<pre>'
-	  	  		  		+ '<input type="hidden" id="rno" value="' + this.rno + '" /><br>'
-	  	  		  		+ '<input type="hidden" id="userId" value="' + this.userId + '" /><br>' // 변경한부분 id="reply_id"
-	  	  		  		+ this.userId
+	  	  		  		+ '<pre class ="pre">'
+	  	  		  		+ '<input type="hidden" id="rno" value="' + this.rno + '" />'
+	  	  		  		+ '<input type="hidden" id="userId" value="' + this.userId + '" />' // 변경한부분 id="reply_id"
+	  	  		  		+ '<div id ="thisUserId">'+this.userId+'</div>'
 	  	  		  		+ '&nbsp;&nbsp;'
-	  	  		  		+ '<input type="text" id="content" value="' + this.content + '" />'
-	  	  		  		+ '&nbsp;&nbsp;'
-	  	  		  		+ regdate // 변경한 부분
+	  	  		  		+ '<textarea id="textContent">' + this.content + '</textarea>'
 	  	  		  		+ '&nbsp;&nbsp;' 
 	  	  		  		if(userId == this.userId){
 	  	  		  			list+=  '<button class="btn_delete" id="btn_delete type="button">삭제</button>'

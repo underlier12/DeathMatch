@@ -19,25 +19,25 @@
 				<hr id="hr">
 			</div>
 
-			<div class="col-md-10 col-md-offset-1 register">
+			<div class="col-md-10 col-md-offset-1" id ="contents">
 				<form id="registForm" method="post">
 					<input type="hidden" name="userId" value='<c:out value = "${login.userId }"/>'>
 					<table class="table table-bordered req" id="req">
 						<tr>
-							<td id="tdTitle">제목</td>
-							<td><input type="text" class="title" name="title"
+							<td class="tdTitle">제목</td>
+							<td class="tdTitle"><input type="text" class="title" name="title"
 								value="${Suggestion.title }" readonly="readonly"></td>
 						</tr>
 						<tr>
-							<td id="tdContent">내용</td>
-							<td><textarea class="content" name="content" cols="110"
+							<td class="tdContent">내용</td>
+							<td class="tdContent"><textarea class="content" name="content" cols="110"
 									readonly="readonly">
 								${Suggestion.content }
 								</textarea></td>
 						</tr>
 						<tr>
-							<td id="tdSecret">비밀글</td>
-							<td><input type="radio" id="public" class="secret"
+							<td id="tdSecret">비밀</td>
+							<td id="secretContent"><input type="radio" id="public" class="secret"
 								name="secret" value="0" checked> <label for="public">공개글</label>&nbsp;
 								<input type="radio" id="secret" class="secret" name="secret"
 								value="1"> <label for="secret">비밀글</label></td>
@@ -66,11 +66,11 @@
 	        	<c:if test="${login ne null }">
 	        		<!-- 등록 부분 -->
 					<tr>
-						<td>댓글 달기</td>
+						<td id ="replyTitle">댓글 달기</td>
 					</tr>
 					<tr>
-						<td>
-							<input type="text" id="reply_content" class="form-control" name="reply_content" autocomplete="off">
+						<td id ="replyContent">
+							<textarea id="reply_content" class="form-control" name="reply_content" autocomplete="off"></textarea>
 							<button type="button" id="writeReply" class="btn btn-default btn-sm reg_reply">댓글 등록</button>
 						</td>
 					</tr>

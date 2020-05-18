@@ -7,6 +7,10 @@ $(function(){
 		$(location).attr("href","/suggestion/registration");
 	});
 	
+	$("#playBtn").click(function(){
+		$(location).attr("href","/rooms");
+	});
+	
 	$(".listBtn").click(function(){
 		//$(location).attr("href","/suggestion/suggestionboard");
 		$(location).attr("href","/suggestion");
