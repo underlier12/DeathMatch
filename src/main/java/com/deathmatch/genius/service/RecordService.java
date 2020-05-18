@@ -1,6 +1,7 @@
 package com.deathmatch.genius.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.deathmatch.genius.dao.HistoryDTO;
 import com.deathmatch.genius.dao.RecordDAO;
 import com.deathmatch.genius.domain.GameRoom;
 import com.deathmatch.genius.domain.IndianGameRoom;
@@ -100,9 +102,25 @@ public class RecordService {
 		return recordDAO.countRecord(userId);
 	}
 
-	public Object findRecordList(Criteria criteria, String userId) {
+	public List<HistoryDTO> findRecordList(Criteria criteria, String userId) {
+		List<HistoryDTO> historyList = new ArrayList<>();
+		
 		criteria.setKeyword(userId);
-		return recordDAO.selectAllRecord(criteria);
+		List<RecordDTO> recordList = recordDAO.selectAllRecord(criteria);
+		
+		for(RecordDTO record : recordList) {
+			RecordDTO oppoRecord = recordDAO.selectOpponentRecord(record);
+			HistoryDTO history = new HistoryDTO();
+			
+			history.embedUserRecord(record);
+			history.embedOpponentRecord(oppoRecord);
+			
+			log.info(history);
+			
+			historyList.add(history);
+		}
+		
+		return historyList;
 	}
 
 }
