@@ -50,12 +50,30 @@
 						<c:forEach items="${list}" var="sugBoard">
 							<tr>
 								<td><c:out value="${sugBoard.bno }"></c:out></td>
-								<td><a href="<c:out value ="${sugBoard.bno}"/>"
-									class="title"> <c:out value="${sugBoard.title }"></c:out>
-								</a></td>
+								<td>
+									<a class="title" href="${sugBoard.bno }">
+									<c:forEach begin="1" end="${sugBoard.depth }" >
+										<c:if test="${sugBoard.depth > 0 }">
+											&nbsp;&nbsp;
+										</c:if>
+									</c:forEach>
+									<c:if test ="${sugBoard.depth >0 }">
+										<img src="/images/re.gif">
+									</c:if>
+									<c:if test ="${sugBoard.pw ne 1 }">
+										<c:out value="${sugBoard.title }"/>
+									</c:if>
+									<c:if test ="${sugBoard.pw eq 1 }">
+										비밀글 입니다.
+										<img class="secret_img" src="/images/secret.jpg">
+									</c:if>
+										
+									</a>
+								</td>
 								<td><c:out value="${sugBoard.userId }"></c:out></td>
 								<td><c:out value="${sugBoard.regdate }"></c:out></td>
 								<td><c:out value="${sugBoard.hit }"></c:out></td>
+								<td><c:out value="${sugBoard.pw }"></c:out></td>
 							</tr>
 						</c:forEach>
 					</tbody>

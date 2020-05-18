@@ -20,7 +20,7 @@ $(function(){
 	});
 	
 	$("#answerBtn").click(function(){
-		contentForm.attr("action","/suggestion/registration/answer");
+		contentForm.attr("action","/suggestion/answer-registration");
 		contentForm.submit();
 	})
 	

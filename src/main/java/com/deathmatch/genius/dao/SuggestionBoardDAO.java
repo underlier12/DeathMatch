@@ -32,6 +32,8 @@ public interface SuggestionBoardDAO {
 	
 	public List<SuggestionReplyDTO> getReplyList(int bno);
 	
+	public Integer getGroupNum();
+	
 	public void insertAnswer(SuggestionBoardDTO suggestionBoardDTO);
 	
 	public void increaseGroupStep(int ref, int step);

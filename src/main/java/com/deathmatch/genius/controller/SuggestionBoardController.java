@@ -53,12 +53,34 @@ public class SuggestionBoardController {
 		return "/suggestion/registration";
 	}
 	
+	@GetMapping("/answer-registration")
+	public String answerRegistGet(@ModelAttribute("cri") Criteria cri, @RequestParam("bno")
+			int bno,Model model) {
+		log.info("Write Answer Suggestion");
+		SuggestionBoardDTO parentBoard = sugService.read(bno);
+		log.info("Get Parent Board: " + parentBoard.toString());
+		model.addAttribute("Suggestion", parentBoard);
+		return "/suggestion/answer-registration";
+	}
+	
 	@PostMapping("/registration")
 	public String registPost(@ModelAttribute SuggestionBoardDTO suggestionBoardDTO,
 				RedirectAttributes rttr) {
-		log.info("regist Post " + suggestionBoardDTO.toString());
+		log.info("Register Suggestion " + suggestionBoardDTO.toString());
 		sugService.insert(suggestionBoardDTO);
 		rttr.addFlashAttribute("msg", "건의글이 등록 되었습니다");
+		return "redirect:/suggestion";
+	}
+	
+	@PostMapping("/answer-registration")
+	public String answerRegistPost(@ModelAttribute SuggestionBoardDTO suggestionBoardDTO
+			, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr ) {
+		log.info("regist Answer Post " + suggestionBoardDTO.toString());
+		sugService.registerAnswer(suggestionBoardDTO);
+		
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		
 		return "redirect:/suggestion";
 	}
 	

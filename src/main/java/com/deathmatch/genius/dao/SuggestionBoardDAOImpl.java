@@ -88,8 +88,14 @@ public class SuggestionBoardDAOImpl implements SuggestionBoardDAO {
 	}
 
 	@Override
+	public Integer getGroupNum() {
+		return sqlSession.selectOne(namespace + ".selectMaxBno");
+	}
+
+	@Override
 	public void insertAnswer(SuggestionBoardDTO suggestionBoardDTO) {
 		sqlSession.insert(namespace + ".insertAnswer",suggestionBoardDTO);
+		log.info("DAO insertAnswer");
 	}
 
 	@Override
@@ -98,6 +104,7 @@ public class SuggestionBoardDAOImpl implements SuggestionBoardDAO {
 		map.put("ref", ref);
 		map.put("step",step);
 		sqlSession.update(namespace + ".increaseGroup",map);
+		log.info("DAO increaseGroupStep ");
 	}
 
 }
