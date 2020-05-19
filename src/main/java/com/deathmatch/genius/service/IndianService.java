@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
-
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
@@ -207,7 +206,6 @@ public class IndianService {
 	}
 
 	public void drawNextRound(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
-
 		sendMessageAll(indianRoom.getSessions(), dealService.drawNextRound(indianRoom, indianGameDTO));
 	}
 
@@ -216,6 +214,7 @@ public class IndianService {
 	}
 
 	public void endGame(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
+		//resetGame(indianRoom);
 		sendMessageAll(indianRoom.getSessions(), dealService.endGame(indianRoom));
 	}
 
@@ -265,7 +264,7 @@ public class IndianService {
 		if (isPlaying(indianRoom) && !isGuest(player)) {
 			sendMessageAll(indianRoom.getSessions(), quitPlayer(player, indianRoom));
 			sendMessageAll(indianRoom.getSessions(), dealService.stopGame(indianRoom));
-			resetGame(indianRoom);
+			dealService.resetGame(indianRoom);
 		} else if (!isGuest(player)) {
 			sendMessageAll(indianRoom.getSessions(), quitPlayer(player, indianRoom));
 		}
@@ -297,17 +296,7 @@ public class IndianService {
 	public Boolean isEmptyRoom(IndianGameRoom indianRoom) {
 		return indianRoom.getSessions().size() == 0;
 	}
-	
-	public void resetGame(IndianGameRoom indianRoom) {
-		List<IndianPlayerDTO> players = indianRoom.getPlayers();
 		
-		for(IndianPlayerDTO player : players) {
-			player.setReady(false);
-			player.setChip(30);
-			player.setBetChip(0);
-		}
-	}
-	
 	/* Act SendMessage */
 
 	public <T> void sendMessageAll(Set<WebSocketSession> sessions, T message) {

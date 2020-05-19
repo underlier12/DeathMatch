@@ -147,11 +147,13 @@ $(function(){
 	
 	function stopGame(content){
 		infoArea.eq(0).prepend(content.message + "\n");
+		infoArea.eq(0).prepend(content.winner + "\n");
 		readyBtn.show();
-		resetChip();
+		resetGame();
+		closeCard();
 	}
 	
-	function resetChip(){
+	function resetGame(){
 		chipScore1.text("X"+0);
 		chipScore2.text("X"+0);
 		betchip1Score.text("X"+0);
@@ -180,9 +182,6 @@ $(function(){
 		}else if(!playerId2.val()){
 			playerId2.val(content.player);
 		}
-		/*
-		 * chip1.hide(); chip2.hide();
-		 */
 	}
 	
 	function infoCard(content){
@@ -214,6 +213,9 @@ $(function(){
 		infoArea.eq(0).prepend(content.message + "\n");
 		infoArea.eq(0).prepend(content.winner + "\n");
 		endGameChipText(content);
+		readyBtn.show();
+		resetGame();
+		closeCard();
 	}
 	
 	// 처음 게임 시작 disableBtn
@@ -276,6 +278,7 @@ $(function(){
 	}
 	
 	function nextRound(content){
+		closeCard();
 		var message = content.message;
 		var turnPlayer = message.substring(0,message.indexOf("님"));
 		console.log(content.player);
@@ -289,6 +292,8 @@ $(function(){
 			enableAll();
 		}
 	}
+	
+	
 	
 	function nextDrawRound(content){
 		var message = content.message;
@@ -315,8 +320,6 @@ $(function(){
 		startTimer();
 		timer.show();
 	}
-	
-	// betting Chip javascript
 	
 	var chipCount =1;
 	var checkMaxChip = 0;
@@ -404,7 +407,6 @@ $(function(){
 	
 	function maxChipValidation(){
 		alert("칩을 " + checkMaxChip +" 초과해서 걸 수 없습니다");
-		// player1Chip = player1Chip-chipCount-1;
 		chipCount--;
 	}
 	
@@ -533,19 +535,19 @@ $(function(){
 		chipScore2.text("X"+player2Chip);
 	}
 	
+	/*function turnCardSelect(content){
+		if(content.turnPlayer == member){
+			cardSelect2(content);
+		}el
+	}*/
+	
 	function cardSelect(content){
 		if(content.player == member){
+			console.log("content.player == member");
 			cardSelect2(content);
 		}else{
+			console.log("content.player != member");
 			cardSelect1(content);
-		}
-	}
-	
-	function openCard(content){
-		if(currentPlayer == member){
-			cardSelect1(content);
-		}else{
-			cardSelect2(content);
 		}
 	}
 	
@@ -560,6 +562,19 @@ $(function(){
 		card2 = content.card2;
 		cardImg2.attr("src",defaultCardPath+"card"+card2+defaultPng);
 	}
+	
+	function openCard(content){
+		if(currentPlayer == member){
+			cardSelect1(content);
+		}else{
+			cardSelect2(content);
+		}
+	}
+	
+ 	function closeCard(){
+		cardImg1.attr("src",defaultCardPath+"card"+defaultPng);
+		cardImg2.attr("src",defaultCardPath+"card"+defaultPng);
+ 	}
 	
 	function giveUpRound(content){
 		infoArea.eq(0).prepend(content.chipMessage + "\n");
@@ -691,7 +706,7 @@ $(function(){
    	// timer 종료후 서버로 요청 -> draw는 따로 또 구현해야함
    	function endRound(){
    		console.log(" endRound " );
-   		roundSetting();
+   		//closeCard();
    		if(currentPlayer == member){
    			console.log("....");
    			var roundData = {type : "ROUND", sender:member, roomId:roomId,
@@ -706,7 +721,7 @@ $(function(){
    		player1BetChip = parseInt(betchip1Score.text().substr(1));
 		player2BetChip = parseInt(betchip2Score.text().substr(1));
 		console.log("Draw p2chip " + player2BetChip);
-		roundSetting();
+		//closeCard();
    		if(currentPlayer == member){
    			console.log("....");
    			var roundData = {type : "NEXTDRAW", sender:member, roomId:roomId,
@@ -715,13 +730,6 @@ $(function(){
 			sock.send(JSON.stringify(roundData));
    		}
    	}
-   	
-   	function roundSetting(){
-		console.log("Next Round");
-		cardImg1.attr("src",defaultCardPath+"card"+defaultPng);
-		cardImg2.attr("src",defaultCardPath+"card"+defaultPng);
-	}
-   	
 	function betChipMinLimit(){
 		console.log("betChip current Player:" + currentPlayer);
 		if(currentPlayer == member){
