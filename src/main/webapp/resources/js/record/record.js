@@ -11,4 +11,12 @@ $(function(){
 		actionForm.submit();
 	});
 	
+	$('.battleInfo').addClass(function(){
+		return $(this).find('.wl').html() == "WIN" ? "label-win" : "label-lose";
+	});
+	
+	$('#btnBack').click(function(){
+    	location.href='../rooms';
+    });
+	
 })
