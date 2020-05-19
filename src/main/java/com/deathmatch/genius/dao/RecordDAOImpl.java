@@ -6,12 +6,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.deathmatch.genius.domain.RecordDTO;
+import com.deathmatch.genius.util.Criteria;
 
 @Repository
 public class RecordDAOImpl implements RecordDAO {
 	
-	private String namespace = "com.deathmatch.genius.mapper.RecordMapper";
-	private SqlSession sqlSession;
+	private final String namespace = "com.deathmatch.genius.mapper.RecordMapper";
+	private final SqlSession sqlSession;
 	
 	public RecordDAOImpl(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
@@ -23,21 +24,24 @@ public class RecordDAOImpl implements RecordDAO {
 	}
 
 	@Override
-	public List<RecordDTO> selectAllRecord() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<RecordDTO> selectAllRecord(Criteria criteria) {
+		return sqlSession.selectList(namespace + ".selectAllRecord", criteria);
 	}
-
+	
 	@Override
-	public List<RecordDTO> selectRecordByGameId(String gameType) {
+	public List<RecordDTO> selectRecordByGameType(String gameType) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public RecordDTO selectOpponentRecord(RecordDTO recordDTO) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne(namespace + ".selectOpponentByGameId", recordDTO);
+	}
+
+	@Override
+	public int countRecord(String userId) {
+		return sqlSession.selectOne(namespace + ".countRecord", userId);
 	}
 
 }
