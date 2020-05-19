@@ -12,7 +12,8 @@
 <script>
 </script>
 <body>
-
+	<input type ="hidden" id ="currentUser" value ="${login.userId }">
+	<input type ="hidden" id ="auth" value ="${login.auth }">
 
 	<div id="suggestionHome">
 
@@ -24,14 +25,13 @@
 			<div class="button-flex">
 				<div>
 					<p id="suggestTitle">건의 게시판</p>
-					<input type ="hidden" id ="currentUser" value ="${login.userId }">
-						<input type ="hidden" id ="auth" value ="${login.auth }">
 				</div>
 				<div id="btnDiv">
 					<button type="button" class="btn btn-default btn-sm" id="playBtn">게임하기</button>
 					<button type="button" class="btn btn-default btn-sm" id="noticeBtn">공지</button>
 				</div>
 			</div>
+			
 			<div class="suggest_body">
 				<table class="table" id="suggest_body">
 					<colgroup>

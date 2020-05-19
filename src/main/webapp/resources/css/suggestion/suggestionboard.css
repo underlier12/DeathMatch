@@ -107,6 +107,7 @@
 	color: #E4F7BA;
 	margin-top:30px;
 	font-size: 30px;
+	margin-right:300px;
 }
 
 #aTitle{
@@ -114,7 +115,7 @@
 }
 
 .button-flex{
-	width : 800px;
+	width : 1200px;
 	display:flex;
 }
 
@@ -142,7 +143,7 @@
 }
 
 #btnDiv{
-	justify-content :flex-end;
+	margin-left:auto;
 }
 
 .secret_img{
