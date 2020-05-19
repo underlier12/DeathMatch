@@ -24,6 +24,8 @@
 			<div class="button-flex">
 				<div>
 					<p id="suggestTitle">건의 게시판</p>
+					<input type ="hidden" id ="currentUser" value ="${login.userId }">
+						<input type ="hidden" id ="auth" value ="${login.auth }">
 				</div>
 				<div id="btnDiv">
 					<button type="button" class="btn btn-default btn-sm" id="playBtn">게임하기</button>
@@ -53,13 +55,12 @@
 						<c:forEach items="${list}" var="sugBoard">
 							<tr>
 								<td><c:out value="${sugBoard.bno }"></c:out></td>
-								<td><a id="aTitle" class="title" href="${sugBoard.bno }">
+								<td><a id="aTitle" class="title" href="${sugBoard.pw }">
 										<c:forEach begin="1" end="${sugBoard.depth }">
 											<c:if test="${sugBoard.depth > 0 }">
 											&nbsp;&nbsp;
 										</c:if>
 										</c:forEach> <c:if test="${sugBoard.depth >0 }">
-											<!-- <img src="/images/re.gif"> -->
 										[RE]
 										</c:if> <c:if test="${sugBoard.pw ne 1 }">
 											<c:out value="${sugBoard.title }" />
@@ -68,7 +69,8 @@
 											비밀글 입니다.
 											<img class="secret_img" src="/images/secret.jpg">
 										</c:if>
-
+										<input type="hidden" name="userId" value ="${sugBoard.userId }">
+										<input type="hidden" name="bno" value ="${sugBoard.bno }">
 								</a></td>
 								<td><c:out value="${sugBoard.userId }"></c:out></td>
 								<td><c:out value="${sugBoard.regdate }"></c:out></td>
