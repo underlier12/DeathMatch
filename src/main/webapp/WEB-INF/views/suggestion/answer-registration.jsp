@@ -20,8 +20,11 @@
 			</div>
 
 			<div class="col-md-10 col-md-offset-1 register">
-				<form id="registForm" action ="/suggestion/registration" method="post">
+				<form id="registForm" action ="/suggestion/answer-registration" method="post">
 					<input type ="hidden" name ="userId" value ='<c:out value = "${login.userId }"/>'>
+					<input type ="hidden" name ="bno" value ='<c:out value = "${Suggestion.bno }"/>'>
+					<input type ="hidden" name ="page" value ='<c:out value = "${cri.page }"/>'>
+					<input type ="hidden" name ="perPageNum" value ='<c:out value = "${cri.perPageNum }"/>'>
 					<table class="table table-bordered req" id="req">
 						<tr>
 							<td class="tdTitle">제목</td>
@@ -53,5 +56,5 @@
 	</div>
 	<%@ include file="../includes/footer.jsp"%>
 </body>
-<script src="/js/suggestion/registration.js"></script>
+<script src="/js/suggestion/answer-registration.js"></script>
 </html>

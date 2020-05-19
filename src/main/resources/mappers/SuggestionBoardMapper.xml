@@ -9,6 +9,15 @@
 		values(#{userId},#{title},#{content},#{ref},#{pw})
 	</insert>
 	
+	<insert id ="insertAnswer">
+		insert into tbl_suggestion_board(userId,title,content,ref,depth,step,pw)
+		values(#{userId},#{title},#{content},#{ref},#{depth},#{step},#{pw})
+	</insert>
+	
+	<select id="selectMaxBno" resultType ="Integer">
+		select max(bno) as max from tbl_suggestion_board
+	</select>
+	
 	<delete id ="delete">
 		delete from tbl_suggestion_board
 		where bno = #{bno}
@@ -27,7 +36,7 @@
 	
 	<select id ="read" resultType ="SuggestionBoardDTO">
 		select
-			bno,userId,title,content,regdate,hit,depth,step,pno,pw
+			bno,userId,title,content,regdate,hit,depth,step,ref,pw
 		from 
 			tbl_suggestion_board
 		where
@@ -46,7 +55,7 @@
 	<select id ="getListWithPaging" resultType ="SuggestionBoardDTO">
 		<![CDATA[
 		select
-			bno,userId,title,content,regdate,hit
+			bno,userId,title,content,regdate,hit,pw,ref,depth,step
 		from
 			tbl_suggestion_board
 		where 
@@ -54,10 +63,12 @@
 		]]>
 			<include refid="search"/>
 		<![CDATA[
-		order by bno desc, regdate desc
+		order by ref desc,step asc
 		limit #{pageStart}, #{perPageNum}
 		]]>
 	</select>
+	
+	
 	
 	<select id="countList" resultType ="int">
 		select 
@@ -92,25 +103,32 @@
 		</if>
 	</sql>
 	
-	<sql id="criteria">	
-		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
-			<foreach item="type" collection="typeArr">
-				<trim prefix="OR">
-					<choose>
-						<when test="type == 'T'.toString()">
-							title LIKE CONCAT('%',#{keyword},'%')
-						</when>
-						<when test="type == 'C'.toString()">
-							content LIKE CONCAT('%',#{keyword},'%')
-							<!-- content like '%' || #{keyword} || '%'  -->
-						</when>
-						<when test="type == 'W'.toString()">
-							userId LIKE CONCAT('%',#{keyword},'%')
-						</when>
-					</choose>
-				</trim>
-			</foreach>
-		</trim>
-	</sql>
+	<insert id ="insertReply">
+		insert into tbl_suggestion_reply_board(bno,userId,content)
+		values(#{bno},#{userId},#{content})
+	</insert>
+	
+	<delete id ="deleteReply">
+		delete from tbl_suggestion_reply_board
+		where rno = #{rno}
+	</delete>
+	
+	<select id ="getReplyList" resultType ="SuggestionReplyDTO">
+		select rno,bno,userId,content,regdate
+		from tbl_suggestion_reply_board
+		where bno = #{bno}
+		order by rno desc
+	</select>
+	
+	<delete id ="deleteAllReply">
+		delete from tbl_suggestion_reply_board
+		where bno = #{bno}
+	</delete>
+	
+	<update id ="increaseGroup" parameterType ="map">
+		update tbl_suggestion_board
+		set step = step+1
+		where ref = #{ref} and step > #{step}
+	</update>
 	
 </mapper>

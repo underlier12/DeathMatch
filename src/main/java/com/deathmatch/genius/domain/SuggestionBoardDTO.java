@@ -22,12 +22,11 @@ public class SuggestionBoardDTO {
 	private Integer ref; // 그룹 번호
 	private int step; // 순서
 	private int depth; // 단계
-	private int pno; // 부모 번호
 	private int pw; // 비밀 번호
 	
 	@Builder
 	public SuggestionBoardDTO(int bno,String userId,String title,String content,LocalDate regdate,
-			int hit,Integer ref,int step,int depth,int pno, int pw){
+			int hit,Integer ref,int step,int depth,int pw){
 		this.bno = bno;
 		this.userId = userId;
 		this.title = title;
@@ -37,7 +36,6 @@ public class SuggestionBoardDTO {
 		this.ref = ref;
 		this.step = step;
 		this.depth = depth;
-		this.pno = pno;
 		this.pw = pw;
 	}
 }

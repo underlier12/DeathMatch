@@ -6,13 +6,15 @@
     width: 800px;
     height: 30px;
     font-size: 15px;
-    background-color: #502228;
+    color: #E4F7BA; 
+    background-color: #6D211C;
     border: 2px solid #3F1816;
 }
 
 .content{
 	font-size: 15px;
-    background-color: #502228;
+    background-color: #6D211C;
+    color: #E4F7BA; 
     height: 500px;
     border: 2px solid #3F1816;
 }
@@ -53,6 +55,7 @@
 }
 
 .secret{
+	font-size :25px;
 	border: 2px solid #000000;
 	background-color: #3F1816;
 }
@@ -88,20 +91,95 @@
 	border: 2px solid #3F1816;
 }
 
-#tdTitle{
+.tdTitle{
 	font-size: 25px;
 	width:100px;
+	background-color: #3F1816;
 }
 
-#tdContent{
+.tdContent{
 	font-size: 25px;
 	width:200px;
+	background-color: #3F1816;
 }
 
 #tdSecret{
 	font-size: 25px;
+	background-color: #3F1816;
 }
 
 #trTitle{
 	border: 2px solid #3F1816
 }
+
+#writeReply{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:80px;
+	font-size:20px;
+	margin-top:5px;
+	height:50px;
+	float :right;
+}
+
+.btn_delete{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:60px;
+	font-size: 20px;
+	height:40px;
+}
+
+
+.pre{
+	background-color: #3F1816;
+}
+.reg_reply_tbl{
+	background-color: #6D211C;
+}
+
+/* reply Content */
+
+#replyTitle{
+	background-color: #3F1816;
+	font-size:20px;
+}
+
+#replyContent{
+	background-color: #3F1816;
+	
+}
+
+.reply_area{
+	margin-top:15px;
+}
+
+#reply_content{
+	width:900px;
+	height:80px;
+	background-color: #6D211C;
+	color: #E4F7BA;
+}
+
+#textContent{
+	background-color: #6D211C;
+	color: #E4F7BA;
+	font-size:20px;
+	width:725px;
+	height:50px;
+}
+
+#thisUserId{
+	color: #E4F7BA;
+	font-size:30px;
+	display: inline-block;
+}
+
+#secretContent{
+	background-color: #3F1816; 
+}
+
+
+

@@ -1,5 +1,22 @@
+#suggestionHome{
+	width : 2000px;
+	height: 1000px;
+	display:flex;
+}
+
+#sidebar{
+	margin-left:30px;
+}
+
+
 #suggest_body{
+	margin-top:30px;
+	width:1200px;
 	color: #ECA50E;
+	background-color: #3F1816;
+	font-size:20px;
+	border: 2px solid #000000;
+	justify-content:center;
 }
 
 #writeBtn{
@@ -13,7 +30,14 @@
 	margin-top:10px;
 }
 
+#title{
+	justify-content : center;
+	font-size: 20px;
+	color: #ECA50E;
+}
+
 #pageDiv{
+	margin-top:50px;
 	margin-left:170px;
 	justify-content : center;
 }
@@ -36,7 +60,7 @@
 	border: 2px solid #000000;
 }
 
-.search_btn{
+#searchBtn{
 	width:50px;
 	height:35px;
 	margin-left:5px;
@@ -55,7 +79,7 @@
 	border: 2px solid #000000;
 }
 
-.search_keyword{
+#searchKeyWord{
 	color: #E4F7BA;
 	width:250px;
 	background-color: #3F1816;
@@ -66,7 +90,7 @@
 	justify-content : center;
 }
 
-.search_type{
+#searchType{
 	color: #E4F7BA;
 	margin-right:5px;
 	width:80px;
@@ -77,6 +101,53 @@
 #search_div{
 	display:flex;
 	justify-content : center;
+}
+
+#suggestTitle{
+	color: #E4F7BA;
+	margin-top:30px;
+	font-size: 30px;
+	margin-right:300px;
+}
+
+#aTitle{
+	color: #E4F7BA;
+}
+
+.button-flex{
+	width : 1200px;
+	display:flex;
+}
+
+#playBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:120px;
+	font-size: 25px;
+	height:50px;
+	margin-bottom:10px;
+	margin-top:25px;
+}
+
+#noticeBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:100px;
+	font-size: 25px;
+	height:50px;
+	margin-right:10px;
+	margin-bottom:10px;
+	margin-top:25px;
+}
+
+#btnDiv{
+	margin-left:auto;
+}
+
+.secret_img{
+	width:25px;
 }
 
 

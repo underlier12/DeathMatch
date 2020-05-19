@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
+import com.deathmatch.genius.domain.SuggestionReplyDTO;
 import com.deathmatch.genius.util.Criteria;
 
 import lombok.extern.log4j.Log4j;
@@ -26,6 +27,7 @@ public class SuggestionBoardTest {
 		Criteria cri = new Criteria();
 		cri.setPage(2);
 		cri.setPerPageNum(10);
+		log.info("TestList");
 		
 		List<SuggestionBoardDTO> pageList = dao.getListWithPaging(cri);
 		
@@ -39,10 +41,16 @@ public class SuggestionBoardTest {
 		Criteria cri = new Criteria();
 		cri.setKeyword("p1234"); 
 		cri.setType("W");
-		//cri.setPerPageNum(5);
 		
 		List<SuggestionBoardDTO> list = dao.getListWithPaging(cri);
 		list.forEach(SuggestionBoardDTO -> log.info(SuggestionBoardDTO));
 		
+	}
+	
+	@Test
+	public void testReply() {
+		log.info("TestReply");
+		List<SuggestionReplyDTO> list = dao.getReplyList(275);
+		list.forEach(SuggestionReplyDTO -> log.info(SuggestionReplyDTO));
 	}
 }

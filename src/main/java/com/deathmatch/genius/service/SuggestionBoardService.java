@@ -2,6 +2,7 @@ package com.deathmatch.genius.service;
 
 import java.util.List;
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
+import com.deathmatch.genius.domain.SuggestionReplyDTO;
 import com.deathmatch.genius.util.Criteria;
 
 public interface SuggestionBoardService {
@@ -21,5 +22,13 @@ public interface SuggestionBoardService {
 	public List<SuggestionBoardDTO> list();
 	
 	public List<SuggestionBoardDTO> getListWithPaging(Criteria cri);
+	
+	public void insertReply(SuggestionReplyDTO suggestionReplyDTO);
+	
+	public void deleteReply(int rno);
+	
+	public List<SuggestionReplyDTO> getReplyList(int bno);
+	
+	public void registerAnswer(SuggestionBoardDTO suggestionBoardDTO);
 
 }
