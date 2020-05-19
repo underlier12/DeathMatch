@@ -151,8 +151,15 @@ public class IndianService {
 	public void register(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		StatusType status = decideStatus(indianRoom);
 
-		IndianPlayerDTO player = IndianPlayerDTO.builder().userId(indianGameDTO.getSender())
-				.roomId(indianRoom.getRoomId()).ready(false).turn(false).status(status).chip(30).betChip(0).build();
+		IndianPlayerDTO player = IndianPlayerDTO.builder()
+				.userId(indianGameDTO.getSender())
+				.roomId(indianRoom.getRoomId())
+				.ready(false)
+				.turn(false)
+				.status(status)
+				.chip(30)
+				.betChip(0)
+				.build();
 		log.info("register User: " + player.toString());
 
 		Map<String, Object> map = session.getAttributes();
@@ -258,6 +265,7 @@ public class IndianService {
 		if (isPlaying(indianRoom) && !isGuest(player)) {
 			sendMessageAll(indianRoom.getSessions(), quitPlayer(player, indianRoom));
 			sendMessageAll(indianRoom.getSessions(), dealService.stopGame(indianRoom));
+			resetGame(indianRoom);
 		} else if (!isGuest(player)) {
 			sendMessageAll(indianRoom.getSessions(), quitPlayer(player, indianRoom));
 		}
@@ -288,6 +296,16 @@ public class IndianService {
 
 	public Boolean isEmptyRoom(IndianGameRoom indianRoom) {
 		return indianRoom.getSessions().size() == 0;
+	}
+	
+	public void resetGame(IndianGameRoom indianRoom) {
+		List<IndianPlayerDTO> players = indianRoom.getPlayers();
+		
+		for(IndianPlayerDTO player : players) {
+			player.setReady(false);
+			player.setChip(30);
+			player.setBetChip(0);
+		}
 	}
 	
 	/* Act SendMessage */

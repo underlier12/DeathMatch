@@ -17,9 +17,7 @@
 
 	<div id="suggestionHome">
 
-		<div id="sidebar">
-			<%@ include file="../main/sidebar.jsp"%>
-		</div>
+		<%@ include file="../main/sidebar.jsp"%>
 
 		<div>
 			<div class="button-flex">

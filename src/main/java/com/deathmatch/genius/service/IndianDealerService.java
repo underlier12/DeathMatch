@@ -464,8 +464,9 @@ public class IndianDealerService {
 		jsonMap.put("message", "플레이어가 나가 인디언 게임이 종료 되었습니다");
 		log.info("jsonMap " + jsonMap);
 		IndianDealerDTO indianDealerDTO = processing(jsonMap);
+		
 		indianRoom.setPlaying(false);
-
+		
 		return indianDealerDTO;
 	}
 

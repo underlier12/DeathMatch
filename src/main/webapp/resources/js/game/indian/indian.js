@@ -49,7 +49,6 @@ $(function(){
 	var upBtn = $("#chipUpBtn");
 	var downBtn = $("#chipDownBtn");
 	var allInBtn = $("#chipAllInBtn");
-	//var count = chipBetting.val();
 	
 	var player1BetChip;
 	var player2BetChip;
@@ -130,6 +129,8 @@ $(function(){
 			case "LEAVE"
 				: leavePlayer(content);
 				break;
+			case "STOP"
+				:stopGame(content);
 			default:
 				console.log("Default!!");
 		}
@@ -142,6 +143,19 @@ $(function(){
 			playerId2.val('');
 		}
 		infoArea.eq(0).prepend(content.message + "\n");
+	}
+	
+	function stopGame(content){
+		infoArea.eq(0).prepend(content.message + "\n");
+		readyBtn.show();
+		resetChip();
+	}
+	
+	function resetChip(){
+		chipScore1.text("X"+0);
+		chipScore2.text("X"+0);
+		betchip1Score.text("X"+0);
+		betchip2Score.text("X"+0);
 	}
 	
 	$("#leave").click(function(){
@@ -200,7 +214,6 @@ $(function(){
 		infoArea.eq(0).prepend(content.message + "\n");
 		infoArea.eq(0).prepend(content.winner + "\n");
 		endGameChipText(content);
-		disableAll();
 	}
 	
 	// 처음 게임 시작 disableBtn

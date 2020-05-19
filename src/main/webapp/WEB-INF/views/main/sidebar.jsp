@@ -39,14 +39,14 @@
 		<div class="row mypage">
 			<form action="/auth/user/mypage" method="get">
 				<div class="col-md-12">
-					<button class="btn btn-default btn-block infoBtn">MyPage</button>
+					<button class="btn btn-default btn-block sideBtn">MyPage</button>
 				</div>
 			</form>
 
 			<form action="/auth/user/logout" method="get">
 				<div class="col-md-12">
 					<c:if test="${!empty login}">
-						<button type="submit" class="btn btn-default btn-block logoutBtn"
+						<button type="submit" class="btn btn-default btn-block sideBtn"
 							id="logout">LogOut</button>
 					</c:if>
 				</div>
@@ -55,8 +55,8 @@
 			<form action="/record" method="get">
 				<div class="col-md-12">
 					<c:if test="${!empty login}">
-						<button type="submit" class="btn btn-default btn-block entireyBtn"
-							id="entireyBtn">Record</button>
+						<button type="submit" class="btn btn-default btn-block sideBtn"
+							>Record</button>
 					</c:if>
 				</div>			
 			</form>

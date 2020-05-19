@@ -5,6 +5,10 @@
 /* 진한 갈색 배경 : background-color: #3F1816; */
 
 
+#sidebar{
+	margin-left:30px;
+}
+
 .title{
 	color : #ECA50E;
 }
@@ -17,27 +21,11 @@
 	color : #E4F7BA;
 }
 
-.logoutBtn{
-	color : #E4F7BA;
-	width :260px;
-	height : 60px;
-	margin-top :15px;
-	background-color : #6D211C
-}
-
-.infoBtn{
+.sideBtn{
 	width: 260px;
 	height :60px;
-	margin-top : 40px;
+	margin-top : 20px;
 	color : #E4F7BA;
 	background-color : #6D211C
 	
-}
-
-#entireyBtn{
-	color : #E4F7BA;
-	width :260px;
-	height : 60px;
-	margin-top :15px;
-	background-color : #6D211C
 }
