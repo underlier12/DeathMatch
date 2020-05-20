@@ -77,7 +77,7 @@ public class IndianDealerService {
 			cardIndex = 0;
 		}
 		cardArr[0] = cardDeck.get(cardIndex++).getCardNum();
-		// cardArr[0] = "10";
+		//cardArr[0] = "10";
 		// cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
 		cardArr[1] = "10";
 		log.info("CardIndex " + cardIndex);
@@ -101,9 +101,9 @@ public class IndianDealerService {
 		Map<String, Object> jsonMap = processingMap(MessageType.NEXT, indianRoom.getRoomId());
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
 
-		if (players.get(0).getChip() == 0 && players.get(1).getChip() != 0) {
+		if (players.get(0).getChip() <= 0 && players.get(1).getChip() != 0) {
 			return endGame(indianRoom);
-		} else if (players.get(0).getChip() != 0 && players.get(1).getChip() == 0) {
+		} else if (players.get(0).getChip() != 0 && players.get(1).getChip() <= 0) {
 			return endGame(indianRoom);
 		}
 

@@ -278,6 +278,7 @@ $(function(){
 	}
 	
 	function nextRound(content){
+		//drawCheck = 0;
 		closeCard();
 		var message = content.message;
 		var turnPlayer = message.substring(0,message.indexOf("님"));
@@ -294,11 +295,13 @@ $(function(){
 	}
 	
 	
-	
 	function nextDrawRound(content){
+		drawCheck = 0;
+		closeCard();
 		var message = content.message;
 		var turnPlayer = message.substring(0,message.indexOf("님"));
 		console.log(content.player);
+		console.log("NextDrAWrOUND");
 		console.log("TurnPlayer " + turnPlayer);
 		infoArea.eq(0).prepend(message + "\n");
 		drawMaxChip(content);
@@ -307,6 +310,22 @@ $(function(){
 			disableAll();
 		}else if(turnPlayer == member){
 			enableAll();
+		}
+	}
+	
+	function drawMaxChip(content){
+		p1MaxChipCheck = content.player1Chip;
+		p2MaxChipCheck = content.player2Chip;
+		player1Chip = content.player1Chip;
+		player2Chip = content.player2Chip;
+		currentPlayer = content.player;
+		drawShowChipText(content);
+		chipCount = chipBetting.val();
+		console.log("default chipCount: " + chipCount);
+		if(content.player == member){
+			checkMaxChip = player1Chip;
+		}else{
+			checkMaxChip = player2Chip;
 		}
 	}
 	
@@ -338,22 +357,6 @@ $(function(){
 		player2Chip = content.player2Chip-1;
 		currentPlayer = content.player;
 		showChipText(content);
-		chipCount = chipBetting.val();
-		console.log("default chipCount: " + chipCount);
-		if(content.player == member){
-			checkMaxChip = player1Chip;
-		}else{
-			checkMaxChip = player2Chip;
-		}
-	}
-	
-	function drawMaxChip(content){
-		p1MaxChipCheck = content.player1Chip;
-		p2MaxChipCheck = content.player2Chip;
-		player1Chip = content.player1Chip;
-		player2Chip = content.player2Chip;
-		currentPlayer = content.player;
-		drawShowChipText(content);
 		chipCount = chipBetting.val();
 		console.log("default chipCount: " + chipCount);
 		if(content.player == member){
@@ -682,11 +685,11 @@ $(function(){
         timePassed = timePassed += 1;
         timeLeft = timeLimit - timePassed;
     	document.getElementById("base-timer-label").innerHTML = formatTimeLeft(timeLeft);	
-    	if(timeLeft == 0){
+    	if(timeLeft == 0 && drawCheck == 0){
     		onTimesUp();
-    	}
-    	if(timeLeft == 0 && drawCheck>0)
+    	}else if(timeLeft == 0 && drawCheck>0){
     		onDrawTimesUP();
+    	}
     	}, 1000);
     }
     
@@ -706,7 +709,6 @@ $(function(){
    	// timer 종료후 서버로 요청 -> draw는 따로 또 구현해야함
    	function endRound(){
    		console.log(" endRound " );
-   		//closeCard();
    		if(currentPlayer == member){
    			console.log("....");
    			var roundData = {type : "ROUND", sender:member, roomId:roomId,
@@ -721,7 +723,6 @@ $(function(){
    		player1BetChip = parseInt(betchip1Score.text().substr(1));
 		player2BetChip = parseInt(betchip2Score.text().substr(1));
 		console.log("Draw p2chip " + player2BetChip);
-		//closeCard();
    		if(currentPlayer == member){
    			console.log("....");
    			var roundData = {type : "NEXTDRAW", sender:member, roomId:roomId,
