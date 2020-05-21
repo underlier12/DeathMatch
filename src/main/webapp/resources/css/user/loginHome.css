@@ -13,11 +13,13 @@ body{
 	display:flex;
 	width: 1600px;
 	height: 800px;
+	justify-content:center;
 	background-color: #502228;
 }
 #loginFrame{
+	
 	justify-content:center;
-	margin-left:240px;
+	
 }
 
 #title{
@@ -30,6 +32,14 @@ body{
 	text-align:center;
 	margin-top:50px;
 	background-color: #502228;
+}
+
+#loginProc{
+	text-align:center;
+}
+
+.loginDiv{
+	margin-left:80px;
 }
 
 #email{

@@ -58,7 +58,7 @@ $(function(){
 		$('#tutoModal').modal();
 		document.getElementById("clip").play(); 
 	});
-	
+
 	$('.radioBtn').change(function(){	
     	$('.radioBtn').next().children().toggleClass("boundary");
     });

@@ -7,3 +7,12 @@
 	width: auto; 
 	display: table;
 }
+
+.modal-body{
+	width:960;
+	height:560;
+}
+
+#tutoBtns{
+	text-align:center;
+}
