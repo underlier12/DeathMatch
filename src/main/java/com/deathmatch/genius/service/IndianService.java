@@ -37,8 +37,6 @@ public class IndianService {
 		this.dealService = dealService;
 	}
 
-	/* Web Socket Handler */
-
 	public void handleActions(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		log.info("Type : " + indianGameDTO.getType());
 		switch (indianGameDTO.getType()) {
@@ -76,16 +74,7 @@ public class IndianService {
 
 		return jsonMap;
 	}
-
-	public Map<String, Object> dbConvertMap(MessageType type, String roomId) {
-		Map<String, Object> jsonMap = new HashMap<>();
-
-		jsonMap.put("type", type.toString());
-		jsonMap.put("roomId", roomId);
-
-		return jsonMap;
-	}
-
+	
 	public IndianServiceDTO processing(Map<String, Object> jsonMap) {
 		JSONObject jsonObject = new JSONObject(jsonMap);
 		String jsonString = jsonObject.toJSONString();
@@ -104,8 +93,6 @@ public class IndianService {
 		return indianServiceDTO;
 	}
 
-	/* Act Ready and Join */
-
 	public boolean readyCheck(IndianGameRoom indianRoom) {
 		boolean flag = false;
 		List<IndianPlayerDTO> players = indianRoom.getPlayers();
@@ -120,32 +107,25 @@ public class IndianService {
 		Map<String, Object> jsonMap = convertMap(MessageType.READY, indianRoom.getRoomId());
 		IndianPlayerDTO player = (IndianPlayerDTO) session.getAttributes().get("player");
 		player.setReady(true);
-		log.info("indianGameDTO Sender : " + indianGameDTO.getSender());
+	
 		jsonMap.put("message", indianGameDTO.getSender() + "님이 준비하셨습니다 ! ");
 		jsonMap.put("player", indianGameDTO.getSender());
 		IndianServiceDTO indianServiceDTO = processing(jsonMap);
 		return indianServiceDTO;
 	}
-
+	
 	public IndianServiceDTO allReady(IndianGameRoom indianRoom, IndianGameDTO indianGameDTO) {
 		Map<String, Object> jsonMap = convertMap(MessageType.READY, indianRoom.getRoomId());
 		log.info("allReady Sender : " + indianGameDTO.getSender());
+		
 		jsonMap.put("message", "플레이어가 모두 준비하였습니다! 게임을 시작합니다 ");
-		jsonMap.put("firstTurn", dealService.nextTurn(indianRoom) + " 님의 차례입니다 ");
+		jsonMap.put("firstTurn", dealService.nextTurn(indianRoom) + "님의 차례입니다 ");
 		jsonMap.put("player", indianRoom.getPlayers().get(0).getUserId());
+		
 		IndianServiceDTO indianServiceDTO = processing(jsonMap);
 		return indianServiceDTO;
 	}
-
-	public void readyAct(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
-		sendMessageAll(indianRoom.getSessions(), readyUser(session, indianGameDTO, indianRoom));
-		if (readyCheck(indianRoom)) {
-			startGame(indianRoom);
-			dealService.makeCardDeck();
-			sendMessageAll(indianRoom.getSessions(), dealService.startRound(indianRoom));
-			sendMessageAll(indianRoom.getSessions(), allReady(indianRoom, indianGameDTO));
-		}
-	}
+	
 
 	public void register(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		StatusType status = decideStatus(indianRoom);
@@ -178,15 +158,27 @@ public class IndianService {
 
 		return status;
 	}
+	
+	public void readyAct(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
+		sendMessageAll(indianRoom.getSessions(), readyUser(session, indianGameDTO, indianRoom));
+		if (readyCheck(indianRoom)) {
+			startGame(indianRoom);
+			dealService.makeCardDeck();
+			sendMessageAll(indianRoom.getSessions(), dealService.startRound(indianRoom));
+			sendMessageAll(indianRoom.getSessions(), allReady(indianRoom, indianGameDTO));
+		}
+	}
 
 	public void joinUser(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
 		Map<String, Object> jsonMap = convertMap(MessageType.JOIN, indianGameDTO.getRoomId());
 		indianRoom.addSession(session);
 		loadGame(session, indianRoom);
 		register(session, indianGameDTO, indianRoom);
+		
 		jsonMap.put("message", indianGameDTO.getSender() + "님이 방에 입장하셨습니다! ");
 		jsonMap.put("player", indianGameDTO.getSender());
 		jsonMap.put("checkPlayer", indianRoom.getPlayers().get(0).getUserId());
+		
 		IndianServiceDTO indianServiceDTO = processing(jsonMap);
 		sendMessageAll(indianRoom.getSessions(), indianServiceDTO);
 	}
@@ -214,11 +206,8 @@ public class IndianService {
 	}
 
 	public void endGame(WebSocketSession session, IndianGameDTO indianGameDTO, IndianGameRoom indianRoom) {
-		//resetGame(indianRoom);
 		sendMessageAll(indianRoom.getSessions(), dealService.endGame(indianRoom));
 	}
-
-	/* Load Player */
 
 	Queue<Object> playerQueue = new LinkedList<>();
 
@@ -296,8 +285,6 @@ public class IndianService {
 	public Boolean isEmptyRoom(IndianGameRoom indianRoom) {
 		return indianRoom.getSessions().size() == 0;
 	}
-		
-	/* Act SendMessage */
 
 	public <T> void sendMessageAll(Set<WebSocketSession> sessions, T message) {
 		log.info("sendMessageAll");
