@@ -4,42 +4,25 @@
 /* 중연한 갈색 배경  : background-color : #6D211C*/
 /* 진한 갈색 배경 : background-color: #3F1816; */
 
-body{
-	background-color: #502228;
+#loginHome{
+	width: 600px;
+    height: 800px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
-/* id */
-#loginHome{
-	display:flex;
-	width: 1600px;
-	height: 800px;
-	justify-content:center;
-	background-color: #502228;
-}
-#loginFrame{
-	
-	justify-content:center;
-	
+.flex-box{
+	width: 600px;
+	display: flex;
+	overflow: auto;
+	justify-content: center;
 }
 
 #title{
-	margin-top:80px;
 	text-align:center;
 	color:#ECA50E;
-}
-
-#loginDiv{
-	text-align:center;
-	margin-top:50px;
-	background-color: #502228;
-}
-
-#loginProc{
-	text-align:center;
-}
-
-.loginDiv{
-	margin-left:80px;
 }
 
 #email{
@@ -57,18 +40,23 @@ body{
 	color: #E4F7BA;
 }
 
-#checkbox{
-	margin-top:10px;
-	margin-right:210px;
-	color:#ECA50E;
-}
-
-
 #loginBtn{
 	width:300px;
 	border: 2px solid #000000;
 	background-color: #3F1816;
 	color: #E4F7BA;
+}
+
+#checkEmail{
+	color:#ECA50E;
+	margin-top:10px;
+}
+
+#emailSave{
+	margin-top:10px;
+	color:#ECA50E;
+	margin-right:210px;
+	margin-bottom:30px;
 }
 
 #regiBtn{
@@ -77,10 +65,10 @@ body{
 	color: #E4F7BA;
 }
 
-#findId{
-	border: 2px solid #000000;
-	background-color: #3F1816;
-	color: #E4F7BA;
+#loginBtns{
+	margin-top:40px;
+	margin-bottom:40px;
+	text-align:center;
 }
 
 #findPw{
@@ -89,26 +77,13 @@ body{
 	color: #E4F7BA;
 }
 
-#snsBtns{
-	text-align:center;
-}
-
-
-#loginBtns{
-	margin-top:40px;
-	margin-bottom:40px;
-	text-align:center;
-}
-
 #logout{
 	background-color: #3F1816;
 	color: #E4F7BA;
 	width:130px;
-	margin-right:15px;
+	margin-top:10px;
 	text-align:center;
 }
-
-
 
 
 
