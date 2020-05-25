@@ -1,0 +1,153 @@
+#notice-home{
+	width : 2000px;
+	height: 1000px;
+	display:flex;
+}
+
+/* #sidebar{
+	margin-left:30px;
+}*/
+
+
+#notice-body{
+	margin-top:30px;
+	width:1200px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	font-size:20px;
+	border: 2px solid #000000;
+	justify-content:center;
+}
+
+#writeBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:100px;
+	font-size: 25px;
+	height:50px;
+	float:right;
+	margin-top:10px;
+}
+
+#title{
+	justify-content : center;
+	font-size: 20px;
+	color: #ECA50E;
+}
+
+#pageDiv{
+	margin-top:50px;
+	margin-left:170px;
+	justify-content : center;
+}
+
+#pageNum{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#prevBtn{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#nextBtn{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#searchBtn{
+	width:50px;
+	height:35px;
+	margin-left:5px;
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+/* #sugBtn{
+	margin-top:10px;
+	width:100px;
+	height:50px;
+	font-size: 15px;
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+} */
+
+#searchKeyWord{
+	color: #E4F7BA;
+	width:250px;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+.search_area{
+	justify-content : center;
+}
+
+#searchType{
+	color: #E4F7BA;
+	margin-right:5px;
+	width:80px;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#search_div{
+	display:flex;
+	justify-content : center;
+}
+
+#notice-title{
+	color: #E4F7BA;
+	margin-top:30px;
+	font-size: 30px;
+	margin-right:300px;
+}
+
+#aTitle{
+	color: #E4F7BA;
+}
+
+.button-flex{
+	width : 1200px;
+	display:flex;
+}
+
+#playBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:120px;
+	font-size: 25px;
+	height:50px;
+	margin-bottom:10px;
+	margin-top:25px;
+}
+
+#sugBtn{
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	width:100px;
+	font-size: 25px;
+	height:50px;
+	margin-right:10px;
+	margin-bottom:10px;
+	margin-top:25px;
+}
+
+#btnDiv{
+	margin-left:auto;
+}
+
+.secret_img{
+	width:25px;
+}
+
+

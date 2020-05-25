@@ -7,8 +7,7 @@ $(function(){
 	});
 	
 	$("#btnNotice").click(function(){
-		// TODO : 공지게시판 경로 설정
-		//$(location).attr("href","/suggestion/suggestionboard");
+		$(location).attr("href","/notice");
 	});
 	
 	$("#btnSuggestion").click(function(){
