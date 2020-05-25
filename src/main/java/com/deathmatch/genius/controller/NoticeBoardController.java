@@ -89,7 +89,7 @@ public class NoticeBoardController {
 	public void read(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("게시글 번호 : " + bno);
 		noticeService.increaseViews(bno);
-		model.addAttribute("Suggestion",noticeService.read(bno));
+		model.addAttribute("notice",noticeService.read(bno));
 	}
 	
 //	@ResponseBody
