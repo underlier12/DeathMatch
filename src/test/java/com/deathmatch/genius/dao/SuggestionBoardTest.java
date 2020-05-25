@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
 import com.deathmatch.genius.domain.SuggestionReplyDTO;
-import com.deathmatch.genius.util.Criteria;
 
 import lombok.extern.log4j.Log4j;
 

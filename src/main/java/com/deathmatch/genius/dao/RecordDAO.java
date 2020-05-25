@@ -2,8 +2,8 @@ package com.deathmatch.genius.dao;
 
 import java.util.List;
 
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.RecordDTO;
-import com.deathmatch.genius.util.Criteria;
 
 public interface RecordDAO {
 

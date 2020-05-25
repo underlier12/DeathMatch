@@ -7,10 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.deathmatch.genius.domain.Criteria;
+import com.deathmatch.genius.domain.PageDTO;
 import com.deathmatch.genius.domain.UserDTO;
 import com.deathmatch.genius.service.RecordService;
-import com.deathmatch.genius.util.Criteria;
-import com.deathmatch.genius.util.PageDTO;
 
 import lombok.RequiredArgsConstructor;
 
