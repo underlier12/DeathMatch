@@ -26,7 +26,7 @@
 				</div>
 				<div id="btnDiv">
 					<button type="button" class="btn btn-default btn-sm" id="playBtn">게임하기</button>
-					<button type="button" class="btn btn-default btn-sm" id="sugBtn">건의게시판</button>
+					<button type="button" class="btn btn-default btn-sm" id="sugBtn">건의</button>
 				</div>
 			</div>
 			
@@ -62,20 +62,20 @@
 										</c:forEach> <c:if test="${noticeBoard.depth >0 }">
 										[RE]
 										</c:if> --%> 
-										<%-- <c:if test="${noticeBoard.pw ne 1 }">
+										<c:if test="${noticeBoard.pw ne 1 }">
 											<c:out value="${noticeBoard.title }" />
 										</c:if> 
 										<c:if test="${noticeBoard.pw eq 1 }">
 											비밀글 입니다.
 											<img class="secret_img" src="/images/secret.jpg">
-										</c:if> --%>
-										<c:when test="${noticeBoard.pw eq 1 }">
+										</c:if>
+										<%-- <c:when test="${noticeBoard.pw eq 1 }">
 											<img class="secret_img" src="/images/secret.jpg">
 											비밀글 입니다.
 										</c:when>
 										<c:otherwise>
 											<c:out value="${noticeBoard.title }" />
-										</c:otherwise>
+										</c:otherwise> --%>
 										<input type="hidden" name="userId" value ="${noticeBoard.userId }">
 										<input type="hidden" name="bno" value ="${noticeBoard.bno }">
 									</a>

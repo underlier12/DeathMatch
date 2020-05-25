@@ -69,15 +69,15 @@
 	border: 2px solid #000000;
 }
 
-.listBtn{
+/* #sugBtn{
 	margin-top:10px;
-	width:70px;
+	width:100px;
 	height:50px;
 	font-size: 15px;
 	color: #E4F7BA;
 	background-color: #3F1816;
 	border: 2px solid #000000;
-}
+} */
 
 #searchKeyWord{
 	color: #E4F7BA;
@@ -130,7 +130,7 @@
 	margin-top:25px;
 }
 
-#noticeBtn{
+#sugBtn{
 	color: #E4F7BA;
 	border: 2px solid #000000;
 	background-color: #3F1816;

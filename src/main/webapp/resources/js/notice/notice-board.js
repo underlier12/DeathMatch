@@ -15,8 +15,8 @@ $(function(){
 		$(location).attr("href","/rooms");
 	});
 	
-	$(".listBtn").click(function(){
-		$(location).attr("href","/notice");
+	$("#sugBtn").click(function(){
+		$(location).attr("href","/suggestion");
 	});
 	
 	$('.paginate_button a').on("click",function(e){

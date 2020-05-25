@@ -5,7 +5,7 @@ $(function(){
 	var bno =  $('input[name="bno"]').val();
 	var userId = $('input[name="userId"]').val();
 	
-	getAllReplies();
+//	getAllReplies();
 	
 	$("#modifyBtn").click(function(){
 
@@ -19,10 +19,10 @@ $(function(){
 		contentForm.submit();
 	});
 	
-	$("#answerBtn").click(function(){
-		contentForm.attr("action","/notice/answer-registration");
-		contentForm.submit();
-	})
+//	$("#answerBtn").click(function(){
+//		contentForm.attr("action","/notice/answer-registration");
+//		contentForm.submit();
+//	})
 	
 	$("#deleteBtn").click(function(){
 		
