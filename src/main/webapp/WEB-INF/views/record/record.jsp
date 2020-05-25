@@ -90,6 +90,13 @@
 				</div>
 			</div>
 			
+			<form id="actionForm" action="/record" method="get">
+				<input type="hidden" name="page" value="${pageMaker.cri.page }">
+				<%-- <input type="hidden" name="perPageNum" value="${pageMaker.cri.perPageNum }"> 
+				<input type="hidden" name="type" value='<c:out value = "${pageMaker.cri.type }"/>'>
+				<input type="hidden" name="keyword" value='<c:out value = "${pageMaker.cri.keyword }"/>'> --%>
+			</form>
+			
 		</div>
     </div>
     <%@ include file="../includes/footer.jsp" %>
