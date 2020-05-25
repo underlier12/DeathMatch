@@ -11,6 +11,10 @@ $(function(){
 		$(location).attr("href","/suggestion/registration");
 	});
 	
+	$("#noticeBtn").click(function(){
+		$(location).attr("href","/notice");
+	});
+	
 	$("#playBtn").click(function(){
 		$(location).attr("href","/rooms");
 	});
