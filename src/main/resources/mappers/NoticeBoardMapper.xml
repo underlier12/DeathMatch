@@ -5,8 +5,8 @@
 <mapper namespace="com.deathmatch.genius.mapper.NoticeBoardMapper">
 
 	<insert id ="insert">
-		insert into tbl_suggestion_board(userId,title,content,ref,pw)
-		values(#{userId},#{title},#{content},#{ref},#{pw})
+		insert into tbl_notice_board(userId,title,content,pw)
+		values(#{userId},#{title},#{content},#{pw})
 	</insert>
 	
 	<!-- <insert id ="insertAnswer">
@@ -15,17 +15,17 @@
 	</insert> -->
 	
 	<select id="selectMaxBno" resultType ="Integer">
-		select max(bno) as max from tbl_suggestion_board
+		select max(bno) as max from tbl_notice_board
 	</select>
 	
 	<delete id ="delete">
-		delete from tbl_suggestion_board
+		delete from tbl_notice_board
 		where bno = #{bno}
 	</delete>
 	
 	<update id ="update">
 		update 
-			tbl_suggestion_board
+			tbl_notice_board
 		set
 			title = #{title},
 			content = #{content},
@@ -38,7 +38,7 @@
 		select
 			bno,userId,title,content,regdate,hit,pw
 		from 
-			tbl_suggestion_board
+			tbl_notice_board
 		where
 			bno = #{bno}
 	</select>
@@ -47,7 +47,7 @@
 		select 
 			bno,userId,title,content,regdate,hit
 		from
-			tbl_suggestion_board
+			tbl_notice_board
 		where bno > 0
 		order by bno desc, regdate desc
 	</select>
@@ -57,13 +57,13 @@
 		select
 			bno,userId,title,content,regdate,hit,pw
 		from
-			tbl_suggestion_board
+			tbl_notice_board
 		where 
 			bno > 0
 		]]>
 			<include refid="search"/>
 		<![CDATA[
-		order by ref desc,step asc
+		order by bno desc
 		limit #{pageStart}, #{perPageNum}
 		]]>
 	</select>
@@ -74,7 +74,7 @@
 		select 
 			count(*)
 		from
-			tbl_suggestion_board
+			tbl_notice_board
 		where
 			bno > 0
 		<include refid="search"/>
@@ -82,7 +82,7 @@
 	
 	<update id ="increaseViews">
 		update
-			tbl_suggestion_board
+			tbl_notice_board
 		set
 			hit = hit + 1
 		where
