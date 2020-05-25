@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.deathmatch.genius.dao.SuggestionBoardDAO;
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
 import com.deathmatch.genius.domain.SuggestionReplyDTO;
-import com.deathmatch.genius.util.Criteria;
 
 import lombok.extern.log4j.Log4j;
 

@@ -2,9 +2,9 @@ package com.deathmatch.genius.dao;
 
 import java.util.List;
 
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
 import com.deathmatch.genius.domain.SuggestionReplyDTO;
-import com.deathmatch.genius.util.Criteria;
 
 public interface SuggestionBoardDAO {
 	

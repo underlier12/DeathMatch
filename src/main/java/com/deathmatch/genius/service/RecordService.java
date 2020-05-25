@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.deathmatch.genius.dao.HistoryDTO;
 import com.deathmatch.genius.dao.RecordDAO;
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.GameRoom;
 import com.deathmatch.genius.domain.IndianGameRoom;
 import com.deathmatch.genius.domain.IndianPlayerDTO;
 import com.deathmatch.genius.domain.RecordDTO;
 import com.deathmatch.genius.domain.UnionPlayerDTO;
-import com.deathmatch.genius.util.Criteria;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.RecordDTO;
-import com.deathmatch.genius.util.Criteria;
 
 @Repository
 public class RecordDAOImpl implements RecordDAO {

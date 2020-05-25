@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.GameRoom;
 import com.deathmatch.genius.domain.IndianGameRoom;
-import com.deathmatch.genius.util.Criteria;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;

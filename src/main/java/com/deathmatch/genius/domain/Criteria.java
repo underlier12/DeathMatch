@@ -1,4 +1,4 @@
-package com.deathmatch.genius.util;
+package com.deathmatch.genius.domain;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,6 @@ import lombok.ToString;
 // 하나의 페이지를 의미
 @Getter
 @Setter
-@ToString
 public class Criteria {	
 	
 	private int page;

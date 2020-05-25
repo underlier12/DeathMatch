@@ -1,4 +1,4 @@
-package com.deathmatch.genius.util;
+package com.deathmatch.genius.domain;
 
 import lombok.Getter;
 import lombok.ToString;

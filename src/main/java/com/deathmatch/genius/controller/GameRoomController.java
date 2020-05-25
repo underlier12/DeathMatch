@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.GameRoom;
 import com.deathmatch.genius.domain.IndianGameRoom;
+import com.deathmatch.genius.domain.PageDTO;
 import com.deathmatch.genius.domain.UserDTO;
 import com.deathmatch.genius.service.GameRoomService;
-import com.deathmatch.genius.util.Criteria;
-import com.deathmatch.genius.util.PageDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;

@@ -273,8 +273,8 @@ public class IndianDealerService {
 			players.get(1).setWinLose(WinLoseType.LOSE);
 		} else if (players.get(1).getChip() > 0 && players.get(0).getChip() == 0) {
 			winner = players.get(1).getUserId();
-			players.get(0).setWinLose(WinLoseType.WIN);
-			players.get(1).setWinLose(WinLoseType.LOSE);
+			players.get(0).setWinLose(WinLoseType.LOSE);
+			players.get(1).setWinLose(WinLoseType.WIN);
 		}
 		return winner;
 	}

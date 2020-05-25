@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.deathmatch.genius.domain.Criteria;
+import com.deathmatch.genius.domain.PageDTO;
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
 import com.deathmatch.genius.domain.SuggestionReplyDTO;
 import com.deathmatch.genius.service.SuggestionBoardService;
-import com.deathmatch.genius.util.Criteria;
-import com.deathmatch.genius.util.PageDTO;
 
 import lombok.extern.log4j.Log4j;
 

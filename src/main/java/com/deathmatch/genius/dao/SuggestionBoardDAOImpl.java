@@ -7,9 +7,9 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.SuggestionBoardDTO;
 import com.deathmatch.genius.domain.SuggestionReplyDTO;
-import com.deathmatch.genius.util.Criteria;
 
 import lombok.extern.log4j.Log4j;
 
