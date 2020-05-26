@@ -78,6 +78,42 @@
 	border: 2px solid #000000;
 }
 
+#chat{
+	width: 565px;
+	height: 40px;
+	font-size: 25px;
+	margin-top: 10px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+#talk{
+	width: 565px;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+}
+
+#message{
+	width: 470px;
+	height: 50px;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+}
+
+#sendBtn{
+	width: 95px;
+	height: 50px;
+	font-size: 20px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
 /* class */
 
 .flex-box{
@@ -172,6 +208,13 @@
 	text-align: center;
 	border: 2px solid #000000;
 }
+
+/* .broadcast{
+	width: 375px;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+} */
 
 /* timer */
 
