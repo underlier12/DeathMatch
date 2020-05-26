@@ -55,6 +55,10 @@ public class UnionService {
 			timeupAction(session, gameDTO, gameRoom);
 			break;
 			
+		case TALK:
+			talkAction(gameDTO, gameRoom);
+			break;
+			
 		default:
 			log.info("default action");
 			break;
@@ -110,6 +114,10 @@ public class UnionService {
 			return;
 		}
 		queue.offer(unionDealerService.whoseTurn(gameDTO, gameRoom));
+	}
+	
+	private void talkAction(UnionGameDTO gameDTO, GameRoom gameRoom) {
+		sendMessageAll(gameRoom.getSessions(), gameDTO);
 	}
 	
 	private void loadGame(WebSocketSession session, GameRoom gameRoom) {

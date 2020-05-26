@@ -118,7 +118,7 @@
 			<div>
 				<div id='connectionStatus'></div>
 				<div class="content" data-room-id="${room.roomId}" data-member="${member}">
-			    	<textarea id="broadcast" rows="4" cols="70" readonly></textarea><p>
+			    	<textarea id="broadcast" rows="4" cols="70" readonly></textarea>
 			    </div>							
 			</div>
 			<div>
@@ -128,6 +128,18 @@
 		</div>
 		
 		<!-- sixth row -->
+		<div>
+			<div>
+				<p id='chat'>CHATTING</p>
+			</div>
+			<div id='communication'>
+				<textarea id="talk" rows="4" cols="100" readonly></textarea>
+				<input type="text" id="message" /> 
+				<input type="button" id="sendBtn" value="submit" />
+			</div>
+		</div>
+		
+		<!-- seventh row -->
 		<div class="flex-box">
 			<button id="leave">나가기</button>
 		</div>

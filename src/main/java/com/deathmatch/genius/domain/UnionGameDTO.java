@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class UnionGameDTO {
     public enum MessageType {
-        JOIN, READY, UNI, ON, TIMEUP,ROUND
+        JOIN, READY, UNI, ON, TIMEUP,ROUND, TALK
     }
     private MessageType type;
     private String roomId;
