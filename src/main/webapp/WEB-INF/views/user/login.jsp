@@ -52,7 +52,7 @@
 		</div>
 		<div class="flex-box" id ="loginBtns">
 			<!-- <a href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://localhost:8003/auth/user/kakaoLogin&response_type=code"> -->
-			<a href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://3.34.147.171:8003//auth/user/kakaoLogin&response_type=code">	
+			<a href="https://kauth.kakao.com/oauth/authorize?client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2&redirect_uri=http://3.34.147.171:8003/auth/user/kakaoLogin&response_type=code">	
 			<img
 				src="${pageContext.request.contextPath}/images/btn_kakao_login.gif"
 				width="250px">
