@@ -11,9 +11,15 @@ public class UnionPlayerDTO {
 	public enum StatusType {
 		HOST, OPPONENT, GUEST
 	}
+	
+	public enum WinLoseType{
+		WIN, DRAW, LOSE
+	}
+	
 	private String userId;
 	private String roomId;
 	private StatusType status;
+	private WinLoseType winLose;
 	private Boolean ready;
 	private Boolean turn;
 	private int score;

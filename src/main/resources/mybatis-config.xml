@@ -14,6 +14,11 @@
     <typeAliases>
         <typeAlias alias="UserDTO" type = "com.deathmatch.genius.domain.UserDTO"/>
         <typeAlias alias="UnionCardDTO" type="com.deathmatch.genius.domain.UnionCardDTO"/>
+   		<typeAlias alias="IndianCardDTO" type="com.deathmatch.genius.domain.IndianCardDTO"/>
+    	<typeAlias alias="SuggestionBoardDTO" type="com.deathmatch.genius.domain.SuggestionBoardDTO"/>
+   		<typeAlias alias="SuggestionReplyDTO" type="com.deathmatch.genius.domain.SuggestionReplyDTO"/>
+   		<typeAlias alias="NoticeBoardDTO" type="com.deathmatch.genius.domain.NoticeBoardDTO"/>
+    	<typeAlias alias="RecordDTO" type="com.deathmatch.genius.domain.RecordDTO"/>
     </typeAliases>
 
 </configuration>

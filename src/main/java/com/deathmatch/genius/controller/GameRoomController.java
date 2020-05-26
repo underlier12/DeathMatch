@@ -3,6 +3,7 @@ package com.deathmatch.genius.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.GameRoom;
+import com.deathmatch.genius.domain.IndianGameRoom;
+import com.deathmatch.genius.domain.PageDTO;
 import com.deathmatch.genius.domain.UserDTO;
 import com.deathmatch.genius.service.GameRoomService;
-import com.deathmatch.genius.util.Criteria;
-import com.deathmatch.genius.util.PageMaker;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -24,7 +26,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/gameHome")
+@RequestMapping("/rooms")
 public class GameRoomController {
 
 	private final GameRoomService gameRoomService;
@@ -33,40 +35,53 @@ public class GameRoomController {
     @GetMapping
     public String RoomList(Criteria cri,Model model) {
     	log.info(cri.toString());
-    	PageMaker pageMaker = new PageMaker();
-    	pageMaker.setCri(cri);
-    	pageMaker.setTotalCount(gameRoomService.countRoom());	
+    	PageDTO pageMaker = new PageDTO(cri,gameRoomService.countRoom());
+    	//pageMaker.setCri(cri);
+    	//pageMaker.setTotalCount(gameRoomService.countRoom());	
     	model.addAttribute("rooms",gameRoomService.findRoomList(cri));
     	model.addAttribute("pageMaker",pageMaker);
-    	return "main/gameHome";
+    	return "main/rooms";
     }
 
 	@ResponseBody
     @PostMapping
     public String createRoom(@RequestBody Map<String, String> json, Model model) {
-		GameRoom newRoom = gameRoomService.createRoom(
-				json.get("gameType"), json.get("roomName"));
-		String currentRoomId = newRoom.getRoomId();
+		String gameType = json.get("gameType");
+		String currentRoomId;
+		
+		if(gameType.equals("union")) {
+			GameRoom newRoom = (GameRoom) 
+					gameRoomService.createRoom(json.get("gameType"), json.get("roomName"));
+			currentRoomId = newRoom.getRoomId();			
+		} else {
+			IndianGameRoom newRoom = (IndianGameRoom) 
+					gameRoomService.createRoom(json.get("gameType"), json.get("roomName"));
+			currentRoomId = newRoom.getRoomId();			
+		}
 		log.info("makeRoom Id :" + currentRoomId);
-		log.info("gameType: " + newRoom.getGameType() );
-		return "/gameHome/" +currentRoomId; 
+//		log.info("gameType: " + newRoom.getGameType() );
+		
+		return "/rooms/" + gameType + "/" + currentRoomId; 
     }
 	
-    @GetMapping("/{roomId}")
-    public String room(@PathVariable String roomId, Model model, HttpSession httpSession) {    	
-    	GameRoom room = gameRoomService.findRoomById(roomId);
-    	UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
+    @GetMapping("/{gameType}/{roomId}")
+    public String room(@PathVariable String gameType, @PathVariable String roomId
+    								, Model model, HttpSession httpSession) {
+    	
+    	Object room = gameRoomService.findRoomById(roomId);
     	
     	if(room == null) {
     		log.info("null exception");
     		model.addAttribute("msg", "해당 방은 사라졌습니다.");
-    		return "main/gameHome";
+    		return "main/rooms";
     	}
+    	
+    	UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
     	
     	model.addAttribute("room", room);
     	model.addAttribute("member", currentDTO.getUserId());
-//    	model.addAttribute("httpSession", httpSession);
-    	return "game/union/room";
+    	
+    	return "game/" + gameType + "/" + gameType;
     }
       
     

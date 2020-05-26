@@ -19,7 +19,7 @@
     	</div>
     	<div class="flex-box">
 	        <input id="startBtn" type="button" value="Game Start" 
-	        		onclick = "location.href='user/loginHome'"/>    	
+	        		onclick = "location.href='auth/user/login'"/>    	
     	</div>
 	    <%@ include file="includes/footer.jsp" %>
     </div>

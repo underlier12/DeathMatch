@@ -10,8 +10,9 @@ import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
+import com.deathmatch.genius.domain.Criteria;
 import com.deathmatch.genius.domain.GameRoom;
-import com.deathmatch.genius.util.Criteria;
+import com.deathmatch.genius.domain.IndianGameRoom;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -21,42 +22,49 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class GameRoomService {
 
-	private Map<String, GameRoom> gameRooms = new LinkedHashMap<>();
-	
-	public List<String> findAllId() {
-		return new LinkedList<>(gameRooms.keySet());
-	}
+	private Map<String, Object> gameRooms = new LinkedHashMap<>();
 
-	public List<GameRoom> findAllRooms() {
+	public List<Object> findAllRooms() {
 		return new LinkedList<>(gameRooms.values());
 	}
 
-	//TODO: mySQL의 limit 함수를 Java로 구현 
-	public List<GameRoom> findRoomList(Criteria cri) {
-		List<GameRoom> roomList = new LinkedList<>();
+	public List<Object> findRoomList(Criteria cri) {
+		List<Object> roomList = new LinkedList<>();
 		int roomCount = findAllRooms().size();
 		int startNum = cri.getPageStart();	// 게시글의 시작 행
 		int perPageNum = cri.getPerPageNum();	// 페이지당 보여질 게시글의 갯수
-		Stream<GameRoom> stream = findAllRooms().stream();
+		Stream<Object> stream = findAllRooms().stream();
 		
 		log.info("현재 방의 개수 : " + roomCount);
 		log.info("게시글의 시작 행 : " + startNum);
 		log.info("페이지당 보여줄 개수 : " + perPageNum);
 		
-		return roomList = stream.skip(startNum).limit(perPageNum).collect(Collectors.toList());
+		roomList = stream.skip(startNum).limit(perPageNum).collect(Collectors.toList());
+		return roomList;
 	}
 
-	public GameRoom findRoomById(String roomId) {
+	public Object findRoomById(String roomId) {
 		return gameRooms.get(roomId);
 	}
 
-	public GameRoom createRoom(String gameType, String name) {
+	public Object createRoom(String gameType, String name) {
+		Object gameRoom;
 		String randomId = UUID.randomUUID().toString();
-		GameRoom gameRoom = GameRoom.builder()
-				.gameType(gameType)
-				.roomId(randomId)
-				.name(name)
-				.build();
+		
+		if(gameType.equals("union")) {
+			gameRoom = GameRoom.builder()
+					.gameType(gameType)
+					.roomId(randomId)
+					.name(name)
+					.build();
+		} else {
+			gameRoom = IndianGameRoom.builder()
+					.gameType(gameType)
+					.roomId(randomId)
+					.name(name)
+					.build();
+		}
+		
 		gameRooms.put(randomId, gameRoom);
 		return gameRoom;
 	}

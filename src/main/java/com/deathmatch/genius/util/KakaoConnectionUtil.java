@@ -38,7 +38,8 @@ public class KakaoConnectionUtil {
 
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=24ff4b9dce4ffc7531bff6ac4abb6bc2");
-			sb.append("&redirect_uri=http://localhost:8003/user/kakaoLogin"); // need change
+			// 로컬 회원 : 카카오 api : sb.append("&redirect_uri=http://localhost:8003/auth/user/kakaoLogin");
+			sb.append("&redirect_uri=http://3.34.147.171:8003/auth/user/kakaoLogin");
 			sb.append("&code=" + code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -58,7 +59,6 @@ public class KakaoConnectionUtil {
 			log.info("response body : " + result);
 
 			// JSON파싱 객체 생성
-			/* JsonParser parser = new JsonParser(); */
 			JsonParser parser = new JsonParser();
 			JsonElement element = parser.parse(result);
 

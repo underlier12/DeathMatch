@@ -27,6 +27,14 @@
 		WHERE
 		    userEmail = #{userEmail}
 	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<delete id ="delete">
+		delete from
+		tbl_user
+		where userEmail = #{userEmail}
+		and pw = #{pw}
+	</delete> 
     
     <!-- 비밀번호 변경하기 -->
     <update id ="changePw">
