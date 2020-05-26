@@ -1,5 +1,4 @@
 $(function () {
-	
 // websocket variables
 	
 	var url = window.location.host;//웹브라우저의 주소창의 포트까지 가져옴
@@ -101,10 +100,16 @@ $(function () {
  		
  		switch(content.type){
  		case "UNI":
- 			submitUni(content);
- 			break;
  		case "ON":
- 			submitOn(content);
+ 			receiveExclaim(content);
+// 		case "UNI":
+// 			submitUni(content);
+// 			break;
+// 		case "ON":
+// 			submitOn(content);
+// 			break;
+ 		case "TALK":
+ 			receiveTalk(content);
  			break;
  		default:
  			console.log("fromUser default");
@@ -285,13 +290,22 @@ $(function () {
  		}, 5000);
  	}
  	
- 	function submitUni(content){
+ 	function receiveExclaim(content){
+ 		$('#broadcast').eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		exclaim(content);
  	}
  	
- 	function submitOn(content){
- 		exclaim(content);
+ 	function receiveTalk(content){
+ 		$('#talk').eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
+ 	
+// 	function submitUni(content){
+// 		exclaim(content);
+// 	}
+// 	
+// 	function submitOn(content){
+// 		exclaim(content);
+// 	}
  	
  	function exclaim(content){
  		if(content.sender == $('#playerA').val()){
@@ -404,6 +418,20 @@ $(function () {
     $('#ready').click(function(){
     	sock.send(JSON.stringify(
     			{type: 'READY', roomId: roomId, sender: member, message: "READY"}));
+    });
+    
+    $("#sendBtn").click(function(){
+		sock.send(JSON.stringify(
+				{type : 'TALK', roomId: roomId, sender: member, message: $("#message").val()}));
+		$("#message").val('');
+	});
+    
+    $("#message").keydown(function(key) {
+    	if(key.keyCode == 13){
+    		sock.send(JSON.stringify(
+    				{type : 'TALK', roomId: roomId, sender: member, message: $("#message").val()}));
+    		$("#message").val('');
+    	}
     });
     
     $('#leave').click(function(){
