@@ -96,7 +96,7 @@ $(function () {
  	
  	function fromUser(content){
  		
- 		$('#broadcast').eq(0).prepend(content.sender + ' : ' + content.message + '\n');
+// 		$('#broadcast').eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  		
  		switch(content.type){
  		case "UNI":
