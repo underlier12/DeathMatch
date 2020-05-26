@@ -106,7 +106,7 @@
 								</li>
 						</c:if>
 					</ul>
-					<c:if test="${login ne null }">
+					<c:if test="${login.auth eq 99 }">
 						<button type="button" class="btn btn-default btn-sm" id="writeBtn">글쓰기</button>
 					</c:if>
 				</div>
