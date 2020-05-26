@@ -42,13 +42,6 @@ public class UserController {
 	public String loginHome(HttpSession session, Model model, HttpServletRequest request) {
 		return "/user/login";
 	}
-	
-	/*
-	 * @GetMapping("/login") public void loginGet(@ModelAttribute("loginDTO")
-	 * LoginDTO loginDTO) {
-	 * 
-	 * }
-	 */
 
 	@GetMapping("/mypage")
 	public String myPage() {

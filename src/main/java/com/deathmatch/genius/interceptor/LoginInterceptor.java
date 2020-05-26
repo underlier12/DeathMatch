@@ -15,7 +15,6 @@ import java.io.IOException;
 @Log4j
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	
-	private static final String LOGIN = "login";
 	
 	/* 
 	 * postHandle = Session에 컨트롤러에서 저장한 user를 저장하고 /로 리다이렉트한다.

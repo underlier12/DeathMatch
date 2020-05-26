@@ -18,23 +18,7 @@ public interface NoticeBoardDAO {
 	public int totalCount(Criteria cri);
 	
 	public void increaseViews(int bno);
-	
-//	public List<NoticeBoardDTO> getList();
-	
+
 	public List<NoticeBoardDTO> getListWithPaging(Criteria cri);
-	
-//	public void insertReply(SuggestionReplyDTO suggestionReplyDTO);
-//	
-//	public void deleteReply(int rno);
-//	
-//	public void deleteAllReply(int bno);
-//	
-//	public List<SuggestionReplyDTO> getReplyList(int bno);
-	
-//	public Integer getGroupNum();
-	
-//	public void insertAnswer(NoticeBoardDTO NoticeBoardDTO);
-	
-//	public void increaseGroupStep(int ref, int step);
 	
 }

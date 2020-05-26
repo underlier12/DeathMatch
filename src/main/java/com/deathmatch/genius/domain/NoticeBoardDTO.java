@@ -18,9 +18,6 @@ public class NoticeBoardDTO {
 	private String content;
 	private LocalDate regdate;
 	private int hit;
-//	private Integer ref; // 그룹 번호
-//	private int step; // 순서
-//	private int depth; // 단계
 	private int pw; // 비밀 번호
 	
 	@Builder
@@ -32,9 +29,6 @@ public class NoticeBoardDTO {
 		this.content = content;
 		this.regdate = regdate;
 		this.hit = hit;
-//		this.ref = ref;
-//		this.step = step;
-//		this.depth = depth;
 		this.pw = pw;
 	}
 }

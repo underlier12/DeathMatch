@@ -53,55 +53,10 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
 		log.info("increse Views " );
 		sqlSession.update(namespace + ".increaseViews",bno);
 	}
-
-//	@Override
-//	public List<NoticeBoardDTO> getList(){
-//		return sqlSession.selectList(namespace + ".listAll");
-//	}
-
+	
 	@Override
 	public List<NoticeBoardDTO> getListWithPaging(Criteria cri) {
 		return sqlSession.selectList(namespace + ".getListWithPaging",cri);
 	}
-
-//	@Override
-//	public void insertReply(SuggestionReplyDTO suggestionReplyDTO) {
-//		sqlSession.insert(namespace + ".insertReply",suggestionReplyDTO);
-//	}
-//
-//	@Override
-//	public void deleteReply(int rno) {
-//		sqlSession.delete(namespace + ".deleteReply",rno);
-//	}
-//	
-//	@Override
-//	public void deleteAllReply(int bno) {
-//		sqlSession.delete(namespace + ".deleteAllReply",bno);
-//	}
-//
-//	@Override
-//	public List<SuggestionReplyDTO> getReplyList(int bno) {
-//		return sqlSession.selectList(namespace + ".getReplyList",bno);
-//	}
-//
-//	@Override
-//	public Integer getGroupNum() {
-//		return sqlSession.selectOne(namespace + ".selectMaxBno");
-//	}
-//
-//	@Override
-//	public void insertAnswer(NoticeBoardDTO NoticeBoardDTO) {
-//		sqlSession.insert(namespace + ".insertAnswer",NoticeBoardDTO);
-//		log.info("DAO insertAnswer");
-//	}
-//
-//	@Override
-//	public void increaseGroupStep(int ref, int step) {
-//		Map<String,Integer> map = new HashMap<String,Integer>();
-//		map.put("ref", ref);
-//		map.put("step",step);
-//		sqlSession.update(namespace + ".increaseGroup",map);
-//		log.info("DAO increaseGroupStep ");
-//	}
 
 }

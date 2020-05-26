@@ -9,7 +9,7 @@ public interface UserDAO {
     // 로그인
     public UserDTO login(LoginDTO loginDTO);
     // 회원 탈퇴
-    public int deleteMember(UserDTO userDTO);
+    public void deleteMember(UserDTO userDTO);
     // 회원 전부 탈퇴
     public int deleteAllMember();
     // 비밀번호 변경
