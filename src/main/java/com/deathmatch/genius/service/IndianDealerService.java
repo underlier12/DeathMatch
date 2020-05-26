@@ -82,7 +82,6 @@ public class IndianDealerService {
 		}
 		cardArr[0] = cardDeck.get(cardIndex++).getCardNum();
 		cardArr[1] = cardDeck.get(cardIndex++).getCardNum();
-		cardArr[1] = "10";
 		log.info("CardIndex " + cardIndex);
 		return cardArr;
 	}

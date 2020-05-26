@@ -1,7 +1,5 @@
 package com.deathmatch.genius.util;
 
-import org.springframework.stereotype.Component;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-/* @Component */
 public class Email {
 	
 	private String subject;

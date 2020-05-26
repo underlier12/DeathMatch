@@ -23,10 +23,6 @@ import lombok.extern.log4j.Log4j;
 public class GameRoomService {
 
 	private Map<String, Object> gameRooms = new LinkedHashMap<>();
-	
-//	public List<String> findAllId() {
-//		return new LinkedList<>(gameRooms.keySet());
-//	}
 
 	public List<Object> findAllRooms() {
 		return new LinkedList<>(gameRooms.values());

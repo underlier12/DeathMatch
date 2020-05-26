@@ -21,13 +21,11 @@ import lombok.extern.log4j.Log4j;
 @Component
 public class IndianHandler extends TextWebSocketHandler {
 
-//	private final IndianGameRoomService indianGameRoomService;
 	private final GameRoomService gameRoomService;
 	private final ObjectMapper objectMapper;
 	private final IndianService indianService;
 	
 	public IndianHandler(GameRoomService gameRoomService,ObjectMapper objectMapper,IndianService indianService) {
-//		this.indianGameRoomService = indianGameRoomService;
 		this.gameRoomService = gameRoomService;
 		this.objectMapper = objectMapper;
 		this.indianService = indianService;
@@ -43,7 +41,6 @@ public class IndianHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		IndianGameDTO indianGameDTO = objectMapper.readValue(message.getPayload(), IndianGameDTO.class);
-//		IndianGameRoom indianRoom = indianGameRoomService.findRoomById(indianGameDTO.getRoomId());
 		IndianGameRoom gameRoom = (IndianGameRoom) gameRoomService.findRoomById(indianGameDTO.getRoomId());
 		log.info("indianRoom: " + gameRoom.getRoomId());
 		indianService.handleActions(session, indianGameDTO, gameRoom);
@@ -58,9 +55,7 @@ public class IndianHandler extends TextWebSocketHandler {
 		Map<String,Object> map = session.getAttributes();
 		IndianPlayerDTO player = (IndianPlayerDTO)map.get("player");
 		log.info("player " + player.toString());
-//		IndianGameRoom indianRoom = indianGameRoomService.findRoomById(player.getRoomId());
 		IndianGameRoom gameRoom = (IndianGameRoom) gameRoomService.findRoomById(player.getRoomId());
-//		indianService.afterConnectionClosed(session, player, indianRoom, status);
 		indianService.afterConnectionClosed(session, player, gameRoom, status);
 		
 		if(indianService.isEmptyRoom(gameRoom)) {
@@ -68,11 +63,6 @@ public class IndianHandler extends TextWebSocketHandler {
 			gameRoomService.destroyRoom(gameRoom.getRoomId());
 		}
 		
-//		if(indianService.isEmptyRoom(indianRoom)) {
-//			log.info("isEmptyRoom session: " + indianRoom.getSessions());
-//			indianGameRoomService.destroyRoom(indianRoom.getRoomId());
-//		}
-		//super.afterConnectionClosed(session, status);
 	}
 	
 	@Override

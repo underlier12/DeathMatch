@@ -589,6 +589,7 @@ $(function(){
 	function defaultTimer(){
 		setTimer();
 		startTimer();
+		disableAll();
 		timer.show();
 	}
  
@@ -641,6 +642,15 @@ $(function(){
 	$("#leave").click(function(){
 		location.href='../../rooms'
 	});
+	
+	$("#message").keydown(function(key) {
+		var message = $("#message").val();
+        if (key.keyCode == 13) {
+        	var chatData = {type :'TALK',sender:member,roomId:roomId,message:message};
+    		sock.send(JSON.stringify(chatData));
+            $("#message").val('');
+        }
+    });
 
 	$("#sendBtn").click(function(){
 		var message = $("#message").val();
@@ -665,6 +675,7 @@ $(function(){
 	});
 	
 	$("#betGiveUpBtn").click(function(){
+		$("#chipBetting").val(0);
 		playerGetBetChip();
 		var giveUpData = {type:"GIVEUP",sender:member,roomId:roomId,player1Chip:player1Chip,player2Chip:player2Chip,
 				player1BetChip:player1BetChip,player2BetChip:player2BetChip};

@@ -25,10 +25,6 @@ public class NoticeBoardController {
 	
 	private final NoticeBoardService noticeService;
 	
-//	public NoticeBoardController(NoticeBoardService noticeService) {
-//		this.noticeService = noticeService;
-//	}
-	
 	@GetMapping
 	public String listAll(Criteria cri,Model model) {
 		
@@ -47,16 +43,6 @@ public class NoticeBoardController {
 		return "/notice/registration";
 	}
 	
-//	@GetMapping("/answer-registration")
-//	public String answerRegistGet(@ModelAttribute("cri") Criteria cri, @RequestParam("bno")
-//			int bno,Model model) {
-//		log.info("Write Answer Suggestion");
-//		NoticeBoardDTO parentBoard = noticeService.read(bno);
-//		log.info("Get Parent Board: " + parentBoard.toString());
-//		model.addAttribute("Suggestion", parentBoard);
-//		return "/suggestion/answer-registration";
-//	}
-	
 	@PostMapping("/registration")
 	public String registPost(@ModelAttribute NoticeBoardDTO noticeBoardDTO, RedirectAttributes rttr) {
 		log.info("Register Suggestion " + noticeBoardDTO.toString());
@@ -65,40 +51,13 @@ public class NoticeBoardController {
 		return "redirect:/notice";
 	}
 	
-//	@PostMapping("/answer-registration")
-//	public String answerRegistPost(@ModelAttribute NoticeBoardDTO NoticeBoardDTO
-//			, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr ) {
-//		log.info("regist Answer Post " + NoticeBoardDTO.toString());
-//		noticeService.registerAnswer(NoticeBoardDTO);
-//		
-//		rttr.addAttribute("page", cri.getPage());
-//		rttr.addAttribute("perPageNum", cri.getPerPageNum());
-//		
-//		return "redirect:/suggestion";
-//	}
-	
-//	@ResponseBody
-//	@PostMapping("/registration/reply")
-//	public ResponseEntity<String> registerReply(@RequestBody SuggestionReplyDTO suggestionReplyDTO){
-//		log.info("insertReply ");
-//		noticeService.insertReply(suggestionReplyDTO);
-//		return new ResponseEntity<>("Success",HttpStatus.OK);
-//	}
-	
 	@GetMapping("/content")
 	public void read(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("게시글 번호 : " + bno);
 		noticeService.increaseViews(bno);
 		model.addAttribute("notice",noticeService.read(bno));
 	}
-	
-//	@ResponseBody
-//	@GetMapping("/reply/{bno}" )
-//	public ResponseEntity<List<SuggestionReplyDTO>> getReplyList(@PathVariable("bno") int bno){
-//		log.info("getReplyList " + bno);
-//		return new ResponseEntity<List<SuggestionReplyDTO>>(noticeService.getReplyList(bno),HttpStatus.OK);
-//	}
-	
+
 	@GetMapping("/post-edit")
 	public void modifyGet(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model) {
 		log.info("수정 게시글 번호 " + bno);
@@ -126,13 +85,5 @@ public class NoticeBoardController {
 		
 		return "redirect:/notice";
 	}
-	
-//	@ResponseBody
-//	@PostMapping("/deletion/reply/{rno}")
-//	public ResponseEntity<String> deleteReply(@PathVariable("rno") int rno){
-//		log.info("Delete Reply" + rno);
-//		noticeService.deleteReply(rno);
-//		return new ResponseEntity<>("Success",HttpStatus.OK);
-//	}
 		
 }

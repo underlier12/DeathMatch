@@ -474,4 +474,25 @@
 	transform: translate(-50%, -50%);
 }
 
+#sendBtn{
+	width:100px;
+	heigth:10px;
+	margin-top:5px;
+	margin-left:10px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+}
+
+#message{
+	width:650px;
+	heigth:10px;
+	margin-top:5px;
+	margin-left:10px;
+	background-color: #3F1816;
+	color: #E4F7BA;
+	border: 2px solid #000000;
+	font-size: 30px;
+}
 
