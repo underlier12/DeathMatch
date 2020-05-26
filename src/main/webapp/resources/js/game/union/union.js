@@ -95,19 +95,11 @@ $(function () {
  	}
  	
  	function fromUser(content){
- 		
-// 		$('#broadcast').eq(0).prepend(content.sender + ' : ' + content.message + '\n');
- 		
+ 		 		
  		switch(content.type){
  		case "UNI":
  		case "ON":
  			receiveExclaim(content);
-// 		case "UNI":
-// 			submitUni(content);
-// 			break;
-// 		case "ON":
-// 			submitOn(content);
-// 			break;
  		case "TALK":
  			receiveTalk(content);
  			break;
@@ -298,14 +290,6 @@ $(function () {
  	function receiveTalk(content){
  		$('#talk').eq(0).prepend(content.sender + ' : ' + content.message + '\n');
  	}
- 	
-// 	function submitUni(content){
-// 		exclaim(content);
-// 	}
-// 	
-// 	function submitOn(content){
-// 		exclaim(content);
-// 	}
  	
  	function exclaim(content){
  		if(content.sender == $('#playerA').val()){

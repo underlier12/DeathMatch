@@ -118,7 +118,6 @@
 			<div>
 				<div id='connectionStatus'></div>
 				<div class="content" data-room-id="${room.roomId}" data-member="${member}">
-			    	<!-- <textarea id="broadcast" rows="4" cols="70" readonly></textarea> --><!-- <p> -->
 			    	<textarea id="broadcast" rows="4" cols="70" readonly></textarea>
 			    </div>							
 			</div>
