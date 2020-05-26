@@ -53,39 +53,10 @@
 				<c:if test="${login.userId eq notice.userId || login.auth eq 99}">
 					<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
 					<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
-					<%-- <c:if test="${login.auth eq 99 }">
-						<button type="button" class="btn btn-default btn-sm" id="answerBtn">답변</button>
-					</c:if> --%>
 				</c:if>
 				<button type="button" class="btn btn-default btn-sm" id="goListBtn">목록</button>
 			</div>
 		</div>
-
-		<%-- <div class="col-md-10 col-md-offset-1 reply_area">
-			<table class="table table-bordered reg_reply_tbl">
-				<c:if test="${login eq null }">
-					<tr>
-						<td>회원에게만 댓글 작성 권한이 있습니다.</td>
-					</tr>
-				</c:if>
-				<c:if test="${login ne null }">
-					<tr>
-						<td id="replyTitle">댓글 달기</td>
-					</tr>
-					<tr>
-						<td id="replyContent"><textarea id="reply_content"
-								class="form-control" name="reply_content" autocomplete="off"></textarea>
-						
-						<button type="button" id="writeReply"
-							class="btn btn-default btn-sm reg_reply">등록</button>
-						</td>
-					</tr>
-				</c:if>
-			</table>
-
-			<div id="getReply"></div>
-		</div> --%>
-
 	</div>
 
 	<form id="contentForm" action="/notice/post-edit" method="get">

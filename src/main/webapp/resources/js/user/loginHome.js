@@ -169,7 +169,6 @@ $(document).ready(function(){
 		function registerMember(userInfo){
 			$.ajax({
 				type : 'post',
-				//url : '/user/join',
 				url:"/auth/user/registration",
 				data : JSON.stringify(userInfo),
 				contentType : 'application/json; charset=utf-8',
@@ -182,7 +181,6 @@ $(document).ready(function(){
         function checkUserEmail(userEmailInfo){
             $.ajax({
                 type : 'post',
-                //url : '/user/checkEmail',
                 url : '/auth/user/check-email',
                 data : JSON.stringify(userEmailInfo),
                 dataType:"json",

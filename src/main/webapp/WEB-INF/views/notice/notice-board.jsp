@@ -55,13 +55,6 @@
 								<td><c:out value="${noticeBoard.bno }"></c:out></td>
 								<td>
 									<a id="aTitle" class="title" href="${noticeBoard.pw }">
-										<%-- <c:forEach begin="1" end="${noticeBoard.depth }">
-											<c:if test="${noticeBoard.depth > 0 }">
-											&nbsp;&nbsp;
-										</c:if>
-										</c:forEach> <c:if test="${noticeBoard.depth >0 }">
-										[RE]
-										</c:if> --%> 
 										<c:if test="${noticeBoard.pw ne 1 }">
 											<c:out value="${noticeBoard.title }" />
 										</c:if> 
@@ -69,13 +62,6 @@
 											비밀글 입니다.
 											<img class="secret_img" src="/images/secret.jpg">
 										</c:if>
-										<%-- <c:when test="${noticeBoard.pw eq 1 }">
-											<img class="secret_img" src="/images/secret.jpg">
-											비밀글 입니다.
-										</c:when>
-										<c:otherwise>
-											<c:out value="${noticeBoard.title }" />
-										</c:otherwise> --%>
 										<input type="hidden" name="userId" value ="${noticeBoard.userId }">
 										<input type="hidden" name="bno" value ="${noticeBoard.bno }">
 									</a>
