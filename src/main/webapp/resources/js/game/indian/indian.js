@@ -639,6 +639,25 @@ $(function(){
 		player2BetChip = parseInt($("#betchip2Score").text().substr(1));
 	}
 	
+	// 배팅을 하지 않고, 포기를 눌렀을 경우를 방지
+	function giveUpChipCheck(){
+		var p1Chip = parseInt($("#betchip1Score").text().substr(1));
+		var p2Chip = parseInt($("#betchip2Score").text().substr(1));
+		if(currentPlayer == member){
+			if(p1Chip > player1BetChip){	// 현재 건 배팅칩이 배팅칩이 넘을 경우를 방지
+				$("#betchip1Score").text("X"+player1BetChip);
+				$("#chipScore1").text("X"+ player1Chip);
+				console.log("p1Chip > player1BetChip");
+			}
+		}else if(currentPlayer != member){
+			if(p2Chip > player2BetChip){
+				$("#betchip1Score").text("X"+player2BetChip);
+				$("#chipScore2").text("X"+ player2Chip);
+				console.log("p2Chip > player2BetChip");
+			}
+		}
+	}
+	
 	$("#leave").click(function(){
 		location.href='../../rooms'
 	});
@@ -676,6 +695,7 @@ $(function(){
 	
 	$("#betGiveUpBtn").click(function(){
 		$("#chipBetting").val(0);
+		giveUpChipCheck();
 		playerGetBetChip();
 		var giveUpData = {type:"GIVEUP",sender:member,roomId:roomId,player1Chip:player1Chip,player2Chip:player2Chip,
 				player1BetChip:player1BetChip,player2BetChip:player2BetChip};
