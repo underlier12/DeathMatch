@@ -7,7 +7,7 @@ $(function(){
 	var member = $('.content').data('member');
 	var defaultCardPath = "/resources/images/indiancards/";
 	var defaultPng = ".png";
-	
+
 	var player1BetChip;	// 플레이어 1 : 베팅칩
 	var player2BetChip;	// 플레이어 2 : 베팅칩
 	var player1Chip = 0;	// 플레이어 1 : 보유칩
@@ -126,9 +126,12 @@ $(function(){
 		if(content.message.substring(0,4) == '플레이어'){
 			$("#infoArea").eq(0).prepend(content.message + "\n");
 			$("#infoArea").eq(0).prepend(content.firstTurn + "\n");
+			toastMessage("info", content.message);
+			toastMessage("info", content.firstTurn);
 			inGame();
 			disableBtn(content);
 		}else{
+			toastMessage("info", content.message);
 			$("#infoArea").eq(0).prepend(content.message + "\n");
 		}
 	}
@@ -139,7 +142,7 @@ $(function(){
 		}else{
 			$("#playerId2").val('');
 		}
-		$("#infoArea").eq(0).prepend(content.message + "\n");
+		toastMessage("info", content.message);
 	}
 	
 	function loadPlayer(content){
@@ -160,8 +163,9 @@ $(function(){
 	
 	// 플레이어가 방을 나갈때 게임을 종료
 	function stopGame(content){
+		toastMessage("info", content.message);
+		toastMessage("info", content.winner);
 		$("#infoArea").eq(0).prepend(content.message + "\n");
-		$("#infoArea").eq(0).prepend(content.winner + "\n");
 		closeCard();
 		disableAll();
 		defaultHide();
@@ -170,6 +174,8 @@ $(function(){
 	
 	function endGame(content){
 		openCard(content);
+		toastMessage("info", content.message);
+		toastMessage("info", content.winner);
 		$("#infoArea").eq(0).prepend(content.message + "\n");
 		$("#infoArea").eq(0).prepend(content.winner + "\n");
 		$("#chipScore1").text("X"+content.player1Chip);
@@ -181,6 +187,7 @@ $(function(){
 		defaultTimer();
 		$("#readyBtn").show();
 	}	
+	
 	/* btn disable */
 	function disableBtn(content){
 		 var turnPlayer = content.firstTurn.substring(0,content.firstTurn.indexOf("님"));
@@ -222,9 +229,7 @@ $(function(){
 	
 	function nextRound(content){
 		closeCard();
-		var message = content.message;
-		var turnPlayer = message.substring(0,message.indexOf("님"));
-		$("#infoArea").eq(0).prepend(message + "\n");
+		toastMessage("info", content.message);
 		playerMaxChip(content);
 		cardSelect(content);
 		playerAbleBtn(content);
@@ -233,8 +238,7 @@ $(function(){
 	function nextDrawRound(content){
 		drawCheck = 0;
 		closeCard();
-		var message = content.message;
-		$("#infoArea").eq(0).prepend(message + "\n");
+		toastMessage("info", content.message);
 		drawMaxChip(content);
 		cardSelect(content);
 		playerAbleBtn(content);
@@ -251,21 +255,22 @@ $(function(){
 	}
 	
 	function giveUpRound(content){
-		$("#infoArea").eq(0).prepend(content.chipMessage + "\n");
+		toastMessage("info", content.chipMessage);
+		toastMessage("info", content.winner);
 		$("#infoArea").eq(0).prepend(content.winner + "\n");
 		chipAndPlayer(content)
 		openCard(content);
 		defaultTimer();
-		console.log("Give Up Round");
 	}
 	
 	function resultRound(content){
+		toastMessage("info", content.message);
 		$("#infoArea").eq(0).prepend(content.message + "\n");
 		chipAndPlayer(content)
 		openCard(content);
 		defaultTimer();
-		console.log("Result Round");
 	}	
+	
 	function chipAndPlayer(content){
 		player1Chip = content.player1Chip;
 		player2Chip = content.player2Chip;
@@ -324,7 +329,7 @@ $(function(){
 	function draw(content){
 		console.log("Draw");
 		drawCheck++;
-		$("#infoArea").eq(0).prepend(content.message + "\n");
+		toastMessage("info", content.message);
 		betChipScore(content)
 		openCard(content);
 		setTimer();
@@ -558,7 +563,9 @@ $(function(){
 		
 	function bettingAct(content){
 		$("#chipBetting").val(0);
+		toastMessage("info", content.message);
 		$("#infoArea").eq(0).prepend(content.message + "\n");
+		
 		betChipScore(content);
 		maxChipModify(content);
 		disableBtn(content);
@@ -652,7 +659,7 @@ $(function(){
 		player2BetChip = parseInt($("#betchip2Score").text().substr(1));
 	}
 	
-	// 배팅을 하지 않고, 포기를 눌렀을 경우를 방지
+	// 배팅을 하지 않고 포기를 눌렀을 경우를 방지한다
 	function giveUpChipCheck(){
 		var p1Chip = parseInt($("#betchip1Score").text().substr(1));
 		var p2Chip = parseInt($("#betchip2Score").text().substr(1));
@@ -660,11 +667,13 @@ $(function(){
 			if(p1Chip > player1BetChip){	// 현재 건 배팅칩이 배팅칩이 넘을 경우를 방지
 				$("#betchip1Score").text("X"+player1BetChip);
 				$("#chipScore1").text("X"+ player1Chip);
+				$("#chipBetting").val(0);
 			}
 		}else if(currentPlayer != member){
 			if(p2Chip > player2BetChip){
 				$("#betchip2Score").text("X"+player2BetChip);
 				$("#chipScore2").text("X"+ player2Chip);
+				$("#chipBetting").val(0);
 			}
 		}
 	}
@@ -712,5 +721,19 @@ $(function(){
 				player1BetChip:player1BetChip,player2BetChip:player2BetChip};
 		sock.send(JSON.stringify(giveUpData));
 	});
+	
+	function toastMessage(type, message){
+    	toastr.options = {
+    			  "closeButton": true,
+    			  "progressBar": true,
+    			  "positionClass": "toast-top-center",
+    			  "showDuration": "300",
+    			  "hideDuration": "1000",
+    			  "timeOut": "3000",
+    			  "showMethod": "fadeIn",
+    			  "hideMethod": "fadeOut"
+    			}
+    	toastr[type](message);
+    }
 	
 });
