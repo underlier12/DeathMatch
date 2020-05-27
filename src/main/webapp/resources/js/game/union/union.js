@@ -100,6 +100,7 @@ $(function () {
  		case "UNI":
  		case "ON":
  			receiveExclaim(content);
+ 			break;
  		case "TALK":
  			receiveTalk(content);
  			break;
