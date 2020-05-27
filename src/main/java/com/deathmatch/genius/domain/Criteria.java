@@ -2,7 +2,6 @@ package com.deathmatch.genius.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 // 검색기준, 분류 기준
 // 하나의 페이지를 의미
