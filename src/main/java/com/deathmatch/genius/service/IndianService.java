@@ -189,7 +189,6 @@ public class IndianService {
 		if (indianGameDTO.getPlayer1BetChip() == indianGameDTO.getPlayer2BetChip()) {
 			sendMessageAll(indianRoom.getSessions(), dealService.resultRound(indianGameDTO, indianRoom));
 			log.info("Result Round sendMessageAll");
-			return;
 		}
 		sendMessageAll(indianRoom.getSessions(), dealService.whoseTurn(indianRoom, indianGameDTO));
 	}
