@@ -1,27 +1,26 @@
 # DeathMatch
 
 ## 프로젝트 소개
-    ● This is websocket game implementing reality TV program 'THE GENIUS' in Republic of Korea
-    ● 개발 인원 : 2명
-    ● 맡은 개발 내용 : 인디언 게임, 유저 기능 , 건의 게시판
-    ● 사용 기술 : Spring,Mybatis,Java,mysql,git
-    ● 개발 기간 : 2020.02.10 ~ 2020.05.24
-    ● AWS를 통해 서비스 운영중
+    This is websocket game implementing reality TV program 'THE GENIUS' in Republic of Korea
+    ● 개발 인원 : 2명(GeunhoHong,underlier12)
+    ● 개발 내용 : 인디언 게임, 유저 기능 , 건의 게시판, 결합, 공지 게시판, 전적
+    ● 기술 스택 : Spring,Mybatis,Java,mysql,git
+    ● 개발 기간 : 2020.02.10 ~ 2020.05.26
+    ● 운영 서버 : AWS EC2
     
 ## 기능 소개
-  * (1).인디언 포커 게임  
+  ### GeunhoHong
+  * (1) 인디언 포커 게임  
   
-    웹 소켓 기반으로 구현하여 유저가 실시간으로 소통하는 포커 게임
     * 게임 기능
     * 유저간 채팅
     * 차례 및 알람 기능
-  * (2).로그인 및 마이페이지
+  * (2) 로그인 및 마이페이지
     * 회원 가입 및 로그인
     * 카카오 api 로그인, 이메일 저장
     * 비밀 번호 수정 및 회원 탈퇴
-  * (3). 건의 게시판  
+  * (3) 건의 게시판  
   
-    계층형 구조의 건의 게시판
     * 비밀글 작성, 답글 작성, 검색 기능
     * 페이지 네이션
     * CRUD 및 댓글 기능
