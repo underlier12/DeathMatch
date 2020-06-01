@@ -28,15 +28,19 @@ This is websocket game implementing reality TV program 'THE GENIUS' in Republic 
   ### underlier12
   * 초기화면
     * 랜딩 페이지
+    
   * 결합 게임
     * 게임 기능
     * 유저 채팅
+    
   * 게임 룸 관리
     * 게임 룸 생성
     * 게임 룸 확인
     * 게임 룸 입장
+    
   * 튜토리얼
     * 튜토리얼 
+    
   * 공지 게시판
     * 공지글 작성, 삭제
     
