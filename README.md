@@ -41,6 +41,9 @@ This is websocket game implementing reality TV program 'THE GENIUS' in Republic 
   * 튜토리얼
     * 튜토리얼 
     
+  * 전적 확인
+    * 전적 기록 확인
+    
   * 공지 게시판
     * 공지글 작성, 삭제
     
