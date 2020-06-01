@@ -3,23 +3,23 @@
 ## 프로젝트 소개
     This is websocket game implementing reality TV program 'THE GENIUS' in Republic of Korea
     ● 개발 인원 : 2명(GeunhoHong,underlier12)
-    ● 개발 내용 : 인디언 게임, 유저 기능 , 건의 게시판, 결합, 공지 게시판, 전적
-    ● 기술 스택 : Spring,Mybatis,Java,mysql,git
+    ● 개발 내용 : 인디언 게임, 유저 기능, 건의 게시판, 결합, 공지 게시판, 전적
+    ● 기술 스택 : Spring, Mybatis, Java, mysql, git
     ● 개발 기간 : 2020.02.10 ~ 2020.05.26
     ● 운영 서버 : AWS EC2
     
 ## 기능 소개
   ### GeunhoHong
-  * (1) 인디언 포커 게임  
+  * 인디언 포커 게임  
   
     * 게임 기능
     * 유저간 채팅
     * 차례 및 알람 기능
-  * (2) 로그인 및 마이페이지
+  * 로그인 및 마이페이지
     * 회원 가입 및 로그인
     * 카카오 api 로그인, 이메일 저장
     * 비밀 번호 수정 및 회원 탈퇴
-  * (3) 건의 게시판  
+  * 건의 게시판  
   
     * 비밀글 작성, 답글 작성, 검색 기능
     * 페이지 네이션
