@@ -1,0 +1,75 @@
+
+#recordHistory{
+	display: flex;
+	width : 1400px;
+	height: 800px;
+}
+
+#btnBack{
+	color: #E4F7BA;
+	background-color : #6D211C;
+}
+
+#pageDiv{
+	margin-left:170px;
+	justify-content : center;
+}
+
+#pageNum{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#prevBtn{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+#nextBtn{
+	color: #E4F7BA;
+	background-color: #3F1816;
+	border: 2px solid #000000;
+}
+
+.board{
+	width: 800px;
+}
+
+.record-title{
+	color: #E4F7BA;
+	font-size: 48px;
+	text-align: center;
+}
+
+.summary{
+	margin-bottom: 100px;	
+}
+
+/* .button-list{
+	align: right;
+} */
+
+.body{
+	color: #ECA50E;
+	text-align: center;
+}
+
+.attribute{
+	color: #E4F7BA;
+	font-size: 20px;
+}
+
+.label-win{
+	background-color: #000080;
+}
+
+.label-lose{
+	background-color: #FF0000;
+}
+
+.game-type{
+	width: 50px;
+	height: 30px;
+}

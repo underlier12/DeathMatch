@@ -1,0 +1,39 @@
+#title{
+	text-align:center;
+	color:#ECA50E;
+}
+
+#safeTitle{
+	color:#ECA50E;
+}
+
+#currentPw{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#changePw1{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#changePw2{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#changePwBtn{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA
+}
+
+#cancleBtn{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA
+}
+

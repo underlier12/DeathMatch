@@ -1,0 +1,26 @@
+
+#index{
+	width: 600px;
+    height: 600px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#startBtn{
+	width: 300px;
+	height: 80px;
+	font-size: 40px; 
+	font-style: italic;
+	color: #ECA50E;
+	background-color: #3F1816;
+	margin: 40px 0px;
+}
+
+.flex-box{
+	width: 600px;
+	display: flex;
+	overflow: auto;
+	justify-content: center;
+}

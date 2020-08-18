@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.deathmatch.genius.mapper.RecordMapper">
+    
+    <insert id="insertHistory">
+    	insert into tbl_game(gameId,gameType,userId,winLose,score)
+        values (#{gameId},#{gameType},#{userId},#{winLose},#{score});
+    </insert>
+    
+    <select id="selectAllRecord" resultType="RecordDTO">
+    	select * from tbl_game
+    	where userId = #{keyword}
+    	order by no desc
+    	limit #{pageStart}, #{perPageNum}
+    </select>
+    
+    <select id="selectOpponentByGameId" resultType="RecordDTO">
+    	select * from tbl_game
+    	where gameId = #{gameId} and not userId = #{userId}
+    </select>
+    
+    <select id="countRecord" resultType="int">
+    	select count(*) from tbl_game
+    	where userId = #{userId}
+    </select>
+    
+</mapper>

@@ -1,0 +1,261 @@
+/* id */
+
+#game{
+	width: 580px;
+    height: 1000px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -290px;
+    margin-top: -400px;
+}
+
+#logo{
+	width: 300px;
+	height: auto;
+}
+
+#round{
+	width: 570px;
+	height: 70px;
+	color: #FFFFFF;
+	font-size: 50px;
+	text-align: center;
+}
+
+#answer{
+	width: 95px;
+	height: 375px;
+	list-style: none;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	font-size: 25px;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+#ready{
+	width: 95px;
+	height: 375px;
+	font-size: 35px;
+	color: #E4F7BA;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+#leave{
+	width: 570px;
+	height: 60px;
+	font-size: 30px;
+	margin-top: 30px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+#pass{
+	width: 125px;
+	height: 100px;
+	text-align: center;
+	color: #CEFBC9;
+}
+
+#connectionStatus{
+	width: 375px;
+	height: 40px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+#broadcast{
+	width: 375px;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+}
+
+#chat{
+	width: 565px;
+	height: 40px;
+	font-size: 25px;
+	margin-top: 10px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+#talk{
+	width: 565px;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+}
+
+#message{
+	width: 470px;
+	height: 50px;
+	color: #CEFBC9;
+	background-color: #6D211C;
+	border: 2px solid #000000;
+}
+
+#sendBtn{
+	width: 95px;
+	height: 50px;
+	font-size: 20px;
+	color: #ECA50E;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+/* class */
+
+.flex-box{
+	width: 570px;
+	display: flex;
+	overflow: auto;
+	justify-content: center;
+}
+
+.selectbox{
+	display: none;
+	margin: 0;
+}
+
+.label{
+	margin: 0;
+	padding: 0;
+}
+
+.card{
+	width: 125px;
+	height: 125px;
+	border: 2px solid #000000;
+}
+
+.union{
+	width: 95px;
+	height: 187.5px;
+	font-size: 35px;
+	color: #E4F7BA;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+.exclaim-wrapper{
+	width: 95px;
+	height: 125px;
+}
+
+.exclaim{
+	position: relative;
+	width: 95px;
+	height: 125px;
+	background-image: url("/resources/images/balloon.png");
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.statement{
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 48px;
+	color: #ECA50E;
+	text-align: center;
+}
+
+.timer-wrapper{
+	position: relative;
+	width: 125px;
+	height: 125px;
+}
+
+.timer{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.player{
+	width: 95px;
+	height: 40px;
+	margin: 0;
+	padding: 0;
+	color: #CEFBC9;
+	background-color: #3F1816;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+.score{
+	width: 95px;
+	height: 88px;
+	margin: 0;
+	padding: 0;
+	font-size: 45px;
+	color: #ECA50E;
+	background-color: #6D211C;
+	text-align: center;
+	border: 2px solid #000000;
+}
+
+/* timer */
+
+.base-timer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.base-timer__svg {
+  transform: scaleX(-1);
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: grey;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+  color: #ECA50E;
+}
+
+.base-timer__label {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: #ECA50E; 
+}
+
+/* setting class */
+
+.boundary{
+	border: 2px solid #EFF482;
+}

@@ -1,0 +1,68 @@
+#userTable{
+	width:1800px;
+	display:flex;
+}
+
+#title{
+	color:#ECA50E;
+	font-size:40px;
+	text-align:center;
+}
+
+#info{
+	margin-left:180px;
+}
+
+.user{
+	margin-top:120px;
+	text-align:center;
+	color:#ECA50E;
+	width:800px;
+	font-size:30px;
+}
+
+.modifyDiv{
+	text-align:center;
+	margin-top :200px;
+	font-size:35px;
+}
+
+#userIdTitle{
+	font-size:35px;
+	color: #E4F7BA;
+}
+
+#userEmailTitle{
+	font-size:35px;
+	color: #E4F7BA;
+}
+
+#userNameTitle{
+	font-size:35px;
+	color: #E4F7BA;
+
+}
+
+.btnDiv{
+	display:inline-block;
+}
+
+#changePwBtn{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#deleteUserBtn{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+#mainBtn{
+	border: 2px solid #000000;
+	background-color: #3F1816;
+	color: #E4F7BA;
+}
+
+
