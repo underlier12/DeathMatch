@@ -8,7 +8,7 @@ public class HomeController {
 
 	@GetMapping
 	public String home() {
-		System.out.println("Homse Cont22roller");
+		System.out.println("test 2");
 		return "index";
 	}
 
