@@ -10,6 +10,12 @@
         values
         (#{userEmail},#{userId},#{pw},#{name});
     </insert>
+
+    <!-- 시큐리티 권한 설정 -->
+    <insert id ="insertAuth">
+        insert into tbl_authorities(userEmail,auth)
+        values(#{userEmail},#{role})
+    </insert>
     
     <!-- SNS 유저 가입하기 -->
     <insert id ="insertSnsMember">
@@ -33,7 +39,6 @@
 		delete from
 		tbl_user
 		where userEmail = #{userEmail}
-		and pw = #{pw}
 	</delete> 
     
     <!-- 비밀번호 변경하기 -->

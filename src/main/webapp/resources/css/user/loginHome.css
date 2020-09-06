@@ -85,6 +85,12 @@
 	text-align:center;
 }
 
+#failMsg{
+	width:300px;
+	margin-top:15px;
+	color: #E4F7BA;
+}
+
 
 
 

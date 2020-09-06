@@ -126,7 +126,7 @@ public class SuggestionBoardController {
 		return "redirect:/suggestion/content";
 	}
 	
-	@PostMapping("/deleteion")
+	@PostMapping("/deletion")
 	public String delete(@RequestParam("bno") int bno,Criteria cri,
 				RedirectAttributes rttr) {
 		sugService.delete(bno);

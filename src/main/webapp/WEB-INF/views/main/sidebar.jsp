@@ -23,15 +23,20 @@
 			</div>
 		</div>
 
+		<sec:authentication property="principal" var="user"/>
+		<c:set var="userText" value="${user.username}"/>
+
 		<div class="row info">
 			<div class="col-md-12 font-12">
 				<h3>
-					<b>ID: ${login.userId }</b>
+					<%--<b>ID: ${login.userId }</b>--%>
+					<b>ID: ${fn:substringBefore(userText,'@')}</b>
 				</h3>
 			</div>
 			<div class="col-md-12 font-12">
 				<h3>
-					<b>Email :${login.userEmail } </b>
+					<%--<b>Email :${login.userEmail } </b>--%>
+					<b>Email :${user.username } </b>
 				</h3>
 			</div>
 		</div>
@@ -45,19 +50,27 @@
 
 			<form action="/auth/user/logout" method="get">
 				<div class="col-md-12">
-					<c:if test="${!empty login}">
+					<%--<c:if test="${!empty login}">
 						<button type="submit" class="btn btn-default btn-block sideBtn"
 							id="logout">LogOut</button>
-					</c:if>
+					</c:if>--%>
+					<sec:authorize access="isAuthenticated()">
+						<button type="submit" class="btn btn-default btn-block sideBtn"
+								id="logout">LogOut</button>
+					</sec:authorize>
 				</div>
 			</form>
 
 			<form action="/record" method="get">
 				<div class="col-md-12">
-					<c:if test="${!empty login}">
+					<%--<c:if test="${!empty login}">
 						<button type="submit" class="btn btn-default btn-block sideBtn"
 							>Record</button>
-					</c:if>
+					</c:if>--%>
+					<sec:authorize access="isAuthenticated()">
+							<button type="submit" class="btn btn-default btn-block sideBtn"
+							>Record</button>
+					</sec:authorize>
 				</div>			
 			</form>
 		</div>

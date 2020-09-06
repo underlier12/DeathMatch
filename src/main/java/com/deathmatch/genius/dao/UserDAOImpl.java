@@ -1,11 +1,13 @@
 package com.deathmatch.genius.dao;
 
+import lombok.extern.log4j.Log4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.deathmatch.genius.domain.LoginDTO;
 import com.deathmatch.genius.domain.UserDTO;
 
+@Log4j
 @Repository
 public class UserDAOImpl implements UserDAO {
 
@@ -20,6 +22,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void insertMember(UserDTO userDTO) {
 		sqlSession.insert(namespace + ".insertMember", userDTO);
+	}
+
+	@Override
+	public void insertAuth(UserDTO userDTO) {
+		sqlSession.insert(namespace + ".insertAuth",userDTO);
 	}
 
 	@Override

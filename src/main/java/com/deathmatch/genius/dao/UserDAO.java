@@ -6,6 +6,8 @@ import com.deathmatch.genius.domain.UserDTO;
 public interface UserDAO {
 	// 회원가입
     public void insertMember(UserDTO userDTO);
+    // 시큐리티 회원
+    public void insertAuth(UserDTO userDTO);
     // 로그인
     public UserDTO login(LoginDTO loginDTO);
     // 회원 탈퇴

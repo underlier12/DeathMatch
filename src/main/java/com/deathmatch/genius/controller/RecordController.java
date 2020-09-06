@@ -14,6 +14,8 @@ import com.deathmatch.genius.service.RecordService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.security.Principal;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/record")
@@ -22,10 +24,14 @@ public class RecordController {
 	private final RecordService recordService;
 	
 	@GetMapping
-	public String showHistory(Criteria criteria, Model model, HttpSession httpSession) {
+	public String showHistory(Criteria criteria, Model model, HttpSession httpSession, Principal principal) {
 		UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
-		String userId = currentDTO.getUserId();
-		
+
+		int idx = principal.getName().indexOf("@");
+		String userId = principal.getName().substring(0,idx);
+
+		//String userId = currentDTO.getUserId();
+
 		PageDTO pageDTO = new PageDTO(criteria, recordService.countRecord(userId));
 		
 		model.addAttribute("record", recordService.findRecordList(criteria, userId));

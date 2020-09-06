@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+    <!-- Root Context: defines shared resources visible to all other web components -->
+
+    <!-- ============= COMMON ============== -->
+
+    <!-- java class를 spring bean으로 등록 -->
+    <context:component-scan base-package="com.deathmatch.genius.dao" />
+    <context:component-scan base-package="com.deathmatch.genius.service" />
+    <context:component-scan base-package="com.deathmatch.genius.util" />
+    <context:component-scan base-package="com.deathmatch.genius.interceptor" />
+    <context:component-scan base-package="com.deathmatch.genius.security" />
+    <context:component-scan base-package="com.deathmatch.genius.config" />
+
+    <!-- =================================== -->
+
+    <!-- ============= GH ============== -->
+
+    <!-- java 파일의 annotation을 인식 -->
+    <context:annotation-config />
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/death_match?serverTimezone=UTC" />
+        <property name="username" value="hong" />
+        <property name="password" value="8159" />
+        <!--	<property name="url" value="jdbc:mysql://deathmatch-db.c07kmod4d4kd.ap-northeast-2.rds.amazonaws.com/deathmatch_db" />
+            <property name="username" value="hogu8159" />
+            <property name="password" value="h2047426" />-->
+    </bean>
+
+    <!-- mybatis Mapping -->
+    <!-- mybatis mapping 및 jdbc template -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:/mybatis-config.xml" />
+        <property name="mapperLocations" value="classpath:/mappers/*.xml" />
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+    <!-- Transaction을 이용하기 위한 Manager 정의 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 패스워드 메일 찾기 구현 -->
+    <bean id="mailSender"
+          class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="username" value="hongu8159@gmail.com" />
+        <property name="password" value="qlnxtakjmfnmazxv" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.stmp.starttls.enable">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- =============================== -->
+
+
+
+    <!-- ============= WY ============== -->
+
+    <!-- =============================== -->
+
+</beans>
