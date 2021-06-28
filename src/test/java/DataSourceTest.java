@@ -12,7 +12,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:../../main/webapp/WEB-INF/spring/applicationContext.xml"})
+@ContextConfiguration(locations = {"../../WEB-INF/spring/applicationContext.xml"})
 public class DataSourceTest {
 
     @Inject

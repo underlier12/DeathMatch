@@ -53,4 +53,5 @@ public class SuggestionBoardTest {
 		List<SuggestionReplyDTO> list = dao.getReplyList(275);
 		list.forEach(SuggestionReplyDTO -> log.info(SuggestionReplyDTO));
 	}
+
 }

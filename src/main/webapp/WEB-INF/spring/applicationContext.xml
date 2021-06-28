@@ -28,12 +28,14 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://127.0.0.1:3306/death_match?serverTimezone=UTC" />
+        <!-- Local -->
+        <!--<property name="url" value="jdbc:mysql://127.0.0.1:3306/death_match?serverTimezone=UTC" />
         <property name="username" value="hong" />
-        <property name="password" value="8159" />
-        <!--	<property name="url" value="jdbc:mysql://deathmatch-db.c07kmod4d4kd.ap-northeast-2.rds.amazonaws.com/deathmatch_db" />
-            <property name="username" value="hogu8159" />
-            <property name="password" value="h2047426" />-->
+        <property name="password" value="8159" />-->
+        <!-- AWS -->
+        <property name="url" value="jdbc:mysql://deathmatch-webservice.c3kaqvzsmlrf.ap-northeast-2.rds.amazonaws.com/death_match" />
+        <property name="username" value="Grayson" />
+        <property name="password" value="h2047426" />
     </bean>
 
     <!-- mybatis Mapping -->
