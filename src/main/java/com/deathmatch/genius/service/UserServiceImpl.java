@@ -1,14 +1,12 @@
 package com.deathmatch.genius.service;
 
 import java.util.Random;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.deathmatch.genius.dao.UserDAO;
 import com.deathmatch.genius.domain.LoginDTO;
 import com.deathmatch.genius.domain.UserDTO;
 import com.deathmatch.genius.util.Email;
-
 import lombok.extern.log4j.Log4j;
 
 // 서비스는 DTO 에서 얻은정보를 효율적으로 Controller에 조립하여 넘겨준다
@@ -18,9 +16,11 @@ import lombok.extern.log4j.Log4j;
 public class UserServiceImpl implements UserService {
 
 	private final UserDAO userDAO;
+	private final BCryptPasswordEncoder passwordEncoder;
 
-	public UserServiceImpl(UserDAO userDAO) {
+	public UserServiceImpl(UserDAO userDAO,BCryptPasswordEncoder passwordEncoder) {
 		this.userDAO = userDAO;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -28,24 +28,37 @@ public class UserServiceImpl implements UserService {
 		int result = 0;
 		String splitUserId = userDTO.getUserEmail().substring(0, userDTO.getUserEmail().indexOf('@'));
 		log.info(splitUserId); // 쪼갠 유저 Id
-		
-		// 새로운 User 객체를 생성해서 회원 가입 처리 한다
+		String encyptPassword = passwordEncoder.encode(userDTO.getPw());
+
 		UserDTO newUser = UserDTO.builder()
 				.userEmail(userDTO.getUserEmail())
 				.userId(splitUserId)
 				.name(userDTO.getName())
-				.pw(userDTO.getPw())
+				.pw(encyptPassword)
 				.auth(userDTO.getAuth())
 				.build();
 
 		userDAO.insertMember(newUser);
+		userDTO.setRole("ROLE_MEMBER");	// Setting Default Security Role
+		userDAO.insertAuth(userDTO);
+
 		result = 1;
 		return result;
 	}
 
 	@Override
 	public UserDTO login(LoginDTO loginDTO) {
-		return userDAO.login(loginDTO);
+		log.info("Login Information " + loginDTO.toString());
+		UserDTO loginUser = userDAO.login(loginDTO);
+		String rawPw = loginDTO.getPw();
+
+		if(passwordEncoder.matches(loginDTO.getPw(),loginUser.getPw())){
+			log.info("Success Login");
+			return userDAO.login(loginDTO);
+		}else{
+			log.info("Fail login");
+			return null;
+		}
 	}
 
 	@Override
@@ -61,7 +74,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int changePw(UserDTO currentUser, String changePw) {
-		UserDTO changePwUser = UserDTO.builder().userEmail(currentUser.getUserEmail()).pw(changePw).build();
+		String encyptPassword = passwordEncoder.encode(changePw);
+		UserDTO changePwUser = UserDTO.builder()
+				.userEmail(currentUser.getUserEmail())
+				.pw(encyptPassword).build();
+
 		int result = userDAO.changePw(changePwUser);
 		return result;
 	}
@@ -69,7 +86,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean checkPw(UserDTO currentUser, String currentPw) {
 		String getPassword = userDAO.getUserPassword(currentUser);
-		return getPassword.equals(currentPw);
+		if(passwordEncoder.matches(currentPw,getPassword)){
+			log.info("Same Password");
+			return true;
+		}else{
+			log.info("Fail Password");
+			return false;
+		}
 	}
 
 	@Override

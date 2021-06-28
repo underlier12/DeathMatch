@@ -1,0 +1,18 @@
+.modal-content{
+	background-color: #502228;
+}
+
+.modal-dialog{
+	max-width: 100%; 
+	width: auto; 
+	display: table;
+}
+
+.modal-body{
+	width:960;
+	height:560;
+}
+
+#tutoBtns{
+	text-align:center;
+}

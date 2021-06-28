@@ -11,6 +11,8 @@
 
 </head>
 <body>
+<sec:authentication property="principal" var="user"/>
+<c:set var="userText" value="${user.username}"/>
 
 	<div class="container">
 		<div class="row">
@@ -21,7 +23,8 @@
 
 			<div class="col-md-10 col-md-offset-1 register">
 				<form id="registForm" action ="/suggestion/registration" method="post">
-					<input type ="hidden" name ="userId" value ='<c:out value = "${login.userId }"/>'>
+					<%--<input type ="hidden" name ="userId" value ='<c:out value = "${login.userId }"/>'>--%>
+					<input type ="hidden" name ="userId" value ='<c:out value = "${fn:substringBefore(userText,'@')}"/>'>
 					<table class="table table-bordered req" id="req">
 						<tr>
 							<td class="tdTitle">제목</td>

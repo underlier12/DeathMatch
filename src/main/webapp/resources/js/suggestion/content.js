@@ -30,7 +30,7 @@ $(function(){
 		
 		if(c){
 			
-			contentForm.attr("action","/suggestion/deleteion");
+			contentForm.attr("action","/suggestion/deletion");
 			contentForm.attr("method","post");
 			contentForm.submit();
 		}else{

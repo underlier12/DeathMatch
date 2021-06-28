@@ -12,6 +12,9 @@
 </head>
 <body>
 
+	<sec:authentication property="principal" var="user"/>
+	<c:set var="userText" value="${user.username}"/>
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-10 col-md-offset-1">
@@ -21,7 +24,7 @@
 
 			<div class="col-md-10 col-md-offset-1" id="contents">
 				<form id="registForm" method="post">
-					<input type="hidden" name="userId" value='<c:out value = "${login.userId }"/>'>
+					<input type ="hidden" name ="userId" value ='<c:out value = "${fn:substringBefore(userText,'@')}"/>'>
 					<table class="table table-bordered req" id="req">
 						<tr>
 							<td class="tdTitle">제목</td>
@@ -32,9 +35,7 @@
 						<tr>
 							<td class="tdContent">내용</td>
 							<td class="tdContent">
-								<textarea class="content" name="content" cols="110" readonly="readonly">
-									${notice.content }
-								</textarea>
+								<textarea class="content" name="content" cols="110" readonly="readonly">${notice.content }</textarea>
 							</td>
 						</tr>
 						<tr>
@@ -50,10 +51,10 @@
 			</div>
 
 			<div class="col-md-10 col-md-offset-1">
-				<c:if test="${login.userId eq notice.userId || login.auth eq 99}">
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
 					<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
-				</c:if>
+				</sec:authorize>
 				<button type="button" class="btn btn-default btn-sm" id="goListBtn">목록</button>
 			</div>
 		</div>

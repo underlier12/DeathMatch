@@ -12,8 +12,10 @@
 <script>
 </script>
 <body>
-	<input type ="hidden" id ="currentUser" value ="${login.userId }">
-	<input type ="hidden" id ="auth" value ="${login.auth }">
+	<sec:authentication property="principal" var="user"/>
+	<c:set var="userText" value="${user.username}"/>
+	<%--<input type ="hidden" id ="currentUser" value ="${login.userId }">
+	<input type ="hidden" id ="auth" value ="${login.auth }">--%>
 
 	<div id="notice-home">
 
@@ -92,13 +94,16 @@
 								</li>
 						</c:if>
 					</ul>
-					<c:if test="${login.auth eq 99 }">
+					<%--<c:if test="${login.auth eq 99 }">
 						<button type="button" class="btn btn-default btn-sm" id="writeBtn">글쓰기</button>
-					</c:if>
+					</c:if--%>>
+					<sec:authorize access ="hasRole('ROLE_ADMIN')">
+						<button type="button" class="btn btn-default btn-sm" id="writeBtn">글쓰기</button>
+					</sec:authorize>
 				</div>
 
 				<div class="col-md-5 col-md-offset-4 search_area">
-					<form id="searchForm" action="/suggestion" method="get">
+					<form id="searchForm" action="/notice" method="get">
 						<div id="search_div">
 							<div>
 								<select class="form-control" id="searchType" name="type">

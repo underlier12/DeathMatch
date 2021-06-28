@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/root-context.xml" })
+@ContextConfiguration(locations = {"file:../../../../../../main/webapp/WEB-INF/spring/applicationContext.xml"})
 public class SuggestionBoardTest {
 	
 	@Autowired
@@ -53,4 +53,5 @@ public class SuggestionBoardTest {
 		List<SuggestionReplyDTO> list = dao.getReplyList(275);
 		list.forEach(SuggestionReplyDTO -> log.info(SuggestionReplyDTO));
 	}
+
 }

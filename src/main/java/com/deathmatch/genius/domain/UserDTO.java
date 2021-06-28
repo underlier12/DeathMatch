@@ -19,15 +19,17 @@ public class UserDTO {
 	private String name;
 	private Date join_date;
 	private int auth;
+	private String role;
 	
 	@Builder
-	public UserDTO(String userEmail, String userId, String pw, String name, Date join_date,int auth) {
+	public UserDTO(String userEmail, String userId, String pw, String name, Date join_date,int auth,String role) {
 		this.userEmail = userEmail;
 		this.userId = userId;
 		this.pw = pw;
 		this.name = name;
 		this.join_date = join_date;
 		this.auth = auth;
+		this.role = role;
 	}
 	
 	

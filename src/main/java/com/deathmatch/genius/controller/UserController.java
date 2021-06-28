@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,8 @@ import com.deathmatch.genius.util.EmailSender;
 import com.deathmatch.genius.util.KakaoConnectionUtil;
 import lombok.extern.log4j.Log4j;
 
+import java.security.Principal;
+
 @Log4j
 @Controller
 @RequestMapping("/auth/user")
@@ -31,15 +34,20 @@ public class UserController {
 	private final KakaoConnectionUtil kakaoLoginService;
 	private final UserService userService;
 	private final EmailSender emailSender;
+	private final BCryptPasswordEncoder passwordEncoder;
 
-	public UserController(KakaoConnectionUtil kakaoLoginService, UserService userService, EmailSender emailSender) {
+	public UserController(KakaoConnectionUtil kakaoLoginService, UserService userService, EmailSender emailSender, BCryptPasswordEncoder passwordEncoder) {
 		this.kakaoLoginService = kakaoLoginService;
 		this.userService = userService;
 		this.emailSender = emailSender;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
-	@GetMapping("/login")
-	public String loginHome(HttpSession session, Model model, HttpServletRequest request) {
+	//@GetMapping("/login")
+	@RequestMapping("/login")
+	public String loginHome(HttpSession session, Model model, HttpServletRequest request,HttpServletResponse response) {
+		log.info("Request " + request.getParameter("loginFailMsg"));
+		//model.addAttribute("loginFailMsg",)
 		return "/user/login";
 	}
 
@@ -73,8 +81,10 @@ public class UserController {
 	// 비밀번호 변경
 	@PostMapping("/pw-change")
 	public String changePw(@RequestParam String currentPw, @RequestParam String changePw, HttpSession session,
-			Model model) {
-		UserDTO currentUser = (UserDTO)session.getAttribute("login");
+			Model model,Principal principal) {
+		UserDTO currentUser = UserDTO.builder()
+						.userEmail(principal.getName())
+						.build();
 		if(userService.checkPw(currentUser, currentPw)) {
 			userService.changePw(currentUser,changePw);
 		}else {
@@ -86,28 +96,28 @@ public class UserController {
 	
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		Object currentUser = session.getAttribute("login");
+		log.info("Security Logout");
+		/*Object currentUser = session.getAttribute("login");
 		if (currentUser != null) {
 			session.removeAttribute("login");
 			session.invalidate();
-		}
+		}*/
 		return "redirect:/";
 	}
-	
-	// LocalUser Login
-	@PostMapping("/local-login")
-	public String loginPost(LoginDTO loginDTO, HttpSession session, Model model) {
-		UserDTO localUserDTO = userService.login(loginDTO);
-		log.info("loginPost");
-		if (localUserDTO == null) {
-			log.info("Login User is Empty");
-			model.addAttribute("msg", "등록되지 않은 회원이거나,아이디 비밀번호가 일치하지 않습니다");
-			return "user/login";
-		} else {
-			log.info("Local User :" + localUserDTO.toString());
-			model.addAttribute("userDTO", localUserDTO);
-			return "user/local-login";
+
+	@GetMapping("/securityLogin")
+	public String securityLogin(String error, String logout, Model model, Principal principal) {
+		log.info("Error " + error);
+		log.info("Logout " + logout);
+
+		if(error != null){
+			model.addAttribute("error", "계정을 확인해 주세요");
 		}
+		if(logout != null){
+			model.addAttribute("logout","로그아웃");
+		}
+
+		return "/user/login";
 	}
 
 	// kakaoUser 로그인
@@ -145,9 +155,13 @@ public class UserController {
 	
 	// 회원 탈퇴하기
 	@PostMapping("/delete")
-	public String deleteMember(UserDTO userDTO,HttpSession session,RedirectAttributes rttr) {
-		UserDTO currentUser = (UserDTO)session.getAttribute("login");
-		userDTO.setUserEmail(currentUser.getUserEmail());
+	public String deleteMember(UserDTO userDTO,HttpSession session,RedirectAttributes rttr,Principal principal) {
+		log.info("Get User DTO " +userDTO.toString());
+		UserDTO currentUser = UserDTO.builder()
+				.userEmail(principal.getName())
+				.build();
+		userDTO.setUserEmail(principal.getName());
+
 		if(userService.checkPw(currentUser, userDTO.getPw())){
 			log.info("회원 탈퇴 성공");
 			userService.deleteMember(userDTO);

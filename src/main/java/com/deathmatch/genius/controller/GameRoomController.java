@@ -76,10 +76,10 @@ public class GameRoomController {
     		return "main/rooms";
     	}
     	
-    	UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
+    	//UserDTO currentDTO = (UserDTO) httpSession.getAttribute("login");
     	
     	model.addAttribute("room", room);
-    	model.addAttribute("member", currentDTO.getUserId());
+    	//model.addAttribute("member", currentDTO.getUserId());
     	
     	return "game/" + gameType + "/" + gameType;
     }

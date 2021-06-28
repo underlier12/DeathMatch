@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.deathmatch.genius.mapper.NoticeBoardMapper">
+
+	<insert id ="insert">
+		insert into tbl_notice_board(userId,title,content,pw)
+		values(#{userId},#{title},#{content},#{pw})
+	</insert>
+	
+	<!-- <insert id ="insertAnswer">
+		insert into tbl_suggestion_board(userId,title,content,ref,depth,step,pw)
+		values(#{userId},#{title},#{content},#{ref},#{depth},#{step},#{pw})
+	</insert> -->
+	
+	<select id="selectMaxBno" resultType ="Integer">
+		select max(bno) as max from tbl_notice_board
+	</select>
+	
+	<delete id ="delete">
+		delete from tbl_notice_board
+		where bno = #{bno}
+	</delete>
+	
+	<update id ="update">
+		update 
+			tbl_notice_board
+		set
+			title = #{title},
+			content = #{content},
+			pw = #{pw}
+		where 
+			bno = #{bno}
+	</update>
+	
+	<select id ="read" resultType ="NoticeBoardDTO">
+		select
+			bno,userId,title,content,regdate,hit,pw
+		from 
+			tbl_notice_board
+		where
+			bno = #{bno}
+	</select>
+	
+	<select id="listAll" resultType="NoticeBoardDTO">
+		select 
+			bno,userId,title,content,regdate,hit
+		from
+			tbl_notice_board
+		where bno > 0
+		order by bno desc, regdate desc
+	</select>
+	
+	<select id ="getListWithPaging" resultType ="NoticeBoardDTO">
+		<![CDATA[
+		select
+			bno,userId,title,content,regdate,hit,pw
+		from
+			tbl_notice_board
+		where 
+			bno > 0
+		]]>
+			<include refid="search"/>
+		<![CDATA[
+		order by bno desc
+		limit #{pageStart}, #{perPageNum}
+		]]>
+	</select>
+	
+	
+	
+	<select id="countList" resultType ="int">
+		select 
+			count(*)
+		from
+			tbl_notice_board
+		where
+			bno > 0
+		<include refid="search"/>
+	</select>
+	
+	<update id ="increaseViews">
+		update
+			tbl_notice_board
+		set
+			hit = hit + 1
+		where
+			bno = #{bno}
+	</update>
+	
+	<sql id ="search">
+		<if test ="type != null">
+			<if test="type == 'T'.toString()">
+				AND title LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test="type == 'C'.toString()">
+				AND content LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test ="type == 'W'.toString()">
+				AND userId LIKE CONCAT('%',#{keyword},'%')
+			</if>
+		</if>
+	</sql>
+	
+	<!-- <insert id ="insertReply">
+		insert into tbl_suggestion_reply_board(bno,userId,content)
+		values(#{bno},#{userId},#{content})
+	</insert>
+	
+	<delete id ="deleteReply">
+		delete from tbl_suggestion_reply_board
+		where rno = #{rno}
+	</delete>
+	
+	<select id ="getReplyList" resultType ="SuggestionReplyDTO">
+		select rno,bno,userId,content,regdate
+		from tbl_suggestion_reply_board
+		where bno = #{bno}
+		order by rno desc
+	</select>
+	
+	<delete id ="deleteAllReply">
+		delete from tbl_suggestion_reply_board
+		where bno = #{bno}
+	</delete>
+	
+	<update id ="increaseGroup" parameterType ="map">
+		update tbl_suggestion_board
+		set step = step+1
+		where ref = #{ref} and step > #{step}
+	</update> -->
+	
+</mapper>
