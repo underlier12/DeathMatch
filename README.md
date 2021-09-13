@@ -62,4 +62,4 @@ This is websocket game implementing reality TV program 'THE GENIUS' in Republic 
     ● 코드로 배우는 스프링 웹 프로젝트(Mysql 버전)
     ● 다양한 블로그 및 참고 사이트
 
-* [AWS 주소](http://3.34.147.171:8003/)
+* [AWS 주소](http://52.78.91.148:8080/)
