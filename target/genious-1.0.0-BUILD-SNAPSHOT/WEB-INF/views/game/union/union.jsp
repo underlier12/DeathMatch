@@ -11,7 +11,8 @@
 </head>
 
 <body>
-
+	<sec:authentication property="principal" var="user"/>
+	<c:set var="userText" value="${user.username}"/>
 	<div id="game">
 	
 		<!-- first row -->
@@ -117,7 +118,7 @@
 			</div>
 			<div>
 				<div id='connectionStatus'></div>
-				<div class="content" data-room-id="${room.roomId}" data-member="${member}">
+				<div class="content" data-room-id="${room.roomId}" data-member="${fn:substringBefore(userText,'@')}">
 			    	<textarea id="broadcast" rows="4" cols="70" readonly></textarea>
 			    </div>							
 			</div>

@@ -11,6 +11,8 @@
 
 </head>
 <body>
+<sec:authentication property="principal" var="user"/>
+<c:set var="userText" value="${user.username}"/>
 
 	<div class="container">
 		<div class="row">
@@ -21,8 +23,9 @@
 
 			<div class="col-md-10 col-md-offset-1" id="contents">
 				<form id="registForm" method="post">
-					<input type="hidden" name="userId"
-						value='<c:out value = "${login.userId }"/>'>
+					<%--<input type="hidden" name="userId"
+						value='<c:out value = "${login.userId }"/>'>--%>
+					<input type ="hidden" name ="userId" value ='<c:out value = "${fn:substringBefore(userText,'@')}"/>'>
 					<table class="table table-bordered req" id="req">
 						<tr>
 							<td class="tdTitle">제목</td>
@@ -32,9 +35,7 @@
 						<tr>
 							<td class="tdContent">내용</td>
 							<td class="tdContent"><textarea class="content"
-									name="content" cols="110" readonly="readonly">
-								${Suggestion.content }
-								</textarea></td>
+									name="content" cols="110" readonly="readonly">${Suggestion.content }</textarea></td>
 						</tr>
 						<tr>
 							<td id="tdSecret">비밀</td>
@@ -49,7 +50,7 @@
 			</div>
 
 			<div class="col-md-10 col-md-offset-1">
-				<c:if
+				<%--<c:if
 					test="${login.userId eq Suggestion.userId || login.auth eq 99}">
 					<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
 					<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
@@ -58,18 +59,35 @@
 						<button type="button" class="btn btn-default btn-sm"
 							id="answerBtn">답변</button>
 					</c:if>
+				</c:if>--%>
+				<c:if test="${fn:substringBefore(userText,'@') eq Suggestion.userId &&
+					fn:substringBefore(userText,'@') ne 'admin'}">
+					<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
+					<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
+					<button type="button" class="btn btn-default btn-sm" id="goListBtn">목록</button>
 				</c:if>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
+						<button type="button" class="btn btn-default btn-sm"
+								id="answerBtn">답변</button>
+						<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
+				</sec:authorize>
 			</div>
 		</div>
 
 		<div class="col-md-10 col-md-offset-1 reply_area">
 			<table class="table table-bordered reg_reply_tbl">
-				<c:if test="${login eq null }">
+				<%--<c:if test="${login eq null }">
 					<tr>
 						<td>회원에게만 댓글 작성 권한이 있습니다.</td>
 					</tr>
-				</c:if>
-				<c:if test="${login ne null }">
+				</c:if>--%>
+				<sec:authorize access = "isAnonymous()">
+					<tr>
+						<td>회원에게만 댓글 작성 권한이 있습니다.</td>
+					</tr>
+				</sec:authorize>
+				<sec:authorize access = "isAuthenticated()">
 					<tr>
 						<td id="replyTitle">댓글 달기</td>
 					</tr>
@@ -81,7 +99,7 @@
 							class="btn btn-default btn-sm reg_reply">등록</button>
 						</td>
 					</tr>
-				</c:if>
+				</sec:authorize>
 			</table>
 
 			<div id="getReply"></div>
