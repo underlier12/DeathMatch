@@ -12,8 +12,10 @@
 <script>
 </script>
 <body>
-	<input type ="hidden" id ="currentUser" value ="${login.userId }">
-	<input type ="hidden" id ="auth" value ="${login.auth }">
+	<%--<input type ="hidden" id ="currentUser" value ="${login.userId }">
+	<input type ="hidden" id ="auth" value ="${login.auth }">--%>
+	<sec:authentication property="principal" var="user"/>
+	<c:set var="userText" value="${user.username}"/>
 
 	<div id="suggestionHome">
 
@@ -96,9 +98,9 @@
 								href="${pageMaker.endPage+1 }">▶</a></li>
 						</c:if>
 					</ul>
-					<c:if test="${login ne null }">
+					<sec:authorize access ="hasAnyRole('ROLE_ADMIN','ROLE_MEMBER')">
 						<button type="button" class="btn btn-default btn-sm" id="writeBtn">글쓰기</button>
-					</c:if>
+					</sec:authorize>>
 				</div>
 
 				<div class="col-md-5 col-md-offset-4 search_area">

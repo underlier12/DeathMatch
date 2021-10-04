@@ -32,9 +32,6 @@
 					<input type="password" class="form-control" id="checkPw2"
 						placeholder="비밀번호 확인" maxlength="15">
 				</div>
-				<c:if test = "${msg ne null}">
-					alert(msg);
-				</c:if>
 			</div>
 
 		</div>

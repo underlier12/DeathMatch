@@ -37,9 +37,7 @@
 						<tr>
 							<td id="tdContent">내용</td>
 							<td>
-								<textarea class="content" name="content" cols="110">
-									"${notice.content}"
-								</textarea>
+								<textarea class="content" name="content" cols="110">"${notice.content}"</textarea>
 							</td>
 						</tr>
 						<tr>
@@ -56,11 +54,11 @@
 			</div>
 
 			<div class="col-md-10 col-md-offset-1">
-				<c:if test="${login.userId eq notice.userId}">
-					<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
-					<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
-					<button type="button" class="btn btn-default btn-sm" id="cancleBtn" onclick="history.back()">취소</button>
-				</c:if>
+				<sec:authorize access ="hasRole('ROLE_ADMIN')">
+						<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
+						<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
+						<button type="button" class="btn btn-default btn-sm" id="cancleBtn" onclick="history.back()">취소</button>
+				</sec:authorize>
 			</div>
 		</div>
 	</div>

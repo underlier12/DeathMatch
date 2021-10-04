@@ -10,6 +10,8 @@
 <link href="/css/game/indian/indian.css" rel="stylesheet">
 </head>
 <body>
+	<sec:authentication property="principal" var="user"/>
+	<c:set var="userText" value="${user.username}"/>
 
 	<div id="game">
 		<div class="indian-flex">
@@ -112,7 +114,7 @@
 
 		<div class="indian-flex">
 			<div class="content" data-room-id="${room.roomId}"
-				data-member="${member}"></div>
+				data-member="${fn:substringBefore(userText,'@')}"></div>
 			<%@ include file="../../includes/footer.jsp"%>
 		</div>
 

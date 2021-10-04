@@ -11,6 +11,8 @@
 
 </head>
 <body>
+<sec:authentication property="principal" var="user"/>
+<c:set var="userText" value="${user.username}"/>
 
 	<div class="container">
 		<div class="row">
@@ -39,9 +41,7 @@
 						</tr>
 						<tr>
 							<td id="tdContent">내용</td>
-							<td><textarea class="content" name="content" cols="110">
-								"${Suggestion.content}"
-							</textarea></td>
+							<td><textarea class="content" name="content" cols="110">"${Suggestion.content}"</textarea></td>
 						</tr>
 						<tr>
 							<td id="tdSecret">비밀글</td>
@@ -55,11 +55,17 @@
 			</div>
 
 			<div class="col-md-10 col-md-offset-1">
-				<c:if test="${login.userId eq Suggestion.userId}">
+				<%--<c:if test="${login.userId eq Suggestion.userId}">
 					<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
 					<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
 					<button type="button" class="btn btn-default btn-sm" id="cancleBtn"
 						onclick="history.back()">취소</button>
+				</c:if>--%>
+				<c:if test="${fn:substringBefore(userText,'@') eq Suggestion.userId}">
+					<button type="button" class="btn btn-default btn-sm" id="modifyBtn">수정</button>
+					<button type="button" class="btn btn-default btn-sm" id="deleteBtn">삭제</button>
+					<button type="button" class="btn btn-default btn-sm" id="cancleBtn"
+							onclick="history.back()">취소</button>
 				</c:if>
 			</div>
 		</div>
